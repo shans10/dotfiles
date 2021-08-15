@@ -12,6 +12,9 @@ function rmf([string]$name)
 # Open File Explorer in Current Directory
 function explore { explorer.exe . }
 
+# Import Developer Powershell Module into current session
+function devps { Import-Module 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/Tools/Microsoft.VisualStudio.DevShell.dll'; Enter-VsDevShell 15b862ee }
+
 
 ### MODULES ###
 # Show Colors in ls command
@@ -22,7 +25,10 @@ Invoke-Expression (&starship init powershell)
 $ENV:STARSHIP_CONFIG = "$HOME\.starship"
 
 # Zoxide(z utility to change directory)
-Invoke-Expression (& {
-    $hook = if ($PSVersionTable.PSVersion.Major -lt 6) { 'prompt' } else { 'pwd' }
-    (zoxide init --hook $hook powershell) -join "`n"
-})
+#Invoke-Expression (& {
+#    $hook = if ($PSVersionTable.PSVersion.Major -lt 6) { 'prompt' } else { 'pwd' }
+#    (zoxide init --hook $hook powershell) -join "`n"
+#})
+
+# Load Current Directory to Path
+ $env:path ="$($env:path);."
