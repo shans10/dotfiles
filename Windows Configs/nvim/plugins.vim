@@ -1,13 +1,14 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" " Plugins " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " auto-install vim-plug
-if empty(glob('C:/Users/shant/AppData/Local/nvim/autoload/plug.vim'))
-  silent !curl -fLo C:/Users/shant/AppData/Local/nvim/autoload/plug.vim --create-dirs
+if empty(glob('C:/Users/Shan/AppData/Local/nvim/autoload/plug.vim'))
+  silent !curl -fLo C:/Users/Shan/AppData/Local/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-call plug#begin('C:/Users/shant/nvim/plugged')
+call plug#begin('C:/Users/Shan/nvim/plugged')
+Plug 'neoclide/coc.nvim',               {'branch': 'release'}
 Plug 'tpope/vim-commentary',            { 'on': '<Plug>Commentary' }
 Plug 'lambdalisue/suda.vim'
 Plug 'machakann/vim-highlightedyank'
@@ -18,7 +19,7 @@ Plug 'unblevable/quick-scope'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'voldikss/vim-floaterm',           { 'on': [ 'FloatermToggle', 'FloatermNew' ] }
-Plug 'vim-airline/vim-airline'
+Plug 'hoob3rt/lualine.nvim'
 Plug 'majutsushi/tagbar'
 Plug 'preservim/nerdtree',              { 'on': [ 'NERDTreeCWD', 'NERDTreeToggle', 'NERDTreeFind' ] }
 Plug 'gruvbox-community/gruvbox'
@@ -32,19 +33,17 @@ autocmd VimEnter *
   \|   PlugInstall --sync | q
   \| endif
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""" Sourcing the plugins configuration files
-source C:/Users/shant/AppData/Local/nvim/plug-configs/startify.vim                     " startify
-source C:/Users/shant/AppData/Local/nvim/plug-configs/vim-commentary.vim               " vim-commentary
-source C:/Users/shant/AppData/Local/nvim/plug-configs/suda.vim                         " suda
-source C:/Users/shant/AppData/Local/nvim/plug-configs/signify.vim                      " signify
-source C:/Users/shant/AppData/Local/nvim/plug-configs/high-yank.vim                    " highlighted-yank
-source C:/Users/shant/AppData/Local/nvim/plug-configs/gruvbox.vim                      " gruvbox
-source C:/Users/shant/AppData/Local/nvim/plug-configs/quickscope.vim                   " quickscope
-source C:/Users/shant/AppData/Local/nvim/plug-configs/sneak.vim                        " sneak
-source C:/Users/shant/AppData/Local/nvim/plug-configs/floaterm.vim                     " floaterm
-source C:/Users/shant/AppData/Local/nvim/plug-configs/airline.vim                      " airline
-source C:/Users/shant/AppData/Local/nvim/plug-configs/nerdtree.vim                     " NERDTree
+""" Settings for Quick-Scope Plugins
+" Trigger a highlight in the appropriate direction when pressing these keys:
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+augroup qs_colors
+  autocmd!
+  autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+augroup END
+let g:qs_max_chars=150
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" " END " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

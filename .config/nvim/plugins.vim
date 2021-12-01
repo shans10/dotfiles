@@ -20,7 +20,8 @@ Plug 'unblevable/quick-scope'
 Plug 'mhinz/vim-signify'
 Plug 'tpope/vim-fugitive'
 Plug 'voldikss/vim-floaterm',           { 'on': [ 'FloatermToggle', 'FloatermNew' ] }
-Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline'
+Plug 'hoob3rt/lualine.nvim'
 Plug 'preservim/nerdtree',              { 'on': [ 'NERDTreeCWD', 'NERDTreeToggle', 'NERDTreeFind' ] }
 Plug 'gruvbox-community/gruvbox'
 Plug 'mhinz/vim-startify'
@@ -37,22 +38,15 @@ autocmd VimEnter *
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-""" Sourcing the plugins configuration files
+""" Settings for Quick-Scope Plugins
+" Trigger a highlight in the appropriate direction when pressing these keys:
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
-source ~/.config/nvim/plug-configs/coc.vim                          " coc
-source ~/.config/nvim/plug-configs/startify.vim                     " startify
-source ~/.config/nvim/plug-configs/vim-commentary.vim               " vim-commentary
-source ~/.config/nvim/plug-configs/fzf.vim                          " fzf
-source ~/.config/nvim/plug-configs/suda.vim                         " suda
-source ~/.config/nvim/plug-configs/signify.vim                      " signify
-source ~/.config/nvim/plug-configs/hexokinase.vim                   " hexokinase
-source ~/.config/nvim/plug-configs/high-yank.vim                    " highlighted-yank
-source ~/.config/nvim/plug-configs/undotree.vim                     " undotree
-source ~/.config/nvim/plug-configs/gruvbox.vim                      " gruvbox
-source ~/.config/nvim/plug-configs/quickscope.vim                   " quickscope
-source ~/.config/nvim/plug-configs/sneak.vim                        " sneak
-source ~/.config/nvim/plug-configs/floaterm.vim                     " floaterm
-source ~/.config/nvim/plug-configs/airline.vim                      " airline
-source ~/.config/nvim/plug-configs/nerdtree.vim                     " NERDTree
+augroup qs_colors
+  autocmd!
+  autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+augroup END
+let g:qs_max_chars=150
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" " END " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
