@@ -21,8 +21,9 @@ function devps { Import-Module 'C:/Program Files (x86)/Microsoft Visual Studio/2
 Import-Module Get-ChildItemColor
 
 # Starship Prompt
+$ENV:STARSHIP_CONFIG = "$HOME\.starship\starship.toml"
+$ENV:STARSHIP_DISTRO = "者"
 Invoke-Expression (&starship init powershell)
-$ENV:STARSHIP_CONFIG = "$HOME\.starship"
 
 # Zoxide(z utility to change directory)
 #Invoke-Expression (& {
@@ -31,4 +32,4 @@ $ENV:STARSHIP_CONFIG = "$HOME\.starship"
 #})
 
 # Load Current Directory to Path
- $env:path ="$($env:path);."
+# $env:path ="$($env:path);."

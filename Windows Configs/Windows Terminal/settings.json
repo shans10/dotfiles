@@ -1,13 +1,7 @@
 {
     "$schema": "https://aka.ms/terminal-profiles-schema",
-    // Add custom actions and keybindings to this array.
-    // To unbind a key combination from your defaults.json, set the command to "unbound".
-    // To learn more about actions and keybindings, visit https://aka.ms/terminal-keybindings
     "actions":
     [
-        // Copy and paste are bound to Ctrl+Shift+C and Ctrl+Shift+V in your defaults.json.
-        // These two lines additionally bind them to Ctrl+C and Ctrl+V.
-        // To learn more about selection, visit https://aka.ms/terminal-selection
         {
             "command":
             {
@@ -17,18 +11,13 @@
             "keys": "ctrl+c"
         },
         {
-            "command": "paste",
-            "keys": "ctrl+v"
-        },
-        // Press Ctrl+Shift+F to open the search box
-        {
             "command": "find",
             "keys": "ctrl+shift+f"
         },
-        // Press Alt+Shift+D to open a new pane.
-        // - "split": "auto" makes this pane open in the direction that provides the most surface area.
-        // - "splitMode": "duplicate" makes the new pane use the focused pane's profile.
-        // To learn more about panes, visit https://aka.ms/terminal-panes
+        {
+            "command": "paste",
+            "keys": "ctrl+v"
+        },
         {
             "command":
             {
@@ -36,57 +25,58 @@
                 "split": "auto",
                 "splitMode": "duplicate"
             },
-            "keys": "alt+ctrl+d"
+            "keys": "alt+shift+d"
         }
     ],
     "copyFormatting": "none",
     "copyOnSelect": false,
     "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
-    "experimental.rendering.forceFullRepaint": false,
     "profiles":
     {
-        "defaults": {},
+        "defaults":
+        {
+            "acrylicOpacity": 0.91000000000000003,
+            "colorScheme": "Dracula",
+            "cursorShape": "filledBox",
+            "font":
+            {
+                "size": 10
+            },
+            "scrollbarState": "hidden",
+            "useAcrylic": true
+        },
         "list":
         [
             {
-                "acrylicOpacity": 0.81000000000000005,
+                "acrylicOpacity": 0.91000000000000003,
                 "bellStyle": "none",
                 "colorScheme": "Argonaut",
-                "commandline": "pwsh -nologo",
+                "commandline": "C:\\Program Files\\PowerShell\\7\\pwsh.exe -nologo",
                 "cursorShape": "filledBox",
-                "fontFace": "CaskaydiaCove NF",
-                "fontSize": 10,
+                "font":
+                {
+                    "face": "CaskaydiaCove NF",
+                    "size": 10
+                },
                 "guid": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
                 "hidden": false,
-                "name": "PowerShell Core",
+                "name": "PowerShell",
                 "scrollbarState": "hidden",
                 "source": "Windows.Terminal.PowershellCore",
                 "useAcrylic": true
             },
             {
-                "acrylicOpacity": 1.0,
-                "bellStyle": "none",
-                "colorScheme": "Tango Dark",
-                "commandline": "cmd.exe",
-                "cursorShape": "filledBox",
-                "fontSize": 10,
-                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-                "hidden": true,
-                "name": "Command Prompt",
-                "scrollbarState": "hidden",
-                "useAcrylic": false
-            },
-            {
-                "acrylicOpacity": 0.81000000000000005,
-                "bellStyle": "none",
+                "acrylicOpacity": 0.91000000000000003,
                 "colorScheme": "Campbell Powershell",
-                "commandline": "powershell.exe -nologo",
+                "commandline": "powershell.exe",
                 "cursorShape": "filledBox",
-                "fontSize": 10,
+                "font":
+                {
+                    "size": 10
+                },
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": true,
                 "name": "Windows PowerShell",
-                "scrollbarState": "hidden",
                 "useAcrylic": true
             },
             {
@@ -96,50 +86,54 @@
                 "source": "Windows.Terminal.Azure"
             },
             {
-                "acrylicOpacity": 0.81000000000000005,
-                "colorScheme": "One Half Dark",
-                "cursorShape": "filledBox",
-                "fontFace": "CaskaydiaCove NF",
-                "fontSize": 10,
-                "guid": "{46ca431a-3a87-5fb3-83cd-11ececc031d2}",
-                "hidden": false,
-                "icon": "C:\\Users\\shant\\Pictures\\Windows Terminal Icons\\kali.png",
-                "name": "Kali Linux",
-                "scrollbarState": "hidden",
-                "source": "Windows.Terminal.Wsl",
-                "startingDirectory": "\\\\wsl$\\kali-linux\\home\\kali",
-                "useAcrylic": true
-            },
-            {
-                "acrylicOpacity": 0.81000000000000005,
-                "bellStyle": "none",
+                "acrylicOpacity": 0.91000000000000003,
                 "colorScheme": "Ubuntu",
                 "cursorShape": "filledBox",
-                "fontFace": "CaskaydiaCove NF",
-                "fontSize": 10,
+                "font":
+                {
+                    "face": "CaskaydiaCove NF",
+                    "size": 10
+                },
                 "guid": "{2c4de342-38b7-51cf-b940-2309a097f518}",
                 "hidden": false,
                 "icon": "C:\\Users\\shant\\Pictures\\Windows Terminal Icons\\ubuntu.png",
                 "name": "Ubuntu",
                 "scrollbarState": "hidden",
                 "source": "Windows.Terminal.Wsl",
-                "startingDirectory": "//wsl$/Ubuntu/home/ubuntu",
+                "startingDirectory": "\\\\wsl.localhost\\Ubuntu\\home\\shan",
+                "tabTitle": "Ubuntu",
                 "useAcrylic": true
             },
             {
-                "acrylicOpacity": 0.81000000000000005,
-                "bellStyle": "none",
+                "acrylicOpacity": 0.91000000000000003,
                 "colorScheme": "Dracula",
-                "commandline": "pwsh.exe -noe -c \"&{Import-Module \"\"\"C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/Tools/Microsoft.VisualStudio.DevShell.dll\"\"\"; Enter-VsDevShell 15b862ee}\"",
                 "cursorShape": "filledBox",
-                "fontFace": "CaskaydiaCove NF",
-                "fontSize": 10,
-                "guid": "{dd241469-5e90-55ff-816c-914203bdc6ea}",
+                "font":
+                {
+                    "face": "CaskaydiaCove NF",
+                    "size": 10
+                },
+                "guid": "{58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530}",
                 "hidden": false,
-                "icon": "C:\\Users\\shant\\Pictures\\Windows Terminal Icons\\vs2019.png",
-                "name": "Developer PowerShell for VS 2019",
+                "icon": "C:\\Users\\shant\\Pictures\\Windows Terminal Icons\\debian.png",
+                "name": "Debian",
                 "scrollbarState": "hidden",
-                "startingDirectory": "%USERPROFILE%",
+                "source": "Windows.Terminal.Wsl",
+                "startingDirectory": "\\\\wsl.localhost\\Debian\\home\\deb",
+                "useAcrylic": true
+            },
+            {
+                "acrylicOpacity": 0.91000000000000003,
+                "colorScheme": "Campbell",
+                "commandline": "cmd.exe",
+                "cursorShape": "filledBox",
+                "font":
+                {
+                    "size": 10
+                },
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "hidden": false,
+                "name": "Command Prompt",
                 "useAcrylic": true
             }
         ]
@@ -158,7 +152,7 @@
             "brightRed": "#FF2740",
             "brightWhite": "#FFFFFF",
             "brightYellow": "#FFD242",
-            "cursorColor": "#76FF9F",
+            "cursorColor": "#FFFFFF",
             "cyan": "#00D8EB",
             "foreground": "#FFFAF4",
             "green": "#8CE10B",
@@ -168,52 +162,6 @@
             "selectionBackground": "#002A3B",
             "white": "#FFFFFF",
             "yellow": "#FFB900"
-        },
-        {
-            "background": "#191323",
-            "black": "#17141F",
-            "blue": "#22E8DF",
-            "brightBlack": "#495162",
-            "brightBlue": "#91FFF4",
-            "brightCyan": "#BCF3FF",
-            "brightGreen": "#98C379",
-            "brightPurple": "#DA70D6",
-            "brightRed": "#FE9EA1",
-            "brightWhite": "#FFFFFF",
-            "brightYellow": "#F9E46B",
-            "cursorColor": "#76FF9F",
-            "cyan": "#56B6C2",
-            "foreground": "#CCCCCC",
-            "green": "#00BD9C",
-            "name": "Banana Blueberry",
-            "purple": "#DC396A",
-            "red": "#FF6B7F",
-            "selectionBackground": "#220525",
-            "white": "#F1F1F1",
-            "yellow": "#E6C62F"
-        },
-        {
-            "background": "#101116",
-            "black": "#101116",
-            "blue": "#00B0FF",
-            "brightBlack": "#686868",
-            "brightBlue": "#6871FF",
-            "brightCyan": "#60FDFF",
-            "brightGreen": "#5FFA68",
-            "brightPurple": "#D682EC",
-            "brightRed": "#FF6E67",
-            "brightWhite": "#FFFFFF",
-            "brightYellow": "#FFFC67",
-            "cursorColor": "#76FF9F",
-            "cyan": "#76C1FF",
-            "foreground": "#00A2FF",
-            "green": "#00FF9C",
-            "name": "Blue Matrix",
-            "purple": "#D57BFF",
-            "red": "#FF5680",
-            "selectionBackground": "#C1DEFF",
-            "white": "#C7C7C7",
-            "yellow": "#FFFC58"
         },
         {
             "background": "#0C0C0C",
@@ -283,29 +231,6 @@
             "selectionBackground": "#44475A",
             "white": "#BBBBBB",
             "yellow": "#F1FA8C"
-        },
-        {
-            "background": "#1D2021",
-            "black": "#1D2021",
-            "blue": "#458588",
-            "brightBlack": "#928374",
-            "brightBlue": "#83A598",
-            "brightCyan": "#8EC07C",
-            "brightGreen": "#B8BB26",
-            "brightPurple": "#D3869B",
-            "brightRed": "#FB4934",
-            "brightWhite": "#EBDBB2",
-            "brightYellow": "#FABD2F",
-            "cursorColor": "#EBDBB2",
-            "cyan": "#689D6A",
-            "foreground": "#EBDBB2",
-            "green": "#98971A",
-            "name": "Gruvbox",
-            "purple": "#B16286",
-            "red": "#CC241D",
-            "selectionBackground": "#EBDBB2",
-            "white": "#A89984",
-            "yellow": "#D79921"
         },
         {
             "background": "#282C34",
@@ -446,8 +371,8 @@
             "yellow": "#C4A000"
         },
         {
-            "background": "#2C001E",
-            "black": "#4E9A06",
+            "background": "#300A24",
+            "black": "#2E3436",
             "blue": "#3465A4",
             "brightBlack": "#555753",
             "brightBlue": "#729FCF",
@@ -455,16 +380,16 @@
             "brightGreen": "#8AE234",
             "brightPurple": "#AD7FA8",
             "brightRed": "#EF2929",
-            "brightWhite": "#EEEEEE",
+            "brightWhite": "#EEEEEC",
             "brightYellow": "#FCE94F",
-            "cursorColor": "#FFFFFF",
+            "cursorColor": "#BBBBBB",
             "cyan": "#06989A",
-            "foreground": "#EEEEEE",
-            "green": "#300A24",
+            "foreground": "#EEEEEC",
+            "green": "#4E9A06",
             "name": "Ubuntu",
             "purple": "#75507B",
             "red": "#CC0000",
-            "selectionBackground": "#FFFFFF",
+            "selectionBackground": "#B5D5FF",
             "white": "#D3D7CF",
             "yellow": "#C4A000"
         },
@@ -491,5 +416,9 @@
             "white": "#C0C0C0",
             "yellow": "#808000"
         }
-    ]
+    ],
+    "showTabsInTitlebar": true,
+    "tabSwitcherMode": "inOrder",
+    "tabWidthMode": "equal",
+    "useAcrylicInTabRow": true
 }
