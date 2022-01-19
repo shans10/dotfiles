@@ -20,8 +20,8 @@
   "list.selectedSignText": " ",
 
   // python config
- // "python.linting.enabled": true,
- // "python.linting.pylintEnabled": true,
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
 
   // snippets
   "snippets.ultisnips.directories": ["UltiSnips", "~/.config/nvim/snips"],

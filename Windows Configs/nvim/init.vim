@@ -3,10 +3,10 @@
 """ SOURCE FILES
 
 """ Plugins
-source C:/Users/Shan/AppData/Local/nvim/plugins.vim
+source ~/AppData/Local/nvim/plugins.vim
 
 """ Personal Keybindings
-source C:/Users/Shan/AppData/Local/nvim/keybindings.vim
+source ~/AppData/Local/nvim/keybindings.vim
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -15,14 +15,13 @@ source C:/Users/Shan/AppData/Local/nvim/keybindings.vim
 let g:loaded_python_provider = 0   " Disable python2 support
 let g:loaded_ruby_provider = 0     " Disable ruby support
 let g:loaded_node_provider = 0     " Disable nodejs support
-let g:loaded_perl_provider = 0     " Disable nodejs support
 
 """ Encoding
 set encoding=utf-8
 scriptencoding utf-8
 set fileencoding=utf-8
 
-""" Colorscheme
+" Colorscheme
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 set termguicolors
 "set t_Co=256
@@ -31,9 +30,9 @@ set termguicolors
 colorscheme gruvbox
 
 """ Bold Highlights
-source C:/Users/Shan/AppData/Local/nvim/bold-highlights.vim
+source ~/AppData/Local/nvim/bold-highlights.vim
 
-""" Signify Symbols Colors
+" Signify Symbols Colors
 highlight SignifySignAdd    ctermfg=green   guifg=#b8bb26 cterm=NONE gui=bold
 highlight SignifySignDelete ctermfg=red     guifg=#fb4934 cterm=NONE gui=bold
 highlight SignifySignChange ctermfg=yellow  guifg=#fabd2f cterm=NONE gui=bold
@@ -49,6 +48,9 @@ filetype plugin indent on
 
 """ Commandline Completion
 set wildmenu
+
+""" Shell
+"set shell=/bin/fish
 
 """ Split Below/Right
 set splitbelow
@@ -100,7 +102,7 @@ map <Space> <Leader>
 set noswapfile
 set nobackup
 set nowritebackup
-set undodir=C:/Users/Shan/nvim/undodir
+set undodir=~/nvim/undodir
 set undofile
 
 """ Indentation
@@ -126,11 +128,17 @@ set mouse=a
 """ Case insensitive searching
 set ignorecase
 
-""" Disable highlight after search
-set nohlsearch
-
 """ Will automatically switch to case sensitive if you use any capitals
 set smartcase
+
+""" netrw configuration
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_banner = 0
+let g:netrw_winsize = 21
+let g:netrw_altfile = 1
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+,\(^\|\s\s\)ntuser\.\S\+'
+autocmd FileType netrw set nolist
 
 """ Always Enter Terminal Buffer in Insert Mode
 """ For Split Term opened with a shortcut

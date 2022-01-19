@@ -12,7 +12,7 @@ let g:ascii = [
             \]
 
 let g:startify_custom_header = g:ascii
-let g:startify_session_dir = 'C:/Users/Shan/nvim/sessions'
+let g:startify_session_dir = '~/.nvim/sessions'
 
 let g:startify_lists = [
           \ { 'type': 'sessions',  'header': ['   Sessions']                     },
@@ -28,14 +28,18 @@ let g:startify_change_to_vcs_root = 1
 let g:startify_fortune_use_unicode = 1
 let g:startify_session_persistence = 1
 
+let g:webdevicons_enable_startify = 1
+
+function! StartifyEntryFormat()
+        return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+endfunction
+
 let g:startify_bookmarks = [
-            \ { 'p': 'C:/Users/Shan/AppData/Local/nvim/plugins.vim' },
-            \ { 'i': 'C:/Users/Shan/AppData/Local/nvim/init.vim' },
-            \ { 'c': 'C:/Users/Shan/AppData/Local/nvim/plug-configs' },
-            \ { 'x': 'D:/Programming/CS50X' },
+            \ { 'p': '~/AppData/Local/nvim/plugins.vim' },
+            \ { 'i': '~/AppData/Local/nvim/init.vim' },
+            \ { 'k': '~/AppData/Local/nvim/keybindings.vim' }
             \ ]
 
 let g:startify_enable_special = 0
 
-" Keybinding
 nnoremap <leader>st :Startify<CR>

@@ -2,16 +2,16 @@
 
 """ Term
 "" Split
-nmap <M-t> :15new term://pwsh -nologo<CR>
-imap <M-t> :15new term://pwsh -nologo<CR>
-tmap <M-t> :15new term://pwsh -nologo<CR>
-nmap <leader>tt :15new term://pwsh -nologo<CR>
+nmap <M-t> :15new term://fish<CR>
+imap <M-t> :15new term://fish<CR>
+tmap <M-t> :15new term://fish<CR>
+nmap <leader>tt :15new term://fish<CR>
 
 "" Full
-nmap <M-S-t> :term=pwsh -nologo<CR>
-imap <M-S-t> :term=pwsh -nologo<CR>
-tmap <M-S-t> :term=pwsh -nologo<CR>
-nmap <leader>tf :term=pwsh -nologo<CR>
+nmap <M-S-t> :term<CR>
+imap <M-S-t> :term<CR>
+tmap <M-S-t> :term<CR>
+nmap <leader>tf :term<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
