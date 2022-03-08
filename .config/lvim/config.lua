@@ -10,7 +10,7 @@ an executable
 
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save = true
+lvim.format_on_save = false
 lvim.colorscheme = "gruvbox"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
@@ -138,7 +138,8 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- Additional Plugins
 lvim.plugins = {
-  {"gruvbox-community/gruvbox"}
+  {"gruvbox-community/gruvbox"},
+  {"lambdalisue/suda.vim"}
 --     {"folke/tokyonight.nvim"},
 --     {
 --       "folke/trouble.nvim",
@@ -154,3 +155,6 @@ lvim.plugins = {
 -- User Settings
 -- gruvbox contrast
 vim.g["gruvbox_contrast_dark"] = 'hard'
+
+-- vim suda plugin settings
+vim.g["suda_smart_edit"] = 1
