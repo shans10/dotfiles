@@ -1,8 +1,6 @@
 <h1 align="center">AstroVim+</h1>
 
-<p align="center">
-This Neovim config is based on [AstroVim](https://github.com/kabinspace/AstroVim) with some personal additions.
-</p>
+This Neovim config is based on [AstroVim](https://github.com/kabinspace/AstroVim "kabinspace/AstroVim") with some personal additions.
 
 ## 🌟 Preview
 
