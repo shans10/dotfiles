@@ -1,11 +1,13 @@
 local config = {
 
   -- Set colorscheme
-  colorscheme = "onedark",
+  colorscheme = "catppuccin",
 
   -- Add plugins
   plugins = {
     { "lambdalisue/suda.vim" },
+    { "catppuccin/nvim",
+      as = "catppuccin" },
     -- { "andweeb/presence.nvim" },
     -- {
     -- "ray-x/lsp_signature.nvim",
@@ -18,11 +20,7 @@ local config = {
 
   overrides = {
     treesitter = {
-      ensure_installed = { "lua" },
-      ensure_installed = { "c" },
-      ensure_installed = { "rust" },
-      ensure_installed = { "java" },
-      ensure_installed = { "vim" },
+      ensure_installed = { "lua", "c", "java", "cpp", "rust" },
     },
   },
 
