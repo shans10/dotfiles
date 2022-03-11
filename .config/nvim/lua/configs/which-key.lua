@@ -107,31 +107,57 @@ function M.config()
       f = { "Format" },
       i = { "Info" },
       I = { "Installer Info" },
-      r = { "Rename" },
+      R = { "Rename" },
       s = { "Document Symbols" },
+      d = { "Diagnostics" },
+      r = { "References" },
+      D = { "Definitions" },
     },
 
     s = {
       name = "Search",
       b = { "Checkout branch" },
-      h = { "Find Help" },
+      h = { "Help" },
       m = { "Man Pages" },
       r = { "Registers" },
       k = { "Keymaps" },
       c = { "Commands" },
+      W = { "Words" },
+      z = { "Files (FZF)" },
+      o = { "Symbols Outline "},
     },
 
     t = {
       name = "Terminal",
-      n = { "Node" },
-      u = { "NCDU" },
-      t = { "Htop" },
-      p = { "Python" },
-      l = { "LazyGit" },
       f = { "Float" },
       h = { "Horizontal" },
       v = { "Vertical" },
     },
+
+    f = {
+      name = "Files",
+      f = { "Find" },
+      h = { "Find (Include Hidden)" },
+      o = { "Open Recent" },
+      s = { "Save" },
+      c = { "Close" },
+      d = { "Close Unsaved" },
+    },
+
+    b = {
+      name = "Buffers",
+      l = { "List Open" },
+      d = { "Close" },
+      D = { "Close Unsaved" },
+      n = { "Go to Next" },
+      p = { "Go to Prev" },
+    },
+
+    S = {
+      name = "Session",
+      s = { "Save" },
+      l = { "Load" },
+    }
   }
 
   which_key.setup(require("core.utils").user_plugin_opts("which-key", default_setup))

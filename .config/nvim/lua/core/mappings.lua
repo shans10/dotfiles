@@ -61,8 +61,8 @@ if config.enabled.dashboard then
   map("n", "<leader>fn", "<cmd>DashboardNewFile<CR>", opts)
   map("n", "<leader>db", "<cmd>Dashboard<CR>", opts)
   map("n", "<leader>bm", "<cmd>DashboardJumpMarks<CR>", opts)
-  map("n", "<leader>sl", "<cmd>SessionLoad<CR>", opts)
-  map("n", "<leader>ss", "<cmd>SessionSave<CR>", opts)
+  map("n", "<leader>Sl", "<cmd>SessionLoad<CR>", opts)
+  map("n", "<leader>Ss", "<cmd>SessionSave<CR>", opts)
 end
 
 -- GitSigns
@@ -79,13 +79,13 @@ if config.enabled.gitsigns then
 end
 
 -- Telescope
-map("n", "<leader>fw", "<cmd>Telescope live_grep<CR>", opts)
+-- map("n", "<leader>fw", "<cmd>Telescope live_grep<CR>", opts)
 map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", opts)
 map("n", "<leader>gb", "<cmd>Telescope git_branches<CR>", opts)
 map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", opts)
 map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts)
-map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", opts)
-map("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", opts)
+-- map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", opts)
+-- map("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", opts)
 map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", opts)
 map("n", "<leader>sb", "<cmd>Telescope git_branches<CR>", opts)
 map("n", "<leader>sh", "<cmd>Telescope help_tags<CR>", opts)
@@ -116,7 +116,7 @@ if config.enabled.comment then
 end
 
 -- ForceWrite
-map("n", "<C-w>", "<cmd>w!<CR>", opts)
+-- map("n", "<C-w>", "<cmd>w!<CR>", opts)
 
 -- ForceQuit
 map("n", "<C-q>", "<cmd>q!<CR>", opts)
@@ -124,12 +124,6 @@ map("n", "<C-q>", "<cmd>q!<CR>", opts)
 -- Terminal
 if config.enabled.toggle_term then
   map("n", "<C-\\>", "<cmd>ToggleTerm<CR>", opts)
-  map("n", "<leader>gg", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", opts)
-  map("n", "<leader>tn", "<cmd>lua _NODE_TOGGLE()<CR>", opts)
-  map("n", "<leader>tu", "<cmd>lua _NCDU_TOGGLE()<CR>", opts)
-  map("n", "<leader>tt", "<cmd>lua _HTOP_TOGGLE()<CR>", opts)
-  map("n", "<leader>tp", "<cmd>lua _PYTHON_TOGGLE()<CR>", opts)
-  map("n", "<leader>tl", "<cmd>lua _LAZYGIT_TOGGLE()<CR>", opts)
   map("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", opts)
   map("n", "<leader>th", "<cmd>ToggleTerm size=10 direction=horizontal<cr>", opts)
   map("n", "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", opts)
@@ -137,7 +131,7 @@ end
 
 -- SymbolsOutline
 if config.enabled.symbols_outline then
-  map("n", "<leader>s", "<cmd>SymbolsOutline<CR>", opts)
+  map("n", "<leader>so", "<cmd>SymbolsOutline<CR>", opts)
 end
 
 -- Visual --
