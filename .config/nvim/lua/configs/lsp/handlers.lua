@@ -15,7 +15,7 @@ function M.setup()
   end
 
   local config = {
-    virtual_text = default.virtual_text,
+    virtual_text = default.diagnostics.enable,
     signs = {
       active = signs,
     },
@@ -32,7 +32,7 @@ function M.setup()
     },
   }
 
-  vim.diagnostic.config(config)
+  vim.diagnostic.config(require("core.utils").user_plugin_opts("diagnostics", config))
 
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
     border = "rounded",
@@ -84,6 +84,12 @@ M.on_attach = function(client, bufnr)
   if client.name == "sumneko_lua" then
     client.resolved_capabilities.document_formatting = false
   end
+
+  local on_attach_override = require("core.utils").user_settings().overrides.lsp_installer.on_attach_override
+  if on_attach_override ~= nil then
+    on_attach_override(client, bufnr)
+  end
+
   lsp_keymaps(bufnr)
   lsp_highlight_document(client)
 end

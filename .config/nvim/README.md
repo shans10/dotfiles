@@ -1,6 +1,24 @@
-<h1 align="center">AstroVim+</h1>
+<h1 align="center">AstroVim</h1>
 
-This Neovim config is based on [AstroVim](https://github.com/kabinspace/AstroVim "kabinspace/AstroVim") with some personal additions.
+<div align="center"><p>
+    <a href="https://github.com/kabinspace/AstroVim/pulse">
+      <img src="https://img.shields.io/github/last-commit/kabinspace/AstroVim?color=%4dc71f&label=Last%20Commit&logo=github&style=flat-square"/>
+    </a>
+    <a href="https://github.com/kabinspace/AstroVim/blob/main/LICENSE">
+      <img src="https://img.shields.io/github/license/kabinspace/AstroVim?label=License&logo=GNU&style=flat-square"/>
+	</a>
+    <a href="https://neovim.io/">
+      <img src="https://img.shields.io/badge/Neovim-0.6+-blueviolet.svg?style=flat-square&logo=Neovim&logoColor=white"/>
+    </a>
+    <a href="https://discord.gg/UcZutyeaFW">
+      <img src="https://img.shields.io/badge/discord-Join-7289da?color=%235865F2%20&label=Discord&logo=discord&logoColor=%23ffffff&style=flat-square"/>
+    </a>
+</p>
+</div>
+
+<p align="center">
+AstroVim is an aesthetic and feature-rich neovim config that is extensible and easy to use with a great set of plugins
+</p>
 
 ## 🌟 Preview
 
@@ -26,8 +44,7 @@ mv ~/.config/nvim ~/.config/nvimbackup
 #### Clone the repository
 
 ```
-git clone https://github.com/shans10/dotfiles.git
-cp -r dotfiles/.config/nvim ~/.config/nvim 
+git clone https://github.com/kabinspace/AstroVim ~/.config/nvim
 nvim +PackerSync
 ```
 
@@ -149,13 +166,14 @@ lets you extend the default treesitter configuration.
 
 ### Change Default Packer Configuration
 
-AstroVim provides a `polish_plugins` function in the user settings that can be used to override the packer
-configuration for all plugins, user plugins as well as plugins configured by AstroVim.
+The `overrides` table extensibility includes the packer configuration for all
+plugins, user plugins as well as plugins configured by AstroVim.
 
-E.g. this code in your `settings.lua` will globally disable the lazy loading that is used by AstroVim by default:
+E.g. this code in your `settings.lua` `overrides` table will globally disable the lazy loading that is used by AstroVim by default:
 
 ```lua
-  polish_plugins = function(plugins)
+overrides = {
+  plugins = function(plugins)
     local result = {}
     for _, plugin in pairs(plugins) do
       plugin["cmd"] = nil
@@ -163,7 +181,8 @@ E.g. this code in your `settings.lua` will globally disable the lazy loading tha
       table.insert(result, plugin)
     end
     return result
-  end
+  end,
+}
 ```
 
 ### Adding sources to `nvim-cmp`
@@ -250,6 +269,25 @@ and then wired up with:
       end,
     },
   },
+```
+
+### Extending the LSP on_attach Function
+
+Some users may want to have more control over the `on_attach` function of their LSP servers to enable or disable capabilities. This can be extended with `overrides.lsp_installer.on_attach_override`
+
+For example if you want to disable document formatting for `intelephense`:
+
+```lua
+overrides = {
+  lsp_installer = {
+    on_attach_override = function(client, bufnr)
+      if client.name == "intelephense" then
+        client.resolved_capabilities.document_formatting = false
+        client.resolved_capabilities.document_range_formatting = false
+      end
+    end,
+  },
+}
 ```
 
 ## 🗒️ Note

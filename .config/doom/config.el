@@ -5,44 +5,60 @@
 
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
+;; clients, file templates and snippets. It is optional.
 (setq user-full-name "John Doe"
       user-mail-address "john@doe.com")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
-;; are the three important ones:
+;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
-;; + `doom-font'
-;; + `doom-variable-pitch-font'
-;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
+;; - `doom-font' -- the primary font to use
+;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
+;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
 ;;   presentations or streaming.
+;; - `doom-unicode-font' -- for unicode glyphs
+;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 ;;
-;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
-;; font string. You generally only need these two:
-;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
-;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
+;; See 'C-h v doom-font' for documentation and more examples of what they
+;; accept. For example:
+;;
+;;
+;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
+;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+;;
+;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
+;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
+;; refresh your font settings. If Emacs still can't find your font, it likely
+;; wasn't installed correctly. Font issues are rarely Doom issues!
 (setq doom-font (font-spec :family "Cascadia Code" :size 13 :weight 'regular))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-; (setq doom-theme 'doom-monokai-pro)
-; (if (not (display-graphic-p))
-;       (setq doom-theme 'doom-monokai-pro)
-(setq doom-theme 'doom-gruvbox)
-(setq doom-gruvbox-dark-variant "hard")
-; )
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq doom-theme 'doom-vibrant)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/org/")
 
-;; Here are some additional functions/macros that could help you configure Doom:
+
+;; Whenever you reconfigure a package, make sure to wrap your config in an
+;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
+;;
+;;   (after! PACKAGE
+;;     (setq x y))
+;;
+;; The exceptions to this rule:
+;;
+;;   - Setting file/directory variables (like `org-directory')
+;;   - Setting variables which explicitly tell you to set them before their
+;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
+;;   - Setting doom variables (which start with 'doom-' or '+').
+;;
+;; Here are some additional functions/macros that will help you configure Doom.
 ;;
 ;; - `load!' for loading external *.el files relative to this one
 ;; - `use-package!' for configuring packages
@@ -55,22 +71,19 @@
 ;; To get information about any of these functions/macros, move the cursor over
 ;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
 ;; This will open documentation for it, including demos of how they are used.
+;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
+;; etc).
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-
-;;; USER SETTINGS ;;;
-;; Open Emacs Maximized
+;;; MY SETTINGS ;;;
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 ; (add-hook 'window-setup-hook 'toggle-frame-maximized t)
 
-;; Exit Emacs without vterm running process warning
-;; (setq confirm-kill-processes nil)
-
 ;; Vim scrolloff alternative
 (setq scroll-step 1)
-(setq scroll-margin 11)
+(setq scroll-margin 9)
 
 ;; Add space from both sides inside braces
 (defun my/c-mode-insert-space (arg)
@@ -99,28 +112,12 @@
             (local-set-key " " 'my/c-mode-insert-space)
             (local-set-key "\177" 'my/c-mode-delete-space)))
 
-;; Fix doom-modeline flycheck icon out of view in emacsclient
-(add-hook! 'doom-modeline-mode-hook
-  (let ((char-table char-width-table))
-    (while (setq char-table (char-table-parent char-table)))
-    (dolist (pair doom-modeline-rhs-icons-alist)
-      (let ((width 2)  ; <-- tweak this
-            (chars (cdr pair))
-            (table (make-char-table nil)))
-        (dolist (char chars)
-          (set-char-table-range table char width))
-        (optimize-char-table table)
-        (set-char-table-parent table char-table)
-        (setq char-width-table table)))))
-
-
-;;; EVIL SNIPE ;;;
+;;; Evil Snipe ;;;
 (setq evil-snipe-scope 'visible)
 (setq evil-snipe-repeat-scope 'whole-visible)
 (setq evil-snipe-spillover-scope 'whole-buffer)
 
-
-;;; FLYCHECK ;;;
+;;; Flycheck ;;;
 ;; Check syntax on idle
 (after! flycheck
         (setq flycheck-check-syntax-automatically '(idle-change)))
@@ -131,39 +128,29 @@
 ;; Move flycheck to left margin
 (setq-default flycheck-indication-mode 'left-fringe)
 
-
-;;; LSP ;;;
+;;; Lsp ;;;
 ;; Disable doc hover information unless key pressed
 (setq lsp-ui-doc-enable nil)
 
 ;; Disable code action hints in sideline
 (setq lsp-ui-sideline-show-code-actions nil)
 
-;; Headerline Settings
-; (setq lsp-headerline-breadcrumb-enable t)                           ; Enable headerline
-; (setq lsp-headerline-breadcrumb-segments '(project file symbols))   ; Set segments
-; (setq lsp-headerline-breadcrumb-icons-enable t)                     ; Enable Icons
-
-
-;;; NEOTREE ;;;
+;;; Neotree ;;;
 ;; Show File Icons in Neotree
+(after! neotree
+  (setq neo-smart-open t
+        neo-window-fixed-size nil))
 (after! doom-themes
-        (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config))
+  (setq doom-neotree-enable-variable-pitch t))
+(after! doom-themes
+  (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config))
 
-
-;;; DOOM MODELINE ;;;
+;;; Doom Modeline ;;;
 ;; Show major mode icon in doom modeline(filetype icon)
 (setq doom-modeline-major-mode-icon t)
 
 ;; Disable code actions in doom modeline
 (setq lsp-modeline-code-actions-enable nil)
 
-
-;;; LOAD PACKAGES ;;;
-;; Change cursor in insert mode in terminal
-(use-package! evil-terminal-cursor-changer
-              :hook (tty-setup . evil-terminal-cursor-changer-activate))
-
-;;; LOAD CUSTOME FILES ;;;
-;; Keybindings File
+;;; Load Custom Keybindings ;;;
 (load! "keybindings")

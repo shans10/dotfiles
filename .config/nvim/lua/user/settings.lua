@@ -19,12 +19,15 @@ local config = {
 
   overrides = {
     treesitter = {
-      ensure_installed = { "lua", "c", "java", "cpp", "rust" },
+      ensure_installed = { "lua", "c", "java", "cpp", "rust", "fish" },
     },
   },
 
-  -- On/off virtual diagnostics text
-  virtual_text = true,
+  -- Diagnostics option
+  diagnostics = {
+    enable = true,
+    text = "none",
+  },
 
   -- Disable default plugins
   enabled = {
