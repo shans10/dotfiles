@@ -15,7 +15,7 @@ function M.config()
         suggestions = 20,
       },
       presets = {
-        operators = false,
+        operators = true,
         motions = true,
         text_objects = true,
         windows = true,
@@ -123,8 +123,8 @@ function M.config()
       k = { "Keymaps" },
       c = { "Commands" },
       W = { "Words" },
-      z = { "Files (FZF)" },
-      o = { "Symbols Outline "},
+      z = { "Files(FZF)" },
+      o = { "Symbols Outline"},
     },
 
     t = {
@@ -137,11 +137,15 @@ function M.config()
     f = {
       name = "Files",
       f = { "Find" },
-      h = { "Find (Include Hidden)" },
+      h = { "Find(Include Hidden)" },
       o = { "Open Recent" },
       s = { "Save" },
       c = { "Close" },
       d = { "Close Unsaved" },
+      i = { "Indent All" },
+      S = { "Select All" },
+      r = { "Reload" },
+      R = { "Discard Changes and Reload" },
     },
 
     b = {
@@ -151,6 +155,8 @@ function M.config()
       D = { "Close Unsaved" },
       n = { "Go to Next" },
       p = { "Go to Prev" },
+      j = { "Jump To" },
+      c = { "Pick Close" },
     },
 
     S = {

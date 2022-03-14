@@ -19,7 +19,7 @@ local config = {
 
   overrides = {
     treesitter = {
-      ensure_installed = { "lua", "c", "java", "cpp", "rust", "fish" },
+      ensure_installed = { "lua", "rust", "go", "c", "java", "cpp", "fish" },
     },
   },
 
@@ -54,23 +54,34 @@ local config = {
     local opts = { noremap = true, silent = true }
     local map = vim.api.nvim_set_keymap
     local set = vim.opt
+
     -- Set options
     set.relativenumber = true
 
-    -- Set key bindings
-    map("n", "<C-s>", ":w!<CR>", opts)
+    -- Set keybindings
+    -- Force write
+    map("n", "<C-s>", "<cmd>w!<CR>", opts)
+
+    -- Save in insert mode
+    map("i", "<C-s>", "<Esc><cmd>w<CR>", opts)
 
     -- Files
     map("n", "<leader>fh", "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>", opts)
-    map("n", "<leader>fs", "<cmd>:w<CR>", opts)
-    map("n", "<leader>fc", "<cmd>:bd<CR>", opts)
-    map("n", "<leader>fC", "<cmd>:bd!<CR>", opts)
+    map("n", "<leader>fs", "<cmd>w<CR>", opts)
+    map("n", "<leader>fc", "<cmd>bd<CR>", opts)
+    map("n", "<leader>fC", "<cmd>bd!<CR>", opts)
+    map("n", "<leader>fi", "gg=G<CR>", opts)
+    map("n", "<leader>fS", "ggVG<CR>", opts)
+    map("n", "<leader>fr", "<cmd>e<CR>", opts)
+    map("n", "<leader>fR", "<cmd>e!<CR>", opts)
 
     -- Buffers
     map("n", "<leader>bn", "<cmd>bn<CR>", opts)
     map("n", "<leader>bp", "<cmd>bp<CR>", opts)
     map("n", "<leader>bd", "<cmd>bd<CR>", opts)
     map("n", "<leader>bl", "<cmd>Telescope buffers<CR>", opts)
+    map("n", "<leader>bj", "<cmd>BufferLinePick<CR>", opts)
+    map("n", "<leader>bc", "<cmd>BufferLinePickClose<CR>", opts)
 
     -- Search
     map("n", "<leader>sb", "<cmd>Telescope buffers<CR>", opts)
@@ -82,6 +93,11 @@ local config = {
     map("n", "<leader>lD", "<cmd>Telescope lsp_definitions<CR>", opts)
     map("n", "<leader>lr", "<cmd>Telescope lsp_references<CR>", opts)
 
+    -- Windows
+    map("n", "<M-S-left>", "<C-W><", opts)
+    map("n", "<M-S-right>", "<C-W>>", opts)
+    map("n", "<M-S-up>", "<C-W>+", opts)
+    map("n", "<M-S-down>", "<C-W>-", opts)
 
     -- Set autocommands
     vim.cmd [[
@@ -93,7 +109,7 @@ local config = {
   end,
 }
 
--- vim suda plugin settings
-vim.g["suda_smart_edit"] = 1
+-- Vim suda plugin settings
+vim.g.suda_smart_edit = 1
 
 return config
