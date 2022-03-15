@@ -1,7 +1,6 @@
 ### PSReadLine Options ###
 set-psreadlineoption -predictionsource history
 
-
 ### User Aliases ###
 # Force Remove file/folder
 function rmf([string]$name)
@@ -13,15 +12,13 @@ function rmf([string]$name)
 function explore { explorer.exe . }
 
 # Import Developer Powershell Module into current session
-function devps { Import-Module 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/Tools/Microsoft.VisualStudio.DevShell.dll'; Enter-VsDevShell 15b862ee }
-
+#function devps { Import-Module 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/Common7/Tools/Microsoft.VisualStudio.DevShell.dll'; Enter-VsDevShell 15b862ee }
 
 ### MODULES ###
 # Show Colors in ls command
 Import-Module Get-ChildItemColor
 
 # Starship Prompt
-$ENV:STARSHIP_CONFIG = "$HOME\.starship\starship.toml"
 $ENV:STARSHIP_DISTRO = "者"
 Invoke-Expression (&starship init powershell)
 
