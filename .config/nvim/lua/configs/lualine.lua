@@ -23,6 +23,15 @@ function M.config()
     red = "#ec5f67",
   }
 
+  local mode = {
+      function()
+        return " "
+      end,
+      padding = { left = 0, right = 0 },
+      color = {},
+      cond = nil,
+  }
+
   local conditions = {
     buffer_not_empty = function()
       return vim.fn.empty(vim.fn.expand "%:t") ~= 1
@@ -44,7 +53,7 @@ function M.config()
       section_separators = "",
     },
     sections = {
-      lualine_a = {},
+      lualine_a = { mode },
       lualine_b = {},
       lualine_y = {},
       lualine_z = {},
@@ -69,13 +78,13 @@ function M.config()
     table.insert(config.sections.lualine_x, component)
   end
 
-  ins_left {
-    function()
-      return "▊"
-    end,
-    color = { fg = colors.blue },
-    padding = { left = 0, right = 0 },
-  }
+  -- ins_left {
+  --   function()
+  --     return "▊"
+  --   end,
+  --   color = { fg = colors.blue },
+  --   padding = { left = 0, right = 0 },
+  -- }
 
   ins_left {
     "branch",
@@ -131,7 +140,7 @@ function M.config()
   ins_right {
     status.lsp_name,
     icon = " ",
-    color = { gui = "none" },
+    color = { gui = "bold" },
     padding = { left = 0, right = 1 },
     cond = conditions.hide_in_width,
   }
@@ -139,7 +148,7 @@ function M.config()
   ins_right {
     status.treesitter_status,
     color = { fg = colors.green },
-    padding = { left = 1, right = 0 },
+    padding = { left = 1, right = 1 },
     cond = conditions.hide_in_width,
   }
 
@@ -148,26 +157,26 @@ function M.config()
     padding = { left = 1, right = 1 },
   }
 
-  ins_right {
-    "progress",
-    color = { gui = "none" },
-    padding = { left = 0, right = 0 },
-  }
+  -- ins_right {
+  --   "progress",
+  --   color = { gui = "none" },
+  --   padding = { left = 0, right = 0 },
+  -- }
 
   ins_right {
     status.progress_bar,
-    padding = { left = 1, right = 1 },
+    padding = { left = 1, right = 0 },
     color = { fg = colors.yellow },
     cond = nil,
   }
 
-  ins_right {
-    function()
-      return "▊"
-    end,
-    color = { fg = colors.blue },
-    padding = { left = 1, right = 0 },
-  }
+  -- ins_right {
+  --   function()
+  --     return "▊"
+  --   end,
+  --   color = { fg = colors.blue },
+  --   padding = { left = 1, right = 0 },
+  -- }
 
   lualine.setup(require("core.utils").user_plugin_opts("lualine", config))
 end

@@ -146,13 +146,14 @@ function M.config()
       S = { "Select All" },
       r = { "Reload" },
       R = { "Discard Changes and Reload" },
+      p = { "Show Full Path" },
     },
 
     b = {
       name = "Buffers",
       l = { "List Open" },
       d = { "Close" },
-      D = { "Close Unsaved" },
+      D = { "Close Unsaved   " },
       n = { "Go to Next" },
       p = { "Go to Prev" },
       j = { "Jump To" },

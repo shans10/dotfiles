@@ -55,10 +55,11 @@ local config = {
     local map = vim.api.nvim_set_keymap
     local set = vim.opt
 
-    -- Set options
+    --- SET OPTIONS ---
     set.relativenumber = true
 
-    -- Set keybindings
+    --- SET KEYBINDINGS ---
+    --
     -- Force write
     map("n", "<C-s>", "<cmd>w!<CR>", opts)
 
@@ -74,6 +75,7 @@ local config = {
     map("n", "<leader>fS", "ggVG<CR>", opts)
     map("n", "<leader>fr", "<cmd>e<CR>", opts)
     map("n", "<leader>fR", "<cmd>e!<CR>", opts)
+    map("n", "<leader>fp", "1<C-g><CR>", opts)
 
     -- Buffers
     map("n", "<leader>bn", "<cmd>bn<CR>", opts)
@@ -92,20 +94,29 @@ local config = {
     map("n", "<leader>ld", "<cmd>Telescope diagnostics<CR>", opts)
     map("n", "<leader>lD", "<cmd>Telescope lsp_definitions<CR>", opts)
     map("n", "<leader>lr", "<cmd>Telescope lsp_references<CR>", opts)
+    map("n", "gh", "<cmd>Lspsaga hover_doc<CR>", opts)
 
-    -- Windows
-    map("n", "<M-S-left>", "<C-W><", opts)
-    map("n", "<M-S-right>", "<C-W>>", opts)
-    map("n", "<M-S-up>", "<C-W>+", opts)
-    map("n", "<M-S-down>", "<C-W>-", opts)
+    -- Move lines up/down
+    map("n", "<A-j>", "<cmd>m .+1<CR>==", opts)
+    map("n", "<A-k>", "<cmd>m .-2<CR>==", opts)
+    map("i", "<A-j>", "<Esc><cmd>m .+1<CR>==gi", opts)
+    map("i", "<A-k>", "<Esc><cmd>m .-2<CR>==gi", opts)
 
-    -- Set autocommands
+    -- Clear search highlight
+    map("n", "<Esc>", "<cmd>noh<CR>", opts)
+
+    --- SET AUTOCOMMANDS ---
+    --
+    -- Automatically run PackerSync on plugins.lua file change
     vim.cmd [[
       augroup packer_conf
         autocmd!
         autocmd bufwritepost plugins.lua source <afile> | PackerSync
       augroup end
     ]]
+
+    -- Disable tabline in dashboard buffer
+    vim.cmd[[autocmd FileType dashboard set showtabline=0 | autocmd WinLeave <buffer> set showtabline=2]]
   end,
 }
 

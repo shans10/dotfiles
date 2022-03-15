@@ -56,7 +56,9 @@ end
 function M.treesitter_status()
   local b = vim.api.nvim_get_current_buf()
   if next(vim.treesitter.highlighter.active[b]) then
-    return " 綠TS"
+    -- return " 綠TS"
+    return "  TS"
+    -- return "  "
   end
   return ""
 end
