@@ -48,6 +48,9 @@ map("n", "<leader>pu", "<cmd>PackerUpdate<cr>", opts)
 map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting_sync()<cr>", opts)
 map("n", "<leader>li", "<cmd>LspInfo<cr>", opts)
 map("n", "<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
+map("n", "<leader>ld", "<cmd>Telescope diagnostics<CR>", opts)
+map("n", "<leader>lD", "<cmd>Telescope lsp_definitions<CR>", opts)
+map("n", "<leader>lr", "<cmd>Telescope lsp_references<CR>", opts)
 
 -- NvimTree
 if config.enabled.nvim_tree then
@@ -79,13 +82,10 @@ if config.enabled.gitsigns then
 end
 
 -- Telescope
--- map("n", "<leader>fw", "<cmd>Telescope live_grep<CR>", opts)
 map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", opts)
 map("n", "<leader>gb", "<cmd>Telescope git_branches<CR>", opts)
 map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", opts)
 map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts)
--- map("n", "<leader>fb", "<cmd>Telescope buffers<CR>", opts)
--- map("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", opts)
 map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", opts)
 map("n", "<leader>sb", "<cmd>Telescope git_branches<CR>", opts)
 map("n", "<leader>sh", "<cmd>Telescope help_tags<CR>", opts)
@@ -106,7 +106,8 @@ if config.enabled.lspsaga then
   map("n", "<C-u>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<cr>", opts)
   map("n", "<C-d>", "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<cr>", opts)
   map("n", "<leader>la", "<cmd>Lspsaga code_action<CR>", opts)
-  map("n", "<leader>lr", "<cmd>Lspsaga rename<CR>", opts)
+  map("n", "<leader>lR", "<cmd>Lspsaga rename<CR>", opts)
+  map("n", "gh", "<cmd>Lspsaga hover_doc<CR>", opts)
 end
 
 -- Comment
@@ -115,11 +116,42 @@ if config.enabled.comment then
   map("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle_linewise_op(vim.fn.visualmode())<CR>", opts)
 end
 
+-- Files
+map("n", "<leader>fh", "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>", opts)
+map("n", "<leader>fs", "<cmd>w<CR>", opts)
+map("n", "<leader>fc", "<cmd>Bdelete<CR>", opts)
+map("n", "<leader>fC", "<cmd>Bdelete!<CR>", opts)
+map("n", "<leader>fi", "gg=G<CR>", opts)
+map("n", "<leader>fS", "ggVG<CR>", opts)
+map("n", "<leader>fr", "<cmd>e<CR>", opts)
+map("n", "<leader>fR", "<cmd>e!<CR>", opts)
+map("n", "<leader>fp", "1<C-g><CR>", opts)
+
+-- Buffers
+map("n", "<leader>bn", "<cmd>bn<CR>", opts)
+map("n", "<leader>bp", "<cmd>bp<CR>", opts)
+map("n", "<leader>bd", "<cmd>Bdelete<CR>", opts)
+map("n", "<leader>bD", "<cmd>Bdelete!<CR>", opts)
+map("n", "<leader>bl", "<cmd>Telescope buffers<CR>", opts)
+map("n", "<leader>bj", "<cmd>BufferLinePick<CR>", opts)
+map("n", "<leader>bc", "<cmd>BufferLinePickClose<CR>", opts)
+
+-- Search
+map("n", "<leader>sb", "<cmd>Telescope buffers<CR>", opts)
+map("n", "<leader>sw", "<cmd>Telescope live_grep<CR>", opts)
+map("n", "<leader>sf", "<cmd>FZF<CR>", opts)
+
 -- ForceWrite
--- map("n", "<C-w>", "<cmd>w!<CR>", opts)
+map("n", "<C-s>", "<cmd>w!<CR>", opts)
 
 -- ForceQuit
 map("n", "<C-q>", "<cmd>q!<CR>", opts)
+
+-- Save in insert mode
+map("i", "<C-s>", "<Esc><cmd>w<CR>", opts)
+
+-- Clear search highlight
+map("n", "<Esc>", "<cmd>noh<CR>", opts)
 
 -- Terminal
 if config.enabled.toggle_term then
@@ -133,6 +165,14 @@ end
 if config.enabled.symbols_outline then
   map("n", "<leader>so", "<cmd>SymbolsOutline<CR>", opts)
 end
+
+-- Move lines up and down in normal mode
+map("n", "<A-j>", "<cmd>m .+1<CR>==", opts)
+map("n", "<A-k>", "<cmd>m .-2<CR>==", opts)
+
+-- Move lines up and down in normal mode
+map("i", "<A-j>", "<Esc><cmd>m .+1<CR>==gi", opts)
+map("i", "<A-k>", "<Esc><cmd>m .-2<CR>==gi", opts)
 
 -- Visual --
 -- Stay in indent mode
@@ -154,7 +194,6 @@ map("x", "<A-k>", "<cmd>move '<-2<CR>gv-gv", opts)
 -- disable Ex mode:
 map("n", "Q", "<Nop>", opts)
 
--- Terminal Keymappings
 function _G.set_terminal_keymaps()
   vim.api.nvim_buf_set_keymap(0, "t", "<esc>", [[<C-\><C-n>]], opts)
   vim.api.nvim_buf_set_keymap(0, "t", "jj", [[<C-\><C-n>]], opts)

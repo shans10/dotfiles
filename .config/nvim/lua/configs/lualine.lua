@@ -2,6 +2,13 @@ local M = {}
 
 local status = require "core.status"
 
+-- Modifying lualine onedark theme
+local custom_onedark = require'lualine.themes.onedark'
+
+-- Change the background of lualine_a section
+custom_onedark.normal.a.bg = '#51afef'
+custom_onedark.insert.a.bg = '#98be65'
+
 function M.config()
   local status_ok, lualine = pcall(require, "lualine")
   if not status_ok then
@@ -23,15 +30,6 @@ function M.config()
     red = "#ec5f67",
   }
 
-  local mode = {
-      function()
-        return " "
-      end,
-      padding = { left = 0, right = 0 },
-      color = {},
-      cond = nil,
-  }
-
   local conditions = {
     buffer_not_empty = function()
       return vim.fn.empty(vim.fn.expand "%:t") ~= 1
@@ -46,11 +44,21 @@ function M.config()
     end,
   }
 
+  local mode = {
+    function()
+      return " "
+    end,
+    padding = { left = 0, right = 0 },
+    color = {},
+    cond = nil,
+  }
+
   local config = {
     options = {
       disabled_filetypes = { "NvimTree", "neo-tree", "dashboard", "Outline" },
       component_separators = "",
       section_separators = "",
+      theme = custom_onedark,
     },
     sections = {
       lualine_a = { mode },
@@ -178,7 +186,7 @@ function M.config()
   --   padding = { left = 1, right = 0 },
   -- }
 
-  lualine.setup(require("core.utils").user_plugin_opts("lualine", config))
+  lualine.setup(require("core.utils").user_plugin_opts("plugins.lualine", config))
 end
 
 return M

@@ -1,33 +1,19 @@
 local config = {
 
-  colorscheme = "onedark",
+  colorscheme = "default_theme",
 
-  plugins = {},
-
-  overrides = {
-    lsp_installer = {
-      -- A function used to override how a LSP is registered
-      --
-      -- Gets the server object and the configuration as input and
-      -- will by default just call `server:setup(opts)`.
-      --
-      -- This function usually does not need to be overriden, only special
-      -- LSP integration plugins like `rust-tools.nvim` need this.
-      server_registration_override = function(server, opts)
-        server:setup(opts)
-      end,
+  plugins = {
+    packer = {
+      compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
     },
-    treesitter = {},
-    luasnip = {
-      -- A set of paths to look up VSCode snippets in
-      vscode_snippets_paths = {},
-    },
-    which_key = {},
   },
 
   diagnostics = {
-    enable = true,
-    text = "none",
+    virtual_text = true,
+  },
+
+  default_theme = {
+    diagnostics_style = "none",
   },
 
   enabled = {
@@ -47,22 +33,6 @@ local config = {
     ts_rainbow = true,
     ts_autotag = true,
   },
-
-  packer_file = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
-
-  -- A function called after AstroVim is fully set up.
-  -- Use it to override settings or run code.
-  --
-  -- This function takes no input and AstroVim does not expect it to
-  -- return anything either.
-  polish = function() end,
-
-  -- A function called during plugin setup. It takes the entire list of plugins
-  -- and provides a user with an opportunity to modify the entire list before
-  -- loading plugins.
-  polish_plugins = function(plugins)
-    return plugins
-  end,
 }
 
 return config

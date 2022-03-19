@@ -1,6 +1,6 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" " Neovim-Qt Settings " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-GuiFont CaskaydiaCove Nerd Font:h10
+GuiFont CaskaydiaCove NF:h10
 GuiTabline 0
 GuiPopupmenu 0
 

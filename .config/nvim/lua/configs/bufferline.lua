@@ -6,7 +6,7 @@ function M.config()
     return
   end
 
-  bufferline.setup(require("core.utils").user_plugin_opts("bufferline", {
+  bufferline.setup(require("core.utils").user_plugin_opts("plugins.bufferline", {
     options = {
       offsets = {
         { filetype = "NvimTree", text = "", padding = 1 },
@@ -17,6 +17,7 @@ function M.config()
       buffer_close_icon = "",
       modified_icon = "",
       close_icon = "",
+      -- close_icon = "",
       show_close_icon = false,
       left_trunc_marker = "",
       right_trunc_marker = "",
@@ -35,7 +36,7 @@ function M.config()
     highlights = {
       background = {
         guifg = { attribute = "fg", highlight = "BufferLineBackground" },
-        -- guibg = { attribute = "bg", highlight = "BufferLineBackground" },
+        guibg = { attribute = "bg", highlight = "BufferLineBackground" },
         gui = "italic",
       },
 
@@ -48,6 +49,13 @@ function M.config()
       buffer_visible = {
         guifg = { attribute = "fg", highlight = "BufferLineBufferVisible" },
         guibg = { attribute = "bg", highlight = "BufferLineBufferVisible" },
+      },
+
+      -- Duplicate
+      duplicate = {
+        guifg = { attribute = "fg", highlight = "BufferLineFill" },
+        guibg = { attribute = "bg", highlight = "BufferLineFill" },
+        gui = "bold",
       },
 
       -- Diagnostics
@@ -63,7 +71,7 @@ function M.config()
       -- Close buttons
       close_button = {
         guifg = { attribute = "fg", highlight = "BufferLineCloseButton" },
-      --   guibg = { attribute = "bg", highlight = "BufferLineCloseButton" },
+        guibg = { attribute = "bg", highlight = "BufferLineCloseButton" },
       },
       close_button_visible = {
         guifg = { attribute = "fg", highlight = "BufferLineCloseButtonVisible" },
@@ -82,14 +90,14 @@ function M.config()
 
       -- Selected buffer indicator
       indicator_selected = {
-        guifg = { attribute = "fg", highlight = "BufferLineModifiedSelected" },
-        guibg = { attribute = "bg", highlight = "BufferLineModifiedSelected" },
+        guifg = { attribute = "fg", highlight = "BufferLineIndicatorSelected" },
+        guibg = { attribute = "bg", highlight = "BufferLineIndicatorSelected" },
       },
 
       -- Modified
       modified = {
         guifg = { attribute = "fg", highlight = "BufferLineModified" },
-        -- guibg = { attribute = "bg", highlight = "BufferLineModified" },
+        guibg = { attribute = "bg", highlight = "BufferLineModified" },
       },
       modified_visible = {
         guifg = { attribute = "fg", highlight = "BufferLineModifiedVisible" },
@@ -103,7 +111,7 @@ function M.config()
       -- Separators
       separator = {
         guifg = { attribute = "fg", highlight = "BufferLineSeparator" },
-        -- guibg = { attribute = "bg", highlight = "BufferLineSeparator" },
+        guibg = { attribute = "bg", highlight = "BufferLineSeparator" },
       },
       separator_visible = {
         guifg = { attribute = "fg", highlight = "BufferLineSeparatorVisible" },

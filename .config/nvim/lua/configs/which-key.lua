@@ -117,12 +117,12 @@ function M.config()
     s = {
       name = "Search",
       b = { "Checkout branch" },
-      h = { "Help" },
+      h = { "Find Help" },
       m = { "Man Pages" },
       r = { "Registers" },
       k = { "Keymaps" },
       c = { "Commands" },
-      W = { "Words" },
+      w = { "Words" },
       z = { "Files(FZF)" },
       o = { "Symbols Outline"},
     },
@@ -164,11 +164,11 @@ function M.config()
       name = "Session",
       s = { "Save" },
       l = { "Load" },
-    }
+    },
   }
 
-  which_key.setup(require("core.utils").user_plugin_opts("which-key", default_setup))
-  which_key.register(require("core.utils").user_plugin_opts("which-key-mappings", mappings), opts)
+  which_key.setup(require("core.utils").user_plugin_opts("plugins.which-key", default_setup))
+  which_key.register(require("core.utils").user_plugin_opts("which-key.register_n_leader", mappings), opts)
 end
 
 return M

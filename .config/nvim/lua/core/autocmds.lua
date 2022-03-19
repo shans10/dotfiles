@@ -2,7 +2,6 @@ local M = {}
 
 local utils = require "core.utils"
 local config = utils.user_settings()
-local colorscheme = config.colorscheme
 
 vim.cmd [[
   augroup packer_user_config
@@ -29,15 +28,6 @@ if config.enabled.dashboard and config.enabled.bufferline then
     augroup end
   ]]
 end
-
-vim.cmd(string.format(
-  [[
-    augroup colorscheme
-      autocmd!
-      autocmd VimEnter * colorscheme %s
-    augroup end]],
-  colorscheme
-))
 
 vim.cmd [[
   command! AstroUpdate lua require('core.utils').update()
