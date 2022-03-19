@@ -39,12 +39,25 @@ function M.config()
     TypeParameter = "",
   }
 
+  local source_names = {
+    nvim_lsp = "(LSP)",
+    treesitter = "(Treesitter)",
+    emoji = "(Emoji)",
+    path = "(Path)",
+    calc = "(Calc)",
+    cmp_tabnine = "(Tabnine)",
+    vsnip = "(Snippet)",
+    luasnip = "(Snippet)",
+    buffer = "(Buffer)",
+  }
+
   cmp.setup(require("core.utils").user_plugin_opts("plugins.cmp", {
     preselect = cmp.PreselectMode.None,
     formatting = {
       fields = { "kind", "abbr", "menu" },
       format = function(_, vim_item)
         vim_item.kind = string.format("%s", kind_icons[vim_item.kind])
+        vim_item.menu = string.format("%s", source_names[_.source.name])
         return vim_item
       end,
     },
