@@ -123,7 +123,7 @@ function M.config()
       k = { "Keymaps" },
       c = { "Commands" },
       w = { "Words" },
-      z = { "Files(FZF)" },
+      -- z = { "Files(FZF)" },
       o = { "Symbols Outline"},
     },
 

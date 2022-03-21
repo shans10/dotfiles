@@ -42,11 +42,8 @@ function M.config()
   local source_names = {
     nvim_lsp = "(LSP)",
     treesitter = "(Treesitter)",
-    emoji = "(Emoji)",
     path = "(Path)",
-    calc = "(Calc)",
     cmp_tabnine = "(Tabnine)",
-    vsnip = "(Snippet)",
     luasnip = "(Snippet)",
     buffer = "(Buffer)",
   }
@@ -68,6 +65,7 @@ function M.config()
     },
     duplicates = {
       nvim_lsp = 1,
+      treesitter = 1,
       luasnip = 1,
       cmp_tabnine = 1,
       buffer = 1,
@@ -89,6 +87,11 @@ function M.config()
     },
     sources = {
       { name = "nvim_lsp" },
+      { name = "path" },
+      { name = "luasnip" },
+      { name = "cmp_tabnine" },
+      { name = "buffer" },
+      { name = "treesitter" },
     },
     mapping = {
       ["<C-k>"] = cmp.mapping.select_prev_item(),

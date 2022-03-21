@@ -66,7 +66,8 @@ local astro_plugins = {
   -- File explorer
   {
     "kyazdani42/nvim-tree.lua",
-    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+    -- cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+    commit = "20797a8d74e68bce50b98455c76c5de250c6f0e5",
     config = function()
       require("configs.nvim-tree").config()
     end,
@@ -126,8 +127,6 @@ local astro_plugins = {
   -- Snippet collection
   {
     "rafamadriz/friendly-snippets",
-    module = "cmp_nvim_lsp",
-    event = "InsertEnter",
   },
 
   -- Snippet engine
@@ -250,10 +249,14 @@ local astro_plugins = {
   },
 
   -- Fuzzy finder syntax support
-  {
-    "nvim-telescope/telescope-fzf-native.nvim",
-    run = "make",
-  },
+  -- {
+  --   "nvim-telescope/telescope-fzf-native.nvim",
+  --   after = "telescope.nvim",
+  --   run = "make",
+  --   config = function()
+  --     require("telescope").load_extension "fzf"
+  --   end,
+  -- },
 
   -- Git integration
   {

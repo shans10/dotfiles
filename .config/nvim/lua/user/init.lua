@@ -1,11 +1,22 @@
 local config = {
 
   -- Set colorscheme
-  colorscheme = "default_theme",
+  colorscheme = "onedarker",
 
   -- Default theme configuration
   default_theme = {
     diagnostics_style = "none",
+    -- Modify the color table
+    colors = {
+      fg = "#abb2bf",
+    },
+    -- Modify the highlight groups
+    highlights = function(highlights)
+      local C = require "default_theme.colors"
+
+      highlights.Normal = { fg = C.fg, bg = C.bg }
+      return highlights
+    end,
   },
 
   -- Disable default plugins
@@ -31,8 +42,52 @@ local config = {
   plugins = {
     -- Add plugins, the packer syntax without the "use"
     init = {
-      { "lambdalisue/suda.vim" },
       { "farmergreg/vim-lastplace" },
+      { "lunarvim/onedarker.nvim" },
+      {
+        "ahmedkhalf/project.nvim",
+        config = function()
+          require("project_nvim").setup {
+            active = true,
+
+            on_config_done = nil,
+
+            -- Manual mode doesn't automatically change your root directory, so you have
+            -- the option to manually do so using `:ProjectRoot` command.
+            manual_mode = false,
+
+            -- Methods of detecting the root directory. **"lsp"** uses the native neovim
+            -- lsp, while **"pattern"** uses vim-rooter like glob pattern matching. Here
+            -- order matters: if one is not detected, the other is used as fallback. You
+            -- can also delete or rearangne the detection methods.
+            detection_methods = { "lsp", "pattern" },
+
+            -- All the patterns used to detect root dir, when **"pattern"** is in
+            -- detection_methods
+            patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+
+            -- Table of lsp clients to ignore by name
+            -- eg: { "efm", ... }
+            ignore_lsp = {},
+
+            -- Don't calculate root dir on specific directories
+            -- Ex: { "~/.cargo/*", ... }
+            exclude_dirs = {},
+
+            -- Show hidden files in telescope
+            show_hidden = false,
+
+            -- When set to false, you will get a message when project.nvim changes your
+            -- directory.
+            silent_chdir = true,
+
+            -- Path where project.nvim will store the project history for use in
+            -- telescope
+            datapath = vim.fn.stdpath("data"),
+          }
+        end
+      },
+      -- { "lambdalisue/suda.vim" },
       -- { "andweeb/presence.nvim" },
       -- {
       --   "ray-x/lsp_signature.nvim",
@@ -155,10 +210,23 @@ local config = {
 
     -- Disable tabline in dashboard buffer
     vim.cmd[[autocmd FileType dashboard set showtabline=0 | autocmd WinLeave <buffer> set showtabline=2]]
+
+    vim.cmd[[
+      augroup highlight_yank
+        autocmd!
+        au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Search", timeout=500})
+      augroup END
+    ]]
+
+    -- Change nvim-tree root to current buffer root
+    -- vim.cmd[[autocmd BufEnter * silent! lcd %:p:h]]
   end,
+
+  -- Automatically go to next line
+  vim.opt.whichwrap:append "<,>,[,],h,l"
 }
 
--- Vim suda plugin settings
-vim.g.suda_smart_edit = 1
+-- Vim suda plugin setting
+-- vim.g.suda_smart_edit = 1
 
 return config
