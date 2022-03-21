@@ -1,7 +1,8 @@
 local config = {
 
   -- Set colorscheme
-  colorscheme = "onedarker",
+  colorscheme = "default_theme",
+  -- colorscheme = "onedarker",
 
   -- Default theme configuration
   default_theme = {
