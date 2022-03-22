@@ -48,8 +48,8 @@ map("n", "<leader>pu", "<cmd>PackerUpdate<cr>", opts)
 map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting_sync()<cr>", opts)
 map("n", "<leader>li", "<cmd>LspInfo<cr>", opts)
 map("n", "<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
-map("n", "<leader>ld", "<cmd>Telescope diagnostics<CR>", opts)
-map("n", "<leader>lD", "<cmd>Telescope lsp_definitions<CR>", opts)
+map("n", "<leader>lD", "<cmd>Telescope diagnostics<CR>", opts)
+map("n", "<leader>le", "<cmd>Telescope lsp_definitions<CR>", opts)
 map("n", "<leader>lr", "<cmd>Telescope lsp_references<CR>", opts)
 
 -- NvimTree
@@ -108,6 +108,7 @@ if config.enabled.lspsaga then
   map("n", "<leader>la", "<cmd>Lspsaga code_action<CR>", opts)
   map("n", "<leader>lR", "<cmd>Lspsaga rename<CR>", opts)
   map("n", "gh", "<cmd>Lspsaga hover_doc<CR>", opts)
+  map("n", "<leader>ld", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
 end
 
 -- Comment
@@ -163,7 +164,7 @@ end
 
 -- SymbolsOutline
 if config.enabled.symbols_outline then
-  map("n", "<leader>so", "<cmd>SymbolsOutline<CR>", opts)
+  map("n", "<leader>lS", "<cmd>SymbolsOutline<CR>", opts)
 end
 
 -- Move lines up and down in normal mode

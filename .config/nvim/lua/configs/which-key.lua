@@ -109,9 +109,11 @@ function M.config()
       I = { "Installer Info" },
       R = { "Rename" },
       s = { "Document Symbols" },
-      d = { "Diagnostics" },
+      S = { "Symbols Outline" },
+      d = { "Hover Diagnostic" },
       r = { "References" },
-      D = { "Definitions" },
+      D = { "All Diagnostics" },
+      e = { "Definitions" }
     },
 
     s = {
@@ -124,7 +126,6 @@ function M.config()
       c = { "Commands" },
       w = { "Words" },
       -- z = { "Files(FZF)" },
-      o = { "Symbols Outline"},
     },
 
     t = {

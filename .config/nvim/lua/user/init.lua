@@ -1,23 +1,23 @@
 local config = {
 
   -- Set colorscheme
-  colorscheme = "default_theme",
-  -- colorscheme = "onedarker",
+  -- colorscheme = "default_theme",
+  colorscheme = "onedarker",
 
   -- Default theme configuration
   default_theme = {
     diagnostics_style = "none",
     -- Modify the color table
-    colors = {
-      fg = "#abb2bf",
-    },
+    -- colors = {
+    --   fg = "#abb2bf",
+    -- },
     -- Modify the highlight groups
-    highlights = function(highlights)
-      local C = require "default_theme.colors"
-
-      highlights.Normal = { fg = C.fg, bg = C.bg }
-      return highlights
-    end,
+    -- highlights = function(highlights)
+    --   local C = require "default_theme.colors"
+    --
+    --   highlights.Normal = { fg = C.fg, bg = C.bg }
+    --   return highlights
+    -- end,
   },
 
   -- Disable default plugins
@@ -88,7 +88,6 @@ local config = {
           }
         end
       },
-      -- { "lambdalisue/suda.vim" },
       -- { "andweeb/presence.nvim" },
       -- {
       --   "ray-x/lsp_signature.nvim",
@@ -194,13 +193,26 @@ local config = {
     local opts = { noremap = true, silent = true }
     local map = vim.api.nvim_set_keymap
     local set = vim.opt
-    -- Set options
+
+    --- SET OPTIONS ---
+    --
+    -- Enable relativenumber
     set.relativenumber = true
 
-    -- Set key bindings
+    -- Automatically go to next line
+    set.whichwrap:append "<,>,[,],h,l"
+
+    -- Render tabs/spaces
+    set.list = true
+    set.listchars:append({ tab = '› ', trail = '•', extends = '#', nbsp = '.' })
+
+    --- SET KEYBINDINGS ---
+    --
+    -- Force write with Ctrl+S
     map("n", "<C-s>", ":w!<CR>", opts)
 
-    -- Set autocommands
+    --- SET AUTOCOMMANDS ---
+    --
     -- Automatically run PackerSync on plugins.lua file change
     vim.cmd [[
       augroup packer_conf
@@ -212,6 +224,7 @@ local config = {
     -- Disable tabline in dashboard buffer
     vim.cmd[[autocmd FileType dashboard set showtabline=0 | autocmd WinLeave <buffer> set showtabline=2]]
 
+    -- Highlight yank
     vim.cmd[[
       augroup highlight_yank
         autocmd!
@@ -219,15 +232,12 @@ local config = {
       augroup END
     ]]
 
+    -- Autoremove trailing whitespaces on save
+    vim.cmd[[autocmd BufWritePre * :%s/\s\+$//e]]
+
     -- Change nvim-tree root to current buffer root
     -- vim.cmd[[autocmd BufEnter * silent! lcd %:p:h]]
   end,
-
-  -- Automatically go to next line
-  vim.opt.whichwrap:append "<,>,[,],h,l"
 }
-
--- Vim suda plugin setting
--- vim.g.suda_smart_edit = 1
 
 return config

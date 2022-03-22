@@ -59,9 +59,7 @@ local astro_plugins = {
   },
 
   -- Better buffer closing
-  {
-    "moll/vim-bbye",
-  },
+  { "moll/vim-bbye" },
 
   -- File explorer
   {
@@ -127,18 +125,16 @@ local astro_plugins = {
   -- Snippet collection
   {
     "rafamadriz/friendly-snippets",
+    event = "InsertEnter",
   },
 
   -- Snippet engine
   {
     "L3MON4D3/LuaSnip",
+    after = "friendly-snippets",
     config = function()
-      local paths = require("core.utils").user_plugin_opts("luasnip.vscode_snippet_paths", {})
-      local loader = require "luasnip/loaders/from_vscode"
-      loader.lazy_load { paths = paths }
-      loader.lazy_load()
+      require("configs.luasnip").config()
     end,
-    wants = "friendly-snippets",
   },
 
   -- Completion engine
