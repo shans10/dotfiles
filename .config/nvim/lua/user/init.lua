@@ -49,45 +49,39 @@ local config = {
         "ahmedkhalf/project.nvim",
         config = function()
           require("project_nvim").setup {
-            active = true,
-
-            on_config_done = nil,
-
-            -- Manual mode doesn't automatically change your root directory, so you have
-            -- the option to manually do so using `:ProjectRoot` command.
-            manual_mode = false,
-
-            -- Methods of detecting the root directory. **"lsp"** uses the native neovim
-            -- lsp, while **"pattern"** uses vim-rooter like glob pattern matching. Here
-            -- order matters: if one is not detected, the other is used as fallback. You
-            -- can also delete or rearangne the detection methods.
-            detection_methods = { "lsp", "pattern" },
-
-            -- All the patterns used to detect root dir, when **"pattern"** is in
-            -- detection_methods
-            patterns = { ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
-
-            -- Table of lsp clients to ignore by name
-            -- eg: { "efm", ... }
-            ignore_lsp = {},
-
-            -- Don't calculate root dir on specific directories
-            -- Ex: { "~/.cargo/*", ... }
-            exclude_dirs = {},
-
-            -- Show hidden files in telescope
-            show_hidden = false,
-
-            -- When set to false, you will get a message when project.nvim changes your
-            -- directory.
-            silent_chdir = true,
-
-            -- Path where project.nvim will store the project history for use in
-            -- telescope
-            datapath = vim.fn.stdpath("data"),
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- Even if you are pleased with the defaults,
+            -- please note that setup {} must be called for the plugin to start.
           }
         end
       },
+      {
+        "ggandor/lightspeed.nvim",
+        config = function()
+          require'lightspeed'.setup {
+            ignore_case = true,
+            -- Leaving the appropriate list empty effectively disables "smart" mode,
+            -- and forces auto-jump to be on or off.
+            -- safe_labels = {"s", "f", "n",
+            --                "u", "t",
+            --                "/", "F", "L", "N", "H", "G", "M", "U", "T", "?", "Z"},
+
+            labels = {"s", "f", "n",
+                      "j", "k", "l", "o", "d", "w", "e", "h", "m", "v", "g",
+                      "u", "t",
+                      "c", ".", "z",
+                      "/", "F", "L", "N", "H", "G", "M", "U", "T", "?", "Z"},
+            --- f/t ---
+            limit_ft_matches = 5,
+            repeat_ft_with_target_char = false,
+            -- EasyMotion/Hop-style config
+            jump_to_unique_chars = false,
+            safe_labels = {}
+          }
+        end
+      }
+      -- { "lambdalisue/suda.vim" },
       -- { "andweeb/presence.nvim" },
       -- {
       --   "ray-x/lsp_signature.nvim",
@@ -222,22 +216,34 @@ local config = {
     ]]
 
     -- Disable tabline in dashboard buffer
-    vim.cmd[[autocmd FileType dashboard set showtabline=0 | autocmd WinLeave <buffer> set showtabline=2]]
+    vim.cmd [[autocmd FileType dashboard set showtabline=0 | autocmd WinLeave <buffer> set showtabline=2]]
 
     -- Highlight yank
-    vim.cmd[[
+    vim.cmd [[
       augroup highlight_yank
         autocmd!
-        au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Search", timeout=500})
+        au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Search", timeout=300})
       augroup END
     ]]
 
     -- Autoremove trailing whitespaces on save
-    vim.cmd[[autocmd BufWritePre * :%s/\s\+$//e]]
+    vim.cmd [[autocmd BufWritePre * :%s/\s\+$//e]]
+
+    -- Change numbering between relative/absolute in normal/insert modes
+    -- vim.cmd [[
+    --   augroup numbertoggle
+    --     autocmd!
+    --     autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+    --     autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+    --   augroup END
+    -- ]]
 
     -- Change nvim-tree root to current buffer root
-    -- vim.cmd[[autocmd BufEnter * silent! lcd %:p:h]]
+    -- vim.cmd [[autocmd BufEnter * silent! lcd %:p:h]]
   end,
 }
+
+-- Vim suda smart edit
+-- vim.g.suda_smart_edit = 1
 
 return config
