@@ -1,12 +1,12 @@
 local config = {
 
   -- Set colorscheme
-  -- colorscheme = "default_theme",
-  colorscheme = "onedarker",
+  colorscheme = "default_theme",
+  -- colorscheme = "onedarker",
 
   -- Default theme configuration
-  default_theme = {
-    diagnostics_style = "none",
+  -- default_theme = {
+  --   diagnostics_style = "none",
     -- Modify the color table
     -- colors = {
     --   fg = "#abb2bf",
@@ -18,7 +18,7 @@ local config = {
     --   highlights.Normal = { fg = C.fg, bg = C.bg }
     --   return highlights
     -- end,
-  },
+  -- },
 
   -- Disable default plugins
   enabled = {
@@ -200,6 +200,10 @@ local config = {
     set.list = true
     set.listchars:append({ tab = '› ', trail = '•', extends = '#', nbsp = '.' })
 
+    -- Set powershell as default shell in windows
+    set.shell = "pwsh.exe -NoLogo"
+    set.shellcmdflag = "-Command"
+
     --- SET KEYBINDINGS ---
     --
     -- Force write with Ctrl+S
@@ -228,6 +232,13 @@ local config = {
 
     -- Autoremove trailing whitespaces on save
     vim.cmd [[autocmd BufWritePre * :%s/\s\+$//e]]
+
+    -- Powershell configuration for windows
+    vim.cmd [[
+      let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+      let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+      set shellquote= shellxquote=
+    ]]
 
     -- Change numbering between relative/absolute in normal/insert modes
     -- vim.cmd [[

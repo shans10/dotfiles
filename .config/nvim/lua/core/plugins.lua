@@ -65,7 +65,6 @@ local astro_plugins = {
   {
     "kyazdani42/nvim-tree.lua",
     -- cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-    commit = "20797a8d74e68bce50b98455c76c5de250c6f0e5",
     config = function()
       require("configs.nvim-tree").config()
     end,
