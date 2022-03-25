@@ -193,7 +193,9 @@ alias initramfs-gen='sudo mkinitcpio -p linux'
 # alias feh='feh --image-bg "#1d2021" --scale-down --auto-zoom'
 
 # Replace ls with exa
-alias ls=exa
+alias ls='exa --icons --group-directories-first'
+alias la='exa -la --icons --group-directories-first'
+alias lh='exa -a --icons --group-directories-first'
 
 # Alias for edit command
 alias edit='emacsclient -cn -a emacs'
@@ -209,10 +211,10 @@ set -gx VISUAL "emacsclient -cn -a emacs"   # $VISUAL use Emacs
 ### ADDITIONAL CONFIGURATION ###
 
 # Zoxide(z style cd)
-zoxide init fish | source
+# zoxide init fish | source
 
 # Use neovim for reading manpages
-export MANPAGER="/bin/sh -c \"col -b | nvim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
+# export MANPAGER="/bin/sh -c \"col -b | nvim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
 
 # Flatpak XDG_DATA_DIRS Workaround
 # set -l xdg_data_home $XDG_DATA_HOME ~/.local/share
@@ -235,10 +237,4 @@ export MANPAGER="/bin/sh -c \"col -b | nvim -c 'set ft=man ts=8 nomod nolist non
 #   if test -z "$DISPLAY" -a $XDG_VTNR = 1
 #     exec startx -- -keeptty
 #   end
-# end
-
-# Setting Display Variable for WSL
-# if uname -r | grep 'microsoft' > /dev/null
-#   set -l LOCAL_IP (cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
-#   set -xg DISPLAY $LOCAL_IP:0
 # end
