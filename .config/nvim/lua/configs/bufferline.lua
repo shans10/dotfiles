@@ -61,9 +61,9 @@ function M.config()
         guifg = "#51afef",
       },
       -- Separators
-      separator = {
-        guifg = "#d7ba7d",
-      },
+      -- separator = {
+      --   guifg = "#d7ba7d",
+      -- },
       -- Modified
       modified = {
         guifg = "#e06c75"

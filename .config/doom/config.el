@@ -44,7 +44,6 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
-
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
 ;;
@@ -78,12 +77,19 @@
 ;; they are implemented.
 
 ;;; MY SETTINGS ;;;
+;; Report only those errors that will seriously impair Emacs operation.
+(setq warning-minimum-level :error)
+
+;; Vim like undo
+(setq evil-want-fine-undo 'fine)
+;; (setq evil-want-fine-undo t)
+
+;; Open emacs maximized
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-; (add-hook 'window-setup-hook 'toggle-frame-maximized t)
 
 ;; Vim scrolloff alternative
-(setq scroll-step 1)
-(setq scroll-margin 9)
+;; (setq scroll-step 1)
+;; (setq scroll-margin 9)
 
 ;; Add space from both sides inside braces
 (defun my/c-mode-insert-space (arg)
@@ -136,12 +142,7 @@
 (setq lsp-ui-sideline-show-code-actions nil)
 
 ;;; Neotree ;;;
-;; Show File Icons in Neotree
-(after! neotree
-  (setq neo-smart-open t
-        neo-window-fixed-size nil))
-(after! doom-themes
-  (setq doom-neotree-enable-variable-pitch t))
+;; Icons fix
 (after! doom-themes
   (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config))
 
@@ -151,6 +152,20 @@
 
 ;; Disable code actions in doom modeline
 (setq lsp-modeline-code-actions-enable nil)
+
+;; Emacsclient which-key overlap fix
+(setq which-key-allow-imprecise-window-fit nil)
+
+;;; Centaur Tabs ;;;
+;; Tab style
+;; (setq centaur-tabs-style "rounded")
+
+;; Selection marker style
+;; (setq centaur-tabs-set-bar 'under)
+;; (setq x-underline-at-descent-line t)
+
+;; Button styles
+;; (setq centaur-tabs-close-button "")
 
 ;;; Load Custom Keybindings ;;;
 (load! "keybindings")

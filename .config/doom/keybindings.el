@@ -1,9 +1,12 @@
-;; Lsp show diagnostics
+;; LSP show diagnostics
 (map! :leader
       :desc "Show lsp flycheck diagnostics"
-      "l d" #'lsp-ui-flycheck-list)
+      "l d" #'consult-lsp-diagnostics)
 
-;; Show hover documentation
+;; LSP show hover documentation
+(map! :n "gr" #'lsp-find-references)
+
+;; LSP show hover documentation
 (map! :n "gh" #'lsp-ui-doc-glance)
 
 ;; Use jj to toggle back to normal mode from insert mode
