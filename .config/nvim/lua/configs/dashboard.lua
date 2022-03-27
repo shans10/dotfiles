@@ -32,11 +32,13 @@ function M.config()
 
   g.dashboard_custom_section = {
     a = { description = { "   Find File                 SPC f f" }, command = "Telescope find_files" },
-    b = { description = { "   Recents                   SPC f o" }, command = "Telescope oldfiles" },
-    c = { description = { "   Find Word                 SPC f w" }, command = "Telescope live_grep" },
-    d = { description = { "   New File                  SPC f n" }, command = "DashboardNewFile" },
+    b = { description = { "   Recent Files              SPC f o" }, command = "Telescope oldfiles" },
+    c = { description = { "   New File                  SPC f n" }, command = "DashboardNewFile" },
+    d = { description = { "   Search Text               SPC s t" }, command = "Telescope live_grep" },
     e = { description = { "   Bookmarks                 SPC b m" }, command = "Telescope marks" },
-    f = { description = { "   Last Session              SPC s l" }, command = "SessionLoad" },
+    f = { description = { "   User Configuration        SPC u c" }, command = "e /home/$USER/.config/nvim/lua/user/init.lua" },
+    g = { description = { "   Last Session              SPC S L" }, command = "SessionManager load_last_session" },
+    h = { description = { "   Projects                  SPC   P" }, command = "Telescope projects" },
   }
 
   g.dashboard_custom_footer = {

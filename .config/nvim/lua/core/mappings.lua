@@ -43,6 +43,8 @@ map("n", "<leader>w", "<cmd>w<CR>", opts)
 map("n", "<leader>q", "<cmd>q<CR>", opts)
 map("n", "<leader>c", "<cmd>Bdelete!<CR>", opts)
 map("n", "<leader>h", "<cmd>nohlsearch<CR>", opts)
+map("n", "<leader>P", "<cmd>Telescope projects<CR>", opts)
+map("n", "<leader>uc", "<cmd>e /home/$USER/.config/nvim/lua/user/init.lua<CR>", opts)
 
 -- Packer
 map("n", "<leader>pc", "<cmd>PackerCompile<cr>", opts)
@@ -86,10 +88,7 @@ end
 if config.enabled.dashboard then
   map("n", "<leader>d", "<cmd>Dashboard<CR>", opts)
   map("n", "<leader>fn", "<cmd>DashboardNewFile<CR>", opts)
-  map("n", "<leader>db", "<cmd>Dashboard<CR>", opts)
   map("n", "<leader>bm", "<cmd>DashboardJumpMarks<CR>", opts)
-  map("n", "<leader>Sl", "<cmd>SessionLoad<CR>", opts)
-  map("n", "<leader>Ss", "<cmd>SessionSave<CR>", opts)
 end
 
 -- GitSigns
@@ -117,17 +116,18 @@ if config.enabled.comment then
 end
 
 -- Files
-map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts)
-map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", opts)
-map("n", "<leader>fh", "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>", opts)
-map("n", "<leader>fs", "<cmd>w<CR>", opts)
 map("n", "<leader>fc", "<cmd>Bdelete<CR>", opts)
 map("n", "<leader>fC", "<cmd>Bdelete!<CR>", opts)
+map("n", "<leader>fd", "<cmd>Telescope fd cwd=%:p:h find_command=rg,--ignore,--hidden,--files<CR>", opts)
+map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts)
+map("n", "<leader>fF", "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>", opts)
 map("n", "<leader>fi", "gg=G<CR>", opts)
-map("n", "<leader>fS", "ggVG<CR>", opts)
+map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", opts)
+map("n", "<leader>fp", "1<C-g><CR>", opts)
 map("n", "<leader>fr", "<cmd>e<CR>", opts)
 map("n", "<leader>fR", "<cmd>e!<CR>", opts)
-map("n", "<leader>fp", "1<C-g><CR>", opts)
+map("n", "<leader>fs", "<cmd>w<CR>", opts)
+map("n", "<leader>fS", "ggVG<CR>", opts)
 
 -- Buffers
 map("n", "<leader>bc", "<cmd>BufferLinePickClose<CR>", opts)
@@ -148,6 +148,12 @@ map("n", "<leader>sm", "<cmd>Telescope man_pages<CR>", opts)
 map("n", "<leader>sn", "<cmd>Telescope notify<CR>", opts)
 map("n", "<leader>sr", "<cmd>Telescope registers<CR>", opts)
 map("n", "<leader>st", "<cmd>Telescope live_grep<CR>", opts)
+
+-- Sessions
+map("n", "<leader>Sd", "<cmd>SessionManage delete_session<CR>", opts)
+map("n", "<leader>Sl", "<cmd>SessionManage load_session<CR>", opts)
+map("n", "<leader>SL", "<cmd>SessionManage load_last_session<CR>", opts)
+map("n", "<leader>Ss", "<cmd>SessionManager save_current_session<CR>", opts)
 
 -- ForceWrite
 map("n", "<C-s>", "<cmd>w!<CR>", opts)

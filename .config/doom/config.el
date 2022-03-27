@@ -29,7 +29,7 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-(setq doom-font (font-spec :family "Cascadia Code" :size 13 :weight 'regular))
+(setq doom-font (font-spec :family "Cascadia Mono" :size 13 :weight 'semi-bold))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -77,6 +77,14 @@
 ;; they are implemented.
 
 ;;; MY SETTINGS ;;;
+;; Extra font configuration
+(after! doom-themes
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t))
+(custom-set-faces!
+  '(font-lock-comment-face :slant italic)
+  '(font-lock-keyword-face :slant italic))
+
 ;; Report only those errors that will seriously impair Emacs operation.
 (setq warning-minimum-level :error)
 

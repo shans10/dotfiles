@@ -9,7 +9,6 @@ function M.config()
   local g = vim.g
 
   g.nvim_tree_indent_markers = 0
-
   g.nvim_tree_git_hl = 1
   g.nvim_tree_root_folder_modifier = ":t"
   g.nvim_tree_respect_buf_cwd = 1
@@ -152,7 +151,6 @@ function M.config()
       folders = 1,
       files = 1,
       folder_arrows = 1,
-      -- tree_width = 30,
     },
   }))
 end

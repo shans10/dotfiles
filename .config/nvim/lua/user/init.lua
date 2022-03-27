@@ -1,8 +1,8 @@
 local config = {
 
   -- Set colorscheme
-  -- colorscheme = "default_theme",
-  colorscheme = "onedarker",
+  colorscheme = "default_theme",
+  -- colorscheme = "onedarker",
 
   -- Configure plugins
   plugins = {
@@ -46,16 +46,23 @@ local config = {
           }
         end
       },
-      { "lambdalisue/suda.vim" },
+      {
+        "Shatur/neovim-session-manager",
+        require('session_manager').setup({
+          autoload_mode = require('session_manager.config').AutoloadMode.Disabled, -- Define what to do when Neovim is started without arguments. Possible values: Disabled, CurrentDir, LastSession
+          autosave_only_in_session = true, -- Always autosaves session. If true, only autosaves after a session is active.
+        })
+      },
+      -- { "lambdalisue/suda.vim" },
     },
 
     -- All other entries override the setup() call for default plugins
     treesitter = {
       ensure_installed = { "lua", "go", "c", "java" },
     },
-    packer = {
 
-      compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
+    telescope = {
+      require("telescope").load_extension "projects"
     },
   },
 
@@ -119,7 +126,9 @@ local config = {
     set.listchars:append({ tab = '› ', trail = '•', extends = '#', nbsp = '.' })
 
     -- Set default shell
-    set.shell = "/usr/bin/fish"
+    -- set.shell = "/usr/bin/fish"         -- Linux
+    -- set.shell = "pwsh.exe -NoLogo"      -- Windows(PowerShell)
+    -- set.shellcmdflag = "-Command"
 
     --- SET KEYBINDINGS ---
     --
@@ -127,44 +136,16 @@ local config = {
     map("n", "<C-s>", ":w!<CR>", opts)
 
     --- SET AUTOCOMMANDS ---
-    --
-    -- Automatically run PackerSync on plugins.lua file change
-    vim.cmd [[
-      augroup packer_conf
-        autocmd!
-        autocmd bufwritepost plugins.lua source <afile> | PackerSync
-      augroup end
-    ]]
-
-    -- Disable tabline in dashboard buffer
-    vim.cmd [[autocmd FileType dashboard set showtabline=0 | autocmd WinLeave <buffer> set showtabline=2]]
-
-    -- Highlight yank
-    vim.cmd [[
-      augroup highlight_yank
-        autocmd!
-        au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Search", timeout=300})
-      augroup END
-    ]]
-
-    -- Autoremove trailing whitespaces on save
-    vim.cmd [[autocmd BufWritePre * :%s/\s\+$//e]]
-
-    -- Change numbering between relative/absolute in normal/insert modes
+    -- PowerShell configuration for windows
     -- vim.cmd [[
-    --   augroup numbertoggle
-    --     autocmd!
-    --     autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
-    --     autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
-    --   augroup END
+    --   let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+    --   let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+    --   set shellquote= shellxquote=
     -- ]]
-
-    -- Change nvim-tree root to current buffer root
-    -- vim.cmd [[autocmd BufEnter * silent! lcd %:p:h]]
   end,
 }
 
 -- Vim suda smart edit
-vim.g.suda_smart_edit = 1
+-- vim.g.suda_smart_edit = 1
 
 return config

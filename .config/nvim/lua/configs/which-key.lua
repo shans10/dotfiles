@@ -74,6 +74,7 @@ function M.config()
     ["c"] = { "Close Buffer" },
     ["h"] = { "No Highlight" },
     ["/"] = { "Comment" },
+    ["P"] = { "Projects" },
 
     p = {
       name = "Packer",
@@ -139,9 +140,10 @@ function M.config()
     f = {
       name = "Files",
       c = { "Close" },
-      d = { "Close Unsaved" },
+      C = { "Close Unsaved" },
+      d = { "Find in Current Root" },
       f = { "Find" },
-      h = { "Find(Include Hidden)" },
+      F = { "Find(Include Hidden)" },
       i = { "Indent All" },
       o = { "Open Recent" },
       p = { "Show Full Path" },
@@ -164,7 +166,9 @@ function M.config()
 
     S = {
       name = "Session",
+      d = { "Delete" },
       l = { "Load" },
+      L = { "Load Last" },
       s = { "Save" },
     },
   }
