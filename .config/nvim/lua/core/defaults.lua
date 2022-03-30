@@ -18,7 +18,8 @@ local config = {
 
   enabled = {
     bufferline = true,
-    neo_tree = true,
+    nvim_tree = true,
+    -- neo_tree = true,
     lualine = true,
     gitsigns = true,
     colorizer = true,

@@ -88,14 +88,24 @@ local astro_plugins = {
   { "moll/vim-bbye" },
 
   -- File explorer
+  -- NvimTree
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    requires = "MunifTanjim/nui.nvim",
+    "kyazdani42/nvim-tree.lua",
+    -- cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     config = function()
-      require("configs.neo-tree").config()
+      require("configs.nvim-tree").config()
     end,
-    disable = not config.enabled.neo_tree,
+    disable = not config.enabled.nvim_tree,
   },
+  -- NeoTree
+  -- {
+  --   "nvim-neo-tree/neo-tree.nvim",
+  --   requires = "MunifTanjim/nui.nvim",
+  --   config = function()
+  --     require("configs.neo-tree").config()
+  --   end,
+  --   disable = not config.enabled.neo_tree,
+  -- },
 
   -- Statusline
   {

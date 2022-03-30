@@ -8,8 +8,8 @@ local others = {
   BufferLineTab = { fg = C.fg, bg = C.bg },
   BufferLineTabSelected = { fg = C.bg, bg = C.bg },
   BufferLineTabClose = { fg = C.bg, bg = C.bg },
-  BufferLineIndicatorSelected = { fg = C.green, bg = C.bg },
-  BufferLineSeparator = { fg = C.grey_4, bg = C.grey_4 },
+  BufferLineIndicatorSelected = { fg = C.bg, bg = C.bg },
+  BufferLineSeparator = { fg = C.fg, bg = C.grey_4 },
   BufferLineSeparatorVisible = { fg = C.bg, bg = C.bg },
   BufferLineSeparatorSelected = { fg = C.grey_4, bg = C.grey_4 },
   BufferLineCloseButton = { fg = C.grey_9, bg = C.grey_4 },
@@ -18,8 +18,10 @@ local others = {
   BufferLineModified = { fg = C.red_4, bg = C.grey_4 },
   BufferLineModifiedVisible = { fg = C.fg, bg = C.bg },
   BufferLineModifiedSelected = { fg = C.green_2, bg = C.bg },
-  BufferLineError = { fg = C.red_1, bg = C.red_1 },
-  BufferLineErrorDiagnostic = { fg = C.red_1, bg = C.red_1 },
+  BufferLineError = { fg = C.red_1, bg = C.grey_4 },
+  BufferLineErrorDiagnostic = { fg = C.red_1, bg = C.grey_4 },
+  BufferLineWarning = { fg = C.orange_1, bg = C.grey_4 },
+  BufferLineWarningDiagnostic = { fg = C.orange_1, bg = C.grey_4 },
 
   -- Telescope
   TelescopeResultsTitle = { fg = C.green },
@@ -29,7 +31,7 @@ local others = {
   TelescopePromptBorder = { fg = C.fg },
   TelescopePreviewBorder = { fg = C.fg },
   TelescopeSelectionCaret = { fg = C.red },
-  TelescopeMatching = { fg = C.yellow },
+  TelescopeMatching = { fg = C.yellow, style = "bold" },
   TelescopeSelection = { bg = C.grey_5 },
   TelescopeMultiSelection = { fg = C.blue },
   TelescopeMultiIcon = { fg = C.blue },
@@ -106,7 +108,7 @@ local others = {
   NvimTreeFolderIcon = { fg = C.blue },
   NvimTreeExecFile = { fg = C.green },
   NvimTreeOpenedFile = { fg = C.green },
-  NvimTreeRootFolder = { fg = C.fg },
+  NvimTreeRootFolder = { fg = C.fg, style = "bold" },
   NvimTreeEndOfBuffer = { fg = C.bg },
   NvimTreeNormal = { bg = C.blue_2 },
   NvimTreeNormalNC = { bg = C.blue_2 },
@@ -120,6 +122,7 @@ local others = {
   NvimTreeGitStaged = { fg = C.green },
   NvimTreeGitDirty = { fg = C.red },
   NvimTreeGitNew = { fg = C.yellow },
+  NvimTreeOpenedFolderName = { fg = C.cyan, style = "italic" },
 
   -- Neo-Tree
   NeoTreeDirectoryIcon = { fg = C.blue },
@@ -131,7 +134,7 @@ local others = {
   NeoTreeGitUntracked = { fg = C.yellow },
   NeoTreeNormal = { bg = C.blue_2 },
   NeoTreeNormalNC = { bg = C.blue_2 },
-  NeoTreeSymbolicLinkTarget = { fg = C.cyan },
+  NeoTreeSymbolicLinkTarget = { fg = C.purple },
 
   -- VimWiki
   VimwikiLink = { fg = C.cyan, bg = C.none },
@@ -197,6 +200,16 @@ local others = {
 
   -- Beacon
   Beacon = { bg = C.blue },
+
+  -- Treesitter
+  TSKeyword = { style = "bold" },
+  TSEmphasis = { style = "italic" },
+  TSUnderline = { style = "underline" },
+  TSNote = { style = "bold" },
+  TSWarning = { style = "bold" },
+  TSDanger = { style = "bold" },
+  TSTitle = { style = "bold" },
+  TSURI = { style = "underline" },
 }
 
 return others

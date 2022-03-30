@@ -2,14 +2,12 @@ local config = {
 
   -- Set colorscheme
   colorscheme = "default_theme",
-  -- colorscheme = "onedarker",
 
   -- Configure plugins
   plugins = {
     -- Add plugins, the packer syntax without the "use"
     init = {
       { "farmergreg/vim-lastplace" },
-      { "lunarvim/onedarker.nvim" },
       {
         "ahmedkhalf/project.nvim",
         config = function()

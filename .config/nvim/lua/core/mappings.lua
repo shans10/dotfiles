@@ -78,11 +78,17 @@ map("n", "gk", "<cmd>lua vim.diagnostic.goto_prev({ border = 'rounded' })<cr>", 
 map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 map("n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 
--- NeoTree
-if config.enabled.neo_tree then
-  map("n", "<leader>e", "<cmd>Neotree toggle<CR>", opts)
-  map("n", "<leader>o", "<cmd>Neotree focus<CR>", opts)
+-- NvimTree
+if config.enabled.nvim_tree then
+  map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", opts)
+  map("n", "<leader>o", "<cmd>NvimTreeFocus<CR>", opts)
 end
+
+-- NeoTree
+-- if config.enabled.neo_tree then
+--   map("n", "<leader>e", "<cmd>Neotree toggle<CR>", opts)
+--   map("n", "<leader>o", "<cmd>Neotree focus<CR>", opts)
+-- end
 
 -- Dashboard
 if config.enabled.dashboard then
@@ -196,7 +202,6 @@ map("v", ">", ">gv", opts)
 -- Move text up and down
 map("v", "<A-j>", "<cmd>m .+1<CR>==", opts)
 map("v", "<A-k>", "<cmd>m .-2<CR>==", opts)
-map("v", "p", '"_dP', opts)
 
 -- Visual Block --
 -- Move text up and down
