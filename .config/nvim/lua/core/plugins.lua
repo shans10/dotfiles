@@ -89,12 +89,12 @@ local astro_plugins = {
 
   -- File explorer
   {
-    "kyazdani42/nvim-tree.lua",
-    -- cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+    "nvim-neo-tree/neo-tree.nvim",
+    requires = "MunifTanjim/nui.nvim",
     config = function()
-      require("configs.nvim-tree").config()
+      require("configs.neo-tree").config()
     end,
-    disable = not config.enabled.nvim_tree,
+    disable = not config.enabled.neo_tree,
   },
 
   -- Statusline
@@ -175,36 +175,24 @@ local astro_plugins = {
   {
     "saadparwaiz1/cmp_luasnip",
     after = "nvim-cmp",
-    config = function()
-      require("core.utils").add_cmp_source "luasnip"
-    end,
   },
 
   -- Buffer completion source
   {
     "hrsh7th/cmp-buffer",
     after = "nvim-cmp",
-    config = function()
-      require("core.utils").add_cmp_source "buffer"
-    end,
   },
 
   -- Path completion source
   {
     "hrsh7th/cmp-path",
     after = "nvim-cmp",
-    config = function()
-      require("core.utils").add_cmp_source "path"
-    end,
   },
 
   -- LSP completion source
   {
     "hrsh7th/cmp-nvim-lsp",
     after = "nvim-cmp",
-    config = function()
-      require("core.utils").add_cmp_source "nvim_lsp"
-    end,
   },
 
   -- LSP manager

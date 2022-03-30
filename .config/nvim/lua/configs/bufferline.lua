@@ -22,7 +22,7 @@ function M.config()
     options = {
       offsets = {
         { filetype = "NvimTree", text = "Explorer", highlight = "PanelHeading", padding = 1 },
-        { filetype = "neo-tree", text = "", padding = 1 },
+        { filetype = "neo-tree", text = "Explorer", highlight = "PanelHeading", padding = 1 },
         { filetype = "Outline", text = "", padding = 1 },
       },
       indicator_icon = "▎",

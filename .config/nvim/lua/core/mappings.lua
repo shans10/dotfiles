@@ -78,10 +78,10 @@ map("n", "gk", "<cmd>lua vim.diagnostic.goto_prev({ border = 'rounded' })<cr>", 
 map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 map("n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 
--- NvimTree
-if config.enabled.nvim_tree then
-  map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", opts)
-  map("n", "<leader>o", "<cmd>NvimTreeFocus<CR>", opts)
+-- NeoTree
+if config.enabled.neo_tree then
+  map("n", "<leader>e", "<cmd>Neotree toggle<CR>", opts)
+  map("n", "<leader>o", "<cmd>Neotree focus<CR>", opts)
 end
 
 -- Dashboard
