@@ -24,7 +24,7 @@ local config = {
       {
         "ggandor/lightspeed.nvim",
         config = function()
-          require'lightspeed'.setup {
+          require("lightspeed").setup {
             ignore_case = true,
             -- Leaving the appropriate list empty effectively disables "smart" mode,
             -- and forces auto-jump to be on or off.

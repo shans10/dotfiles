@@ -25,7 +25,7 @@ function M.config()
         indent_marker = "│",
         last_indent_marker = "└",
         highlight = "NeoTreeIndentMarker",
-        with_expanders = false,
+        with_expanders = true,
         expander_collapsed = "",
         expander_expanded = "",
         expander_highlight = "NeoTreeExpander",
@@ -33,7 +33,7 @@ function M.config()
       icon = {
         folder_closed = "",
         folder_open = "",
-        folder_empty = "",
+        folder_empty = "",
         default = "",
       },
       name = {
@@ -56,7 +56,7 @@ function M.config()
     },
     window = {
       position = "left",
-      width = 25,
+      width = 31,
       mappings = {
         ["<2-LeftMouse>"] = "open",
         ["<cr>"] = "open",
@@ -93,6 +93,7 @@ function M.config()
           "thumbs.db",
           "node_modules",
           "__pycache__",
+          ".git",
         },
       },
       follow_current_file = true,

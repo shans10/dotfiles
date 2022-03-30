@@ -16,7 +16,7 @@ function M.config()
     },
     context_commentstring = {
       enable = true,
-      -- enable_autocmd = false,
+      enable_autocmd = false,
       config = {
         -- Languages that have a single comment style
         typescript = "// %s",
