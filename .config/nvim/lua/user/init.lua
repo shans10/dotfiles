@@ -3,6 +3,24 @@ local config = {
   -- Set colorscheme
   colorscheme = "default_theme",
 
+  -- Disable default plugins
+  enabled = {
+    bufferline = true,
+    nvim_tree = true,
+    lualine = true,
+    gitsigns = true,
+    colorizer = true,
+    toggle_term = true,
+    comment = true,
+    symbols_outline = true,
+    indent_blankline = true,
+    dashboard = true,
+    which_key = true,
+    neoscroll = false,
+    ts_rainbow = false,
+    ts_autotag = false,
+  },
+
   -- Configure plugins
   plugins = {
     -- Add plugins, the packer syntax without the "use"

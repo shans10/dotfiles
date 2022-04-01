@@ -12,25 +12,15 @@ function M.config()
     ignore_install = {},
     highlight = {
       enable = true,
-      additional_vim_regex_highlighting = true,
+      additional_vim_regex_highlighting = false,
     },
     context_commentstring = {
       enable = true,
       enable_autocmd = false,
-      config = {
-        -- Languages that have a single comment style
-        typescript = "// %s",
-        css = "/* %s */",
-        scss = "/* %s */",
-        html = "<!-- %s -->",
-        svelte = "<!-- %s -->",
-        vue = "<!-- %s -->",
-        json = "",
-      },
     },
-    -- autopairs = {
-    --   enable = false,
-    -- },
+    autopairs = {
+      enable = true,
+    },
     incremental_selection = {
       enable = true,
     },
@@ -38,7 +28,7 @@ function M.config()
       enable = false,
     },
     rainbow = {
-      enable = false,
+      enable = true,
       disable = { "html" },
       extended_mode = false,
       max_file_lines = nil,

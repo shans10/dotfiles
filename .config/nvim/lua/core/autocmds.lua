@@ -62,6 +62,11 @@ vim.cmd [[
 -- Autoremove trailing whitespaces on save
 vim.cmd [[autocmd BufWritePre * :%s/\s\+$//e]]
 
+-- Automatically close the tab/vim when nvim-tree is the last window in the tab
+vim.cmd [[
+  autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
+]]
+
 -- Change numbering between relative/absolute in normal/insert modes
 -- vim.cmd [[
 --   augroup numbertoggle

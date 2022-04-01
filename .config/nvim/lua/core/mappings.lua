@@ -176,8 +176,10 @@ map("n", "<Esc>", "<cmd>noh<CR>", opts)
 -- Terminal
 if config.enabled.toggle_term then
   map("n", "<C-\\>", "<cmd>ToggleTerm<CR>", opts)
+  map("n", "<leader>gg", "<cmd>lua require('core.utils').toggle_term_cmd('lazygit')<CR>", opts)
+  map("n", "<leader>tl", "<cmd>lua require('core.utils').toggle_term_cmd('lazygit')<CR>", opts)
   map("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", opts)
-  map("n", "<leader>th", "<cmd>ToggleTerm size=10 direction=horizontal<cr>", opts)
+  map("n", "<leader>th", "<cmd>ToggleTerm size=15 direction=horizontal<cr>", opts)
   map("n", "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", opts)
 end
 

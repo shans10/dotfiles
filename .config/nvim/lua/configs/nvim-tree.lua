@@ -8,7 +8,7 @@ function M.config()
 
   local g = vim.g
 
-  g.nvim_tree_indent_markers = 0
+  g.nvim_tree_indent_markers = 1
   g.nvim_tree_git_hl = 1
   g.nvim_tree_root_folder_modifier = ":t"
   g.nvim_tree_respect_buf_cwd = 1
@@ -84,11 +84,8 @@ function M.config()
       enable = true,
       auto_open = true,
     },
-    auto_close = false,
     open_on_tab = false,
-    -- quit_on_open = false,
     hijack_cursor = false,
-    -- hide_root_folder = true,
     update_cwd = true,
     update_focused_file = {
       enable = true,
@@ -108,7 +105,6 @@ function M.config()
       width = 30,
       height = 30,
       side = "left",
-      -- allow_resize = true,
       hide_root_folder = false,
       auto_resize = false,
       mappings = {
@@ -138,7 +134,7 @@ function M.config()
       },
       open_file = {
         resize_window = true,
-        quit_on_open = false,
+        quit_on_open = true,
       },
       window_picker = {
         enable = false,

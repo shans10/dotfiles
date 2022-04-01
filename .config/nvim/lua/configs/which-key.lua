@@ -132,6 +132,7 @@ function M.config()
 
     t = {
       name = "Terminal",
+      l = { "LazyGit" },
       f = { "Float" },
       h = { "Horizontal" },
       v = { "Vertical" },

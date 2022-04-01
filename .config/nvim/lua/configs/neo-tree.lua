@@ -16,7 +16,7 @@ function M.config()
     close_if_last_window = true,
     popup_border_style = "rounded",
     enable_git_status = true,
-    enable_diagnostics = true,
+    enable_diagnostics = false,
     default_component_configs = {
       indent = {
         indent_size = 2,
@@ -25,7 +25,7 @@ function M.config()
         indent_marker = "│",
         last_indent_marker = "└",
         highlight = "NeoTreeIndentMarker",
-        with_expanders = true,
+        with_expanders = false,
         expander_collapsed = "",
         expander_expanded = "",
         expander_highlight = "NeoTreeExpander",
@@ -33,7 +33,7 @@ function M.config()
       icon = {
         folder_closed = "",
         folder_open = "",
-        folder_empty = "",
+        folder_empty = "",
         default = "",
       },
       name = {
@@ -56,7 +56,7 @@ function M.config()
     },
     window = {
       position = "left",
-      width = 30,
+      width = 25,
       mappings = {
         ["<2-LeftMouse>"] = "open",
         ["<cr>"] = "open",
@@ -86,14 +86,13 @@ function M.config()
     filesystem = {
       filtered_items = {
         visible = false,
-        hide_dotfiles = false,
-        hide_gitignored = true,
+        hide_dotfiles = true,
+        hide_gitignored = false,
         hide_by_name = {
           ".DS_Store",
           "thumbs.db",
           "node_modules",
           "__pycache__",
-          ".git",
         },
       },
       follow_current_file = true,
@@ -120,6 +119,16 @@ function M.config()
           ["gp"] = "git_push",
           ["gg"] = "git_commit_and_push",
         },
+      },
+    },
+    event_handlers = {
+      {
+        event = "vim_buffer_enter",
+        handler = function(_)
+          if vim.bo.filetype == "neo-tree" then
+            vim.wo.signcolumn = "auto"
+          end
+        end,
       },
     },
   }))
