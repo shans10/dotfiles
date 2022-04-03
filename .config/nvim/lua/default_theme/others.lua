@@ -2,21 +2,22 @@ local others = {
 
   -- Bufferline
   BufferLineFill = { fg = C.grey_9, bg = C.grey_4 },
-  BufferLineBackground = { fg = C.grey_9, bg = C.grey_4 },
-  BufferLineBufferVisible = { fg = C.fg, bg = C.bg },
+  BufferLineBackground = { fg = C.grey_9, bg = C.grey_4, style = "italic" },
+  BufferLineBufferVisible = { fg = C.grey, bg = C.bg },
   BufferLineBufferSelected = { fg = C.fg, bg = C.bg, style = C.none },
+  BufferLineDuplicate = { fg = C.grey_9, bg = C.grey_4 },
   BufferLineTab = { fg = C.fg, bg = C.bg },
   BufferLineTabSelected = { fg = C.bg, bg = C.bg },
   BufferLineTabClose = { fg = C.bg, bg = C.bg },
-  BufferLineIndicatorSelected = { fg = C.bg, bg = C.bg },
-  BufferLineSeparator = { fg = C.fg, bg = C.grey_4 },
+  BufferLineIndicatorSelected = { fg = C.blue, bg = C.bg },
+  BufferLineSeparator = { fg = C.grey, bg = C.grey_4 },
   BufferLineSeparatorVisible = { fg = C.bg, bg = C.bg },
   BufferLineSeparatorSelected = { fg = C.grey_4, bg = C.grey_4 },
   BufferLineCloseButton = { fg = C.grey_9, bg = C.grey_4 },
-  BufferLineCloseButtonVisible = { fg = C.grey_10, bg = C.bg },
+  BufferLineCloseButtonVisible = { fg = C.grey, bg = C.bg },
   BufferLineCloseButtonSelected = { fg = C.red_4, bg = C.bg },
   BufferLineModified = { fg = C.red_4, bg = C.grey_4 },
-  BufferLineModifiedVisible = { fg = C.fg, bg = C.bg },
+  BufferLineModifiedVisible = { fg = C.grey, bg = C.bg },
   BufferLineModifiedSelected = { fg = C.green_2, bg = C.bg },
   BufferLineError = { fg = C.red_1, bg = C.grey_4 },
   BufferLineErrorDiagnostic = { fg = C.red_1, bg = C.grey_4 },
@@ -168,10 +169,10 @@ local others = {
   ModeMsg = { fg = C.grey, style = "bold" },
 
   -- Dashboard
-  DashboardHeader = { fg = C.cyan },
-  DashboardShortcut = { fg = C.yellow },
-  DashboardFooter = { fg = C.cyan },
-  DashboardCenter = { fg = C.blue },
+  DashboardHeader = { fg = C.grey, style = "bold" },
+  DashboardShortcut = { fg = C.purple, style = "bold" },
+  DashboardFooter = { fg = C.grey, style = "bold" },
+  DashboardCenter = { fg = C.blue, style = "italic" },
 
   -- Hop
   HopNextKey = { fg = C.red, style = "bold" },

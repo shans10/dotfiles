@@ -44,7 +44,7 @@ function M.config()
     layout = {
       height = { min = 4, max = 25 },
       width = { min = 20, max = 50 },
-      spacing = 3,
+      spacing = 10,
       align = "left",
     },
     ignore_missing = true,
@@ -75,6 +75,7 @@ function M.config()
     ["h"] = { "No Highlight" },
     ["/"] = { "Comment" },
     ["P"] = { "Projects" },
+    ["."] = { "<cmd>cd %:p:h<cr>", "Set CWD" },
 
     p = {
       name = "Packer",
@@ -126,7 +127,9 @@ function M.config()
       k = { "Keymaps" },
       m = { "Man Pages" },
       n = { "Notifications" },
+      p = { "Projects" },
       r = { "Registers" },
+      s = { "Sessions" },
       t = { "Text" },
     },
 
@@ -168,8 +171,8 @@ function M.config()
     S = {
       name = "Session",
       d = { "Delete" },
-      l = { "Load" },
-      L = { "Load Last" },
+      l = { "Load Last" },
+      L = { "List All" },
       s = { "Save" },
     },
   }

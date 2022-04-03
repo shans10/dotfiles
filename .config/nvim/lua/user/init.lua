@@ -79,6 +79,10 @@ local config = {
       ensure_installed = { "lua", "go", "c", "java" },
     },
 
+    packer = {
+      compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
+    },
+
     telescope = {
       require("telescope").load_extension "projects"
     },
@@ -154,6 +158,7 @@ local config = {
     map("n", "<C-s>", ":w!<CR>", opts)
 
     --- SET AUTOCOMMANDS ---
+    --
     -- PowerShell configuration for windows
     -- vim.cmd [[
     --   let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'

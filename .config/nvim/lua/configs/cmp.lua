@@ -65,7 +65,6 @@ function M.config()
     },
     duplicates = {
       nvim_lsp = 1,
-      treesitter = 1,
       luasnip = 1,
       cmp_tabnine = 1,
       buffer = 1,
@@ -102,7 +101,7 @@ function M.config()
         i = cmp.mapping.abort(),
         c = cmp.mapping.close(),
       },
-      ["<CR>"] = cmp.mapping.confirm { select = true },
+      ["<CR>"] = cmp.mapping.confirm { select = false },
       ["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()

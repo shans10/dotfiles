@@ -50,14 +50,14 @@ function M.lsp_name(msg)
   local supported_linters = linters.list_registered_linters(buf_ft)
   vim.list_extend(buf_client_names, supported_linters)
 
-  return table.concat(buf_client_names, ", ")
+  return "[" .. table.concat(buf_client_names, ", ") .. "]"
 end
 
 function M.treesitter_status()
   local b = vim.api.nvim_get_current_buf()
   if next(vim.treesitter.highlighter.active[b]) then
     -- return " 綠 TS"
-    return "  TS"
+    return " TS"
   end
   return ""
 end

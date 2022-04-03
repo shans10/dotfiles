@@ -44,7 +44,7 @@ map("n", "<leader>q", "<cmd>q<CR>", opts)
 map("n", "<leader>c", "<cmd>Bdelete!<CR>", opts)
 map("n", "<leader>h", "<cmd>nohlsearch<CR>", opts)
 map("n", "<leader>P", "<cmd>Telescope projects<CR>", opts)
-map("n", "<leader>uc", "<cmd>e /home/$USER/.config/nvim/lua/user/init.lua<CR>", opts)
+map("n", "<leader>uc", "<cmd>exe \"edit\" stdpath(\"config\").\"/lua/user/init.lua\"<CR>", opts)
 
 -- Packer
 map("n", "<leader>pc", "<cmd>PackerCompile<cr>", opts)
@@ -152,13 +152,15 @@ map("n", "<leader>sh", "<cmd>Telescope help_tags<CR>", opts)
 map("n", "<leader>sk", "<cmd>Telescope keymaps<CR>", opts)
 map("n", "<leader>sm", "<cmd>Telescope man_pages<CR>", opts)
 map("n", "<leader>sn", "<cmd>Telescope notify<CR>", opts)
+map("n", "<leader>sp", "<cmd>Telescope projects<CR>", opts)
 map("n", "<leader>sr", "<cmd>Telescope registers<CR>", opts)
+map("n", "<leader>ss", "<cmd>SessionManage load_session<CR>", opts)
 map("n", "<leader>st", "<cmd>Telescope live_grep<CR>", opts)
 
 -- Sessions
 map("n", "<leader>Sd", "<cmd>SessionManage delete_session<CR>", opts)
-map("n", "<leader>Sl", "<cmd>SessionManage load_session<CR>", opts)
-map("n", "<leader>SL", "<cmd>SessionManage load_last_session<CR>", opts)
+map("n", "<leader>Sl", "<cmd>SessionManage load_last_session<CR>", opts)
+map("n", "<leader>SL", "<cmd>SessionManage load_session<CR>", opts)
 map("n", "<leader>Ss", "<cmd>SessionManager save_current_session<CR>", opts)
 
 -- ForceWrite

@@ -17,16 +17,6 @@ function M.config()
     default = "",
     symlink = "",
     git = {
-      --- Lunarvim ---
-      -- unstaged = "",
-      -- staged = "S",
-      -- unmerged = "",
-      -- renamed = "➜",
-      -- deleted = "",
-      -- untracked = "U",
-      -- ignored = "◌",
-
-      --- Astrovim ---
       deleted = "",
       ignored = "◌",
       renamed = "➜",
@@ -36,20 +26,11 @@ function M.config()
       untracked = "★",
     },
     folder = {
-      --- Lunarvim ---
       default = "",
       open = "",
       empty = "",
       empty_open = "",
       symlink = "",
-
-      --- Astrovim ---
-      -- default = "",
-      -- empty = "",
-      -- empty_open = "",
-      -- open = "",
-      -- symlink = "",
-      -- symlink_open = "",
     },
   }
 

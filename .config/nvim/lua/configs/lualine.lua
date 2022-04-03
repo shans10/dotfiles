@@ -108,7 +108,7 @@ function M.config()
         },
         {
           "progress",
-          color = { gui = "none" },
+          color = { gui = "none", fg = get_hl_prop("TypeDef", "foreground", colors.yellow) },
           padding = { left = 0, right = 0 },
         },
         {
