@@ -23,7 +23,6 @@ local config = {
   enabled = {
     bufferline = true,
     nvim_tree = true,
-    -- neo_tree = true,
     lualine = true,
     gitsigns = true,
     colorizer = true,
@@ -36,25 +35,32 @@ local config = {
     neoscroll = true,
     ts_rainbow = true,
     ts_autotag = true,
+    lastplace = true,
+  },
+
+  -- Disable Neovim ui features
+  ui = {
+    nui_input = true,
+    telescope_select = true,
   },
 
   -- Configure plugins
   plugins = {
     -- Add plugins, the packer syntax without the "use"
     init = {
-      -- { "andweeb/presence.nvim" },
       -- {
-      --   "ray-x/lsp_signature.nvim",
-      --   event = "BufRead",
+      --   "lambdalisue/suda.vim",
       --   config = function()
-      --     require("lsp_signature").setup()
-      --   end,
+      --     vim.g.suda_smart_edit = 1   -- Open readonly files automatically with sudo permissions
+      --   end
       -- },
     },
+
     -- All other entries override the setup() call for default plugins
     treesitter = {
       ensure_installed = { "lua" },
     },
+
     packer = {
       compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
     },
@@ -147,19 +153,25 @@ local config = {
     local opts = { noremap = true, silent = true }
     local map = vim.api.nvim_set_keymap
     local set = vim.opt
-    -- Set options
+
+    --- SET OPTIONS ---
+    --
+    -- Enable relativenumber
     set.relativenumber = true
 
-    -- Set key bindings
-    map("n", "<C-s>", ":w!<CR>", opts)
+    -- Render tabs/trailing spaces
+    set.list = true
+    set.listchars:append({ tab = '› ', trail = '•', extends = '#', nbsp = '.' })
 
-    -- Set autocommands
-    vim.cmd [[
-      augroup packer_conf
-        autocmd!
-        autocmd bufwritepost plugins.lua source <afile> | PackerSync
-      augroup end
-    ]]
+    --- SET KEYBINDINGS ---
+    --
+    -- Reload last sesssion
+    map("n", "<leader>rl", "<cmd>SessionManage load_last_session<CR>", opts)
+
+    --- SET AUTOCOMMANDS ---
+    --
+    -- Open explorer without focus on session load
+    vim.cmd [[autocmd SessionLoadPost * lua require"nvim-tree".toggle(false, true)]]
   end,
 }
 

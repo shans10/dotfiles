@@ -13,6 +13,11 @@ function M.config()
     telescope.load_extension "notify"
   end
 
+  local project_present, _ = pcall(require, "project_nvim")
+  if project_present then
+    telescope.load_extension "projects"
+  end
+
   telescope.setup(require("core.utils").user_plugin_opts("plugins.telescope", {
     defaults = {
 

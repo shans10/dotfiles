@@ -45,5 +45,6 @@ set.history = 100 -- Number of commands to remember in a history table
 set.timeoutlen = 300 -- Length of time to wait for a mapped sequence
 set.updatetime = 300 -- Length of time to wait before triggering the plugin
 set.fillchars = { eob = " " } -- Disable `~` on nonexistent lines
+set.whichwrap:append "<,>,[,],h,l" -- Automatically go to next line
 
 return M

@@ -41,11 +41,8 @@ local astro_plugins = {
 
   -- Neovim UI Enhancer
   {
-    "stevearc/dressing.nvim",
-    event = "BufWinEnter",
-    config = function()
-      require("configs.dressing").config()
-    end,
+    "MunifTanjim/nui.nvim",
+    module = "nui",
   },
 
   -- Cursorhold fix
@@ -88,24 +85,13 @@ local astro_plugins = {
   { "moll/vim-bbye" },
 
   -- File explorer
-  -- NvimTree
   {
     "kyazdani42/nvim-tree.lua",
-    -- cmd = { "NvimTreeToggle", "NvimTreeFocus" },
     config = function()
       require("configs.nvim-tree").config()
     end,
     disable = not config.enabled.nvim_tree,
   },
-  -- NeoTree
-  -- {
-  --   "nvim-neo-tree/neo-tree.nvim",
-  --   requires = "MunifTanjim/nui.nvim",
-  --   config = function()
-  --     require("configs.neo-tree").config()
-  --   end,
-  --   disable = not config.enabled.neo_tree,
-  -- },
 
   -- Statusline
   {
@@ -159,7 +145,7 @@ local astro_plugins = {
   -- Snippet collection
   {
     "rafamadriz/friendly-snippets",
-    event = "InsertEnter",
+    after = "nvim-cmp",
   },
 
   -- Snippet engine
@@ -174,7 +160,7 @@ local astro_plugins = {
   -- Completion engine
   {
     "hrsh7th/nvim-cmp",
-    event = "BufWinEnter",
+    event = "InsertEnter",
     config = function()
       require("configs.cmp").config()
     end,
@@ -223,7 +209,7 @@ local astro_plugins = {
   -- Built-in LSP
   {
     "neovim/nvim-lspconfig",
-    after = "cmp-nvim-lsp",
+    event = "BufWinEnter",
     config = function()
       require "configs.lsp"
     end,
@@ -262,14 +248,14 @@ local astro_plugins = {
   },
 
   -- Fuzzy finder syntax support
-  -- {
-  --   "nvim-telescope/telescope-fzf-native.nvim",
-  --   after = "telescope.nvim",
-  --   run = "make",
-  --   config = function()
-  --     require("telescope").load_extension "fzf"
-  --   end,
-  -- },
+  {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    after = "telescope.nvim",
+    run = "make",
+    config = function()
+      require("telescope").load_extension "fzf"
+    end,
+  },
 
   -- Git integration
   {
@@ -365,6 +351,28 @@ local astro_plugins = {
     config = function()
       require("configs.better_escape").config()
     end,
+  },
+
+  -- Projects
+  {
+    "ahmedkhalf/project.nvim",
+    config = function()
+      require("project_nvim").setup {}
+    end
+  },
+
+  -- Session Manager
+  {
+    "Shatur/neovim-session-manager",
+    config = function()
+      require("configs.session_manager").config()
+    end,
+  },
+
+  -- Remember last cursor position in file
+  {
+    "farmergreg/vim-lastplace",
+    disable = not config.enabled.lastplace
   },
 
   -- Get extra JSON schemas

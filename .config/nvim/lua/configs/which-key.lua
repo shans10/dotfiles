@@ -75,6 +75,8 @@ function M.config()
     ["h"] = { "No Highlight" },
     ["/"] = { "Comment" },
     ["P"] = { "Projects" },
+    ["o"] = { "Focus Explorer" },
+    ["m"] = { "Bookmarks" },
     ["."] = { "<cmd>cd %:p:h<cr>", "Set CWD" },
 
     p = {

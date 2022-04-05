@@ -11,6 +11,14 @@ vim.cmd [[
   augroup end
 ]]
 
+-- Automatically run PackerSync on plugins.lua file change
+vim.cmd [[
+  augroup packer_conf
+    autocmd!
+    autocmd bufwritepost plugins.lua source <afile> | PackerSync
+  augroup end
+]]
+
 -- Disable cursorline on losing file focus
 vim.cmd [[
   augroup cursor_off
@@ -37,20 +45,6 @@ if config.enabled.dashboard and config.enabled.bufferline then
   ]]
 end
 
--- if config.enabled.dashboard and config.enabled.bufferline then
---   vim.cmd [[
---     autocmd FileType dashboard set showtabline=0 | autocmd WinLeave <buffer> set showtabline=2
---   ]]
--- end
-
--- Automatically run PackerSync on plugins.lua file change
-vim.cmd [[
-  augroup packer_conf
-    autocmd!
-    autocmd bufwritepost plugins.lua source <afile> | PackerSync
-  augroup end
-]]
-
 -- Highlight yank
 vim.cmd [[
   augroup highlight_yank
@@ -66,17 +60,5 @@ vim.cmd [[autocmd BufWritePre * :%s/\s\+$//e]]
 vim.cmd [[
   autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
 ]]
-
--- Change numbering between relative/absolute in normal/insert modes
--- vim.cmd [[
---   augroup numbertoggle
---     autocmd!
---     autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
---     autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
---   augroup END
--- ]]
-
--- Change nvim-tree root to current buffer root
--- vim.cmd [[autocmd BufEnter * silent! lcd %:p:h]]
 
 return M

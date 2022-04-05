@@ -19,72 +19,24 @@ local config = {
     neoscroll = false,
     ts_rainbow = false,
     ts_autotag = false,
+    lastplace = true,
   },
 
   -- Configure plugins
   plugins = {
     -- Add plugins, the packer syntax without the "use"
     init = {
-      { "farmergreg/vim-lastplace" },
-      {
-        "ahmedkhalf/project.nvim",
-        config = function()
-          require("project_nvim").setup {
-            -- your configuration comes here
-            -- or leave it empty to use the default settings
-            -- Even if you are pleased with the defaults,
-            -- please note that setup {} must be called for the plugin to start.
-          }
-        end
-      },
-      {
-        "ggandor/lightspeed.nvim",
-        config = function()
-          require("lightspeed").setup {
-            ignore_case = true,
-            -- Leaving the appropriate list empty effectively disables "smart" mode,
-            -- and forces auto-jump to be on or off.
-            -- safe_labels = {"s", "f", "n",
-            --                "u", "t",
-            --                "/", "F", "L", "N", "H", "G", "M", "U", "T", "?", "Z"},
-
-            labels = {"s", "f", "n",
-                      "j", "k", "l", "o", "d", "w", "e", "h", "m", "v", "g",
-                      "u", "t",
-                      "c", ".", "z",
-                      "/", "F", "L", "N", "H", "G", "M", "U", "T", "?", "Z"},
-            --- f/t ---
-            limit_ft_matches = 5,
-            repeat_ft_with_target_char = false,
-            -- EasyMotion/Hop-style config
-            jump_to_unique_chars = false,
-            safe_labels = {}
-          }
-        end
-      },
-      {
-        "Shatur/neovim-session-manager",
-        config = function()
-        require("session_manager").setup {
-          autoload_mode = require('session_manager.config').AutoloadMode.Disabled, -- Define what to do when Neovim is started without arguments. Possible values: Disabled, CurrentDir, LastSession
-          autosave_only_in_session = true, -- Always autosaves session. If true, only autosaves after a session is active.
-        }
-      end
-      },
-      -- { "lambdalisue/suda.vim" },
+      -- {
+      --   "lambdalisue/suda.vim",
+      --   config = function()
+      --     vim.g.suda_smart_edit = 1   -- Open readonly files automatically with sudo permissions
+      --   end
+      -- },
     },
 
     -- All other entries override the setup() call for default plugins
     treesitter = {
       ensure_installed = { "lua", "go", "c", "java" },
-    },
-
-    packer = {
-      compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
-    },
-
-    telescope = {
-      require("telescope").load_extension "projects"
     },
   },
 
@@ -140,10 +92,7 @@ local config = {
     -- Enable relativenumber
     set.relativenumber = true
 
-    -- Automatically go to next line
-    set.whichwrap:append "<,>,[,],h,l"
-
-    -- Render tabs/spaces
+    -- Render tabs/trailing spaces
     set.list = true
     set.listchars:append({ tab = '› ', trail = '•', extends = '#', nbsp = '.' })
 
@@ -154,8 +103,8 @@ local config = {
 
     --- SET KEYBINDINGS ---
     --
-    -- Force write with Ctrl+S
-    map("n", "<C-s>", ":w!<CR>", opts)
+    -- Reload last sesssion
+    map("n", "<leader>rl", "<cmd>SessionManage load_last_session<CR>", opts)
 
     --- SET AUTOCOMMANDS ---
     --
@@ -165,10 +114,10 @@ local config = {
     --   let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
     --   set shellquote= shellxquote=
     -- ]]
+
+    -- Open explorer without focus on session load
+    -- vim.cmd [[autocmd SessionLoadPost * lua require"nvim-tree".toggle(false, true)]]
   end,
 }
-
--- Vim suda smart edit
--- vim.g.suda_smart_edit = 1
 
 return config

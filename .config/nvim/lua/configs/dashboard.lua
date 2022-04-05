@@ -33,14 +33,12 @@ function M.config()
   --- MAPPINGS ---
   --
   g.dashboard_custom_section = {
-    a = { description = { "   Find File                       SPC f f" }, command = "Telescope find_files" },
-    b = { description = { "   Recent Files                    SPC f o" }, command = "Telescope oldfiles" },
-    c = { description = { "   New File                        SPC f n" }, command = "DashboardNewFile" },
-    d = { description = { "   Sessions                        SPC s s" }, command = "SessionManager load_last_session" },
-    e = { description = { "   Projects                        SPC s p" }, command = "Telescope projects" },
-    f = { description = { "   Search Text                     SPC s t" }, command = "Telescope live_grep" },
-    g = { description = { "   Bookmarks                       SPC b m" }, command = "Telescope marks" },
-    h = { description = { "   User Configuration              SPC u c" }, command = "exe \"edit\" stdpath(\"config\").\"/lua/user/init.lua\"" },
+    a = { description = { "   Reload Last Session             SPC r l" }, command = "SessionManager load_last_session" },
+    b = { description = { "   Find File                       SPC f f" }, command = "Telescope find_files" },
+    c = { description = { "   Recent Files                    SPC f o" }, command = "Telescope oldfiles" },
+    d = { description = { "   New File                        SPC f n" }, command = "DashboardNewFile" },
+    e = { description = { "   Projects                        SPC s p" }, command = "Telescope projects" },
+    f = { description = { "   User Configuration              SPC u c" }, command = "exe \"edit\" stdpath(\"config\").\"/lua/user/init.lua\"" },
   }
 
   --- FOOTER ---

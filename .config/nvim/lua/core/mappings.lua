@@ -94,7 +94,7 @@ end
 if config.enabled.dashboard then
   map("n", "<leader>d", "<cmd>Dashboard<CR>", opts)
   map("n", "<leader>fn", "<cmd>DashboardNewFile<CR>", opts)
-  map("n", "<leader>bm", "<cmd>DashboardJumpMarks<CR>", opts)
+  map("n", "<leader>m", "<cmd>DashboardJumpMarks<CR>", opts)
 end
 
 -- GitSigns
@@ -154,7 +154,6 @@ map("n", "<leader>sm", "<cmd>Telescope man_pages<CR>", opts)
 map("n", "<leader>sn", "<cmd>Telescope notify<CR>", opts)
 map("n", "<leader>sp", "<cmd>Telescope projects<CR>", opts)
 map("n", "<leader>sr", "<cmd>Telescope registers<CR>", opts)
-map("n", "<leader>ss", "<cmd>SessionManage load_session<CR>", opts)
 map("n", "<leader>st", "<cmd>Telescope live_grep<CR>", opts)
 
 -- Sessions
