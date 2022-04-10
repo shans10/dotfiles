@@ -74,13 +74,22 @@ end
 function M.telescope_select()
   -- Telescope UI selection
   -- From: https://github.com/stevearc/dressing.nvim/blob/master/lua/dressing/select/telescope.lua
-  vim.ui.select = function(items, opts, on_choice)
+  vim.ui.select = vim.schedule_wrap(function(items, opts, on_choice)
     local themes = require "telescope.themes"
     local actions = require "telescope.actions"
     local state = require "telescope.actions.state"
     local pickers = require "telescope.pickers"
     local finders = require "telescope.finders"
     local conf = require("telescope.config").values
+
+    if opts.format_item then
+      local format_item = opts.format_item
+      opts.format_item = function(item)
+        return tostring(format_item(item))
+      end
+    else
+      opts.format_item = tostring
+    end
 
     local entry_maker = function(item)
       local formatted = opts.format_item(item)
@@ -128,7 +137,7 @@ function M.telescope_select()
         return true
       end,
     }):find()
-  end
+  end)
 end
 
 return M

@@ -34,7 +34,7 @@ vim.cmd [[
 ]]
 
 -- Disable tabline and cursorline in dashboard buffer
-if config.enabled.dashboard and config.enabled.bufferline then
+if utils.is_available "dashboard-nvim" and utils.is_available "bufferline.nvim" then
   vim.cmd [[
     augroup dashboard_settings
       autocmd!

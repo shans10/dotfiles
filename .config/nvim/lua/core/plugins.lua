@@ -31,6 +31,15 @@ local astro_plugins = {
     end,
   },
 
+  -- Indent detection
+  {
+    "Darazaki/indent-o-matic",
+    event = "BufRead",
+    config = function()
+      require("configs.indent-o-matic").config()
+    end,
+  },
+
   -- Notification Enhancer
   {
     "rcarriga/nvim-notify",
@@ -401,6 +410,9 @@ packer.startup {
     },
     git = {
       clone_timeout = 300,
+      subcommands = {
+        update = "pull --ff-only --progress --rebase=true",
+      },
     },
     auto_clean = true,
     compile_on_sync = true,
