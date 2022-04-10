@@ -18,6 +18,8 @@ function M.config()
     telescope.load_extension "projects"
   end
 
+  telescope.load_extension "fzf"
+
   telescope.setup(require("core.utils").user_plugin_opts("plugins.telescope", {
     defaults = {
 
