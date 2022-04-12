@@ -10,7 +10,8 @@ map("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Normal --
+--- NORMAL MODE ---
+--
 -- Better window navigation
 map("n", "<C-h>", "<cmd>lua require'smart-splits'.move_cursor_left()<cr>", opts)
 map("n", "<C-j>", "<cmd>lua require'smart-splits'.move_cursor_down()<cr>", opts)
@@ -38,34 +39,7 @@ end
 map("n", "<A-j>", "<Esc><cmd>m .+1<CR>==gi", opts)
 map("n", "<A-k>", "<Esc><cmd>m .-2<CR>==gi", opts)
 
--- Standard Operations
-map("n", "<leader>w", "<cmd>w<CR>", opts)
-map("n", "<leader>q", "<cmd>q<CR>", opts)
-map("n", "<leader>c", "<cmd>Bdelete!<CR>", opts)
-map("n", "<leader>h", "<cmd>nohlsearch<CR>", opts)
-map("n", "<leader>P", "<cmd>Telescope projects<CR>", opts)
-map("n", "<leader>uc", "<cmd>exe \"edit\" stdpath(\"config\").\"/lua/user/init.lua\"<CR>", opts)
-
--- Packer
-map("n", "<leader>pc", "<cmd>PackerCompile<cr>", opts)
-map("n", "<leader>pi", "<cmd>PackerInstall<cr>", opts)
-map("n", "<leader>ps", "<cmd>PackerSync<cr>", opts)
-map("n", "<leader>pS", "<cmd>PackerStatus<cr>", opts)
-map("n", "<leader>pu", "<cmd>PackerUpdate<cr>", opts)
-
 -- LSP
--- Leader key bindings
-map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting_sync()<cr>", opts)
-map("n", "<leader>li", "<cmd>LspInfo<cr>", opts)
-map("n", "<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
-map("n", "<leader>lD", "<cmd>Telescope diagnostics<CR>", opts)
-map("n", "<leader>le", "<cmd>Telescope lsp_definitions<CR>", opts)
-map("n", "<leader>lr", "<cmd>Telescope lsp_references<CR>", opts)
-map("n", "<leader>ls", "<cmd>Telescope lsp_document_symbols<CR>", opts)
-map("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-map("n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-map("n", "<leader>ld", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
--- Normal bindings
 map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
 map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
 map("n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
@@ -78,120 +52,200 @@ map("n", "gk", "<cmd>lua vim.diagnostic.goto_prev({ border = 'rounded' })<cr>", 
 map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 map("n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 
--- NvimTree
-if utils.is_available "nvim-tree.lua" then
-  map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", opts)
-  map("n", "<leader>o", "<cmd>NvimTreeFocus<CR>", opts)
-end
-
--- Dashboard
-if utils.is_available "dashboard-nvim" then
-  map("n", "<leader>d", "<cmd>Dashboard<CR>", opts)
-  map("n", "<leader>fn", "<cmd>DashboardNewFile<CR>", opts)
-  map("n", "<leader>m", "<cmd>DashboardJumpMarks<CR>", opts)
-end
-
--- GitSigns
-if utils.is_available "gitsigns.nvim" then
-  map("n", "<leader>gj", "<cmd>lua require 'gitsigns'.next_hunk()<cr>", opts)
-  map("n", "<leader>gk", "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", opts)
-  map("n", "<leader>gl", "<cmd>lua require 'gitsigns'.blame_line()<cr>", opts)
-  map("n", "<leader>gp", "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", opts)
-  map("n", "<leader>gh", "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", opts)
-  map("n", "<leader>gr", "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", opts)
-  map("n", "<leader>gs", "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", opts)
-  map("n", "<leader>gu", "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>", opts)
-  map("n", "<leader>gd", "<cmd>Gitsigns diffthis HEAD<cr>", opts)
-end
-
--- Git
-map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", opts)
-map("n", "<leader>gb", "<cmd>Telescope git_branches<CR>", opts)
-map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", opts)
-
--- Comment
-if utils.is_available "Comment.nvim" then
-  map("n", "<leader>/", "<cmd>lua require('Comment.api').toggle_current_linewise()<cr>", opts)
-  map("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle_linewise_op(vim.fn.visualmode())<CR>", opts)
-end
-
--- Files
-map("n", "<leader>fc", "<cmd>Bdelete<CR>", opts)
-map("n", "<leader>fC", "<cmd>Bdelete!<CR>", opts)
-map("n", "<leader>fd", "<cmd>Telescope fd cwd=%:p:h find_command=rg,--ignore,--hidden,--files<CR>", opts)
-map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts)
-map("n", "<leader>fF", "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>", opts)
-map("n", "<leader>fi", "gg=G<CR>", opts)
-map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", opts)
-map("n", "<leader>fp", "1<C-g><CR>", opts)
-map("n", "<leader>fr", "<cmd>e<CR>", opts)
-map("n", "<leader>fR", "<cmd>e!<CR>", opts)
-map("n", "<leader>fs", "<cmd>w<CR>", opts)
-map("n", "<leader>fS", "ggVG<CR>", opts)
-
--- Buffers
-map("n", "<leader>bc", "<cmd>BufferLinePickClose<CR>", opts)
-map("n", "<leader>bd", "<cmd>Bdelete<CR>", opts)
-map("n", "<leader>bD", "<cmd>Bdelete!<CR>", opts)
-map("n", "<leader>bj", "<cmd>BufferLinePick<CR>", opts)
-map("n", "<leader>bl", "<cmd>Telescope buffers<CR>", opts)
-map("n", "<leader>bn", "<cmd>bn<CR>", opts)
-map("n", "<leader>bp", "<cmd>bp<CR>", opts)
-
--- Search
-map("n", "<leader>sb", "<cmd>Telescope git_branches<CR>", opts)
-map("n", "<leader>sc", "<cmd>Telescope commands<CR>", opts)
-map("n", "<leader>sf", "<cmd>FZF<CR>", opts)
-map("n", "<leader>sh", "<cmd>Telescope help_tags<CR>", opts)
-map("n", "<leader>sk", "<cmd>Telescope keymaps<CR>", opts)
-map("n", "<leader>sm", "<cmd>Telescope man_pages<CR>", opts)
-map("n", "<leader>sn", "<cmd>Telescope notify<CR>", opts)
-map("n", "<leader>sp", "<cmd>Telescope projects<CR>", opts)
-map("n", "<leader>sr", "<cmd>Telescope registers<CR>", opts)
-map("n", "<leader>st", "<cmd>Telescope live_grep<CR>", opts)
-
--- Sessions
-map("n", "<leader>Sd", "<cmd>SessionManage delete_session<CR>", opts)
-map("n", "<leader>Sl", "<cmd>SessionManage load_last_session<CR>", opts)
-map("n", "<leader>SL", "<cmd>SessionManage load_session<CR>", opts)
-map("n", "<leader>Ss", "<cmd>SessionManager save_current_session<CR>", opts)
-
 -- ForceWrite
 map("n", "<C-s>", "<cmd>w!<CR>", opts)
 
 -- ForceQuit
 map("n", "<C-q>", "<cmd>q!<CR>", opts)
 
--- Save in insert mode
-map("i", "<C-s>", "<Esc><cmd>w<CR>", opts)
-
 -- Clear search highlight
 map("n", "<Esc>", "<cmd>noh<CR>", opts)
-
--- Terminal
-if utils.is_available "nvim-toggleterm.lua" then
-  map("n", "<C-\\>", "<cmd>ToggleTerm<CR>", opts)
-  map("n", "<leader>gg", "<cmd>lua require('core.utils').toggle_term_cmd('lazygit')<CR>", opts)
-  map("n", "<leader>tl", "<cmd>lua require('core.utils').toggle_term_cmd('lazygit')<CR>", opts)
-  map("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", opts)
-  map("n", "<leader>th", "<cmd>ToggleTerm size=15 direction=horizontal<cr>", opts)
-  map("n", "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", opts)
-end
-
--- SymbolsOutline
-if utils.is_available "symbols-outline.nvim" then
-  map("n", "<leader>lS", "<cmd>SymbolsOutline<CR>", opts)
-end
 
 -- Move lines up and down in normal mode
 map("n", "<A-j>", "<cmd>m .+1<CR>==", opts)
 map("n", "<A-k>", "<cmd>m .-2<CR>==", opts)
 
--- Move lines up and down in normal mode
+-- ToggleTerm
+if utils.is_available "nvim-toggleterm.lua" then
+  map("n", "<C-\\>", "<cmd>ToggleTerm<CR>", opts)
+end
+
+-- SessionManager
+if utils.is_available "neovim-session-manager" then
+  map("n", "<leader>rl", "<cmd>SessionManage load_last_session<CR>", opts)
+end
+
+-- Normal Leader Mappings --
+-- NOTICE: if changed, update configs/which-key-register.lua
+-- Allows easy user modifications when just overriding which-key
+-- But allows bindings to work for users without which-key
+if not utils.is_available "which-key.nvim" then
+  -- Standard Operations
+  map("n", "<leader>w", "<cmd>w<CR>", opts)
+  map("n", "<leader>q", "<cmd>q<CR>", opts)
+  map("n", "<leader>h", "<cmd>nohlsearch<CR>", opts)
+  map("n", "<leader>.", "<cmd>cd %:p:h<CR>", opts)
+
+  -- Packer
+  map("n", "<leader>pc", "<cmd>PackerCompile<cr>", opts)
+  map("n", "<leader>pi", "<cmd>PackerInstall<cr>", opts)
+  map("n", "<leader>ps", "<cmd>PackerSync<cr>", opts)
+  map("n", "<leader>pS", "<cmd>PackerStatus<cr>", opts)
+  map("n", "<leader>pu", "<cmd>PackerUpdate<cr>", opts)
+
+  -- LSP Standalone Keybindings
+  map("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting_sync()<cr>", opts)
+  map("n", "<leader>li", "<cmd>LspInfo<cr>", opts)
+  map("n", "<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
+  map("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  map("n", "<leader>lR", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+  map("n", "<leader>ld", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+
+  -- File Standalone Keybindings
+  map("n", "<leader>fi", "gg=G", opts)
+  map("n", "<leader>fp", "1<C-g>", opts)
+  map("n", "<leader>fr", "<cmd>e<CR>", opts)
+  map("n", "<leader>fR", "<cmd>e!<CR>", opts)
+  map("n", "<leader>fs", "<cmd>w<CR>", opts)
+  map("n", "<leader>fS", "ggVG", opts)
+
+  -- Buffer Standalone Keybindings
+  map("n", "<leader>bn", "<cmd>bn<CR>", opts)
+  map("n", "<leader>bp", "<cmd>bp<CR>", opts)
+
+  -- VimBbye
+  if utils.is_available "vim-bbye" then
+    map("n", "<leader>c", "<cmd>Bdelete!<CR>", opts)
+
+    -- Buffer
+    map("n", "<leader>bd", "<cmd>Bdelete<CR>", opts)
+    map("n", "<leader>bD", "<cmd>Bdelete!<CR>", opts)
+
+    -- File
+    map("n", "<leader>fc", "<cmd>Bdelete<CR>", opts)
+    map("n", "<leader>fC", "<cmd>Bdelete!<CR>", opts)
+  end
+
+  -- NvimTree
+  if utils.is_available "nvim-tree.lua" then
+    map("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", opts)
+    map("n", "<leader>o", "<cmd>NvimTreeFocus<CR>", opts)
+  end
+
+  -- Dashboard
+  if utils.is_available "dashboard-nvim" then
+    map("n", "<leader>d", "<cmd>Dashboard<CR>", opts)
+    map("n", "<leader>m", "<cmd>DashboardJumpMarks<CR>", opts)
+
+    -- File
+    map("n", "<leader>fn", "<cmd>DashboardNewFile<CR>", opts)
+  end
+
+  -- Bufferline
+  if utils.is_available "bufferline.nvim" then
+    map("n", "<leader>bc", "<cmd>BufferLinePickClose<CR>", opts)
+    map("n", "<leader>bj", "<cmd>BufferLinePick<CR>", opts)
+    map("n", "<leader>bN", "<cmd>BufferLineMoveNext<CR>", opts)
+    map("n", "<leader>bP", "<cmd>BufferLineMovePrev<CR>", opts)
+  end
+
+  -- Comment
+  if utils.is_available "Comment.nvim" then
+    map("n", "<leader>/", "<cmd>lua require('Comment.api').toggle_current_linewise()<CR>", opts)
+  end
+
+  -- SymbolsOutline
+  if utils.is_available "symbols-outline.nvim" then
+    map("n", "<leader>lS", "<cmd>SymbolsOutline<CR>", opts)
+  end
+
+  -- ToggleTerm
+  if utils.is_available "nvim-toggleterm.lua" then
+    -- Git
+    map("n", "<leader>gg", "<cmd>lua require('core.utils').toggle_term_cmd('lazygit')<CR>", opts)
+
+    -- Terminal
+    map("n", "<leader>tl", "<cmd>lua require('core.utils').toggle_term_cmd('lazygit')<CR>", opts)
+    map("n", "<leader>tf", "<cmd>ToggleTerm direction=float<CR>", opts)
+    map("n", "<leader>th", "<cmd>ToggleTerm size=10 direction=horizontal<CR>", opts)
+    map("n", "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<CR>", opts)
+  end
+
+  -- SessionManager
+  if utils.is_available "neovim-session-manager" then
+    -- Session
+    map("n", "<leader>Sd", "<cmd>SessionManage delete_session<CR>", opts)
+    map("n", "<leader>Sl", "<cmd>SessionManage load_last_session<CR>", opts)
+    map("n", "<leader>SL", "<cmd>SessionManage load_session<CR>", opts)
+    map("n", "<leader>Ss", "<cmd>SessionManager save_current_session<CR>", opts)
+
+    -- Search
+    map("n", "<leader>ss", "<cmd>SessionManage load_session<CR>", opts)
+  end
+
+  -- GitSigns
+  if utils.is_available "gitsigns.nvim" then
+    map("n", "<leader>gj", "<cmd>lua require 'gitsigns'.next_hunk()<cr>", opts)
+    map("n", "<leader>gk", "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", opts)
+    map("n", "<leader>gl", "<cmd>lua require 'gitsigns'.blame_line()<cr>", opts)
+    map("n", "<leader>gp", "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", opts)
+    map("n", "<leader>gh", "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", opts)
+    map("n", "<leader>gr", "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", opts)
+    map("n", "<leader>gs", "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", opts)
+    map("n", "<leader>gu", "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>", opts)
+    map("n", "<leader>gd", "<cmd>lua require 'gitsigns'.diffthis()<cr>", opts)
+  end
+
+  -- Telescope
+  if utils.is_available "telescope.nvim" then
+    -- Buffer
+    map("n", "<leader>bl", "<cmd>Telescope buffers<CR>", opts)
+
+    -- Git
+    map("n", "<leader>gb", "<cmd>Telescope git_branches<CR>", opts)
+    map("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", opts)
+    map("n", "<leader>gt", "<cmd>Telescope git_status<CR>", opts)
+
+    -- File
+    map("n", "<leader>fd", "<cmd>Telescope fd cwd=%:p:h find_command=rg,--ignore,--hidden,--files<CR>", opts)
+    map("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts)
+    map("n", "<leader>fF", "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>", opts)
+    map("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", opts)
+
+    -- LSP
+    map("n", "<leader>lD", "<cmd>Telescope diagnostics<CR>", opts)
+    map("n", "<leader>le", "<cmd>Telescope lsp_definitions<CR>", opts)
+    map("n", "<leader>lr", "<cmd>Telescope lsp_references<CR>", opts)
+    map("n", "<leader>ls", "<cmd>Telescope lsp_document_symbols<CR>", opts)
+
+    -- Search
+    map("n", "<leader>sb", "<cmd>Telescope git_branches<CR>", opts)
+    map("n", "<leader>sc", "<cmd>Telescope commands<CR>", opts)
+    map("n", "<leader>sh", "<cmd>Telescope help_tags<CR>", opts)
+    map("n", "<leader>sk", "<cmd>Telescope keymaps<CR>", opts)
+    map("n", "<leader>sm", "<cmd>Telescope man_pages<CR>", opts)
+    map("n", "<leader>sn", "<cmd>Telescope notify<CR>", opts)
+    map("n", "<leader>sr", "<cmd>Telescope registers<CR>", opts)
+    map("n", "<leader>st", "<cmd>Telescope live_grep<CR>", opts)
+    -- Project
+    if utils.is_available "project.nvim" then
+      map("n", "<leader>P", "<cmd>Telescope projects<CR>", opts)
+      map("n", "<leader>sp", "<cmd>Telescope projects<CR>", opts)
+    end
+  end
+end
+
+--- INSERT MODE ---
+--
+-- Move lines up and down in insert mode
 map("i", "<A-j>", "<Esc><cmd>m .+1<CR>==gi", opts)
 map("i", "<A-k>", "<Esc><cmd>m .-2<CR>==gi", opts)
 
--- Visual --
+-- Save File
+map("i", "<C-s>", "<Esc><cmd>w<CR>", opts)
+
+--- VISUAL MODE ---
+--
 -- Stay in indent mode
 map("v", "<", "<gv", opts)
 map("v", ">", ">gv", opts)
@@ -200,7 +254,13 @@ map("v", ">", ">gv", opts)
 map("v", "<A-j>", "<cmd>m .+1<CR>==", opts)
 map("v", "<A-k>", "<cmd>m .-2<CR>==", opts)
 
--- Visual Block --
+-- Comment
+if utils.is_available "Comment.nvim" then
+  map("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle_linewise_op(vim.fn.visualmode())<CR>", opts)
+end
+
+--- VISUAL BLOCK MODE ---
+--
 -- Move text up and down
 map("x", "J", "<cmd>move '>+1<CR>gv-gv", opts)
 map("x", "K", "<cmd>move '<-2<CR>gv-gv", opts)
@@ -210,6 +270,8 @@ map("x", "<A-k>", "<cmd>move '<-2<CR>gv-gv", opts)
 -- disable Ex mode:
 map("n", "Q", "<Nop>", opts)
 
+--- TERMINAL MODE ---
+--
 function _G.set_terminal_keymaps()
   vim.api.nvim_buf_set_keymap(0, "t", "<esc>", [[<C-\><C-n>]], opts)
   vim.api.nvim_buf_set_keymap(0, "t", "jj", [[<C-\><C-n>]], opts)

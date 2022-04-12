@@ -1,7 +1,6 @@
 local M = {}
 
 local utils = require "core.utils"
-local config = utils.user_settings()
 
 -- Automatically run PackerCompile after new plugins install
 vim.cmd [[
@@ -60,5 +59,8 @@ vim.cmd [[autocmd BufWritePre * :%s/\s\+$//e]]
 vim.cmd [[
   autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
 ]]
+
+-- Load lualine in sessions
+vim.cmd [[autocmd SessionLoadPost * lua require'lualine'.setup()]]
 
 return M
