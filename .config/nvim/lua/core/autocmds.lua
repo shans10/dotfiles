@@ -60,7 +60,8 @@ vim.cmd [[
   autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
 ]]
 
--- Load lualine in sessions
-vim.cmd [[autocmd SessionLoadPost * lua require'lualine'.setup()]]
+-- Load lualine in sessions and in files opened with e[dit] command
+-- vim.cmd [[autocmd SessionLoadPost * lua require'lualine'.setup()]]
+vim.cmd [[autocmd BufEnter * lua require'lualine'.setup()]]
 
 return M
