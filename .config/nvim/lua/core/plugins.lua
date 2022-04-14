@@ -202,7 +202,7 @@ local astro_plugins = {
   -- LSP manager
   {
     "williamboman/nvim-lsp-installer",
-    event = { "BufRead", "BufNewFile" },
+    module = "nvim-lsp-installer",
     cmd = {
       "LspInstall",
       "LspInstallInfo",
