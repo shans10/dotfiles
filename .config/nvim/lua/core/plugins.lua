@@ -96,6 +96,7 @@ local astro_plugins = {
   -- File explorer
   {
     "kyazdani42/nvim-tree.lua",
+    -- commit = "20797a8d74e68bce50b98455c76c5de250c6f0e5",
     config = function()
       require("configs.nvim-tree").config()
     end,
@@ -411,7 +412,7 @@ packer.startup {
     git = {
       clone_timeout = 300,
       subcommands = {
-        update = "pull --ff-only --progress --rebase=true",
+        update = "pull --ff-only --progress --rebase",
       },
     },
     auto_clean = true,

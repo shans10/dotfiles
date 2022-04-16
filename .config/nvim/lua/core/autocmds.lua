@@ -56,12 +56,16 @@ vim.cmd [[
 vim.cmd [[autocmd BufWritePre * :%s/\s\+$//e]]
 
 -- Automatically close the tab/vim when nvim-tree is the last window in the tab
-vim.cmd [[
-  autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
-]]
+if utils.is_available "nvim-tree.lua" then
+  vim.cmd [[
+    autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif
+  ]]
+end
 
 -- Load lualine in sessions and in files opened with e[dit] command
--- vim.cmd [[autocmd SessionLoadPost * lua require'lualine'.setup()]]
-vim.cmd [[autocmd BufEnter * lua require'lualine'.setup()]]
+if utils.is_available "lualine.nvim" then
+  -- vim.cmd [[autocmd SessionLoadPost * lua require'lualine'.setup()]]
+  vim.cmd [[autocmd BufEnter * lua require'lualine'.setup()]]
+end
 
 return M
