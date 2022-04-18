@@ -34,12 +34,12 @@ local mappings = {
 
   l = {
     name = "LSP",
-    a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code Action" },
-    d = { "<cmd>lua vim.diagnostic.open_float()<CR>", "Hover Diagnostic" },
-    f = { "<cmd>lua vim.lsp.buf.formatting_sync()<cr>", "Format" },
+    a = { vim.lsp.buf.code_action, "Code Action" },
+    d = { vim.diagnostic.open_float, "Hover Diagnostic" },
+    f = { vim.lsp.buf.formatting_sync, "Format" },
     i = { "<cmd>LspInfo<cr>", "Info" },
     I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
-    R = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
+    R = { vim.lsp.buf.rename, "Rename" },
   },
 
   f = {
@@ -117,7 +117,12 @@ end
 
 -- Comment
 if utils.is_available "Comment.nvim" then
-  mappings["/"] = { "<cmd>lua require('Comment.api').toggle_current_linewise()<cr>", "Comment" }
+  mappings["/"] = {
+    function()
+      require("Comment.api").toggle_current_linewise()
+    end,
+    "Comment",
+  }
 end
 
 -- VimBbye
@@ -138,26 +143,81 @@ end
 -- GitSigns
 if utils.is_available "gitsigns.nvim" then
   init_table "g"
-  mappings.g.j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" }
-  mappings.g.k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" }
-  mappings.g.l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" }
-  mappings.g.p = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", "Preview Hunk" }
-  mappings.g.h = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", "Reset Hunk" }
-  mappings.g.r = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" }
-  mappings.g.s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" }
-  mappings.g.u = { "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>", "Undo Stage Hunk" }
-  mappings.g.d = { "<cmd>lua require 'gitsigns'.diffthis()<cr>", "Diff" }
+  mappings.g.j = {
+    function()
+      require("gitsigns").next_hunk()
+    end,
+    "Next Hunk",
+  }
+  mappings.g.k = {
+    function()
+      require("gitsigns").prev_hunk()
+    end,
+    "Prev Hunk",
+  }
+  mappings.g.l = {
+    function()
+      require("gitsigns").blame_line()
+    end,
+    "Blame",
+  }
+  mappings.g.p = {
+    function()
+      require("gitsigns").preview_hunk()
+    end,
+    "Preview Hunk",
+  }
+  mappings.g.h = {
+    function()
+      require("gitsigns").reset_hunk()
+    end,
+    "Reset Hunk",
+  }
+  mappings.g.r = {
+    function()
+      require("gitsigns").reset_buffer()
+    end,
+    "Reset Buffer",
+  }
+  mappings.g.s = {
+    function()
+      require("gitsigns").stage_hunk()
+    end,
+    "Stage Hunk",
+  }
+  mappings.g.u = {
+    function()
+      require("gitsigns").undo_stage_hunk()
+    end,
+    "Undo Stage Hunk",
+  }
+  mappings.g.d = {
+    function()
+      require("gitsigns").diffthis()
+    end,
+    "Diff",
+  }
 end
 
 -- ToggleTerm
 if utils.is_available "nvim-toggleterm.lua" then
   -- Git
   init_table "g"
-  mappings.g.g = { "<cmd>lua require('core.utils').toggle_term_cmd('lazygit')<CR>", "Lazygit" }
+  mappings.g.g = {
+    function()
+      require("core.utils").toggle_term_cmd "lazygit"
+    end,
+    "Lazygit",
+  }
 
   -- Terminal
   init_table "t"
-  mappings.t.l = { "<cmd>lua require('core.utils').toggle_term_cmd('lazygit')<CR>", "Lazygit" }
+  mappings.t.l = {
+    function()
+      require("core.utils").toggle_term_cmd "lazygit"
+    end,
+    "Lazygit",
+  }
   mappings.t.f = { "<cmd>ToggleTerm direction=float<cr>", "Float" }
   mappings.t.h = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>", "Horizontal" }
   mappings.t.v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" }
@@ -173,42 +233,145 @@ end
 if utils.is_available "telescope.nvim" then
   -- Buffer
   init_table "b"
-  mappings.b.l = { "<cmd>Telescope buffers<CR>", "List Opened" }
+  mappings.b.l = {
+    function()
+      require("telescope.builtin").buffers()
+    end,
+    "List Opened",
+  }
 
   -- Git
   init_table "g"
-  mappings.g.t = { "<cmd>Telescope git_status<CR>", "Open changed file" }
-  mappings.g.b = { "<cmd>Telescope git_branches<CR>", "Checkout branch" }
-  mappings.g.c = { "<cmd>Telescope git_commits<CR>", "Checkout commit" }
+  mappings.g.t = {
+    function()
+      require("telescope.builtin").git_status()
+    end,
+    "Open Changed File",
+  }
+  mappings.g.b = {
+    function()
+      require("telescope.builtin").git_branches()
+    end,
+    "Checkout Branch",
+  }
+  mappings.g.c = {
+    function()
+      require("telescope.builtin").git_commits()
+    end,
+    "Checkout Commit",
+  }
 
   -- File
   init_table "f"
   mappings.f.d = { "<cmd>Telescope fd cwd=%:p:h find_command=rg,--ignore,--hidden,--files<CR>", "Find in Current Root" }
-  mappings.f.f = { "<cmd>Telescope find_files<CR>", "Find" }
-  mappings.f.F = { "<cmd>lua require'telescope.builtin'.find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})<cr>", "Find(Include Hidden)" }
-  mappings.f.o = { "<cmd>Telescope oldfiles<CR>", "Open Recent" }
+  mappings.f.f = {
+    function()
+      require("telescope.builtin").find_files()
+    end,
+    "Find Files",
+  }
+  mappings.f.F = {
+    function()
+      require("telescope.builtin").find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})
+    end,
+    "Find(Include Hidden)",
+  }
+  mappings.f.o = {
+    function()
+      require("telescope.builtin").oldfiles()
+    end,
+    "Open Recent",
+  }
 
   -- LSP
   init_table "l"
-  mappings.l.D = { "<cmd>Telescope diagnostics<CR>", "All Diagnostics" }
-  mappings.l.e = { "<cmd>Telescope lsp_definitions<CR>", "Definition" }
-  mappings.l.r = { "<cmd>Telescope lsp_references<CR>", "References" }
-  mappings.l.s = { "<cmd>Telescope lsp_document_symbols<CR>", "Document Symbols" }
+  mappings.l.D = {
+    function()
+      require("telescope.builtin").diagnostics()
+    end,
+    "All Diagnostics",
+  }
+  mappings.l.e = {
+    function()
+      require("telescope.builtin").lsp_definitions()
+    end,
+    "Definition",
+  }
+  mappings.l.r = {
+    function()
+      require("telescope.builtin").lsp_references()
+    end,
+    "References",
+  }
+  mappings.l.s = {
+    function()
+      require("telescope.builtin").lsp_document_symbols()
+    end,
+    "Document Symbols",
+  }
 
   -- Search
   init_table "s"
-  mappings.s.b = { "<cmd>Telescope git_branches<CR>", "Checkout branch" }
-  mappings.s.c = { "<cmd>Telescope commands<CR>", "Commands" }
+  mappings.s.c = {
+    function()
+      require("telescope.builtin").commands()
+    end,
+    "Commands",
+  }
   mappings.s.h = { "<cmd>Telescope help_tags<CR>", "Help" }
-  mappings.s.k = { "<cmd>Telescope keymaps<CR>", "Keymaps" }
-  mappings.s.m = { "<cmd>Telescope man_pages<CR>", "Man Pages" }
-  mappings.s.n = { "<cmd>Telescope notify<CR>", "Notifications" }
-  mappings.s.r = { "<cmd>Telescope registers<CR>", "Registers" }
-  mappings.s.t = { "<cmd>Telescope live_grep<CR>", "Text" }
+  mappings.s.h = {
+    function()
+      require("telescope.builtin").help_tags()
+    end,
+    "Help",
+  }
+  mappings.s.k = {
+    function()
+      require("telescope.builtin").keymaps()
+    end,
+    "Keymaps",
+  }
+  mappings.s.m = {
+    function()
+      require("telescope.builtin").man_pages()
+    end,
+    "Man Pages",
+  }
+  mappings.s.n = {
+    function()
+      require("telescope").extensions.notify.notify()
+    end,
+    "Notifications",
+  }
+  mappings.s.r = {
+    function()
+      require("telescope.builtin").registers()
+    end,
+    "Registers",
+  }
+  mappings.s.t = {
+    function()
+      require("telescope.builtin").live_grep()
+    end,
+    "Text",
+  }
   -- Project
   if utils.is_available "project.nvim" then
-    mappings.P = { "<cmd>Telescope projects<CR>", "Projects" }
-    mappings.s.p = { "<cmd>Telescope projects<CR>", "Projects" }
+    -- Standalone
+    mappings.P = {
+      function()
+        require("telescope").extensions.projects.projects()
+      end,
+      "Projects",
+    }
+
+    -- Search
+    mappings.s.p = {
+      function()
+        require("telescope").extensions.projects.projects()
+      end,
+      "Projects",
+    }
   end
 end
 

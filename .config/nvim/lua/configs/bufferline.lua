@@ -62,7 +62,6 @@ function M.config()
       buffer_selected = {
         guifg = { attribute = "fg", highlight = "BufferLineBufferSelected" },
         guibg = { attribute = "bg", highlight = "BufferLineBufferSelected" },
-        gui = "bold",
       },
       buffer_visible = {
         guifg = { attribute = "fg", highlight = "BufferLineBufferVisible" },
@@ -72,7 +71,6 @@ function M.config()
       duplicate = {
         guifg = { attribute = "fg", highlight = "BufferLineDuplicate" },
         guibg = { attribute = "bg", highlight = "BufferLineDuplicate" },
-        gui = "bold",
       },
       -- Selected buffer indicator
       indicator_selected = {

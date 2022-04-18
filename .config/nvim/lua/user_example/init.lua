@@ -5,7 +5,7 @@ local config = {
 
   -- Default theme configuration
   default_theme = {
-    diagnostics_style = "none",
+    diagnostics_style = { italic = true },
     -- Modify the color table
     colors = {
       fg = "#abb2bf",
@@ -38,7 +38,7 @@ local config = {
     lastplace = true,
   },
 
-  -- Disable Neovim ui features
+  -- Disable AstroNvim ui features
   ui = {
     nui_input = true,
     telescope_select = true,
@@ -76,6 +76,21 @@ local config = {
     -- Add bindings to the normal mode <leader> mappings
     register_n_leader = {
       -- ["N"] = { "<cmd>tabnew<cr>", "New Buffer" },
+    },
+  },
+
+  -- CMP Source Priorities
+  -- modify here the priorities of default cmp sources
+  -- higher value == higher priority
+  -- The value can also be set to a boolean for disabling default sources:
+  -- false == disabled
+  -- true == 1000
+  cmp = {
+    source_priority = {
+      nvim_lsp = 1000,
+      luasnip = 750,
+      buffer = 500,
+      path = 250,
     },
   },
 
@@ -141,7 +156,11 @@ local config = {
       -- NOTE: You can remove this on attach function to disable format on save
       on_attach = function(client)
         if client.resolved_capabilities.document_formatting then
-          vim.cmd "autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()"
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            desc = "Auto format before save",
+            pattern = "<buffer>",
+            callback = vim.lsp.buf.formatting_sync,
+          })
         end
       end,
     }
@@ -150,8 +169,7 @@ local config = {
   -- This function is run last
   -- good place to configure mappings and vim options
   polish = function()
-    local opts = { noremap = true, silent = true }
-    local map = vim.api.nvim_set_keymap
+    local map = vim.keymap.set
     local set = vim.opt
 
     --- SET OPTIONS ---
@@ -166,12 +184,29 @@ local config = {
     --- SET KEYBINDINGS ---
     --
     -- Reload last sesssion
-    map("n", "<leader>rl", "<cmd>SessionManage load_last_session<CR>", opts)
+    map("n", "<leader>rl", "<cmd>SessionManage load_last_session<CR>")
 
     --- SET AUTOCOMMANDS ---
     --
-    -- Open explorer without focus on session load
-    vim.cmd [[autocmd SessionLoadPost * lua require"nvim-tree".toggle(false, true)]]
+    -- Explorer in sessions
+    vim.api.nvim_create_autocmd("SessionLoadPost", {
+      desc = "Automatically open explorer without focus on session load",
+      pattern = "*",
+      command = "lua require'nvim-tree'.toggle(false, true)",
+    })
+
+    -- Set up custom filetypes
+    -- vim.filetype.add {
+    --   extension = {
+    --     foo = "fooscript",
+    --   },
+    --   filename = {
+    --     ["Foofile"] = "fooscript",
+    --   },
+    --   pattern = {
+    --     ["~/%.config/foo/.*"] = "fooscript",
+    --   },
+    -- }
   end,
 }
 

@@ -13,7 +13,7 @@ local config = {
   },
 
   default_theme = {
-    diagnostics_style = "none",
+    diagnostics_style = {},
   },
 
   enabled = {
@@ -32,6 +32,15 @@ local config = {
     ts_rainbow = true,
     ts_autotag = true,
     lastplace = true,
+  },
+
+  cmp = {
+    source_priority = {
+      nvim_lsp = 1000,
+      luasnip = 750,
+      buffer = 500,
+      path = 250,
+    },
   },
 
   ui = {

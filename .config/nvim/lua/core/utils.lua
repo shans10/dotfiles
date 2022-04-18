@@ -1,19 +1,33 @@
 local M = {}
 
+local supported_configs = {
+  vim.fn.stdpath "config",
+  vim.fn.stdpath "config" .. "/../astronvim",
+}
+
 local g = vim.g
 
+local function file_not_empty(path)
+  return vim.fn.empty(vim.fn.glob(path)) == 0
+end
+
 local function load_module_file(module)
-  local module_path = vim.fn.stdpath "config" .. "/lua/" .. module:gsub("%.", "/") .. ".lua"
-  local out = nil
-  if vim.fn.empty(vim.fn.glob(module_path)) == 0 then
-    local status_ok, loaded_module = pcall(require, module)
-    if status_ok then
-      out = loaded_module
-    else
-      vim.notify("Error loading " .. module_path, "error", M.base_notification)
+  local found_module = nil
+  for _, config_path in ipairs(supported_configs) do
+    local module_path = config_path .. "/lua/" .. module:gsub("%.", "/") .. ".lua"
+    if file_not_empty(module_path) then
+      found_module = module_path
     end
   end
-  return out
+  if found_module then
+    local status_ok, loaded_module = pcall(require, module)
+    if status_ok then
+      found_module = loaded_module
+    else
+      vim.notify("Error loading " .. found_module, "error", M.base_notification)
+    end
+  end
+  return found_module
 end
 
 local function load_user_settings()
@@ -27,7 +41,7 @@ end
 
 local _user_settings = load_user_settings()
 
-local _user_terminals = {}
+M.user_terminals = {}
 
 local function func_or_extend(overrides, default)
   if default == nil then
@@ -62,7 +76,7 @@ local function load_options(module, default)
   return default
 end
 
-M.base_notification = { title = "AstroVim" }
+M.base_notification = { title = "AstroNvim" }
 
 function M.bootstrap()
   local fn = vim.fn
@@ -76,8 +90,8 @@ function M.bootstrap()
       "https://github.com/wbthomason/packer.nvim",
       install_path,
     }
-    print "Cloning packer...\nSetup AstroVim"
-    vim.cmd [[packadd packer.nvim]]
+    print "Cloning packer...\nSetup AstroNvim"
+    vim.cmd "packadd packer.nvim"
   end
 end
 
@@ -144,11 +158,36 @@ function M.list_registered_linters(filetype)
   return registered_providers[formatter_method] or {}
 end
 
-function M.toggle_term_cmd(cmd)
-  if _user_terminals[cmd] == nil then
-    _user_terminals[cmd] = require("toggleterm.terminal").Terminal:new { cmd = cmd, hidden = true }
+-- term_details can be either a string for just a command or
+-- a complete table to provide full access to configuration when calling Terminal:new()
+function M.toggle_term_cmd(term_details)
+  if type(term_details) == "string" then
+    term_details = { cmd = term_details, hidden = true }
   end
-  _user_terminals[cmd]:toggle()
+  local cmd = term_details.cmd
+  if M.user_terminals[cmd] == nil then
+    M.user_terminals[cmd] = require("toggleterm.terminal").Terminal:new(term_details)
+  end
+  M.user_terminals[cmd]:toggle()
+end
+
+function M.add_cmp_source(source, priority)
+  if type(priority) ~= "number" then
+    priority = 1000
+  end
+  local cmp_avail, cmp = pcall(require, "cmp")
+  if cmp_avail then
+    local config = cmp.get_config()
+    table.insert(config.sources, { name = source, priority = priority })
+    cmp.setup(config)
+  end
+end
+
+function M.add_user_cmp_source(source)
+  local priority = M.user_plugin_opts("cmp.source_priority", _user_settings.cmp.source_priority)[source]
+  if priority then
+    M.add_cmp_source(source, priority)
+  end
 end
 
 function M.label_plugins(plugins)

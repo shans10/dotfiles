@@ -3,7 +3,6 @@ local M = {}
 function M.config()
   local g = vim.g
 
-  g.dashboard_disable_statusline = 1
   g.dashboard_default_executive = "telescope"
 
   --- HEADER ---

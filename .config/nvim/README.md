@@ -1,6 +1,6 @@
 <h1 align="center">Doom Neovim</h1>
 
-**This is my personal configuration of [AstroVim](https://github.com/kabinspace/AstroVim) with some additional keybindings and aesthetic changes.**
+**This is my personal configuration of [AstroNvim](https://github.com/AstroNvim/AstroNvim) with some additional keybindings and aesthetic changes.**
 Visit their official gihub page for support and configuration.
 
 <h2 align="centre">Usage</h2>
@@ -12,4 +12,4 @@ Visit their official gihub page for support and configuration.
 
 **NOTE:** For adding personal configuration check user_example/init.lua and paste it in user/init.lua.
 
-**Pulled changes upto commit da8b4e494c8151522fab386c1dd41f4206949fbc from AstroVim.**
+**Pulled changes upto commit 5b904b9910ad1b0e41b364f0be91168ec706d38c from AstroNvim.**
