@@ -4,4 +4,8 @@ GuiFont Cascadia Code:h10
 GuiTabline 0
 GuiPopupmenu 0
 
+" Fix lualine and bufferline not loading in Neovim-Qt
+autocmd BufEnter * set showtabline=2
+autocmd BufEnter * lua require'lualine'.setup()
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" " END " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

@@ -47,16 +47,10 @@ if utils.is_available "dashboard-nvim" then
       pattern = "dashboard",
       command = "set showtabline=0",
     })
-    -- cmd("BufWinLeave", {
-    --   desc = "Reenable tabline when leaving dashboard",
-    --   group = "dashboard_settings",
-    --   pattern = "<buffer>",
-    --   command = "set showtabline=2",
-    -- })
-    cmd("BufEnter", {
+    cmd("BufWinLeave", {
       desc = "Reenable tabline when leaving dashboard",
       group = "dashboard_settings",
-      pattern = "*",
+      pattern = "<buffer>",
       command = "set showtabline=2",
     })
   end
@@ -105,15 +99,6 @@ if utils.is_available "nvim-tree.lua" then
   })
 end
 
--- Fix lualine not loading in certain cases
-if utils.is_available "lualine.nvim" then
-  cmd("BufEnter", {
-    desc = "Load lualine in sessions and in files opened with e[dit] command",
-    pattern = "*",
-    command = "lua require'lualine'.setup()",
-  })
-end
-
 -- Close non-essential splits(help, references, etc.)
 cmd("FileType", {
   desc = "Close non-essential splits with 'q'",
@@ -121,7 +106,7 @@ cmd("FileType", {
   command = "nnoremap <silent> <buffer> q :close<CR>",
 })
 
--- Update AstroVim
-create_command("AstroUpdate", require("core.utils").update, {})
+-- Create a command to update AstroVim
+create_command("AstroUpdate", require("core.utils").update, { desc = "Update AstroNvim" })
 
 return M
