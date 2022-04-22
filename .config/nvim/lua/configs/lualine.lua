@@ -40,7 +40,7 @@ function M.config()
       padding = { left = 0, right = 0 },
     }
 
-    local config = {
+    lualine.setup(require("core.utils").user_plugin_opts("plugins.lualine", {
       options = {
         disabled_filetypes = { "NvimTree", "neo-tree", "dashboard", "Outline" },
         component_separators = "",
@@ -64,7 +64,7 @@ function M.config()
           },
           {
             "diff",
-            symbols = { added = " ", modified = "柳", removed = " " },
+            symbols = { added = " ", modified = "柳 ", removed = " " },
             cond = conditions.hide_in_width,
             padding = { left = 2, right = 1 },
           },
@@ -127,9 +127,7 @@ function M.config()
         lualine_c = {},
         lualine_x = {},
       },
-    }
-
-    lualine.setup(require("core.utils").user_plugin_opts("plugins.lualine", config))
+    }))
   end
 end
 

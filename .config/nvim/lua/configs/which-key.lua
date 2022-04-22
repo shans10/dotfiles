@@ -3,7 +3,7 @@ local M = {}
 function M.config()
   local status_ok, which_key = pcall(require, "which-key")
   if status_ok then
-    local default_setup = {
+    which_key.setup(require("core.utils").user_plugin_opts("plugins.which-key", {
       plugins = {
         marks = true,
         registers = true,
@@ -12,7 +12,7 @@ function M.config()
           suggestions = 20,
         },
         presets = {
-          operators = true,
+          operators = false,
           motions = true,
           text_objects = true,
           windows = true,
@@ -21,7 +21,6 @@ function M.config()
           g = true,
         },
       },
-      key_labels = {},
       icons = {
         breadcrumb = "»",
         separator = "➜",
@@ -41,7 +40,7 @@ function M.config()
       layout = {
         height = { min = 4, max = 25 },
         width = { min = 20, max = 50 },
-        spacing = 10,
+        spacing = 3,
         align = "left",
       },
       ignore_missing = true,
@@ -52,9 +51,7 @@ function M.config()
         i = { "j", "k" },
         v = { "j", "k" },
       },
-    }
-
-    which_key.setup(require("core.utils").user_plugin_opts("plugins.which-key", default_setup))
+    }))
   end
 end
 

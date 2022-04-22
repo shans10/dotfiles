@@ -77,9 +77,6 @@ function M.config()
         ghost_text = false,
         native_menu = false,
       },
-      completion = {
-        keyword_length = 1,
-      },
       mapping = {
         ["<Up>"] = cmp.mapping.select_prev_item(),
         ["<Down>"] = cmp.mapping.select_next_item(),

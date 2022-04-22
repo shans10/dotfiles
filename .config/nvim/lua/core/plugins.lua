@@ -414,7 +414,7 @@ if packer_status_ok then
       git = {
         clone_timeout = 300,
         subcommands = {
-          update = "pull --ff-only --progress --rebase",
+          update = "pull --rebase",
         },
       },
       auto_clean = true,
