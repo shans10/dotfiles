@@ -260,7 +260,7 @@ if status_ok then
 
     -- File
     init_table "f"
-    mappings.f.d = { "<cmd>Telescope fd cwd=%:p:h find_command=rg,--ignore,--hidden,--files<CR>", "Find in Current Root" }
+    mappings.f.d = { "<cmd>Telescope fd cwd=%:p:h find_command=rg,--ignore,--hidden,--files<CR>", "Find in CWD" }
     mappings.f.f = {
       function()
         require("telescope.builtin").find_files()
