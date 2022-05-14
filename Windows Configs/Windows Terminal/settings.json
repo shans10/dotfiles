@@ -31,13 +31,13 @@
     ],
     "copyFormatting": "none",
     "copyOnSelect": false,
-    "defaultProfile": "{aab79973-318f-43b6-a9bc-b4096493753f}",
+    "defaultProfile": "{2b372ca1-1ee2-403d-a839-6d63077ad871}",
     "profiles": 
     {
         "defaults": 
         {
             "bellStyle": "none",
-            "colorScheme": "One Half Dark",
+            "colorScheme": "Campbell",
             "cursorShape": "filledBox",
             "font": 
             {
@@ -52,28 +52,14 @@
         [
             {
                 "bellStyle": "none",
-                "colorScheme": "Catppuccin",
-                "commandline": "nu",
-                "guid": "{aab79973-318f-43b6-a9bc-b4096493753f}",
+                "colorScheme": "OneDark",
+                "commandline": "nu.exe",
+                "guid": "{2b372ca1-1ee2-403d-a839-6d63077ad871}",
                 "hidden": false,
                 "icon": "C:\\Users\\shant\\Pictures\\Saved Pictures\\nushell.png",
-                "name": "Nushell",
+                "name": "Nu Shell",
                 "scrollbarState": "hidden",
                 "startingDirectory": "%USERPROFILE%"
-            },
-            {
-                "colorScheme": "Dracula",
-                "guid": "{58ad8b0c-3ef8-5f4d-bc6f-13e4c00f2530}",
-                "hidden": false,
-                "name": "Debian",
-                "source": "Windows.Terminal.Wsl"
-            },
-            {
-                "colorScheme": "Argonaut",
-                "guid": "{46ca431a-3a87-5fb3-83cd-11ececc031d2}",
-                "hidden": false,
-                "name": "Kali Linux",
-                "source": "Windows.Terminal.Wsl"
             },
             {
                 "bellStyle": "none",
@@ -84,13 +70,6 @@
                 "name": "PowerShell",
                 "scrollbarState": "hidden",
                 "source": "Windows.Terminal.PowershellCore"
-            },
-            {
-                "colorScheme": "Dracula",
-                "commandline": "ssh -t shan@ArchLinux",
-                "guid": "{07dd1d3f-99e3-513c-ab7b-742dd1a6437a}",
-                "icon": "C:\\Users\\shant\\Pictures\\Saved Pictures\\arch.png",
-                "name": "ArchLinux@HP"
             },
             {
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
@@ -108,6 +87,14 @@
                 "hidden": true,
                 "name": "Azure Cloud Shell",
                 "source": "Windows.Terminal.Azure"
+            },
+            {
+                "colorScheme": "Catppuccin",
+                "commandline": "ssh -t shan@ArchLinux",
+                "guid": "{fd5baa3d-eae7-4209-9dca-985f9a615bc8}",
+                "hidden": false,
+                "icon": "C:\\Users\\shant\\Pictures\\Saved Pictures\\arch.png",
+                "name": "ArchLinux SSH Server"
             }
         ]
     },
@@ -273,6 +260,29 @@
             "selectionBackground": "#FFFFFF",
             "white": "#FAFAFA",
             "yellow": "#C18301"
+        },
+        {
+            "background": "#1E2127",
+            "black": "#1E2127",
+            "blue": "#61AFEF",
+            "brightBlack": "#5C6370",
+            "brightBlue": "#61AFEF",
+            "brightCyan": "#56B6C2",
+            "brightGreen": "#98C379",
+            "brightPurple": "#C678DD",
+            "brightRed": "#E06C75",
+            "brightWhite": "#FFFFFF",
+            "brightYellow": "#D19A66",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#56B6C2",
+            "foreground": "#ABB2BF",
+            "green": "#98C379",
+            "name": "OneDark",
+            "purple": "#C678DD",
+            "red": "#E06C75",
+            "selectionBackground": "#FFFFFF",
+            "white": "#ABB2BF",
+            "yellow": "#D19A66"
         },
         {
             "background": "#002B36",
