@@ -3,35 +3,22 @@ local config = {
   -- Set colorscheme
   colorscheme = "default_theme",
 
-  -- Disable default plugins
-  enabled = {
-    bufferline = true,
-    nvim_tree = true,
-    lualine = true,
-    gitsigns = true,
-    colorizer = true,
-    toggle_term = true,
-    comment = true,
-    symbols_outline = true,
-    indent_blankline = true,
-    dashboard = true,
-    which_key = true,
-    neoscroll = false,
-    ts_rainbow = false,
-    ts_autotag = false,
-    lastplace = true,
-  },
-
   -- Configure plugins
   plugins = {
     -- Add plugins, the packer syntax without the "use"
     init = {
-      -- {
-      --   "lambdalisue/suda.vim",
-      --   config = function()
-      --     vim.g.suda_smart_edit = 1   -- Open readonly files automatically with sudo permissions
-      --   end
-      -- },
+      -- Disable default plugins
+      -- ["karb94/neoscroll.nvim"] = { disable = true },
+      ["p00f/nvim-ts-rainbow"] = { disable = true },
+      ["windwp/nvim-ts-autotag"] = { disable = true },
+
+      -- Add user plugins
+      {
+        "lambdalisue/suda.vim",
+        config = function()
+          vim.g.suda_smart_edit = 1   -- Open readonly files automatically with sudo permissions
+        end
+      },
     },
 
     -- All other entries override the setup() call for default plugins
@@ -87,28 +74,18 @@ local config = {
   -- This function is run last
   -- good place to configure mappings and vim options
   polish = function()
-    local opts = { noremap = true, silent = true }
-    local map = vim.api.nvim_set_keymap
-    local set = vim.opt
-
     --- SET OPTIONS ---
     --
-    -- Enable relativenumber
-    set.relativenumber = true
-
     -- Render tabs/trailing spaces
-    set.list = true
-    set.listchars:append({ tab = '› ', trail = '•', extends = '#', nbsp = '.' })
+    vim.opt.listchars:append({ tab = '› ', trail = '•', extends = '#', nbsp = '.' })
+
+    -- Automatically go to next line
+    vim.opt.whichwrap:append "<,>[,],h,l"
 
     -- Set default shell
     -- set.shell = "/usr/bin/fish"         -- Linux
     -- set.shell = "pwsh.exe -NoLogo"      -- Windows(PowerShell)
     -- set.shellcmdflag = "-Command"
-
-    --- SET KEYBINDINGS ---
-    --
-    -- Reload last sesssion
-    map("n", "<leader>rl", "<cmd>SessionManage load_last_session<CR>", opts)
 
     --- SET AUTOCOMMANDS ---
     --
@@ -118,13 +95,6 @@ local config = {
     --   let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
     --   set shellquote= shellxquote=
     -- ]]
-
-    -- Explorer in sessions
-    -- vim.api.nvim_create_autocmd("SessionLoadPost", {
-    --   desc = "Automatically open explorer without focus on session load",
-    --   pattern = "*",
-    --   command = "lua require'nvim-tree'.toggle(false, true)",
-    -- })
   end,
 }
 

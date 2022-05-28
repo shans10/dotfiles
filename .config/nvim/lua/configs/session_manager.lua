@@ -1,4 +1,5 @@
 local M = {}
+
 function M.config()
   local status, session_manager = pcall(require, "session_manager")
   if status then

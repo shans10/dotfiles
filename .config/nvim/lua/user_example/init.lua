@@ -3,6 +3,16 @@ local config = {
   -- Set colorscheme
   colorscheme = "default_theme",
 
+  -- set vim options here (vim.<first_key>.<second_key> =  value)
+  options = {
+    opt = {
+      relativenumber = true, -- sets vim.opt.relativenumber
+    },
+    g = {
+      mapleader = " ", -- sets vim.g.mapleader
+    },
+  },
+
   -- Default theme configuration
   default_theme = {
     diagnostics_style = { italic = true },
@@ -19,25 +29,6 @@ local config = {
     end,
   },
 
-  -- Disable default plugins
-  enabled = {
-    bufferline = true,
-    nvim_tree = true,
-    lualine = true,
-    gitsigns = true,
-    colorizer = true,
-    toggle_term = true,
-    comment = true,
-    symbols_outline = true,
-    indent_blankline = true,
-    dashboard = true,
-    which_key = true,
-    neoscroll = true,
-    ts_rainbow = true,
-    ts_autotag = true,
-    lastplace = true,
-  },
-
   -- Disable AstroNvim ui features
   ui = {
     nui_input = true,
@@ -48,6 +39,10 @@ local config = {
   plugins = {
     -- Add plugins, the packer syntax without the "use"
     init = {
+      -- You can disable default plugins as follows:
+      -- ["goolord/alpha-nvim"] = { disable = true },
+
+      -- You can also add new plugins here as well:
       -- {
       --   "lambdalisue/suda.vim",
       --   config = function()
@@ -61,21 +56,37 @@ local config = {
       ensure_installed = { "lua" },
     },
 
+    ["nvim-lsp-installer"] = {
+      ensure_installed = { "sumneko_lua" },
+    },
+
     packer = {
       compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
     },
   },
 
-  -- Add paths for including more VS Code style snippets in luasnip
+  -- LuaSnip Options
   luasnip = {
+    -- Add paths for including more VS Code style snippets in luasnip
     vscode_snippet_paths = {},
+    -- Extend filetypes
+    filetype_extend = {
+      javascript = { "javascriptreact" },
+    },
   },
 
   -- Modify which-key registration
   ["which-key"] = {
-    -- Add bindings to the normal mode <leader> mappings
-    register_n_leader = {
-      -- ["N"] = { "<cmd>tabnew<cr>", "New Buffer" },
+    -- Add bindings
+    register_mappings = {
+      -- first key is the mode, n == normal mode
+      n = {
+        -- second key is the prefix, <leader> prefixes
+        ["<leader>"] = {
+          -- which-key registration table for normal mode, leader prefix
+          -- ["N"] = { "<cmd>tabnew<cr>", "New Buffer" },
+        },
+      },
     },
   },
 
@@ -96,13 +107,17 @@ local config = {
 
   -- Extend LSP configuration
   lsp = {
+    -- enable servers that you already have installed without lsp-installer
+    servers = {
+      -- "pyright"
+    },
     -- add to the server on_attach function
     -- on_attach = function(client, bufnr)
     -- end,
 
     -- override the lsp installer server-registration function
     -- server_registration = function(server, opts)
-    --   server:setup(opts)
+    --   require("lspconfig")[server.name].setup(opts)
     -- end
 
     -- Add overrides for LSP server settings, the keys are the name of the server
@@ -155,9 +170,11 @@ local config = {
       },
       -- NOTE: You can remove this on attach function to disable format on save
       on_attach = function(client)
-        if client.resolved_capabilities.document_formatting then
+        if client.server_capabilities.documentFormattingProvider then
+          vim.api.nvim_create_augroup("lsp_format", { clear = true })
           vim.api.nvim_create_autocmd("BufWritePre", {
             desc = "Auto format before save",
+            group = "lsp_format",
             pattern = "<buffer>",
             callback = vim.lsp.buf.formatting_sync,
           })
@@ -169,28 +186,26 @@ local config = {
   -- This function is run last
   -- good place to configure mappings and vim options
   polish = function()
-    local map = vim.keymap.set
-    local set = vim.opt
-
     --- SET OPTIONS ---
     --
-    -- Enable relativenumber
-    set.relativenumber = true
-
     -- Render tabs/trailing spaces
-    set.list = true
-    set.listchars:append({ tab = '› ', trail = '•', extends = '#', nbsp = '.' })
+    vim.opt.listchars:append({ tab = '› ', trail = '•', extends = '#', nbsp = '.' })
+
+    -- Automatically go to next line
+    vim.opt.whichwrap:append "<,>[,],h,l"
 
     --- SET KEYBINDINGS ---
     --
-    -- Reload last sesssion
-    map("n", "<leader>rl", "<cmd>SessionManage load_last_session<CR>")
+    -- ForceWrite
+    vim.keymap.set("n", "<C-s>", ":w!<CR>")
 
     --- SET AUTOCOMMANDS ---
     --
     -- Explorer in sessions
+    vim.api.nvim_create_augroup("nvim_tree", { clear = true })
     vim.api.nvim_create_autocmd("SessionLoadPost", {
       desc = "Automatically open explorer without focus on session load",
+      group = "nvim_tree",
       pattern = "*",
       command = "lua require'nvim-tree'.toggle(false, true)",
     })

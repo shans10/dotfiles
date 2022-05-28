@@ -80,7 +80,10 @@ if packer_status_ok then
     },
 
     -- Better buffer closing
-    { "moll/vim-bbye" },
+    {
+      "famiu/bufdelete.nvim",
+      cmd = { "Bdelete", "Bwipeout" },
+    },
 
     -- File explorer
     {
@@ -201,40 +204,36 @@ if packer_status_ok then
       end,
     },
 
-    -- LSP manager
-    {
-      "williamboman/nvim-lsp-installer",
-      module = "nvim-lsp-installer",
-      cmd = {
-        "LspInstall",
-        "LspInstallInfo",
-        "LspPrintInstalled",
-        "LspRestart",
-        "LspStart",
-        "LspStop",
-        "LspUninstall",
-        "LspUninstallAll",
-      },
-    },
-
     -- Built-in LSP
     {
       "neovim/nvim-lspconfig",
-      tag = "v0.1.3",
-      event = "BufWinEnter",
+      module = "lspconfig",
+      opt = true,
+      setup = function()
+        require("core.utils").defer_plugin "nvim-lspconfig"
+      end,
+    },
+
+    -- LSP manager
+    {
+      "williamboman/nvim-lsp-installer",
+      after = "nvim-lspconfig",
       config = function()
+        require("configs.nvim-lsp-installer").config()
         require "configs.lsp"
       end,
     },
 
     -- LSP symbols
     {
-      "simrat39/symbols-outline.nvim",
-      cmd = "SymbolsOutline",
+      "stevearc/aerial.nvim",
+      opt = true,
       setup = function()
-        require("configs.symbols-outline").setup()
+        require("core.utils").defer_plugin "aerial.nvim"
       end,
-      disable = not config.enabled.symbols_outline,
+      config = function()
+        require("configs.aerial").config()
+      end,
     },
 
     -- Formatting and linting
@@ -272,7 +271,10 @@ if packer_status_ok then
     -- Git integration
     {
       "lewis6991/gitsigns.nvim",
-      event = { "BufRead", "BufNewFile" },
+      opt = true,
+      setup = function()
+        require("core.utils").defer_plugin "gitsigns.nvim"
+      end,
       config = function()
         require("configs.gitsigns").config()
       end,
@@ -281,11 +283,10 @@ if packer_status_ok then
 
     -- Start screen
     {
-      "glepnir/dashboard-nvim",
+      "goolord/alpha-nvim",
       config = function()
-        require("configs.dashboard").config()
+        require("configs.alpha").config()
       end,
-      disable = not config.enabled.dashboard,
     },
 
     -- Color highlighting
@@ -323,7 +324,7 @@ if packer_status_ok then
       "numToStr/Comment.nvim",
       event = { "BufRead", "BufNewFile" },
       config = function()
-        require("configs.comment").config()
+        require("configs.Comment").config()
       end,
       disable = not config.enabled.comment,
     },
@@ -376,6 +377,9 @@ if packer_status_ok then
     -- Session Manager
     {
       "Shatur/neovim-session-manager",
+      module = "session_manager",
+      cmd = "SessionManager",
+      event = "BufWritePost",
       config = function()
         require("configs.session_manager").config()
       end,

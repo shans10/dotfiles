@@ -15,6 +15,11 @@ function M.config()
       telescope.load_extension "projects"
     end
 
+    local aerial_present, _ = pcall(require, "aerial")
+    if aerial_present then
+      telescope.load_extension "aerial"
+    end
+
     telescope.setup(require("core.utils").user_plugin_opts("plugins.telescope", {
       defaults = {
 

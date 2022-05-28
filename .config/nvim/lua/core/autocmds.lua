@@ -6,17 +6,8 @@ local cmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 local create_command = vim.api.nvim_create_user_command
 
--- Automatically run PackerCompile after new plugins install
-augroup("packer_user_config", {})
-cmd("BufWritePost", {
-  desc = "Auto Compile plugins.lua file",
-  group = "packer_user_config",
-  command = "source <afile> | PackerCompile",
-  pattern = "plugins.lua",
-})
-
 -- Automatically run PackerSync on plugins.lua file save
-augroup("packer_conf", {})
+augroup("packer_conf", { clear = true })
 cmd("BufWritePost", {
   desc = "Sync packer after modifying plugins.lua",
   group = "packer_conf",
@@ -25,7 +16,7 @@ cmd("BufWritePost", {
 })
 
 -- Disable cursorline on losing file focus
-augroup("cursor_off", {})
+augroup("cursor_off", { clear = true })
 cmd("WinLeave", {
   desc = "No cursorline",
   group = "cursor_off",
@@ -37,45 +28,42 @@ cmd("WinEnter", {
   command = "set cursorline",
 })
 
--- Disable tabline, statusline and cursorline in dashboard buffer
-if utils.is_available "dashboard-nvim" then
-  augroup("dashboard_settings", {})
+-- Highlight URLs
+augroup("highlighturl", { clear = true })
+cmd({ "VimEnter", "FileType", "BufEnter", "WinEnter" }, {
+  desc = "URL Highlighting",
+  group = "highlighturl",
+  pattern = "*",
+  callback = require("core.utils").set_url_match,
+})
+
+-- Disable tabline, statusline and cursorline in alpha dashboard buffer
+if utils.is_available "alpha-nvim" then
+  augroup("alpha_settings", { clear = true })
   if utils.is_available "bufferline.nvim" then
     cmd("FileType", {
-      desc = "Disable tabline for dashboard",
-      group = "dashboard_settings",
-      pattern = "dashboard",
-      command = "set showtabline=0",
-    })
-    cmd("BufWinLeave", {
-      desc = "Reenable tabline when leaving dashboard",
-      group = "dashboard_settings",
-      pattern = "<buffer>",
-      command = "set showtabline=2",
+      desc = "Disable tabline for alpha",
+      group = "alpha_settings",
+      pattern = "alpha",
+      command = "set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2",
     })
   end
   cmd("FileType", {
-    desc = "Disable statusline for dashboard",
-    group = "dashboard_settings",
-    pattern = "dashboard",
-    command = "set laststatus=0",
-  })
-  cmd("BufWinLeave", {
-    desc = "Reenable statusline when leaving dashboard",
-    group = "dashboard_settings",
-    pattern = "<buffer>",
-    command = "set laststatus=3",
+    desc = "Disable statusline for alpha",
+    group = "alpha_settings",
+    pattern = "alpha",
+    command = "set laststatus=0 | autocmd BufUnload <buffer> set laststatus=3",
   })
   cmd("BufEnter", {
-    desc = "No cursorline on dashboard",
-    group = "dashboard_settings",
+    desc = "No cursorline on alpha",
+    group = "alpha_settings",
     pattern = "*",
-    command = "if &ft is 'dashboard' | set nocursorline | endif",
+    command = "if &ft is 'alpha' | set nocursorline | endif",
   })
 end
 
 -- Highlight Yank
-augroup("highlight_yank", {})
+augroup("highlight_yank", { clear = true })
 cmd("TextYankPost", {
   desc = "Highlight copied text for visual confirmation",
   group = "highlight_yank",
@@ -108,5 +96,8 @@ cmd("FileType", {
 
 -- Create a command to update AstroVim
 create_command("AstroUpdate", require("core.utils").update, { desc = "Update AstroNvim" })
+
+-- Create a command to toggle URL highlight
+create_command("ToggleHighlightURL", require("core.utils").toggle_url_match, { desc = "Toggle URL Highlights" })
 
 return M

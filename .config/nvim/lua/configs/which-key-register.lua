@@ -4,54 +4,71 @@ local utils = require "core.utils"
 
 local status_ok, which_key = pcall(require, "which-key")
 if status_ok then
-  local opts = {
-    mode = "n",
-    prefix = "<leader>",
-    buffer = nil,
-    silent = true,
-    noremap = true,
-    nowait = true,
-  }
-
   local mappings = {
-    ["w"] = { "<cmd>w<CR>", "Save" },
-    ["q"] = { "<cmd>q<CR>", "Quit" },
-    ["h"] = { "<cmd>nohlsearch<CR>", "No Highlight" },
-    ["P"] = { "Projects" },
-    ["."] = { "<cmd>cd %:p:h<CR>", "Set CWD" },
+    n = {
+      ["<leader>"] = {
+        ["w"] = { "<cmd>w<cr>", "Save" },
+        ["q"] = { "<cmd>q<cr>", "Quit" },
+        ["h"] = { "<cmd>nohlsearch<cr>", "No Highlight" },
+        ["P"] = { "Projects" },
+        ["."] = { "<cmd>cd %:p:h<cr>", "Set CWD" },
+        ["U"] = { require("core.utils").toggle_url_match, "Toggle URL Highlights" },
 
-    p = {
-      name = "Packer",
-      c = { "<cmd>PackerCompile<cr>", "Compile" },
-      i = { "<cmd>PackerInstall<cr>", "Install" },
-      s = { "<cmd>PackerSync<cr>", "Sync" },
-      S = { "<cmd>PackerStatus<cr>", "Status" },
-      u = { "<cmd>PackerUpdate<cr>", "Update" },
-    },
+        p = {
+          name = "Packer",
+          c = { "<cmd>PackerCompile<cr>", "Compile" },
+          i = { "<cmd>PackerInstall<cr>", "Install" },
+          s = { "<cmd>PackerSync<cr>", "Sync" },
+          S = { "<cmd>PackerStatus<cr>", "Status" },
+          u = { "<cmd>PackerUpdate<cr>", "Update" },
+        },
 
-    l = {
-      name = "LSP",
-      a = { vim.lsp.buf.code_action, "Code Action" },
-      d = { vim.diagnostic.open_float, "Hover Diagnostic" },
-      f = { vim.lsp.buf.formatting_sync, "Format" },
-      i = { "<cmd>LspInfo<cr>", "Info" },
-      I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
-      R = { vim.lsp.buf.rename, "Rename" },
-    },
+        l = {
+          name = "LSP",
+          a = { vim.lsp.buf.code_action, "Code Action" },
+          d = { vim.diagnostic.open_float, "Hover Diagnostic" },
+          f = { vim.lsp.buf.formatting_sync, "Format" },
+          i = { "<cmd>LspInfo<cr>", "Info" },
+          I = { "<cmd>LspInstallInfo<cr>", "Installer Info" },
+          R = { vim.lsp.buf.rename, "Rename" },
+        },
 
-    f = {
-      name = "File",
-      i = { "gg=G", "Indent All" },
-      p = { "1<C-g>", "Show Full Path" },
-      r = { "<cmd>e<CR>", "Reload" },
-      R = { "<cmd>e!<CR>", "Discard Changes and Reload" },
-      s = { "<cmd>w<CR>", "Save" },
-      S = { "ggVG", "Select All" },
-    },
+        f = {
+          name = "File",
+          i = { "gg=G", "Indent All" },
+          n = { "<cmd>enew<cr>", "New File" },
+          p = { "1<C-g>", "Show Full Path" },
+          r = { "<cmd>e<cr>", "Reload" },
+          R = { "<cmd>e!<cr>", "Discard Changes and Reload" },
+          s = { "<cmd>w<cr>", "Save" },
+          S = { "ggVG", "Select All" },
+        },
 
-    s = {
-      name = "Search",
-      f = { "<cmd>FZF<CR>", "File(FZF)" },
+        s = {
+          name = "Search",
+          f = { "<cmd>FZF<cr>", "File(FZF)" },
+        },
+      },
+
+      g = {
+        d = { vim.lsp.buf.definition, "Go to definition" },
+        D = { vim.lsp.buf.declaration, "Go to declaration" },
+        I = { vim.lsp.buf.implementation, "Go to implementation" },
+        r = { vim.lsp.buf.references, "Go to references" },
+        o = { vim.diagnostic.open_float, "Hover diagnostic" },
+        l = { vim.diagnostic.open_float, "Hover diagnostic" },
+        k = { vim.diagnostic.goto_prev, "Go to previous diagnostic" },
+        j = { vim.diagnostic.goto_next, "Go to next diagnostic" },
+        h = { vim.lsp.buf.hover, "Hover symbol details" },
+        R = { vim.lsp.buf.rename, "Rename current symbol" },
+        x = { utils.url_opener_cmd(), "Open the file under cursor with system app" },
+      },
+      ["["] = {
+        d = { vim.diagnostic.goto_prev, "Go to previous diagnostic" },
+      },
+      ["]"] = {
+        d = { vim.diagnostic.goto_next, "Go to next diagnostic" },
+      },
     },
   }
 
@@ -65,56 +82,51 @@ if status_ok then
     S = "Session",
   }
 
-  local function init_table(idx)
-    if not mappings[idx] then
-      mappings[idx] = { name = extra_sections[idx] }
+    local function init_table(mode, prefix, idx)
+    if not mappings[mode][prefix][idx] then
+      mappings[mode][prefix][idx] = { name = extra_sections[idx] }
     end
   end
 
   -- Buffer
-  init_table "b"
-  mappings.b.p = { "<cmd>bp<CR>", "Previous" }
-  mappings.b.n = { "<cmd>bn<CR>", "Next" }
+  init_table("n", "<leader>", "b")
+  mappings.n["<leader>"].b.p = { "<cmd>bp<cr>", "Previous" }
+  mappings.n["<leader>"].b.n = { "<cmd>bn<cr>", "Next" }
   if utils.is_available "bufferline.nvim" then
-    mappings.b.c = { "<cmd>BufferLinePickClose<CR>", "Pick Close" }
-    mappings.b.j = { "<cmd>BufferLinePick<CR>", "Jump To" }
-    mappings.b.N = { "<cmd>BufferLineMoveNext<CR>", "Move To Right" }
-    mappings.b.P = { "<cmd>BufferLineMovePrev<CR>", "Move To Left" }
+    mappings.n["<leader>"].b.c = { "<cmd>BufferLinePickClose<cr>", "Pick Close" }
+    mappings.n["<leader>"].b.j = { "<cmd>BufferLinePick<cr>", "Jump To" }
+    mappings.n["<leader>"].b.N = { "<cmd>BufferLineMoveNext<cr>", "Move To Right" }
+    mappings.n["<leader>"].b.P = { "<cmd>BufferLineMovePrev<cr>", "Move To Left" }
   end
 
   -- SessionManager
   if utils.is_available "neovim-session-manager" then
     -- Session
-    init_table "S"
-    mappings.S.d = { "<cmd>SessionManage delete_session<CR>", "Delete" }
-    mappings.S.l = { "<cmd>SessionManage load_last_session<CR>", "Load Last" }
-    mappings.S.L = { "<cmd>SessionManage load_session<CR>", "List All" }
-    mappings.S.s = { "<cmd>SessionManager save_current_session<CR>", "Save" }
+    init_table("n", "<leader>", "S")
+    mappings.n["<leader>"].S.d = { "<cmd>SessionManager! delete_session<cr>", "Delete" }
+    mappings.n["<leader>"].S.l = { "<cmd>SessionManager! load_last_session<cr>", "Load Last" }
+    mappings.n["<leader>"].S.L = { "<cmd>SessionManager! load_session<cr>", "List All" }
+    mappings.n["<leader>"].S.s = { "<cmd>SessionManager! save_current_session<cr>", "Save" }
 
     -- Search
-    init_table "s"
-    mappings.s.s = { "<cmd>SessionManage load_session<CR>", "Session" }
+    init_table("n", "<leader>", "s")
+    mappings.n["<leader>"].s.s = { "<cmd>SessionManager! load_session<cr>", "Session" }
   end
 
   -- NvimTree
   if utils.is_available "nvim-tree.lua" then
-    mappings.e = { "<cmd>NvimTreeToggle<CR>", "Toggle Explorer" }
-    mappings.o = { "<cmd>NvimTreeFocus<CR>", "Focus Explorer" }
+    mappings.n["<leader>"].e = { "<cmd>NvimTreeToggle<cr>", "Toggle Explorer" }
+    mappings.n["<leader>"].o = { "<cmd>NvimTreeFocus<cr>", "Focus Explorer" }
   end
 
-  -- Dashboard
-  if utils.is_available "dashboard-nvim" then
-    mappings.d = { "<cmd>Dashboard<CR>", "Dashboard" }
-    mappings.m = { "<cmd>DashboardJumpMarks<CR>", "Bookmarks" }
-
-    -- File
-    init_table "f"
-    mappings.f.n = { "<cmd>DashboardNewFile<CR>", "New File" }
+  -- Alpha Dashboard
+  if utils.is_available "alpha-nvim" then
+    mappings.n["<leader>"].d = { "<cmd>Alpha<cr>", "Alpha Dashboard" }
   end
 
   -- Comment
   if utils.is_available "Comment.nvim" then
-    mappings["/"] = {
+    mappings.n["<leader>"]["/"] = {
       function()
         require("Comment.api").toggle_current_linewise()
       end,
@@ -122,73 +134,87 @@ if status_ok then
     }
   end
 
-  -- VimBbye
-  if utils.is_available "vim-bbye" then
-    mappings.c = { "<cmd>Bdelete!<CR>", "Close Buffer" }
+  -- Bufdelete
+  if utils.is_available "bufdelete.nvim" then
+    mappings.n["<leader>"].c = { "<cmd>Bdelete!<cr>", "Close Buffer" }
 
     -- File
-    init_table "f"
-    mappings.f.c = { "<cmd>Bdelete<CR>", "Close" }
-    mappings.f.C = { "<cmd>Bdelete!<CR>", "Close Unsaved" }
+    init_table("n", "<leader>", "f")
+    mappings.n["<leader>"].f.c = { "<cmd>Bdelete<cr>", "Close" }
+    mappings.n["<leader>"].f.C = { "<cmd>Bdelete!<cr>", "Close Unsaved" }
 
     -- Buffer
-    init_table "b"
-    mappings.b.d = { "<cmd>Bdelete<CR>", "Delete" }
-    mappings.b.D = { "<cmd>Bdelete!<CR>", "Delete Unsaved" }
+    init_table("n", "<leader>", "b")
+    mappings.n["<leader>"].b.d = { "<cmd>Bdelete<cr>", "Delete" }
+    mappings.n["<leader>"].b.D = { "<cmd>Bdelete!<cr>", "Delete Unsaved" }
+
+  -- Standalone(If bufdelete is not installed)
+  else
+    mappings.n["<leader>"].c = { "<cmd>bdelete!<cr>", "Close Buffer" }
+
+    -- File
+    init_table("n", "<leader>", "f")
+    mappings.n["<leader>"].f.c = { "<cmd>bdelete<cr>", "Close" }
+    mappings.n["<leader>"].f.C = { "<cmd>bdelete!<cr>", "Close Unsaved" }
+
+    -- Buffer
+    init_table("n", "<leader>", "b")
+    mappings.n["<leader>"].b.d = { "<cmd>bdelete<cr>", "Delete" }
+    mappings.n["<leader>"].b.D = { "<cmd>bdelete!<cr>", "Delete Unsaved" }
   end
 
   -- GitSigns
   if utils.is_available "gitsigns.nvim" then
-    init_table "g"
-    mappings.g.j = {
+    init_table("n", "<leader>", "g")
+    mappings.n["<leader>"].g.j = {
       function()
         require("gitsigns").next_hunk()
       end,
       "Next Hunk",
     }
-    mappings.g.k = {
+    mappings.n["<leader>"].g.k = {
       function()
         require("gitsigns").prev_hunk()
       end,
       "Prev Hunk",
     }
-    mappings.g.l = {
+    mappings.n["<leader>"].g.l = {
       function()
         require("gitsigns").blame_line()
       end,
       "Blame",
     }
-    mappings.g.p = {
+    mappings.n["<leader>"].g.p = {
       function()
         require("gitsigns").preview_hunk()
       end,
       "Preview Hunk",
     }
-    mappings.g.h = {
+    mappings.n["<leader>"].g.h = {
       function()
         require("gitsigns").reset_hunk()
       end,
       "Reset Hunk",
     }
-    mappings.g.r = {
+    mappings.n["<leader>"].g.r = {
       function()
         require("gitsigns").reset_buffer()
       end,
       "Reset Buffer",
     }
-    mappings.g.s = {
+    mappings.n["<leader>"].g.s = {
       function()
         require("gitsigns").stage_hunk()
       end,
       "Stage Hunk",
     }
-    mappings.g.u = {
+    mappings.n["<leader>"].g.u = {
       function()
         require("gitsigns").undo_stage_hunk()
       end,
       "Undo Stage Hunk",
     }
-    mappings.g.d = {
+    mappings.n["<leader>"].g.d = {
       function()
         require("gitsigns").diffthis()
       end,
@@ -199,8 +225,8 @@ if status_ok then
   -- ToggleTerm
   if utils.is_available "nvim-toggleterm.lua" then
     -- Git
-    init_table "g"
-    mappings.g.g = {
+    init_table("n", "<leader>", "g")
+    mappings.n["<leader>"].g.g = {
       function()
         require("core.utils").toggle_term_cmd "lazygit"
       end,
@@ -208,29 +234,37 @@ if status_ok then
     }
 
     -- Terminal
-    init_table "t"
-    mappings.t.l = {
+    init_table("n", "<leader>", "t")
+    mappings.n["<leader>"].t.l = {
       function()
         require("core.utils").toggle_term_cmd "lazygit"
       end,
       "Lazygit",
     }
-    mappings.t.f = { "<cmd>ToggleTerm direction=float<cr>", "Float" }
-    mappings.t.h = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>", "Horizontal" }
-    mappings.t.v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" }
+    mappings.n["<leader>"].t.f = { "<cmd>ToggleTerm direction=float<cr>", "Float" }
+    mappings.n["<leader>"].t.h = { "<cmd>ToggleTerm size=10 direction=horizontal<cr>", "Horizontal" }
+    mappings.n["<leader>"].t.v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" }
   end
 
-  -- SymbolsOutline
-  if utils.is_available "symbols-outline.nvim" then
-    init_table "l"
-    mappings.l.S = { "<cmd>SymbolsOutline<CR>", "Symbols Outline" }
+  -- Aerial
+  if utils.is_available "aerial.nvim" then
+    init_table("n", "<leader>", "l")
+    mappings.n["<leader>"].l.S = { "<cmd>AerialToggle<cr>", "Symbols Outline" }
   end
 
   -- Telescope
   if utils.is_available "telescope.nvim" then
+    -- Bookmarks
+    mappings.n["<leader>"].m = {
+      function()
+        require("telescope.builtin").marks()
+      end,
+      "Bookmarks",
+    }
+
     -- Buffer
-    init_table "b"
-    mappings.b.l = {
+    init_table("n", "<leader>", "b")
+    mappings.n["<leader>"].b.l = {
       function()
         require("telescope.builtin").buffers()
       end,
@@ -238,20 +272,20 @@ if status_ok then
     }
 
     -- Git
-    init_table "g"
-    mappings.g.t = {
+    init_table("n", "<leader>", "g")
+    mappings.n["<leader>"].g.t = {
       function()
         require("telescope.builtin").git_status()
       end,
       "Open Changed File",
     }
-    mappings.g.b = {
+    mappings.n["<leader>"].g.b = {
       function()
         require("telescope.builtin").git_branches()
       end,
       "Checkout Branch",
     }
-    mappings.g.c = {
+    mappings.n["<leader>"].g.c = {
       function()
         require("telescope.builtin").git_commits()
       end,
@@ -259,21 +293,21 @@ if status_ok then
     }
 
     -- File
-    init_table "f"
-    mappings.f.d = { "<cmd>Telescope fd cwd=%:p:h find_command=rg,--ignore,--hidden,--files<CR>", "Find in CWD" }
-    mappings.f.f = {
+    init_table("n", "<leader>", "f")
+    mappings.n["<leader>"].f.d = { "<cmd>Telescope fd cwd=%:p:h find_command=rg,--ignore,--hidden,--files<cr>", "Find in CWD" }
+    mappings.n["<leader>"].f.f = {
       function()
         require("telescope.builtin").find_files()
       end,
       "Find Files",
     }
-    mappings.f.F = {
+    mappings.n["<leader>"].f.F = {
       function()
         require("telescope.builtin").find_files({ find_command = {'rg', '--files', '--hidden', '-g', '!.git' }})
       end,
       "Find(Include Hidden)",
     }
-    mappings.f.o = {
+    mappings.n["<leader>"].f.o = {
       function()
         require("telescope.builtin").oldfiles()
       end,
@@ -281,72 +315,77 @@ if status_ok then
     }
 
     -- LSP
-    init_table "l"
-    mappings.l.D = {
+    init_table("n", "<leader>", "l")
+    mappings.n["<leader>"].l.D = {
       function()
         require("telescope.builtin").diagnostics()
       end,
       "All Diagnostics",
     }
-    mappings.l.e = {
+    mappings.n["<leader>"].l.e = {
       function()
         require("telescope.builtin").lsp_definitions()
       end,
       "Definition",
     }
-    mappings.l.r = {
+    mappings.n["<leader>"].l.r = {
       function()
         require("telescope.builtin").lsp_references()
       end,
       "References",
     }
-    mappings.l.s = {
+    mappings.n["<leader>"].l.s = {
       function()
-        require("telescope.builtin").lsp_document_symbols()
+        local aerial_avail, _ = pcall(require, "aerial")
+        if aerial_avail then
+          require("telescope").extensions.aerial.aerial()
+        else
+          require("telescope.builtin").lsp_document_symbols()
+        end
       end,
       "Document Symbols",
     }
 
     -- Search
-    init_table "s"
-    mappings.s.c = {
+    init_table("n", "<leader>", "s")
+    mappings.n["<leader>"].s.c = {
       function()
         require("telescope.builtin").commands()
       end,
       "Commands",
     }
-    mappings.s.h = { "<cmd>Telescope help_tags<CR>", "Help" }
-    mappings.s.h = {
+    mappings.n["<leader>"].s.h = { "<cmd>Telescope help_tags<cr>", "Help" }
+    mappings.n["<leader>"].s.h = {
       function()
         require("telescope.builtin").help_tags()
       end,
       "Help",
     }
-    mappings.s.k = {
+    mappings.n["<leader>"].s.k = {
       function()
         require("telescope.builtin").keymaps()
       end,
       "Keymaps",
     }
-    mappings.s.m = {
+    mappings.n["<leader>"].s.m = {
       function()
         require("telescope.builtin").man_pages()
       end,
       "Man Pages",
     }
-    mappings.s.n = {
+    mappings.n["<leader>"].s.n = {
       function()
         require("telescope").extensions.notify.notify()
       end,
       "Notifications",
     }
-    mappings.s.r = {
+    mappings.n["<leader>"].s.r = {
       function()
         require("telescope.builtin").registers()
       end,
       "Registers",
     }
-    mappings.s.t = {
+    mappings.n["<leader>"].s.t = {
       function()
         require("telescope.builtin").live_grep()
       end,
@@ -355,7 +394,7 @@ if status_ok then
     -- Project
     if utils.is_available "project.nvim" then
       -- Standalone
-      mappings.P = {
+      mappings.n["<leader>"].P = {
         function()
           require("telescope").extensions.projects.projects()
         end,
@@ -363,7 +402,7 @@ if status_ok then
       }
 
       -- Search
-      mappings.s.p = {
+      mappings.n["<leader>"].s.p = {
         function()
           require("telescope").extensions.projects.projects()
         end,
@@ -372,7 +411,21 @@ if status_ok then
     end
   end
 
-  which_key.register(require("core.utils").user_plugin_opts("which-key.register_n_leader", mappings), opts)
+  mappings = require("core.utils").user_plugin_opts("which-key.register_mappings", mappings)
+  -- support previous legacy notation, deprecate at some point
+  mappings.n["<leader>"] = require("core.utils").user_plugin_opts("which-key.register_n_leader", mappings.n["<leader>"])
+  for mode, prefixes in pairs(mappings) do
+    for prefix, mapping_table in pairs(prefixes) do
+      which_key.register(mapping_table, {
+        mode = mode,
+        prefix = prefix,
+        buffer = nil,
+        silent = true,
+        noremap = true,
+        nowait = true,
+      })
+    end
+  end
 end
 
 return M

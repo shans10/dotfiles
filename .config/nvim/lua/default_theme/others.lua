@@ -199,6 +199,13 @@ local others = {
   MoreMsg = { fg = C.green, bold = true },
   ModeMsg = { fg = C.grey, bold = true },
 
+  -- Markdown
+  markdownTSNone = { fg = C.fg },
+  markdownTSTitle = { fg = C.red },
+  markdownTSLiteral = { fg = C.green },
+  markdownTSPunctSpecial = { fg = C.red },
+  markdownTSPunctDelimiter = { fg = C.fg },
+
   -- Dashboard
   DashboardHeader = { fg = C.grey, bold = true },
   DashboardShortcut = { fg = C.purple, bold = true },
@@ -236,15 +243,38 @@ local others = {
   -- Beacon
   Beacon = { bg = C.blue },
 
-  -- Treesitter
-  TSKeyword = { bold = true },
-  TSEmphasis = { italic = true },
-  TSUnderline = { underline = true },
-  TSNote = { bold = true },
-  TSWarning = { bold = true },
-  TSDanger = { bold = true },
-  TSTitle = { bold = true },
-  TSURI = { underline = true },
+  -- HightlightURL
+  HighlightURL = { underline = true },
+
+  -- Aerial
+  AerialLine = { fg = C.yellow, bg = C.none },
+  AerialGuide = { fg = C.grey_2 },
+  AerialBooleanIcon = { link = "TSBoolean" },
+  AerialClassIcon = { link = "TSType" },
+  AerialConstantIcon = { link = "TSConstant" },
+  AerialConstructorIcon = { link = "TSConstructor" },
+  AerialFieldIcon = { link = "TSField" },
+  AerialFunctionIcon = { link = "TSFunction" },
+  AerialMethodIcon = { link = "TSMethod" },
+  AerialNamespaceIcon = { link = "TSNamespace" },
+  AerialNumberIcon = { link = "TSNumber" },
+  AerialOperatorIcon = { link = "TSOperator" },
+  AerialTypeParameterIcon = { link = "TSParameter" },
+  AerialPropertyIcon = { link = "TSProperty" },
+  AerialStringIcon = { link = "TSString" },
+  AerialVariableIcon = { link = "TSConstant" },
+  AerialEnumMemberIcon = { link = "TSField" },
+  AerialEnumIcon = { link = "TSType" },
+  AerialFileIcon = { link = "TSURI" },
+  AerialModuleIcon = { link = "TSNamespace" },
+  AerialPackageIcon = { link = "TSNamespace" },
+  AerialInterfaceIcon = { link = "TSType" },
+  AerialStructIcon = { link = "TSType" },
+  AerialEventIcon = { link = "TSType" },
+  AerialArrayIcon = { link = "TSConstant" },
+  AerialObjectIcon = { link = "TSType" },
+  AerialKeyIcon = { link = "TSType" },
+  AerialNullIcon = { link = "TSType" },
 }
 
 return others
