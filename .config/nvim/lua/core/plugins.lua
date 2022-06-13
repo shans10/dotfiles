@@ -227,10 +227,8 @@ if packer_status_ok then
     -- LSP symbols
     {
       "stevearc/aerial.nvim",
-      opt = true,
-      setup = function()
-        require("core.utils").defer_plugin "aerial.nvim"
-      end,
+      module = "aerial",
+      cmd = { "AerialToggle", "AerialOpen", "AerialInfo" },
       config = function()
         require("configs.aerial").config()
       end,
@@ -341,6 +339,7 @@ if packer_status_ok then
     -- Keymaps popup
     {
       "folke/which-key.nvim",
+      module = { "which-key" },
       config = function()
         require("configs.which-key").config()
       end,

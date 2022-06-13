@@ -12,4 +12,4 @@ Visit their official gihub page for support and configuration.
 
 **NOTE:** For adding personal configuration check user_example/init.lua and paste it in user/init.lua.
 
-**Pulled changes upto commit c1d54e71733acb50da232021971cee6537c8f174 from AstroNvim.**
+**Pulled changes upto commit 6a0a97e55dc1425bf32cc7811d12fdd831d12361 from AstroNvim.**
