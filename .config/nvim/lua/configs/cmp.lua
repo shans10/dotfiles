@@ -73,9 +73,6 @@ function M.config()
           border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
         },
       },
-      experimental = {
-        ghost_text = false,
-      },
       mapping = {
         ["<Up>"] = cmp.mapping.select_prev_item(),
         ["<Down>"] = cmp.mapping.select_next_item(),

@@ -12,11 +12,9 @@ function M.setup()
     vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
   end
 
-  local config = {
+  vim.diagnostic.config(require("core.utils").user_plugin_opts("diagnostics", {
     virtual_text = true,
-    signs = {
-      active = signs,
-    },
+    signs = { active = signs },
     update_in_insert = true,
     underline = true,
     severity_sort = true,
@@ -28,21 +26,15 @@ function M.setup()
       header = "",
       prefix = "",
     },
-  }
+  }))
 
-  vim.diagnostic.config(require("core.utils").user_plugin_opts("diagnostics", config))
+  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = "rounded",
-  })
-
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-    border = "rounded",
-  })
+  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 end
 
 local function lsp_highlight_document(client)
-  if client.server_capabilities.documentHighlightProvider then
+  if client.resolved_capabilities.document_highlight then
     vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
     vim.api.nvim_create_autocmd("CursorHold", {
       group = "lsp_document_highlight",
@@ -58,14 +50,24 @@ local function lsp_highlight_document(client)
 end
 
 M.on_attach = function(client, bufnr)
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover symbol details", buffer = 0 })
+  vim.keymap.set("n", "<leader>lf", vim.lsp.buf.formatting_sync, { desc = "Format code", buffer = 0 })
+  vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, { desc = "LSP code action", buffer = 0 })
+  vim.keymap.set("n", "<leader>lR", vim.lsp.buf.rename, { desc = "Rename current symbol", buffer = 0 })
+  vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Hover diagnostics", buffer = 0 })
+  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration of current symbol", buffer = 0 })
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Show the definition of current symbol", buffer = 0 })
+  vim.keymap.set("n", "gh", vim.lsp.buf.hover, { desc = "Hover symbol details", buffer = 0 })
+  vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { desc = "Go to implementation of current symbol", buffer = 0 })
+  vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "References of current symbol", buffer = 0 })
+  vim.keymap.set("n", "gR", vim.lsp.buf.rename, { desc = "Rename current symbol", buffer = 0 })
+  vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, { desc = "Format file with LSP" })
+
   if client.name == "tsserver" or client.name == "jsonls" or client.name == "html" or client.name == "sumneko_lua" then
-    if vim.fn.has "nvim-0.7" then -- needed for formatting checker in <0.8
-      client.resolved_capabilities.document_formatting = false
-    end
-    client.server_capabilities.documentFormattingProvider = false
+    client.resolved_capabilities.document_formatting = false
   end
 
-  local on_attach_override = require("core.utils").user_plugin_opts "lsp.on_attach"
+  local on_attach_override = require("core.utils").user_plugin_opts("lsp.on_attach", nil, false)
   if type(on_attach_override) == "function" then
     on_attach_override(client, bufnr)
   end
@@ -74,7 +76,6 @@ M.on_attach = function(client, bufnr)
   if aerial_avail then
     aerial.on_attach(client, bufnr)
   end
-  vim.api.nvim_create_user_command("Format", vim.lsp.buf.formatting, { desc = "Format file with LSP" })
   lsp_highlight_document(client)
 end
 

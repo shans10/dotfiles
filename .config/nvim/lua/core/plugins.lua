@@ -1,10 +1,5 @@
-local M = {}
-
 local packer_status_ok, packer = pcall(require, "packer")
 if packer_status_ok then
-  local utils = require "core.utils"
-  local config = utils.user_settings()
-
   local astro_plugins = {
     -- Plugin manager
     {
@@ -76,7 +71,6 @@ if packer_status_ok then
       config = function()
         require("configs.bufferline").config()
       end,
-      disable = not config.enabled.bufferline,
     },
 
     -- Better buffer closing
@@ -92,7 +86,6 @@ if packer_status_ok then
       config = function()
         require("configs.nvim-tree").config()
       end,
-      disable = not config.enabled.nvim_tree,
     },
 
     -- Statusline
@@ -101,21 +94,18 @@ if packer_status_ok then
       config = function()
         require("configs.lualine").config()
       end,
-      disable = not config.enabled.lualine,
     },
 
     -- Parenthesis highlighting
     {
       "p00f/nvim-ts-rainbow",
       after = "nvim-treesitter",
-      disable = not config.enabled.ts_rainbow,
     },
 
     -- Autoclose tags
     {
       "windwp/nvim-ts-autotag",
       after = "nvim-treesitter",
-      disable = not config.enabled.ts_autotag,
     },
 
     -- Context based commenting
@@ -239,7 +229,7 @@ if packer_status_ok then
       "jose-elias-alvarez/null-ls.nvim",
       event = { "BufRead", "BufNewFile" },
       config = function()
-        local null_ls = require("core.utils").user_plugin_opts "null-ls"
+        local null_ls = require("core.utils").user_plugin_opts("null-ls", nil, false)
         if type(null_ls) == "function" then
           null_ls()
         end
@@ -276,12 +266,13 @@ if packer_status_ok then
       config = function()
         require("configs.gitsigns").config()
       end,
-      disable = not config.enabled.gitsigns,
     },
 
     -- Start screen
     {
       "goolord/alpha-nvim",
+      cmd = "Alpha",
+      module = "alpha",
       config = function()
         require("configs.alpha").config()
       end,
@@ -294,7 +285,6 @@ if packer_status_ok then
       config = function()
         require("configs.colorizer").config()
       end,
-      disable = not config.enabled.colorizer,
     },
 
     -- Autopairs
@@ -314,7 +304,6 @@ if packer_status_ok then
       config = function()
         require("configs.toggleterm").config()
       end,
-      disable = not config.enabled.toggle_term,
     },
 
     -- Commenting
@@ -324,16 +313,17 @@ if packer_status_ok then
       config = function()
         require("configs.Comment").config()
       end,
-      disable = not config.enabled.comment,
     },
 
     -- Indentation
     {
       "lukas-reineke/indent-blankline.nvim",
+      setup = function()
+        require("configs.indent-line").setup()
+      end,
       config = function()
         require("configs.indent-line").config()
       end,
-      disable = not config.enabled.indent_blankline,
     },
 
     -- Keymaps popup
@@ -343,17 +333,15 @@ if packer_status_ok then
       config = function()
         require("configs.which-key").config()
       end,
-      disable = not config.enabled.which_key,
     },
 
     -- Smooth scrolling
     {
-      "karb94/neoscroll.nvim",
+      "declancm/cinnamon.nvim",
       event = { "BufRead", "BufNewFile" },
       config = function()
-        require("configs.neoscroll").config()
+        require("configs.cinnamon").config()
       end,
-      disable = not config.enabled.neoscroll,
     },
 
     -- Smooth escaping
@@ -387,7 +375,6 @@ if packer_status_ok then
     -- Remember last cursor position in file
     {
       "farmergreg/vim-lastplace",
-      disable = not config.enabled.lastplace
     },
 
     -- Get extra JSON schemas
@@ -404,7 +391,7 @@ if packer_status_ok then
       end
     end,
     config = require("core.utils").user_plugin_opts("plugins.packer", {
-      compile_path = vim.fn.stdpath "config" .. "/lua/packer_compiled.lua",
+      compile_path = require("core.utils").default_compile_path,
       display = {
         open_fn = function()
           return require("packer.util").float { border = "rounded" }
@@ -425,5 +412,3 @@ if packer_status_ok then
     }),
   }
 end
-
-return M
