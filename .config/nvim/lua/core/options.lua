@@ -1,13 +1,11 @@
-local utils = require "core.utils"
-
 local default = "default_theme"
-local colorscheme = utils.user_plugin_opts("colorscheme", default, false)
+local colorscheme = doomnvim.user_plugin_opts("colorscheme", default, false)
 if not vim.tbl_contains(vim.fn.getcompletion("", "color"), colorscheme) then
   colorscheme = default
 end
 vim.api.nvim_command(("colorscheme %s"):format(colorscheme))
 
-utils.vim_opts(utils.user_plugin_opts("options", {
+doomnvim.vim_opts(doomnvim.user_plugin_opts("options", {
   opt = {
     clipboard = "unnamedplus", -- Connection to the system clipboard
     completeopt = { "menuone", "noselect" }, -- Options for insert mode completion
@@ -18,6 +16,8 @@ utils.vim_opts(utils.user_plugin_opts("options", {
     fillchars = { eob = " " }, -- Disable `~` on nonexistent lines
     history = 100, -- Number of commands to remember in a history table
     ignorecase = true, -- Case insensitive searching
+    laststatus = 3, -- globalstatus
+    lazyredraw = true, -- lazily redraw screen
     mouse = "a", -- Enable mouse support
     number = true, -- Show numberline
     preserveindent = true, -- Preserve indent structure as much as possible

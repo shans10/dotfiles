@@ -15,7 +15,7 @@ end
 function M.config()
   local status_ok, bufferline = pcall(require, "bufferline")
   if status_ok then
-    bufferline.setup(require("core.utils").user_plugin_opts("plugins.bufferline", {
+    bufferline.setup(doomnvim.user_plugin_opts("plugins.bufferline", {
       options = {
         offsets = {
           { filetype = "NvimTree", text = "Explorer", highlight = "PanelHeading", padding = 1 },
@@ -26,12 +26,9 @@ function M.config()
         modified_icon = "",
         close_icon = "",
         show_close_icon = false,
-        left_trunc_marker = "",
-        right_trunc_marker = "",
         max_name_length = 14,
         max_prefix_length = 13,
         tab_size = 20,
-        view = "multiwindow",
         separator_style = "thin",
         diagnostics = "nvim_lsp",
         diagnostics_update_in_insert = true,

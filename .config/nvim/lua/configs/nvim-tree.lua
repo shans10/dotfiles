@@ -3,7 +3,7 @@ local M = {}
 function M.config()
   local status_ok, nvimtree = pcall(require, "nvim-tree")
   if status_ok then
-    nvimtree.setup(require("core.utils").user_plugin_opts("plugins.nvim-tree", {
+    nvimtree.setup(doomnvim.user_plugin_opts("plugins.nvim-tree", {
       disable_netrw = true,
       update_cwd = true,
       respect_buf_cwd = true,

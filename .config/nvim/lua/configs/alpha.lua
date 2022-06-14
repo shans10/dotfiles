@@ -3,24 +3,19 @@ local M = {}
 function M.config()
   local present, alpha = pcall(require, "alpha")
   if present then
-    local utils = require "core.utils"
+    local alpha_button = doomnvim.alpha_button
 
     -- Footer
     local total_plugins = "   " .. #vim.tbl_keys(packer_plugins) .. " plugins  "   -- Total number of plugins
     local time = " " .. os.date("%H:%M")
     local date = " " .. os.date("%d-%m-%y")
 
-    alpha.setup(utils.user_plugin_opts("plugins.alpha", {
+    alpha.setup(doomnvim.user_plugin_opts("plugins.alpha", {
       layout = {
-        { type = "padding", val = 2 },
+        { type = "padding", val = vim.fn.max { 2, vim.fn.floor(vim.fn.winheight(0) * 0.2) } },
         {
           type = "text",
-          val = utils.user_plugin_opts("header", {
-            " ",
-            " ",
-            " ",
-            " ",
-            " ",
+          val = doomnvim.user_plugin_opts("header", {
             [[=================     ===============     ===============   ========  ========]],
             [[\\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //]],
             [[||. . ._____. . .|| ||. . ._____. . .|| ||. . ._____. . .|| || . . .\/ . . .||]],
@@ -40,31 +35,21 @@ function M.config()
             [[=='    _-'                        N E O V I M                         \/   `==]],
             [[\   _-'                                                                `-_   /]],
             [[ `''                                                                      ``' ]],
-            " ",
-            " ",
-            " ",
-            " ",
-            " ",
           }, false),
-          opts = {
-            position = "center",
-            hl = "DashboardHeader",
-          },
+          opts = { position = "center", hl = "DashboardHeader" },
         },
-        { type = "padding", val = 2 },
+        { type = "padding", val = 5 },
         {
           type = "group",
           val = {
-            utils.alpha_button("LDR S l", "  Reload Last Session  "),
-            utils.alpha_button("LDR f f", "  Find File  "),
-            utils.alpha_button("LDR f o", "  Recent Files  "),
-            utils.alpha_button("LDR f n", "  New File  "),
-            utils.alpha_button("LDR   P", "  Projects  "),
-            utils.alpha_button("LDR   u", "  User Configuration  "),
+            alpha_button("LDR S l", "  Reload Last Session  "),
+            alpha_button("LDR f f", "  Find File  "),
+            alpha_button("LDR f o", "  Recent Files  "),
+            alpha_button("LDR f n", "  New File  "),
+            alpha_button("LDR   P", "  Projects  "),
+            alpha_button("LDR   u", "  User Configuration  "),
           },
-          opts = {
-            spacing = 1,
-          },
+          opts = { spacing = 1 },
         },
         {
           type = "text",

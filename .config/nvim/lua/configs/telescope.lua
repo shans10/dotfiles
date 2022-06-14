@@ -20,7 +20,7 @@ function M.config()
       telescope.load_extension "aerial"
     end
 
-    telescope.setup(require("core.utils").user_plugin_opts("plugins.telescope", {
+    telescope.setup(doomnvim.user_plugin_opts("plugins.telescope", {
       defaults = {
 
         prompt_prefix = " ",

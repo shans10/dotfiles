@@ -3,39 +3,12 @@ local M = {}
 function M.config()
   local present, aerial = pcall(require, "aerial")
   if present then
-    aerial.setup(require("core.utils").user_plugin_opts("plugins.aerial", {
+    aerial.setup(doomnvim.user_plugin_opts("plugins.aerial", {
       close_behavior = "global",
       backends = { "lsp", "treesitter", "markdown" },
       min_width = 28,
       show_guides = true,
-      filter_kind = {
-        "Array",
-        "Boolean",
-        "Class",
-        "Constant",
-        "Constructor",
-        "Enum",
-        "EnumMember",
-        "Event",
-        "Field",
-        "File",
-        "Function",
-        "Interface",
-        "Key",
-        "Method",
-        "Module",
-        "Namespace",
-        "Null",
-        "Number",
-        "Object",
-        "Operator",
-        "Package",
-        "Property",
-        "String",
-        "Struct",
-        "TypeParameter",
-        "Variable",
-      },
+      filter_kind = false,
       icons = {
         Array = "",
         Boolean = "⊨",

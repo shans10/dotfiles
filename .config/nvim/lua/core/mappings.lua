@@ -1,4 +1,4 @@
-local utils = require "core.utils"
+local is_available = doomnvim.is_available
 local map = vim.keymap.set
 
 -- Set space as leader key
@@ -11,11 +11,15 @@ map("n", "<leader>.", "<cmd>cd %:p:h<cr>", { desc = "Change CWD to focused file"
 map("n", "<leader>h", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 map("n", "<leader>P", "<cmd>Telescope Projects", { desc = "Projects" })
 map("n", "<leader>q", "<cmd>q<cr>", { desc = "Quit" })
-map("n", "<leader>u", require("core.utils").toggle_url_match, { desc = "Toggle URL Highlights" })
+map("n", "<leader>u", function()
+  doomnvim.toggle_url_match()
+end, { desc = "Toggle URL Highlights" })
 map("n", "<leader>U", "<cmd>exe \"edit\" stdpath(\"config\").\"/lua/user/init.lua\"<cr>", { desc = "Load user configuration" })
 map("n", "<leader>w", "<cmd>w<cr>", { desc = "Write" })
 map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
-map("n", "gx", utils.url_opener_cmd(), { desc = "Open the file under cursor with system app" })
+map("n", "gx", function()
+  doomnvim.url_opener()
+end, { desc = "Open the file under cursor with system app" })
 map("n", "<C-s>", "<cmd>w!<cr>", { desc = "Force write" })
 map("n", "<C-q>", "<cmd>q!<cr>", { desc = "Force quit" })
 map("n", "Q", "<Nop>")
@@ -28,18 +32,10 @@ map("n", "<leader>pS", "<cmd>PackerStatus<cr>", { desc = "Packer status" })
 map("n", "<leader>pu", "<cmd>PackerUpdate<cr>", { desc = "Packer update" })
 
 -- LSP Installer
-if utils.is_available "nvim-lsp-installer" then
+if is_available "nvim-lsp-installer" then
   vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "LSP information" })
   vim.keymap.set("n", "<leader>lI", "<cmd>LspInstallInfo<cr>", { desc = "LSP installer" })
 end
-
--- LSP Standalone Keybindings
-map("n", "go", vim.diagnostic.open_float, { desc = "Hover diagnostics" })
-map("n", "gl", vim.diagnostic.open_float, { desc = "Hover diagnostics" })
-map("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
-map("n", "gk", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
-map("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
-map("n", "gj", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
 
 -- File Standalone Keybindings
 map("n", "<leader>fi", "gg=G", { desc = "Indent whole file" })
@@ -55,7 +51,7 @@ map("n", "<leader>bn", "<cmd>bn<cr>", { desc = "Next buffer" })
 map("n", "<leader>bp", "<cmd>bp<cr>", { desc = "Previous buffer" })
 
 -- Bufdelete
-if utils.is_available "bufdelete.nvim" then
+if is_available "bufdelete.nvim" then
   map("n", "<leader>c", "<cmd>Bdelete!<cr>", { desc = "Close buffer" })
 
   -- Buffer
@@ -80,18 +76,18 @@ else
 end
 
 -- NvimTree
-if utils.is_available "nvim-tree.lua" then
+if is_available "nvim-tree.lua" then
   map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle NvimTree" })
   map("n", "<leader>o", "<cmd>NvimTreeFocus<cr>", { desc = "Focus NvimTree" })
 end
 
 -- Alpha Dashboard
-if utils.is_available "alpha-nvim" then
+if is_available "alpha-nvim" then
   map("n", "<leader>d", "<cmd>Alpha<cr>", { desc = "Alpha Dashboard" })
 end
 
 -- Bufferline
-if utils.is_available "bufferline.nvim" then
+if is_available "bufferline.nvim" then
   map("n", "<leader>bc", "<cmd>BufferLinePickClose<cr>", { desc = "Pick and close buffer" })
   map("n", "<leader>bj", "<cmd>BufferLinePick<cr>", { desc = "Pick and jump to buffer" })
   map("n", "<leader>bN", "<cmd>BufferLineMoveNext<cr>", { desc = "Move buffer tab right" })
@@ -99,27 +95,28 @@ if utils.is_available "bufferline.nvim" then
 end
 
 -- Comment
-if utils.is_available "Comment.nvim" then
+if is_available "Comment.nvim" then
   map("n", "<leader>/", function()
     require("Comment.api").toggle_current_linewise()
   end, { desc = "Toggle comment line" })
 end
 
 -- SymbolsOutline(Aerial)
-if utils.is_available "aerial.nvim" then
+if is_available "aerial.nvim" then
   map("n", "<leader>lS", "<cmd>AerialToggle<cr>", { desc = "Symbols outline" })
 end
 
 -- ToggleTerm
-if utils.is_available "nvim-toggleterm.lua" then
+if is_available "nvim-toggleterm.lua" then
+  local toggle_term_cmd = doomnvim.toggle_term_cmd
   -- Git
   map("n", "<leader>gg", function()
-    utils.toggle_term_cmd "lazygit"
+    toggle_term_cmd "lazygit"
   end, { desc = "ToggleTerm lazygit" })
 
   -- Terminal
   map("n", "<leader>tl", function()
-    utils.toggle_term_cmd "lazygit"
+    toggle_term_cmd "lazygit"
   end, { desc = "ToggleTerm lazygit" })
   map("n", "<C-\\>", "<cmd>ToggleTerm<cr>", { desc = "Toggle terminal" })
   map("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", { desc = "ToggleTerm float" })
@@ -128,7 +125,7 @@ if utils.is_available "nvim-toggleterm.lua" then
 end
 
 -- SessionManager
-if utils.is_available "neovim-session-manager" then
+if is_available "neovim-session-manager" then
   -- Session
   map("n", "<leader>Sd", "<cmd>SessionManager! delete_session<cr>", { desc = "Delete session from list" })
   map("n", "<leader>Sl", "<cmd>SessionManager! load_last_session<cr>", { desc = "Load last session" })
@@ -140,7 +137,7 @@ if utils.is_available "neovim-session-manager" then
 end
 
 -- GitSigns
-if utils.is_available "gitsigns.nvim" then
+if is_available "gitsigns.nvim" then
   map("n", "<leader>gj", function()
     require("gitsigns").next_hunk()
   end, { desc = "Next git hunk" })
@@ -171,7 +168,7 @@ if utils.is_available "gitsigns.nvim" then
 end
 
 -- SmartSplits
-if utils.is_available "smart-splits.nvim" then
+if is_available "smart-splits.nvim" then
   -- Better window navigation
   map("n", "<C-h>", function()
     require("smart-splits").move_cursor_left()
@@ -211,7 +208,7 @@ else
 end
 
 -- Navigate buffers
-if utils.is_available "bufferline.nvim" then
+if is_available "bufferline.nvim" then
   map("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer tab" })
   map("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer tab" })
   map("n", ">b", "<cmd>BufferLineMoveNext<cr>", { desc = "Move buffer tab right" })
@@ -222,7 +219,7 @@ else
 end
 
 -- Telescope
-if utils.is_available "telescope.nvim" then
+if is_available "telescope.nvim" then
   -- Bookmarks
   map("n", "<leader>m", function()
     require("telescope.builtin").marks()
@@ -298,7 +295,7 @@ if utils.is_available "telescope.nvim" then
     require("telescope.builtin").live_grep()
   end, { desc = "Search text" })
   -- Project
-  if utils.is_available "project.nvim" then
+  if is_available "project.nvim" then
     -- Standalone
     map("n", "<leader>P", function()
       require("telescope").extensions.projects.projects()
@@ -334,7 +331,7 @@ map("v", "<", "<gv", { desc = "Unindent line" })
 map("v", ">", ">gv", { desc = "Indent line" })
 
 -- Comment
-if utils.is_available "Comment.nvim" then
+if is_available "Comment.nvim" then
   map("v", "<leader>/", "<esc><cmd>lua require('Comment.api').toggle_linewise_op(vim.fn.visualmode())<cr>", { desc = "Toggle comment line" })
 end
 

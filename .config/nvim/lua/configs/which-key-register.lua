@@ -1,9 +1,7 @@
-local M = {}
-
-local utils = require "core.utils"
-
 local status_ok, which_key = pcall(require, "which-key")
 if status_ok then
+  local is_available = doomnvim.is_available
+  local user_plugin_opts = doomnvim.user_plugin_opts
   local mappings = {
     n = {
       ["<leader>"] = {
@@ -29,12 +27,12 @@ if status_ok then
   end
 
   -- Buffer
-  if utils.is_available "bufferline.nvim" then
+  if is_available "bufferline.nvim" then
     init_table("n", "<leader>", "b")
   end
 
   -- SessionManager
-  if utils.is_available "neovim-session-manager" then
+  if is_available "neovim-session-manager" then
     -- Session
     init_table("n", "<leader>", "S")
 
@@ -43,7 +41,7 @@ if status_ok then
   end
 
   -- Bufdelete
-  if utils.is_available "bufdelete.nvim" then
+  if is_available "bufdelete.nvim" then
 
     -- File
     init_table("n", "<leader>", "f")
@@ -53,12 +51,12 @@ if status_ok then
   end
 
   -- GitSigns
-  if utils.is_available "gitsigns.nvim" then
+  if is_available "gitsigns.nvim" then
     init_table("n", "<leader>", "g")
   end
 
   -- ToggleTerm
-  if utils.is_available "nvim-toggleterm.lua" then
+  if is_available "nvim-toggleterm.lua" then
     -- Git
     init_table("n", "<leader>", "g")
 
@@ -67,7 +65,7 @@ if status_ok then
   end
 
   -- Telescope
-  if utils.is_available "telescope.nvim" then
+  if is_available "telescope.nvim" then
     -- Buffer
     init_table("n", "<leader>", "b")
 
@@ -78,9 +76,9 @@ if status_ok then
     init_table("n", "<leader>", "s")
   end
 
-  mappings = require("core.utils").user_plugin_opts("which-key.register_mappings", mappings)
+  mappings = user_plugin_opts("which-key.register_mappings", mappings)
   -- support previous legacy notation, deprecate at some point
-  mappings.n["<leader>"] = require("core.utils").user_plugin_opts("which-key.register_n_leader", mappings.n["<leader>"])
+  mappings.n["<leader>"] = user_plugin_opts("which-key.register_n_leader", mappings.n["<leader>"])
   for mode, prefixes in pairs(mappings) do
     for prefix, mapping_table in pairs(prefixes) do
       which_key.register(mapping_table, {
@@ -94,5 +92,3 @@ if status_ok then
     end
   end
 end
-
-return M
