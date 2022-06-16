@@ -5,17 +5,11 @@ local config = {
     -- Add plugins, the packer syntax without the "use"
     init = {
       -- Disable default plugins
-      -- ["karb94/neoscroll.nvim"] = { disable = true },
       ["p00f/nvim-ts-rainbow"] = { disable = true },
       ["windwp/nvim-ts-autotag"] = { disable = true },
 
       -- Add user plugins
-      {
-        "lambdalisue/suda.vim",
-        config = function()
-          vim.g.suda_smart_edit = 1   -- Open readonly files automatically with sudo permissions
-        end
-      },
+      ["lambdalisue/suda.vim"] = {},
     },
 
     -- All other entries override the setup() call for default plugins
