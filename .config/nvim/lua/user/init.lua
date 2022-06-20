@@ -36,9 +36,9 @@ local config = {
     vim.opt.whichwrap:append "<,>[,],h,l"
 
     -- Set default shell
-    -- set.shell = "/usr/bin/fish"         -- Linux
-    -- set.shell = "pwsh.exe -NoLogo"      -- Windows(PowerShell)
-    -- set.shellcmdflag = "-Command"
+    -- vim.opt.shell = "/usr/bin/fish"         -- Linux
+    -- vim.opt.shell = "pwsh.exe -NoLogo"      -- Windows(PowerShell)
+    -- vim.opt.shellcmdflag = "-Command"
 
     --- SET AUTOCOMMANDS ---
     --
