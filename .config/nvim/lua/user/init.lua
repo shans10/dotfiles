@@ -14,7 +14,15 @@ local config = {
 
     -- All other entries override the setup() call for default plugins
     treesitter = {
-      ensure_installed = { "lua", "go", "c", "java" },
+      ensure_installed = { "lua", "python", "c", "cpp" },   -- Automatically install these TreeSitters
+    },
+
+    ["nvim-lsp-installer"] = {
+      ensure_installed = { "sumneko_lua" },   -- Automatically install these LSPs
+    },
+
+    toggleterm = {
+      shell = "nu",   -- Set ToggleTerm Shell
     },
   },
 
@@ -34,20 +42,6 @@ local config = {
 
     -- Automatically go to next line
     vim.opt.whichwrap:append "<,>[,],h,l"
-
-    -- Set default shell
-    -- vim.opt.shell = "/usr/bin/fish"         -- Linux
-    -- vim.opt.shell = "pwsh.exe -NoLogo"      -- Windows(PowerShell)
-    -- vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
-
-    --- SET AUTOCOMMANDS ---
-    --
-    -- PowerShell configuration for windows
-    -- vim.cmd [[
-    --   let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-    --   let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-    --   set shellquote= shellxquote=
-    -- ]]
   end,
 }
 
