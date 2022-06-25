@@ -38,7 +38,7 @@ local config = {
     -- Set default shell
     -- vim.opt.shell = "/usr/bin/fish"         -- Linux
     -- vim.opt.shell = "pwsh.exe -NoLogo"      -- Windows(PowerShell)
-    -- vim.opt.shellcmdflag = "-Command"
+    -- vim.opt.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
 
     --- SET AUTOCOMMANDS ---
     --
