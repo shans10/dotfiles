@@ -35,7 +35,7 @@ export PATH=$PATH:/home/$USER/.local/bin:/home/$USER/.emacs.d/bin
 # General env
 export TERM=xterm-256color
 export EDITOR="kitty -e nvim"
-export VISUAL="emacsclieant -cn -a emacs"
+export VISUAL="emacsclient -cn -a emacs"
 
 # Firefox Precision Scrolling
 export MOZ_USE_XINPUT2=1
