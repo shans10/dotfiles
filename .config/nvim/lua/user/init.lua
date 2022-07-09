@@ -1,5 +1,14 @@
 local config = {
 
+  -- set vim options here (vim.<first_key>.<second_key> =  value)
+  options = {
+    opt = {
+      list = true, -- Enable whitespace rendering
+      listchars = vim.opt.listchars:append({ tab = '› ', trail = '•', extends = '#', nbsp = '.' }), -- Change whitespace characters
+      whichwrap = vim.opt.whichwrap:append "<,>[,],h,l", -- Automatically go to next line
+    },
+  },
+
   -- Configure plugins
   plugins = {
     -- Add plugins, the packer syntax without the "use"
@@ -22,7 +31,7 @@ local config = {
     },
 
     toggleterm = {
-      shell = "nu",   -- Set ToggleTerm Shell
+      shell = "fish",   -- Set ToggleTerm Shell
     },
   },
 
@@ -31,18 +40,6 @@ local config = {
     virtual_text = true,
     underline = false,
   },
-
-  -- This function is run last
-  -- good place to configure mappings and vim options
-  polish = function()
-    --- SET OPTIONS ---
-    --
-    -- Render tabs/trailing spaces
-    vim.opt.listchars:append({ tab = '› ', trail = '•', extends = '#', nbsp = '.' })
-
-    -- Automatically go to next line
-    vim.opt.whichwrap:append "<,>[,],h,l"
-  end,
 }
 
 return config
