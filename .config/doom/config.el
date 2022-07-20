@@ -80,20 +80,20 @@
 ;; Report only those errors that will seriously impair Emacs operation.
 (setq warning-minimum-level :error)
 
+;; Disable quit prompt
+(setq confirm-kill-emacs nil)
+
 ;;; Extra Font Configuration ;;;
 (after! doom-themes
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t))
+        (setq doom-themes-enable-bold t
+              doom-themes-enable-italic t))
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
 
 ;;; Emacs Window Size Settings ;;;
 ;; Open emacs maximized
-;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-;; Save previous window size on exit
-(desktop-save-mode 1)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;;; Vim Related Settings ;;;
 ;; Vim like undo
@@ -106,10 +106,6 @@
 ;; Vim scrolloff alternative
 ;; (setq scroll-step 1)
 ;; (setq scroll-margin 9)
-
-;;; Editor Settings ;;;
-;; Show trailing whitespaces
-;; (setq-default show-trailing-whitespace t)
 
 ;; Add space from both sides inside braces
 (defun my/c-mode-insert-space (arg)
@@ -164,7 +160,7 @@
 ;;; Neotree ;;;
 ;; Icons fix
 (after! doom-themes
-  (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config))
+        (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config))
 
 ;;; Doom Modeline ;;;
 ;; Show major mode icon in doom modeline(filetype icon)
@@ -186,6 +182,18 @@
 
 ;; Button styles
 (setq centaur-tabs-close-button "")
+
+;;; Whitespace Mode ;;;
+;; Enable globally
+(global-whitespace-mode +1)
+
+;; Set style
+;; (setq whitespace-style '(face spaces tabs space-mark tab-mark))
+(setq whitespace-style '(face trailing))
+
+;;; Indent Guides ;;;
+;; Display different color for current context
+(setq highlight-indent-guides-responsive 'top)
 
 ;;; Load Custom Keybindings ;;;
 (load! "keybindings")

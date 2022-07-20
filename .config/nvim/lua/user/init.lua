@@ -4,7 +4,7 @@ local config = {
   options = {
     opt = {
       list = true, -- Enable whitespace rendering
-      listchars = vim.opt.listchars:append({ tab = '› ', trail = '•', extends = '#', nbsp = '.' }), -- Change whitespace characters
+      listchars = vim.opt.listchars:append({ tab = '› ', trail = '•', lead = '.', extends = '#', nbsp = '.' }), -- Change whitespace characters
       whichwrap = vim.opt.whichwrap:append "<,>[,],h,l", -- Automatically go to next line
     },
   },
