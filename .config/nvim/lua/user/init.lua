@@ -19,6 +19,13 @@ local config = {
 
       -- Add user plugins
       ["lambdalisue/suda.vim"] = {},
+
+      -- Show multiline diagnostics
+      ["https://git.sr.ht/~whynothugo/lsp_lines.nvim"] = {
+        config = function()
+          require("lsp_lines").setup()
+        end,
+      }
     },
 
     -- All other entries override the setup() call for default plugins
@@ -37,7 +44,7 @@ local config = {
 
   -- Diagnostics configuration (for vim.diagnostics.config({}))
   diagnostics = {
-    virtual_text = true,
+    virtual_text = false,
     underline = false,
   },
 }
