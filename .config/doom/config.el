@@ -77,9 +77,6 @@
 ;; they are implemented.
 
 ;;; MY SETTINGS ;;;
-;; Report only those errors that will seriously impair Emacs operation.
-(setq warning-minimum-level :error)
-
 ;; Disable quit prompt
 (setq confirm-kill-emacs nil)
 
@@ -94,7 +91,7 @@
 
 ;;; Emacs Window Size Settings ;;;
 ;; Open emacs maximized
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;;; Vim Related Settings ;;;
 ;; Vim like undo
@@ -195,6 +192,12 @@
 ;;; Indent Guides ;;;
 ;; Display different color for current context
 (setq highlight-indent-guides-responsive 'top)
+
+;;; Custom Functions ;;;
+;; Open specified terminal in current working directory
+(defun term-here ()
+  (interactive)
+  (start-process "" nil "alacritty"))
 
 ;;; Load Custom Keybindings ;;;
 (load! "keybindings")
