@@ -1,10 +1,8 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" " Neovim-Qt Settings " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-GuiFont Cascadia Code:h10
+GuiFont Cascadia Code:h11
 GuiTabline 0
 GuiPopupmenu 0
-
-" Fix lualine and bufferline not loading in Neovim-Qt
-autocmd BufEnter * set showtabline=2
+set guifontwide=JetBrainsMono\ Nerd\ Font:h11
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" " END " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
