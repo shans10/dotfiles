@@ -47,7 +47,7 @@ local config = {
     -- Nvui Settings
     if vim.g.nvui then
       -- Configure through vim commands
-      vim.cmd [[set guifont=Cascadia\ Code:h11,CaskaydiaCove\ Nerd\ Font]]
+      vim.cmd [[set guifont=Cascadia\ Code:h11,JetBrainsMono\ Nerd\ Font]]
       vim.cmd [[NvuiCursorAnimationDuration 0.1]]
     end
   end,
