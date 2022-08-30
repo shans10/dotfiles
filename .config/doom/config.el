@@ -29,7 +29,7 @@
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14))
+(setq doom-font (font-spec :family "Cascadia Code" :size 15))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -85,8 +85,8 @@
         (setq doom-themes-enable-bold t
               doom-themes-enable-italic t))
 (custom-set-faces!
-  '(font-lock-comment-face :slant italic)
-  '(font-lock-keyword-face :slant italic)
+  ;; '(font-lock-comment-face :slant italic)
+  ;; '(font-lock-keyword-face :slant italic)
   '(line-number-current-line :weight bold))
 
 ;;; Emacs Window Size Settings ;;;

@@ -1,11 +1,21 @@
 local config = {
 
+  -- Configure DoomNvim updates
+  updater = {
+    pin_plugins = true, -- true, false
+    auto_reload = false, -- automatically reload and sync packer after a successful update
+    auto_quit = true, -- automatically quit the current session after a successful update
+  },
+
   -- set vim options here (vim.<first_key>.<second_key> =  value)
   options = {
     opt = {
       list = true, -- Enable whitespace rendering
       listchars = vim.opt.listchars:append({ tab = '› ', trail = '•', lead = '.', extends = '#', nbsp = '.' }), -- Change whitespace characters
       whichwrap = vim.opt.whichwrap:append "<,>[,],h,l", -- Automatically go to next line
+    },
+    g = {
+      remove_trailing_whitespace = true, -- remove trailing whitespaces by default
     },
   },
 
@@ -48,7 +58,7 @@ local config = {
     if vim.g.nvui then
       -- Configure through vim commands
       vim.cmd [[set guifont=Cascadia\ Code:h11,JetBrainsMono\ Nerd\ Font]]
-      vim.cmd [[NvuiCursorAnimationDuration 0.1]]
+      -- vim.cmd [[NvuiCursorAnimationDuration 0.1]]
     end
   end,
 }
