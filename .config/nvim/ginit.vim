@@ -1,6 +1,6 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" " Neovim-Qt Settings " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-GuiFont Cascadia Code:h11
+GuiFont Cascadia Code:h12
 GuiTabline 0
 GuiPopupmenu 0
 set guifontwide=JetBrainsMono\ Nerd\ Font:h11
