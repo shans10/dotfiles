@@ -15,30 +15,7 @@ local config = {
       whichwrap = vim.opt.whichwrap:append "<,>[,],h,l", -- automatically go to next line
     },
     g = {
-      remove_trailing_whitespace = true, -- remove trailing whitespaces by default
-    },
-  },
-
-  -- Configure plugins
-  plugins = {
-    -- Add plugins, the packer syntax without the "use"
-    init = {
-      -- Disable default plugins
-      ["p00f/nvim-ts-rainbow"] = { disable = true },
-      ["windwp/nvim-ts-autotag"] = { disable = true },
-    },
-
-    -- All other entries override the setup() call for default plugins
-    treesitter = {
-      ensure_installed = { "lua", "python", "c", "cpp", "haskell" },   -- automatically install these treesitters
-    },
-
-    ["nvim-lsp-installer"] = {
-      ensure_installed = { "sumneko_lua" },   -- automatically install these LSPs
-    },
-
-    toggleterm = {
-      shell = "fish",   -- set toggleterm shell
+      remove_trailing_whitespace = false, -- remove trailing whitespaces by default
     },
   },
 
@@ -56,41 +33,57 @@ local config = {
       "clangd",
       "hls"
     },
-    -- easily add or disable built in mappings added during LSP attaching
-    mappings = {
-      n = {
-        -- ["<leader>lf"] = false -- disable formatting keymap
-      },
+  },
+
+  -- Mapping data with "desc" stored directly by vim.keymap.set().
+  --
+  -- Please use this mappings table to set keyboard mapping since this is the
+  -- lower level configuration and more robust one. (which-key will
+  -- automatically pick-up stored data by this setting.)
+  mappings = {
+    -- first key is the mode
+    n = {
+      -- second key is the lefthand side of the map
+      -- NvimTree
+      ["<C-/>"] = { "<cmd>NvimTreeToggle<cr>", desc = "Toggle nvim-tree" },
+
+      -- Terminal
+      ["<leader>tt"] = { "<cmd>!alacritty<cr><cr>", desc = "Open alacritty in cwd" },
+
+      -- Buffer
+      ["<C-.>"] = { "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer tab right" },
+      ["<C-,>"] = { "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer tab left" },
     },
-    -- add to the global LSP on_attach function
-    -- on_attach = function(client, bufnr)
-    -- end,
+  },
 
-    -- override the mason server-registration function
-    -- server_registration = function(server, opts)
-    --   require("lspconfig")[server].setup(opts)
-    -- end,
+  -- Configure plugins
+  plugins = {
+    -- Add plugins, the packer syntax without the "use"
+    init = {
+      -- Disable default plugins
+      ["p00f/nvim-ts-rainbow"] = { disable = true },
+      ["windwp/nvim-ts-autotag"] = { disable = true },
+      ["ethanholz/nvim-lastplace"] = {
+        config = function() require'nvim-lastplace'.setup {
+          lastplace_ignore_buftype = {"quickfix", "nofile", "help"},
+          lastplace_ignore_filetype = {"gitcommit", "gitrebase", "svn", "hgcommit"},
+          lastplace_open_folds = true
+        }
+        end
+      }
+    },
 
-    -- Add overrides for LSP server settings, the keys are the name of the server
-    ["server-settings"] = {
-      -- example for addings schemas to yamlls
-      -- yamlls = { -- override table for require("lspconfig").yamlls.setup({...})
-      --   settings = {
-      --     yaml = {
-      --       schemas = {
-      --         ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*.{yml,yaml}",
-      --         ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
-      --         ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
-      --       },
-      --     },
-      --   },
-      -- },
-      -- Example disabling formatting for a specific language server
-      -- gopls = { -- override table for require("lspconfig").gopls.setup({...})
-      --   on_attach = function(client, bufnr)
-      --     client.resolved_capabilities.document_formatting = false
-      --   end
-      -- }
+    -- All other entries override the setup() call for default plugins
+    treesitter = {
+      ensure_installed = { "lua", "python", "c", "cpp", "haskell" },   -- automatically install these treesitters
+    },
+
+    ["nvim-lsp-installer"] = {
+      ensure_installed = { "sumneko_lua" },   -- automatically install these LSPs
+    },
+
+    toggleterm = {
+      shell = "fish",   -- set toggleterm shell
     },
   },
 
