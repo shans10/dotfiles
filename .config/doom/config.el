@@ -1,109 +1,26 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;; UI ;;;
+(setq doom-theme 'doom-one)                  ; set theme
+(setq display-line-numbers-type 'relative)   ; set line number style
+(setq confirm-kill-emacs nil)                ; disable quit prompt
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
+;;; FONT ;;;
+(setq doom-font (font-spec :family "Cascadia Code" :size 16))
 
-
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets. It is optional.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
-
-;; Doom exposes five (optional) variables for controlling fonts in Doom:
-;;
-;; - `doom-font' -- the primary font to use
-;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
-;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;; - `doom-unicode-font' -- for unicode glyphs
-;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-;;
-;; See 'C-h v doom-font' for documentation and more examples of what they
-;; accept. For example:
-;;
-;;
-;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-;;
-;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
-;; refresh your font settings. If Emacs still can't find your font, it likely
-;; wasn't installed correctly. Font issues are rarely Doom issues!
-(setq doom-font (font-spec :family "Cascadia Code" :size 15))
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
-
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type 'relative)
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
-
-;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
-;;
-;;   (after! PACKAGE
-;;     (setq x y))
-;;
-;; The exceptions to this rule:
-;;
-;;   - Setting file/directory variables (like `org-directory')
-;;   - Setting variables which explicitly tell you to set them before their
-;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-;;   - Setting doom variables (which start with 'doom-' or '+').
-;;
-;; Here are some additional functions/macros that will help you configure Doom.
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
-;; etc).
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.
-
-;;; MY SETTINGS ;;;
-;; Disable quit prompt
-(setq confirm-kill-emacs nil)
-
-;;; Extra Font Configuration ;;;
 (after! doom-themes
-        (setq doom-themes-enable-bold t
-              doom-themes-enable-italic t))
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t))
+
 (custom-set-faces!
   ;; '(font-lock-comment-face :slant italic)
   ;; '(font-lock-keyword-face :slant italic)
   '(line-number-current-line :weight bold))
 
-;;; Emacs Window Size Settings ;;;
-;; Open emacs maximized
-;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
+;;; WINDOW ;;;
+;; (add-to-list 'default-frame-alist '(fullscreen . maximized))   ; Open emacs maximized
 
-;;; Vim Related Settings ;;;
-;; Vim like undo
-(setq evil-want-fine-undo 'fine)
-;; (setq evil-want-fine-undo t)
-
-;; Vim whichwrap
-(setq evil-cross-lines t)
-
-;; Vim scrolloff alternative
-;; (setq scroll-step 1)
-;; (setq scroll-margin 9)
+;;; VIM RELATED ;;;
+(setq evil-want-fine-undo 'fine   ; vim like undo
+      evil-cross-lines t)         ; vim whichwrap
 
 ;; Add space from both sides inside braces
 (defun my/c-mode-insert-space (arg)
@@ -132,72 +49,73 @@
             (local-set-key " " 'my/c-mode-insert-space)
             (local-set-key "\177" 'my/c-mode-delete-space)))
 
-;;; Evil Snipe ;;;
-(setq evil-snipe-scope 'visible)
-(setq evil-snipe-repeat-scope 'whole-visible)
-(setq evil-snipe-spillover-scope 'whole-buffer)
+;;; EVIL SNIPE ;;;
+(setq evil-snipe-scope 'visible
+      evil-snipe-repeat-scope 'whole-visible
+      evil-snipe-spillover-scope 'whole-buffer)
 
-;;; Flycheck ;;;
+;;; FLYCHECK ;;;
 ;; Check syntax on idle
 (after! flycheck
         (setq flycheck-check-syntax-automatically '(idle-change)))
 
-;; Disable default fringe styling
-(setq +vc-gutter-default-style nil)
+(setq +vc-gutter-default-style nil)                    ; Disable default fringe styling
+(setq-default flycheck-indication-mode 'left-fringe)   ; Move flycheck to left margin
 
-;; Move flycheck to left margin
-(setq-default flycheck-indication-mode 'left-fringe)
+;;; LSP ;;;
+(setq lsp-ui-doc-enable nil                    ; disable doc hover information unless key pressed
+      lsp-ui-sideline-show-code-actions nil)   ; disable code action hints in sideline
 
-;;; Lsp ;;;
-;; Disable doc hover information unless key pressed
-(setq lsp-ui-doc-enable nil)
+;;; NEOTREE ;;;
+(after! neotree
+  (setq neo-smart-open t
+        neo-window-fixed-size nil))
 
-;; Disable code action hints in sideline
-(setq lsp-ui-sideline-show-code-actions nil)
-
-;;; Neotree ;;;
-;; Icons fix
 (after! doom-themes
-        (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config))
+  (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config)   ; fix icons
+  (setq doom-neotree-enable-variable-pitch t))
 
-;;; Doom Modeline ;;;
-;; Show major mode icon in doom modeline(filetype icon)
-(setq doom-modeline-major-mode-icon t)
+;;; MODELINE ;;;
+(setq doom-modeline-major-mode-icon t)            ; show major mode icon in doom modeline(filetype icon)
+(setq lsp-modeline-code-actions-enable nil)       ; disable code actions in doom modeline
+(setq which-key-allow-imprecise-window-fit nil)   ; emacsclient which-key overlap fix
 
-;; Disable code actions in doom modeline
-(setq lsp-modeline-code-actions-enable nil)
+;;; CENTAUR TABS ;;;
+(setq centaur-tabs-set-bar 'left               ; set indicator style
+      centaur-tabs-gray-out-icons 'buffer
+      centaur-tabs-height 15                   ; set tab height
+      centaur-tabs-close-button "")           ; set close button style
 
-;; Emacsclient which-key overlap fix
-(setq which-key-allow-imprecise-window-fit nil)
+;;; WHITESPACE MODE ;;;
+(global-whitespace-mode +1)                ; enable globally
+(setq whitespace-style '(face trailing))   ; set style
 
-;;; Centaur Tabs ;;;
-;; Tab style
-(setq centaur-tabs-style "rounded")
+;;; RAINBOW MODE ;;;
+(define-globalized-minor-mode global-rainbow-mode rainbow-mode
+  (lambda ()
+    (when (not (memq major-mode
+                (list 'org-agenda-mode)))
+     (rainbow-mode 1))))
+(global-rainbow-mode 1 )
 
-;; Selection marker style
-(setq centaur-tabs-set-bar 'under)
-(setq x-underline-at-descent-line t)
+;;; INDENT GUIDES ;;;
+(setq highlight-indent-guides-responsive 'top)   ; display different color for current context
 
-;; Button styles
-(setq centaur-tabs-close-button "")
+;;; TERMINAL ;;;
+(setq shell-file-name "/bin/fish"
+      vterm-max-scrollback 5000)
+(setq eshell-history-size 5000
+      eshell-buffer-maximum-lines 5000
+      eshell-hist-ignoredups t
+      eshell-scroll-to-bottom-on-input t
+      eshell-destroy-buffer-when-process-dies t
+      eshell-visual-commands'("bash" "fish" "htop" "ssh" "top" "zsh"))
 
-;;; Whitespace Mode ;;;
-;; Enable globally
-(global-whitespace-mode +1)
-
-;; Set style
-;; (setq whitespace-style '(face spaces tabs space-mark tab-mark))
-(setq whitespace-style '(face trailing))
-
-;;; Indent Guides ;;;
-;; Display different color for current context
-(setq highlight-indent-guides-responsive 'top)
-
-;;; Custom Functions ;;;
+;;; EXTERNAL TERMINAL ;;;
 ;; Open specified terminal in current working directory
 (defun term-here ()
   (interactive)
   (start-process "" nil "alacritty"))
 
-;;; Load Custom Keybindings ;;;
+;;; LOAD USER DEFINED KEYBINDINGS ;;;
 (load! "keybindings")
