@@ -1,19 +1,25 @@
 ;;; UI ;;;
-(setq doom-theme 'doom-one)                  ; set theme
+(setq doom-theme 'doom-challenger-deep)      ; set theme
 (setq display-line-numbers-type 'relative)   ; set line number style
 (setq confirm-kill-emacs nil)                ; disable quit prompt
 
 ;;; FONT ;;;
+; Set font family
 (setq doom-font (font-spec :family "Cascadia Code" :size 16))
 
+; Enable bold and italic faces
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
 
+; Set custom styles
 (custom-set-faces!
-  ;; '(font-lock-comment-face :slant italic)
-  ;; '(font-lock-keyword-face :slant italic)
-  '(line-number-current-line :weight bold))
+  '(font-lock-keyword-face :slant italic :weight semibold)
+  '(font-lock-comment-face :slant italic :weight semibold)
+  '(italic :slant italic :weight semibold)
+  '(tree-sitter-hl-face:property :slant italic :weight semibold)
+  '(line-number :slant normal)
+  '(line-number-current-line :slant normal :weight bold))
 
 ;;; WINDOW ;;;
 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))   ; Open emacs maximized
@@ -89,14 +95,6 @@
 ;;; WHITESPACE MODE ;;;
 (global-whitespace-mode +1)                ; enable globally
 (setq whitespace-style '(face trailing))   ; set style
-
-;;; RAINBOW MODE ;;;
-(define-globalized-minor-mode global-rainbow-mode rainbow-mode
-  (lambda ()
-    (when (not (memq major-mode
-                (list 'org-agenda-mode)))
-     (rainbow-mode 1))))
-(global-rainbow-mode 1 )
 
 ;;; INDENT GUIDES ;;;
 (setq highlight-indent-guides-responsive 'top)   ; display different color for current context

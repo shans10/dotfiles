@@ -3,6 +3,5 @@
 GuiFont Cascadia Code:h12
 GuiTabline 0
 GuiPopupmenu 0
-set guifontwide=JetBrainsMono\ Nerd\ Font:h11
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" " END " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
