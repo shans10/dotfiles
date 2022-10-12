@@ -1,7 +1,9 @@
 ;;; UI ;;;
-(setq doom-theme 'doom-challenger-deep)      ; set theme
 (setq display-line-numbers-type 'relative)   ; set line number style
 (setq confirm-kill-emacs nil)                ; disable quit prompt
+
+;;; THEME ;;;
+(setq doom-theme 'doom-tokyo-night)      ; set theme
 
 ;;; FONT ;;;
 ; Set font family
@@ -77,17 +79,17 @@
   (setq neo-smart-open t
         neo-window-fixed-size nil))
 
+;; Load all-the-icons
 (after! doom-themes
-  (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config)   ; fix icons
-  (setq doom-neotree-enable-variable-pitch t))
+  (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config))
 
 ;;; MODELINE ;;;
 (setq doom-modeline-major-mode-icon t)            ; show major mode icon in doom modeline(filetype icon)
 (setq lsp-modeline-code-actions-enable nil)       ; disable code actions in doom modeline
-(setq which-key-allow-imprecise-window-fit nil)   ; emacsclient which-key overlap fix
+;; (setq which-key-allow-imprecise-window-fit nil)   ; emacsclient which-key overlap fix
 
 ;;; CENTAUR TABS ;;;
-(setq centaur-tabs-set-bar 'left               ; set indicator style
+(setq centaur-tabs-set-bar 'over              ; set indicator style
       centaur-tabs-gray-out-icons 'buffer
       centaur-tabs-height 15                   ; set tab height
       centaur-tabs-close-button "")           ; set close button style
