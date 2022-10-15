@@ -1,16 +1,6 @@
 local config = {
 
-  -- Configure TsukiNvim updates
-  updater = {
-    pin_plugins = false, -- lock plugins to commits provided in pavker_snapshot
-    auto_reload = false, -- automatically reload and sync packer after a successful update
-    auto_quit = true, -- automatically quit the current session after a successful update
-  },
-
-  -- Set colorscheme to use
-  -- colorscheme = "elflord",
-
-  -- set vim options here (vim.<first_key>.<second_key> =  value)
+  -- Set vim options here (vim.<first_key>.<second_key> =  value)
   options = {
     opt = {
       list = true, -- enable whitespace rendering
@@ -19,7 +9,6 @@ local config = {
     },
     g = {
       strip_trailing_ws = false, -- remove trailing whitespaces on file save
-      catppuccin_flavour = "mocha"
     },
   },
 
@@ -74,15 +63,6 @@ local config = {
           }
         end
       },
-
-      -- Character based movement
-      ["phaazon/hop.nvim"] = {
-        branch = 'v2', -- optional but strongly recommended
-        config = function()
-          -- you can configure Hop the way you like here; see :h hop-config
-          require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
-        end
-      },
     },
 
     -- All other entries override the setup() call for default plugins
@@ -102,26 +82,19 @@ local config = {
   -- This function is run last
   -- good place to configure augroups/autocommands and custom filetypes
   polish = function()
-    -- Hop.nvim
-    vim.api.nvim_set_keymap('', 'f',
-      "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>"
-      , {})
-    vim.api.nvim_set_keymap('', 'F',
-      "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>"
-      , {})
-    vim.api.nvim_set_keymap('', 't',
-      "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })<cr>"
-      , {})
-    vim.api.nvim_set_keymap('', 'T',
-      "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })<cr>"
-      , {})
-
     -- Nvui Settings
     if vim.g.nvui then
       -- Configure through vim commands
       vim.cmd [[set guifont=Cascadia\ Code:h11]]
       -- vim.cmd [[NvuiCursorAnimationDuration 0.1]]
     end
+
+    -- Set up custom filetypes
+    -- vim.filetype.add {
+    --   extension = {
+    --     el = "elisp",
+    --   },
+    -- }
   end,
 }
 

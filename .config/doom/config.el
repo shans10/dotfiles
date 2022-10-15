@@ -71,8 +71,9 @@
 (setq-default flycheck-indication-mode 'left-fringe)   ; Move flycheck to left margin
 
 ;;; LSP ;;;
-(setq lsp-ui-doc-enable nil                    ; disable doc hover information unless key pressed
-      lsp-ui-sideline-show-code-actions nil)   ; disable code action hints in sideline
+(setq lsp-ui-doc-enable nil                   ; disable doc hover information unless key pressed
+      lsp-ui-sideline-show-code-actions nil   ; disable code action hints in sideline
+      lsp-eldoc-enable-hover nil)             ; disable doc below modeline on hover
 
 ;;; NEOTREE ;;;
 (after! neotree
@@ -89,7 +90,7 @@
 ;; (setq which-key-allow-imprecise-window-fit nil)   ; emacsclient which-key overlap fix
 
 ;;; CENTAUR TABS ;;;
-(setq centaur-tabs-set-bar 'over              ; set indicator style
+(setq centaur-tabs-set-bar 'left              ; set indicator style
       centaur-tabs-gray-out-icons 'buffer
       centaur-tabs-height 15                   ; set tab height
       centaur-tabs-close-button "")           ; set close button style
