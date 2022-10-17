@@ -7,9 +7,6 @@ local config = {
       listchars = vim.opt.listchars:append({ tab = '› ', trail = '•', lead = '.', extends = '#', nbsp = '.' }), -- change whitespace characters
       whichwrap = vim.opt.whichwrap:append "<,>[,],h,l", -- automatically go to next line
     },
-    g = {
-      strip_trailing_ws = false, -- remove trailing whitespaces on file save
-    },
   },
 
   -- Extend LSP configuration
@@ -24,23 +21,17 @@ local config = {
   },
 
   -- Mapping data with "desc" stored directly by vim.keymap.set().
-  --
-  -- Please use this mappings table to set keyboard mapping since this is the
-  -- lower level configuration and more robust one. (which-key will
-  -- automatically pick-up stored data by this setting.)
   mappings = {
-    -- first key is the mode
     n = {
-      -- second key is the lefthand side of the map
       -- NvimTree
-      ["<C-/>"] = { "<cmd>NvimTreeToggle<cr>", desc = "Toggle nvim-tree" },
+      ["<C-n>"] = { "<cmd>NvimTreeToggle<cr>", desc = "Toggle nvim-tree" },
 
       -- Terminal
       ["<leader>tt"] = { "<cmd>!alacritty<cr><cr>", desc = "Open alacritty in cwd" },
 
       -- Buffer
-      ["<C-.>"] = { "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer tab right" },
-      ["<C-,>"] = { "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer tab left" },
+      ["<A-.>"] = { "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer tab right" },
+      ["<A-,>"] = { "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer tab left" },
     },
   },
 
@@ -51,18 +42,25 @@ local config = {
       -- Disable default plugins
       ["p00f/nvim-ts-rainbow"] = { disable = true },
       ["windwp/nvim-ts-autotag"] = { disable = true },
+      ["rebelot/heirline.nvim"] = { disable = true },
 
       -- Install and setup user plugins
       --
-      -- Remeber last position in a file
-      ["ethanholz/nvim-lastplace"] = {
-        config = function() require 'nvim-lastplace'.setup {
-            lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
-            lastplace_ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" },
-            lastplace_open_folds = true
-          }
-        end
+      -- lualine statusline
+      ["nvim-lualine/lualine.nvim"] = {
+        event = "UIEnter",
+        config = function() require "user.lualine" end
       },
+
+      -- Remember last position in a file
+      ["ethanholz/nvim-lastplace"] = {
+        config = function() require "user.lastplace" end
+      },
+
+      -- Highlight f/F jumps
+      ["jinh0/eyeliner.nvim"] = {
+        config = function() require "user.eyeliner" end
+      }
     },
 
     -- All other entries override the setup() call for default plugins
@@ -88,13 +86,6 @@ local config = {
       vim.cmd [[set guifont=Cascadia\ Code:h11]]
       -- vim.cmd [[NvuiCursorAnimationDuration 0.1]]
     end
-
-    -- Set up custom filetypes
-    -- vim.filetype.add {
-    --   extension = {
-    --     el = "elisp",
-    --   },
-    -- }
   end,
 }
 
