@@ -39,18 +39,23 @@ local config = {
   plugins = {
     -- Add plugins, the packer syntax without the "use"
     init = {
-      -- Disable default plugins
+      -- Disable/reconfigure default plugins
       ["p00f/nvim-ts-rainbow"] = { disable = true },
       ["windwp/nvim-ts-autotag"] = { disable = true },
-      ["rebelot/heirline.nvim"] = { disable = true },
+
+      -- Statusline
+      ["rebelot/heirline.nvim"] = {
+        event = "ColorScheme",
+        config = function() require "user.heirline" end,
+      },
 
       -- Install and setup user plugins
       --
-      -- lualine statusline
-      ["nvim-lualine/lualine.nvim"] = {
-        event = "UIEnter",
-        config = function() require "user.lualine" end
-      },
+      -- Statusline
+      -- ["nvim-lualine/lualine.nvim"] = {
+      --   event = "ColorScheme",
+      --   config = function() require "user.lualine" end,
+      -- },
 
       -- Remember last position in a file
       ["ethanholz/nvim-lastplace"] = {
@@ -80,11 +85,9 @@ local config = {
   -- This function is run last
   -- good place to configure augroups/autocommands and custom filetypes
   polish = function()
-    -- Nvui Settings
-    if vim.g.nvui then
-      -- Configure through vim commands
-      vim.cmd [[set guifont=Cascadia\ Code:h11]]
-      -- vim.cmd [[NvuiCursorAnimationDuration 0.1]]
+    -- Glrnvim Settings
+    if vim.g.glrnvim_gui then
+      vim.cmd "Alpha" -- load alpha-dashboard on startup
     end
   end,
 }
