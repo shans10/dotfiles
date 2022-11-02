@@ -16,26 +16,24 @@ local branch = tnvim.get_icon("GitBranch")
 local dir = tnvim.get_icon("Directory")
 local separator = tnvim.get_icon("Bar")
 
-if vim.g.colors_name == "tokyonight" then
-  local statusline_hl = tnvim.get_hlgroup("StatusLine")
-  local cursorline_hl = tnvim.get_hlgroup("CursorLine")
-  local normal_hl = tnvim.get_hlgroup("Normal")
-  local conditional_hl = tnvim.get_hlgroup("Conditional")
-  local diagnostic_hl = tnvim.get_hlgroup("DiagnosticWarn")
-  local string_hl = tnvim.get_hlgroup("String")
+local statusline_hl = tnvim.get_hlgroup("StatusLine")
+local cursorline_hl = tnvim.get_hlgroup("CursorLine")
+local normal_hl = tnvim.get_hlgroup("Normal")
+local conditional_hl = tnvim.get_hlgroup("Conditional")
+local diagnostic_hl = tnvim.get_hlgroup("DiagnosticWarn")
+local string_hl = tnvim.get_hlgroup("String")
 
-  vim.api.nvim_set_hl(0, "SLGitIcon", { fg = conditional_hl.fg, bg = statusline_hl.bg })
-  vim.api.nvim_set_hl(0, "SLBranchName", { fg = normal_hl.fg, bg = statusline_hl.bg })
-  vim.api.nvim_set_hl(0, "SLDirIcon", { fg = diagnostic_hl.fg, bg = cursorline_hl.bg })
-  vim.api.nvim_set_hl(0, "SLDirName", { fg = normal_hl.fg, bg = cursorline_hl.bg })
-  vim.api.nvim_set_hl(0, "SLTSIcon", { fg = string_hl.fg, bg = statusline_hl.bg })
-  vim.api.nvim_set_hl(0, "SLSeparator", { fg = cursorline_hl.bg, bg = statusline_hl.bg })
+vim.api.nvim_set_hl(0, "SLGitIcon", { fg = conditional_hl.fg, bg = statusline_hl.bg })
+vim.api.nvim_set_hl(0, "SLBranchName", { fg = statusline_hl.fg, bg = statusline_hl.bg })
+vim.api.nvim_set_hl(0, "SLDirIcon", { fg = diagnostic_hl.fg, bg = cursorline_hl.bg })
+vim.api.nvim_set_hl(0, "SLDirName", { fg = normal_hl.fg, bg = cursorline_hl.bg })
+vim.api.nvim_set_hl(0, "SLTSIcon", { fg = string_hl.fg, bg = statusline_hl.bg })
+vim.api.nvim_set_hl(0, "SLSeparator", { fg = cursorline_hl.bg, bg = statusline_hl.bg })
 
-  progress_color = "SLDirName"
-  branch = "%#SLGitIcon#" .. branch .. "%*" .. "%#SLBranchName#"
-  dir = "%#SLDirIcon#" .. dir .. "%*" .. "%#SLDirName#"
-  separator = "%#SLSeparator#" .. separator .. "%*"
-end
+progress_color = "SLDirName"
+branch = "%#SLGitIcon#" .. branch .. "%*" .. "%#SLBranchName#"
+dir = "%#SLDirIcon#" .. dir .. "%*" .. "%#SLDirName#"
+separator = "%#SLSeparator#" .. separator .. "%*"
 
 return {
   mode = {

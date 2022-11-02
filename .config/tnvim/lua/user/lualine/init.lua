@@ -14,7 +14,8 @@ lualine.setup {
   },
   sections = {
     lualine_a = {
-      "mode"
+      -- "mode"
+      components.mode
     },
     lualine_b = {
       components.dir,

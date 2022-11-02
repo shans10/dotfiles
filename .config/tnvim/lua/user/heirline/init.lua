@@ -4,7 +4,8 @@ local components = require "user.heirline.components"
 local colors = require "user.heirline.colors"
 
 heirline.load_colors(colors.setup_colors())
-local statuslines = {
+
+local statusline = {
   hl = { fg = "fg", bg = "bg" },
   components.mode,
   components.cwd,
@@ -14,12 +15,31 @@ local statuslines = {
   components.lsp_progress,
   components.diagnostics,
   components.ts,
-  components.lsp,
+  components.lsp_status,
   components.spaces,
-  components.filetype,
+  components.file_type,
   components.nav,
 }
-heirline.setup(statuslines)
+
+local winbar = {
+  fallthrough = false,
+  {
+    condition = function()
+      return tnvim.status.condition.buffer_matches {
+        buftype = { "terminal", "prompt", "nofile", "help", "quickfix" },
+        filetype = { "NvimTree", "neo-tree", "dashboard", "Outline", "aerial" },
+      }
+    end,
+    init = function() vim.opt_local.winbar = nil end,
+  },
+  {
+    hl = { fg = "normal_fg" },
+    components.winbar_filename,
+    components.breadcrumbs
+  }
+}
+
+heirline.setup(statusline, winbar)
 
 vim.api.nvim_create_augroup("Heirline", { clear = true })
 vim.api.nvim_create_autocmd("ColorScheme", {

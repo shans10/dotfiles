@@ -26,6 +26,11 @@ local modes = {
   ["!"] = { "SHELL", "inactive" },
 }
 
+components.breadcrumbs = {
+  condition = tnvim.status.condition.aerial_available,
+  init = st.init.breadcrumbs()
+}
+
 components.cwd = {
   hl = { fg = "normal_fg", bg = "cwd_bg" },
   { provider = tnvim.pad_string(tnvim.get_icon("Directory"), { left = 1, right = 1 }), hl = { fg = "command" } },
@@ -81,8 +86,32 @@ components.diagnostics = {
   },
 }
 
-components.filetype = {
+components.file_info = {
   hl = { fg = "fg", bg = "bg" },
+  condition = st.condition.is_valid_file,
+  { provider = st.provider.filename { padding = { left = 1, right = 1 } } },
+  {
+    condition = function(self)
+      local buffer = vim.bo[self and self.bufnr or 0]
+      return buffer.modified
+    end,
+    provider = st.provider.str { str = "[+]", padding = { right = 1 } }
+  },
+  {
+    condition = function(self)
+      local buffer = vim.bo[self and self.bufnr or 0]
+      return not buffer.modifiable or buffer.readonly
+    end,
+    provider = st.provider.str { str = "[-]", padding = { right = 1 } }
+  },
+  { provider = "%<" }
+}
+
+components.file_type = {
+  hl = { fg = "fg", bg = "bg" },
+  condition = function()
+    return vim.bo.filetype and vim.bo.filetype ~= ""
+  end,
   { provider = tnvim.pad_string(separator, { right = 1 }), hl = { fg = "cwd_bg" } },
   {
     fallthrough = false,
@@ -108,6 +137,7 @@ components.fill = { provider = st.provider.fill() }
 components.git_branch = {
   condition = st.condition.is_git_repo,
   hl = { fg = "fg", bg = "bg" },
+  -- { provider = tnvim.pad_string(separator, { right = 0 }), hl = { fg = "cwd_bg" } },
   {
     provider = tnvim.pad_string(tnvim.get_icon("GitBranch"), { left = 1, right = 1 }),
     hl = { fg = "git_branch_fg", bg = "bg" },
@@ -163,7 +193,7 @@ components.git_diff = {
   },
 }
 
-components.lsp = {
+components.lsp_status = {
   {
     provider = function(self)
       local truncate = 0.25
@@ -228,9 +258,13 @@ components.mode = {
 }
 
 components.nav = {
-  { provider = st.provider.percentage { padding = { left = 1, right = 1 } }, hl = { fg = "normal_fg", bg = "cwd_bg" } },
   {
     provider = st.provider.ruler { padding = { left = 1, right = 1 } },
+    hl = { fg = "normal_fg", bg = "cwd_bg" }
+  },
+  {
+    provider = st.provider.str { str = "%P/%L", padding = { left = 1, right = 1 } },
+    -- provider = st.provider.percentage { padding = { left = 1, right = 1 } },
     hl = function()
       local mode_bg = modes[vim.fn.mode()][2]
       return { fg = "bg", bg = mode_bg }
@@ -254,6 +288,11 @@ components.ts = {
   condition = st.condition.treesitter_available,
   hl = { fg = "ts_fg" },
   provider = tnvim.pad_string(tnvim.get_icon("ActiveTS1"), { right = 2 }),
+}
+
+components.winbar_filename = {
+  { provider = st.provider.file_icon { padding = { left = 1, right = 1 } }, hl = st.hl.filetype_color },
+  { provider = st.provider.filename() }
 }
 
 return components

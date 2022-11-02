@@ -90,10 +90,10 @@
 ;; (setq which-key-allow-imprecise-window-fit nil)   ; emacsclient which-key overlap fix
 
 ;;; CENTAUR TABS ;;;
-(setq centaur-tabs-set-bar 'left              ; set indicator style
-      centaur-tabs-gray-out-icons 'buffer
-      centaur-tabs-height 15                   ; set tab height
-      centaur-tabs-close-button "")           ; set close button style
+;; (setq centaur-tabs-set-bar 'left              ; set indicator style
+;;       centaur-tabs-gray-out-icons 'buffer
+;;       centaur-tabs-height 15                   ; set tab height
+;;       centaur-tabs-close-button "")           ; set close button style
 
 ;;; WHITESPACE MODE ;;;
 (global-whitespace-mode +1)                ; enable globally
@@ -111,6 +111,10 @@
       eshell-scroll-to-bottom-on-input t
       eshell-destroy-buffer-when-process-dies t
       eshell-visual-commands'("bash" "fish" "htop" "ssh" "top" "zsh"))
+
+;;; TREESITTER ;;;
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode) ; enable tree-sitter highlights
 
 ;;; EXTERNAL TERMINAL ;;;
 ;; Open specified terminal in current working directory

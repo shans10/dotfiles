@@ -1,12 +1,21 @@
 local config = {
 
+  -- Set colorscheme to use
+  -- colorscheme = "catppuccin",
+
   -- Set vim options here (vim.<first_key>.<second_key> =  value)
   options = {
     opt = {
       list = true, -- enable whitespace rendering
-      listchars = vim.opt.listchars:append({ tab = '› ', trail = '•', lead = '.', extends = '#', nbsp = '.' }), -- change whitespace characters
+      -- listchars = vim.opt.listchars:append({ tab = '› ', trail = '•', lead = '.', extends = '#', nbsp = '.' }), -- change whitespace characters
+      listchars = vim.opt.listchars:append({ tab = '› ', trail = '•' }), -- change whitespace characters
       whichwrap = vim.opt.whichwrap:append "<,>[,],h,l", -- automatically go to next line
+      -- showtabline = 0,
     },
+    g = {
+      autoformat_enabled = false, -- enable or disable auto formatting at start (lsp.formatting.format_on_save must be enabled)
+      -- catppuccin_flavour = "mocha",
+    }
   },
 
   -- Extend LSP configuration
@@ -17,6 +26,19 @@ local config = {
       "clangd",
       "hls",
       "bashls",
+    },
+    formatting = {
+      -- control auto formatting on save
+      format_on_save = {
+        enabled = true, -- enable or disable format on save globally
+        allow_filetypes = { -- enable format on save for specified filetypes only
+          -- "go",
+        },
+        ignore_filetypes = { -- disable format on save for specified filetypes
+          -- "lua",
+          -- "python",
+        },
+      },
     },
   },
 
@@ -42,11 +64,13 @@ local config = {
       -- Disable/reconfigure default plugins
       ["p00f/nvim-ts-rainbow"] = { disable = true },
       ["windwp/nvim-ts-autotag"] = { disable = true },
+      -- ["akinsho/bufferline.nvim"] = { disable = true },
 
       -- Statusline
       ["rebelot/heirline.nvim"] = {
         event = "ColorScheme",
         config = function() require "user.heirline" end,
+        -- disable = true
       },
 
       -- Install and setup user plugins
@@ -55,6 +79,12 @@ local config = {
       -- ["nvim-lualine/lualine.nvim"] = {
       --   event = "ColorScheme",
       --   config = function() require "user.lualine" end,
+      -- },
+
+      -- Theme
+      -- ["catppuccin/nvim"] = {
+      --  as = "catppuccin",
+      --  config = function() require("catppuccin").setup() end
       -- },
 
       -- Remember last position in a file
@@ -80,6 +110,12 @@ local config = {
     toggleterm = {
       shell = "fish", -- set toggleterm shell
     },
+
+    bufferline = {
+      options = {
+        show_duplicate_prefix = false,
+      }
+    }
   },
 
   -- This function is run last
@@ -87,7 +123,10 @@ local config = {
   polish = function()
     -- Glrnvim Settings
     if vim.g.glrnvim_gui then
-      vim.cmd "Alpha" -- load alpha-dashboard on startup
+      vim.cmd [[
+        set nobuflisted
+        Alpha
+      ]]
     end
   end,
 }
