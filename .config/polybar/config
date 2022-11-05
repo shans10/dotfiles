@@ -16,7 +16,7 @@
 ############################################################################ COLORS ##################################################################################
 
 [color]
-bg = #1d2021
+bg = #1a1b26
 fg = #1d2021
 
 ########################################################################################################################################################################
@@ -114,7 +114,7 @@ modules-right = ethernet memory backlight battery volume wifi date
 ################################################################### BAR SETTINGS FOR XMONAD ##################################################################################
 
 [bar/mainbar-xmonad]
-#monitor = eDP-1
+monitor = HDMI-1
 width = 100%
 height = 19
 offset-x = 0%
@@ -155,7 +155,7 @@ scroll-down = bspwm-deskprev
 
 ;=== Module Location ========================================================
 modules-left = ewmh title
-modules-right = ethernet memory backlight battery volume wifi date
+modules-right = ethernet memory battery volume wifi date
 
 ########################################################################################################################################################################
 ########################################################################## MODULES ##################################################################################
@@ -492,19 +492,19 @@ full-at = 100
 time-format = %H:%M
 battery = BAT0
 adapter = AC0
-format-charging = %{T2}<animation-charging>%{T-} <label-charging>
+format-charging = <label-charging>
 ;label-charging = %percentage%% (%time%)
-label-charging = "%percentage%% "
-format-discharging = %{T2}<ramp-capacity>%{T-} <label-discharging>
+label-charging = "  %percentage%% "
+format-discharging = <label-discharging>
 ;label-discharging = %percentage%% (%time%)
-label-discharging = "%percentage%% "
+label-discharging = "  %percentage%% "
 format-full = "<label-full> "
 format-charging-background = #8ec07c
 format-discharging-background = #8ec07c
 format-full-background = #689d6a
 format-charging-padding-right = 2
 
-format-full-prefix = " "
+format-full-prefix = "  "
 ramp-capacity-0 = " "
 ramp-capacity-1 = " "
 ramp-capacity-2 = " "
@@ -536,12 +536,12 @@ interval = 1
 ;headphone-mixer = Headphone
 ;headphone-id = 16
 ;mapped = true
-format-volume = " %{T2}<ramp-volume>%{T-} <label-volume>"
+format-volume = <label-volume>
 format-volume-foreground = ${color.fg}
 format-volume-background = #fabd2f
-label-volume = %percentage%%
+label-volume = "  %percentage%%"
 format-muted =  <label-muted>
-label-muted = %{T2} %{T-} MUTED
+label-muted = " 婢 MUTED"
 format-muted-foreground = ${color.fg}
 format-muted-background = #cc241d
 label-volume-padding-right = 1
@@ -595,7 +595,7 @@ unknown-as-up = true
 ; Available tags:
 ;   <label-connected> (default)
 ;   <ramp-signal>
-format-connected = %{T2}<ramp-signal>%{T-} <label-connected>
+format-connected = <label-connected>
 format-connected-background = #83a598
 format-connected-foreground = ${color.fg}
 ; Available tags:
@@ -618,14 +618,14 @@ format-disconnected-background = ${color.bg}
 ;   %downspeed% [wireless+wired]
 ;   %linkspeed% [wired]
 ; Default: %ifname% %local_ip%
-label-connected = %essid%
+label-connected = " 直 %essid%"
 ;label-connected-foreground = ${color.light-blue}
 label-connected-padding-right = 1
 
 ; Available tokens:
 ;   %ifname%    [wireless+wired]
 ; Default: (none)
-label-disconnected = " %{T2}郎%{T-} No IN"
+label-disconnected = " 睊 WiFi Disconnected"
 label-disconnected-foreground = ${color.fg}
 label-disconnected-background = #cc241d
 label-disconnected-padding-right = 1
@@ -663,8 +663,8 @@ ramp-signal-4 = " 蠟"
 type = internal/date
 interval = 30
 label =  %time%
-time = " %{T2}%{T-} %I:%M %p"
-time-alt = " %{T2}%{T-} %a, %d %B"
+time = "  %I:%M %p"
+time-alt = "  %a, %d %B"
 label-foreground = ${color.fg}
 label-background = #b8bb26
 label-padding-right = 1
@@ -700,7 +700,7 @@ label-empty-background = #a89984
 type = internal/memory
 interval = 30
 format = <label>
-label = " %{T2}%{T-} %gb_used%/%gb_free% "
+label = "  %gb_used%/%gb_free% "
 
 format-background = #d3869b
 
