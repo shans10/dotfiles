@@ -1,5 +1,4 @@
-local status_ok, heirline = pcall(require, "heirline")
-if not status_ok then return end
+local heirline = require "heirline"
 local components = require "user.heirline.components"
 local colors = require "user.heirline.colors"
 
@@ -45,8 +44,5 @@ vim.api.nvim_create_augroup("Heirline", { clear = true })
 vim.api.nvim_create_autocmd("ColorScheme", {
   group = "Heirline",
   desc = "Refresh heirline colors",
-  callback = function()
-    heirline.reset_highlights()
-    heirline.load_colors(colors.setup_colors())
-  end,
+  callback = function() require("heirline.utils").on_colorscheme(colors.setup_colors()) end,
 })

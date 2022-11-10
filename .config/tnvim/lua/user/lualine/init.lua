@@ -1,9 +1,6 @@
-local status_ok, lualine = pcall(require, "lualine")
-if not status_ok then return end
-
 local components = require "user.lualine.components"
 
-lualine.setup {
+require("lualine").setup {
   options = {
     icons_enabled = true,
     theme = "auto",

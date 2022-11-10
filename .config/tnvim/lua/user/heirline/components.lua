@@ -27,7 +27,7 @@ local modes = {
 }
 
 components.breadcrumbs = {
-  condition = tnvim.status.condition.aerial_available,
+  condition = st.condition.aerial_available,
   init = st.init.breadcrumbs()
 }
 
@@ -194,35 +194,39 @@ components.git_diff = {
 }
 
 components.lsp_status = {
+  fallthrough = false,
+  hl = { bold = true },
   {
-    provider = function(self)
-      local truncate = 0.25
-      local buf_client_names = {}
-      for _, client in pairs(vim.lsp.get_active_clients { bufnr = self and self.bufnr or 0 }) do
-        if client.name == "null-ls" then
-          local null_ls_sources = {}
-          for _, type in ipairs { "FORMATTING", "DIAGNOSTICS" } do
-            for _, source in ipairs(tnvim.null_ls_sources(vim.bo.filetype, type)) do
-              null_ls_sources[source] = true
+    condition = st.condition.lsp_attached,
+    {
+      flexible = 1,
+      {
+        provider = function(self)
+          local truncate = 0.25
+          local buf_client_names = {}
+          for _, client in pairs(vim.lsp.get_active_clients { bufnr = self and self.bufnr or 0 }) do
+            if client.name == "null-ls" then
+              local null_ls_sources = {}
+              for _, type in ipairs { "FORMATTING", "DIAGNOSTICS" } do
+                for _, source in ipairs(tnvim.null_ls_sources(vim.bo.filetype, type)) do
+                  null_ls_sources[source] = true
+                end
+              end
+              vim.list_extend(buf_client_names, vim.tbl_keys(null_ls_sources))
+            else
+              table.insert(buf_client_names, client.name)
             end
           end
-          vim.list_extend(buf_client_names, vim.tbl_keys(null_ls_sources))
-        else
-          table.insert(buf_client_names, client.name)
-        end
-      end
-      local str = table.concat(buf_client_names, ", ")
-      local max_width = math.floor(tnvim.status.utils.width() * truncate)
-      if #str > max_width then str = string.sub(str, 0, max_width) .. "…" end
-      if str ~= "" then
-        return "[" .. str .. "]"
-      else
-        return "[No LS]"
-      end
-    end,
-    hl = { bold = true }
+          local str = table.concat(buf_client_names, ", ")
+          local max_width = math.floor(tnvim.status.utils.width() * truncate)
+          if #str > max_width then str = string.sub(str, 0, max_width) .. "…" end
+          return st.provider.str { str = "[" .. str .. "]", padding = { right = 1 } }
+        end,
+      },
+      { provider = st.provider.str { str = "[LS]", padding = { right = 1 } } }
+    },
   },
-  { provider = " " },
+  { provider = st.provider.str { str = "No LS", padding = { right = 1 } } },
   on_click = {
     name = "heirline_lsp",
     callback = function()
@@ -232,11 +236,11 @@ components.lsp_status = {
 }
 
 components.lsp_progress = {
-  st.utils.make_flexible_component(
-    3,
+  {
+    flexible = 1,
     { provider = st.provider.lsp_progress { padding = { right = 1 } } },
     { provider = "" }
-  ),
+  },
 }
 
 components.mode = {
