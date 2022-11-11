@@ -79,11 +79,12 @@ import XMonad.Util.SpawnOnce
       -- Palenight
       -- SolarizedDark
       -- SolarizedLight
+      -- Tokyonight
       -- TomorrowNight
-import Colors.DoomOne
+import Colors.Tokyonight
 
 myFont :: String
-myFont = "xft:SauceCodePro Nerd Font Mono:regular:size=9:antialias=true:hinting=true"
+myFont = "xft:Iosevka Nerd Font Mono:regular:size=9:antialias=true:hinting=true"
 
 myModMask :: KeyMask
 myModMask = mod4Mask        -- Sets modkey to super/windows key
@@ -114,19 +115,20 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 
 myStartupHook :: X ()
 myStartupHook = do
-  -- spawn "killall trayer"  -- kill current trayer on each restart
+  spawn "killall trayer"  -- kill current trayer on each restart
 
   spawnOnce "xsetroot -cursor_name left_ptr &"                                -- Set cursor
-  spawnOnce "xrandr --output 'HDMI-1' --mode 1920x1080 --rate 120"            -- Set resolution
+  spawnOnce "xrandr --output 'HDMI-1' --mode 1920x1080 --rate 120"            -- Set resolution for external monitor
   spawnOnce "/usr/lib/mate-settings-daemon/mate-settings-daemon"              -- Start mate-settings-daemon
   spawnOnce "lxsession"
   spawnOnce "picom -b --config /home/shan/.config/picom/picom.conf"           -- Start compositor
   spawnOnce "nm-applet"
   spawnOnce "volumeicon"
-  spawnOnce "~/.config/polybar/launch.sh"
+  spawnOnce "blueaman-applet"
+  -- spawnOnce "~/.config/polybar/launch.sh"
   spawn "/usr/bin/emacs --daemon" -- emacs daemon for the emacsclient
 
-  -- spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 " ++ colorTrayer ++ " --height 22")
+  spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 " ++ colorTrayer ++ " --height 22")
 
   -- spawnOnce "xargs xwallpaper --stretch < ~/.cache/wall"
   -- spawnOnce "~/.fehbg &"  -- set last saved feh wallpaper
@@ -203,9 +205,9 @@ myTabTheme = def { fontName            = myFont
 -- Theme for showWName which prints current workspace when you change workspaces.
 myShowWNameTheme :: SWNConfig
 myShowWNameTheme = def
-  { swn_font              = "xft:Ubuntu:bold:size=60"
+  { swn_font              = "xft:Iosevka:bold:size=45"
   , swn_fade              = 1.0
-  , swn_bgcolor           = "#1a1b26"
+  , swn_bgcolor           = "#32344a"
   , swn_color             = "#ffffff"
   }
 
@@ -246,11 +248,6 @@ myManageHook = composeAll
   , className =? "toolbar"         --> doFloat
   , className =? "Yad"             --> doCenterFloat
   , title =? "Oracle VM VirtualBox Manager"  --> doFloat
-  , title =? "Mozilla Firefox"     --> doShift ( myWorkspaces !! 1 )
-  , className =? "Brave-browser"   --> doShift ( myWorkspaces !! 1 )
-  , className =? "mpv"             --> doShift ( myWorkspaces !! 7 )
-  , className =? "Gimp"            --> doShift ( myWorkspaces !! 8 )
-  , className =? "VirtualBox Manager" --> doShift  ( myWorkspaces !! 4 )
   , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
   , isFullscreen -->  doFullFloat
   ] <+> namedScratchpadManageHook myScratchPads
@@ -277,10 +274,10 @@ myKeys c =
   [ ("M-C-r", addName "Recompile XMonad"       $ spawn "xmonad --recompile")
   , ("M-S-r", addName "Restart XMonad"         $ spawn "xmonad --restart")
   , ("M-C-q", addName "Quit XMonad"            $ io exitSuccess)
-  , ("M-q", addName "Kill focused window"    $ kill1)
+  , ("M-q", addName "Kill focused window"      $ kill1)
   , ("M-S-a", addName "Kill all windows on WS" $ killAll)
-  -- , ("M-S-<Return>", addName "Run prompt"      $ sequence_ [spawn (mySoundPlayer ++ dmenuSound), spawn "~/.local/bin/dm-run"])
-  , ("M-/", addName "DTOS Help"                $ spawn "~/.local/bin/dtos-help")]
+  , ("M-S-<Return>", addName "Run prompt"      $ spawn "~/.local/bin/dm-run")]
+  -- , ("M-/", addName "DTOS Help"                $ spawn "~/.local/bin/dtos-help")]
 
   ^++^ subKeys "Switch to workspace"
   [ ("M-1", addName "Switch to workspace 1"    $ (windows $ W.greedyView $ myWorkspaces !! 0))
@@ -311,7 +308,9 @@ myKeys c =
 
   ^++^ subKeys "Window navigation"
   [ ("M-j", addName "Move focus to next window"                $ windows W.focusDown)
+  , ("M1-<Tab>", addName "Move focus to next window"           $ windows W.focusDown)
   , ("M-k", addName "Move focus to prev window"                $ windows W.focusUp)
+  , ("M1-S-<Tab>", addName "Move focus to prev window"         $ windows W.focusUp)
   , ("M-m", addName "Move focus to master window"              $ windows W.focusMaster)
   , ("M-S-j", addName "Swap focused window with next window"   $ windows W.swapDown)
   , ("M-S-k", addName "Swap focused window with prev window"   $ windows W.swapUp)
@@ -325,21 +324,15 @@ myKeys c =
   -- launch dmenu_run, so I've decided to use M-p plus KEY for these dmenu scripts.
   ^++^ subKeys "Dmenu scripts"
   [ ("M-p h", addName "List all dmscripts"     $ spawn "dm-hub")
-  , ("M-p a", addName "Choose ambient sound"   $ spawn "dm-sounds")
   , ("M-p b", addName "Set background"         $ spawn "dm-setbg")
-  , ("M-p c", addName "Choose color scheme"    $ spawn "~/.local/bin/dtos-colorscheme")
-  , ("M-p C", addName "Pick color from scheme" $ spawn "dm-colpick")
   , ("M-p e", addName "Edit config files"      $ spawn "dm-confedit")
   , ("M-p i", addName "Take a screenshot"      $ spawn "dm-maim")
   , ("M-p k", addName "Kill processes"         $ spawn "dm-kill")
   , ("M-p m", addName "View manpages"          $ spawn "dm-man")
-  , ("M-p n", addName "Store and copy notes"   $ spawn "dm-note")
   , ("M-p o", addName "Browser bookmarks"      $ spawn "dm-bookman")
   , ("M-p p", addName "Passmenu"               $ spawn "passmenu -p \"Pass: \"")
   , ("M-p q", addName "Logout Menu"            $ spawn "dm-logout")
-  , ("M-p r", addName "Listen to online radio" $ spawn "dm-radio")
-  , ("M-p s", addName "Search various engines" $ spawn "dm-websearch")
-  , ("M-p t", addName "Translate text"         $ spawn "dm-translate")]
+  , ("M-p s", addName "Search various engines" $ spawn "dm-websearch")]
 
   ^++^ subKeys "Favorite programs"
   [ ("M-<Return>", addName "Launch terminal"   $ spawn (myTerminal))
@@ -352,9 +345,9 @@ myKeys c =
   , ("M-,", addName "Switch focus to prev monitor" $ prevScreen)]
 
   -- Switch layouts
-  -- ^++^ subKeys "Switch layouts"
-  -- [ ("M-<Tab>", addName "Switch to next layout"   $ sendMessage NextLayout)
-  -- , ("M-<Space>", addName "Toggle noborders/full" $ sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts)]
+  ^++^ subKeys "Switch layouts"
+  [ ("M-S-<Tab>", addName "Switch to next layout"   $ sendMessage NextLayout)
+  , ("M-<Space>", addName "Toggle noborders/full" $ sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts)]
 
   -- Window resizing
   ^++^ subKeys "Window resizing"
@@ -414,9 +407,7 @@ myKeys c =
 main :: IO ()
 main = do
   -- Launching three instances of xmobar on their monitors.
-  -- xmproc0 <- spawnPipe ("xmobar -x 0 $HOME/.config/xmobar/" ++ colorScheme ++ "-xmobarrc")
-  -- xmproc1 <- spawnPipe ("xmobar -x 1 $HOME/.config/xmobar/" ++ colorScheme ++ "-xmobarrc")
-  -- xmproc2 <- spawnPipe ("xmobar -x 2 $HOME/.config/xmobar/" ++ colorScheme ++ "-xmobarrc")
+  xmproc <- spawnPipe ("xmobar $HOME/.config/xmobar/" ++ colorScheme ++ "-xmobarrc")
   -- the xmonad, ya know...what the WM is named after!
   xmonad $ addDescrKeys' ((mod4Mask, xK_F1), showKeybindings) myKeys $ ewmh $ docks $ def
     { manageHook         = myManageHook <+> manageDocks
@@ -429,28 +420,26 @@ main = do
     , borderWidth        = myBorderWidth
     , normalBorderColor  = myNormColor
     , focusedBorderColor = myFocusColor
-    -- , logHook = dynamicLogWithPP $  filterOutWsPP [scratchpadWorkspaceTag] $ xmobarPP
-    --     { ppOutput = \x -> hPutStrLn xmproc0 x   -- xmobar on monitor 1
-    --                     >> hPutStrLn xmproc1 x   -- xmobar on monitor 2
-    --                     >> hPutStrLn xmproc2 x   -- xmobar on monitor 3
-    --     , ppCurrent = xmobarColor color06 "" . wrap
-    --                   ("<box type=Bottom width=2 mb=2 color=" ++ color06 ++ ">") "</box>"
-    --       -- Visible but not current workspace
-    --     , ppVisible = xmobarColor color06 "" . clickable
-    --       -- Hidden workspace
-    --     , ppHidden = xmobarColor color05 "" . wrap
-    --                  ("<box type=Top width=2 mt=2 color=" ++ color05 ++ ">") "</box>" . clickable
-    --       -- Hidden workspaces (no windows)
-    --     , ppHiddenNoWindows = xmobarColor color05 ""  . clickable
-    --       -- Title of active window
-    --     , ppTitle = xmobarColor color16 "" . shorten 60
-    --       -- Separator character
-    --     , ppSep =  "<fc=" ++ color09 ++ "> <fn=1>|</fn> </fc>"
-    --       -- Urgent workspace
-    --     , ppUrgent = xmobarColor color02 "" . wrap "!" "!"
-    --       -- Adding # of windows on current workspace to the bar
-    --     , ppExtras  = [windowCount]
-    --       -- order of things in xmobar
-    --     , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
-    --     }
+    , logHook = dynamicLogWithPP $  filterOutWsPP [scratchpadWorkspaceTag] $ xmobarPP
+        { ppOutput = \x -> hPutStrLn xmproc x   -- xmobar on monitor 1
+        , ppCurrent = xmobarColor color06 "" . wrap
+                      ("<box type=Bottom width=2 mb=2 color=" ++ color06 ++ ">") "</box>"
+          -- Visible but not current workspace
+        , ppVisible = xmobarColor color06 "" . clickable
+          -- Hidden workspace
+        , ppHidden = xmobarColor color05 "" . wrap
+                     ("<box type=Top width=2 mt=2 color=" ++ color05 ++ ">") "</box>" . clickable
+          -- Hidden workspaces (no windows)
+        , ppHiddenNoWindows = xmobarColor color05 ""  . clickable
+          -- Title of active window
+        , ppTitle = xmobarColor color16 "" . shorten 60
+          -- Separator character
+        , ppSep =  "<fc=" ++ color09 ++ "> <fn=1>|</fn> </fc>"
+          -- Urgent workspace
+        , ppUrgent = xmobarColor color02 "" . wrap "!" "!"
+          -- Adding # of windows on current workspace to the bar
+        , ppExtras  = [windowCount]
+          -- order of things in xmobar
+        , ppOrder  = \(ws:l:t:ex) -> [ws,l]++ex++[t]
+        }
     }
