@@ -1,18 +1,14 @@
 -- Xmobar (http://projects.haskell.org/xmobar/)
 -- This is one of the xmobar configurations for DTOS.
 -- This config is packaged in the DTOS repo as 'dtos-xmobar'
--- Color scheme: Doom One
+-- Color scheme: Tokynight
 -- Dependencies: 
-   -- otf-font-awesome 
-   -- ttf-mononoki 
-   -- ttf-ubuntu-font-family
    -- htop
    -- emacs
    -- pacman (Arch Linux)
    -- trayer
-   -- 'dtos-local-bin' (from dtos-core-repo)
 
-Config { font            = "xft:Iosevka Nerd Font:weight=bold:pixelsize=12:antialias=true:hinting=true"
+Config { font            = "xft:Iosevka Nerd Font:weight=bold:pixelsize=13:antialias=true:hinting=true"
        , bgColor      = "#1a1b26"
        , fgColor      = "#a9b1d6"
        -- Position TopSize and BottomSize take 3 arguments:
@@ -20,21 +16,23 @@ Config { font            = "xft:Iosevka Nerd Font:weight=bold:pixelsize=12:antia
        --   an integer for the percentage width, so 100 would be 100%.
        --   an integer for the minimum pixel height for xmobar, so 24 would force a height of at least 24 pixels.
        --   NOTE: The height should be the same as the trayer (system tray) height.
-       , position       = TopSize L 100 24
+       , position       = TopSize L 100 25
        , lowerOnStart = True
        , hideOnStart  = False
        , allDesktops  = True
        , persistent   = True
-       , iconRoot     = ".xmonad/xpm/"  -- default: "."
+       , iconRoot     = ".config/xmonad/xpm/"  -- default: "."
        , commands = [
                       -- Cpu usage in percent
-                      Run Cpu ["-t", "<fn=2>\xf108</fn>  cpu: (<total>%)","-H","50","--high","red"] 20
+                      Run Cpu ["-t", " <total>%","-H","50","--high","red"] 10
                       -- Ram used number and percent
-                    , Run Memory ["-t", "<fn=2>\xf233</fn>  mem: <used>M (<usedratio>%)"] 20
+                    , Run Memory ["-t", " <used>M (<usedratio>%)"] 10
+                      -- Volume
+                    , Run Com ".config/xmobar/scripts/volume" [] "volume" 10
                       -- Battery
-                    , Run BatteryP ["BAT0"] ["-t", "<acstatus><watts> (<left>%)"] 360
+                    , Run Battery ["-t", " AC-<acstatus> (<left>%)"] 10
                       -- Time and date
-                    , Run Date "<fn=2>\xf017</fn>  %b %d %Y - (%H:%M) " "date" 50
+                    , Run Date "  %b %d %Y - %I:%M %p" "date" 50
                       -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
                     , Run Com ".config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
                       -- Prints out the left side items such as workspaces, layout, etc.
@@ -42,5 +40,5 @@ Config { font            = "xft:Iosevka Nerd Font:weight=bold:pixelsize=12:antia
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " %UnsafeStdinReader% }{ <box type=Bottom width=2 mb=2 color=#ff9e64><fc=#ff9e64><action=`alacritty -e htop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#ff7a93><fc=#ff7a93><action=`alacritty -e htop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#bb9af7><fc=#bb9af7>%baticon%  %battery%</fc></box>    <box type=Bottom width=2 mb=2 color=#0db9d7><fc=#0db9d7><action=`emacsclient -c -a 'emacs' --eval '(doom/window-maximize-buffer(dt/year-calendar))'`>%date%</action></fc></box> %trayerpad%"
+       , template = " <icon=arch.xpm/> <fc=#32344a>|</fc> %UnsafeStdinReader% }{ <box type=Bottom width=2 mb=2 color=#ff9e64><fc=#ff9e64><action=`alacritty -e htop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#ff7a93><fc=#ff7a93><action=`alacritty -e htop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#b9f27c><fc=#b9f27c><action=`pavucontrol`>%volume%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#bb9af7><fc=#bb9af7><action=`xfce4-power-manager -c`>%battery%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#0db9d7><fc=#0db9d7>%date%</fc></box> %trayerpad%"
        }

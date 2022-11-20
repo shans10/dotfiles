@@ -1,9 +1,9 @@
 #!/bin/sh
 
-### This script increases/decreases volume, toggles mute state and microphone(using pulseaudio) and gives notifications(using dunstify)!
+### This script increases/decreases volume, toggles mute state and microphone(using pulseaudio) and gives notifications(using notify-send)!
 
 # Icons
-path="~/.icons/"       # Path to icons
+path="~/.icons/status/volume/"       # Path to icons
 vol_icons=( "volume-very-low.png" "volume-low.png" "volume-medium.png" "volume-high.png")       # 4 icons for different levels of volume
 mute_icon="volume-mute.png"       # Volume mute icon
 mic_mute="mic-mute.png"       # Microphone mute icon
@@ -25,11 +25,11 @@ if [ "$1" = "up" ]; then
         if [ $VOL -eq 100 ]; then
             vol_icon=${vol_icons[3]}       # Explicitly defining icon for 100% because above calculation doesn't work when volume is 100%
         fi
-        dunstify -u low -r 90209 -i $path$vol_icon "Volume is at $(printf %i%% $VOL)"       # Notification with volume after increment
+        notify-send -u low -r 90209 -i $path$vol_icon "Volume is at $(printf %i%% $VOL)"       # Notification with volume after increment
 
     else
         vol_icon=${vol_icons[3]}       # Choosing 3rd icon for max volume
-        dunstify -u low -r 90209 -i $path$vol_icon "MAX VOLUME RACHED! ($(printf %i%% $VOL))" "Cannot Raise Further"       # Notification if volume already at 100%
+        notify-send -u low -r 90209 -i $path$vol_icon "MAX VOLUME RACHED! ($(printf %i%% $VOL))" "Cannot Raise Further"       # Notification if volume already at 100%
     fi
 fi
 
@@ -39,7 +39,7 @@ if [ "$1" = "down" ]; then
     VOL=$(pactl list sinks | awk '/Volume/ { print $12 }' | tr -d % | xargs echo | cut -d' ' -f2)   # Getting volume after decrement
     j=$((VOL/25))       # Calculating icon index based on volume level(icon changes after every 25 steps)
     vol_icon=${vol_icons[$j]}       # Selecting icon based on calculated index
-    dunstify -u low -r 90209 -i $path$vol_icon "Volume is at $(printf %i%% $VOL)"       # Notification with volume after decrement
+    notify-send -u low -r 90209 -i $path$vol_icon "Volume is at $(printf %i%% $VOL)"       # Notification with volume after decrement
 fi
 
 # Toggle mute
@@ -52,10 +52,10 @@ if [ "$1" = "mute" ]; then
         if [ $VOL -eq 100 ]; then
             vol_icon=${vol_icons[3]}       # Explicitly defining icon for 100% because above calculation doesn't work when volume is 100%
         fi
-        dunstify -u low -r 90209 -i $path$vol_icon "Volume is at $(printf %i%% $VOL)"       # Notification for active volume
+        notify-send -u low -r 90209 -i $path$vol_icon "Volume is at $(printf %i%% $VOL)"       # Notification for active volume
 
     else
-        dunstify -u low -r 90209 -i $path$mute_icon "Volume is Muted!"       # Notification for muted volume
+        notify-send -u low -r 90209 -i $path$mute_icon "Volume is Muted!"       # Notification for muted volume
     fi
 fi
 
@@ -64,9 +64,9 @@ if [ "$1" = "mic" ]; then
     pactl set-source-mute 1 toggle
     MIC_STATE=$(pactl list sources | awk 'NR==45 { print $2 }')       # Getting mic state after toggle
     if [ $MIC_STATE = "no" ]; then
-        dunstify -u low -r 90209 -i $path$mic_active "Microphone is Active!"       # Notification for active microphone
+        notify-send -u low -r 90209 -i $path$mic_active "Microphone is Active!"       # Notification for active microphone
 
     else
-        dunstify -u low -r 90209 -i $path$mic_mute "Microphone is Muted!"       # Notification for muted microphone
+        notify-send -u low -r 90209 -i $path$mic_mute "Microphone is Muted!"       # Notification for muted microphone
     fi
 fi

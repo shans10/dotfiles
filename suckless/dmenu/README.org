@@ -1,0 +1,127 @@
+#+TITLE: dmenu-distrotube
+
+* Table of Contents :toc:
+- [[#what-is-dmenu][What is dmenu?]]
+- [[#what-is-dmenu-flexipatch][What is dmenu-flexipatch?]]
+- [[#what-is-dmenu-distrotube][What is dmenu-distrotube]]
+- [[#mouse-functionality][Mouse functionality]]
+- [[#available-flags][Available flags]]
+- [[#installing-dmenu-distrotube-on-arch-linux][Installing dmenu-distrotube on Arch Linux]]
+- [[#installing-dmenu-distrotube-on-other-linux-distributions][Installing dmenu-distrotube on other Linux distributions]]
+
+* What is dmenu?
+#+CAPTION: dmenu-distrotube
+#+ATTR_HTML: :alt dmenu-distrotube :title dmenu-distrotube :align left
+[[https://gitlab.com/dwt1/dotfiles/-/raw/master/.screenshots/dmenu-distrotube01.png]]
+
+dmenu is a dynamic menu for X, originally designed for dwm. It manages large numbers of user-defined menu items efficiently.  It is a very powerful tool that allows you to pipe information into it.  This makes dmenu a perfect utility to incorporate into your scripting.
+
+* What is dmenu-flexipatch?
+Similar to [[https://github.com/bakkeby/dwm-flexipatch][dwm-flexipatch]], the [[https://github.com/bakkeby/dmenu-flexipatch][dmenu-flexipatch]] project has a unique take on patching. It uses preprocessor directives to decide whether or not to include a patch during build time.  Patching with dmenu-flexipatch is much easier than the traditional patching methods, especially when using many patches (which I do!).
+
+Patches can be added/removed using the patches.def.h file.  For example to include the `alpha` patch then you would only need to flip this setting from 0
+to 1:
+#+begin_example
+#define ALPHA_PATCH 1
+#+end_example
+
+After you have decided on the patches that work for you, then run:
+=sudo make install=
+
+* What is dmenu-distrotube
+dmenu-distroube is my personal build of dmenu that is very heavily patched to add more functionality and more customization options.   I originally did this through traditional patching of the standard Suckless version of dmenu. The patches that I used were:
++ dmenu-alpha -- adds transparency as an option.
++ dmenu-border -- adds border around dmenu window
++ dmenu-center -- centers dmenu in the middle of screen (-c)
++ dmenu-fuzzyhighlight -- fuzzy matches gets highlighted
++ dmenu-fuzzymatch -- adds support for fuzzy-matching
++ dmenu-grid -- adds a flag (-g) to specify the number of grid columns
++ dmenu-lineheight -- adds a flag (-h) to set the minimum height of dmenu lines
++ dmenu-morecolor -- creates a color option for use the entries adjacent to the selection
++ dmenu-mousesupport -- basic mouse support
++ dmenu-numbers -- Displays number of matched and total items in top right corner
++ dmenu-xyw -- Allows setting X/Y coordinates as well as W (width).
+
+Due to the tedious nature of applying so many patches, I now use [[https://github.com/bakkeby/dmenu-flexipatch][dmenu-flexipatch]] for building dmenu-distrotube.  After all, no need to reinvent the wheel!
+
+* Mouse functionality
+Mouse actions supported:
++ Left-mouse click:
+  - On prompt and input field: clear input text and selection.
+  - In horizontal and vertical mode on item: select and output item (same as pressing enter).
+  - In horizontal mode on arrows: change items to show left or right.
++ Ctrl-left-mouse click: multisel modifier.
++ Right-mouse click: close.
++ Middle-mouse click:
+  - Paste current selection.
+  - While holding shift: paste primary selection.
++ Scroll up:
+  - In horizontal mode: same as left-clicking on left arrow.
+  - In vertical mode: show items above.
++ Scroll down:
+  - In horizontal mode: same as left-clicking on right arrow.
+  - In vertical mode: show items below.
+
+* Available flags
++ [-bw borderwidth]
++ [-c] for centering
++ [-fn font]
++ [-g columns]
++ [-l lines]
++ [-m monitor]
++ [-nb color]
++ [-nf color]
++ [-nhb color]
++ [-nhf color]
++ [-p prompt]
++ [-sb color]
++ [-sf color]
++ [-shb color]
++ [-shf color]
++ [-w windowid]
++ [-X xoffset]
++ [-Y yoffset]
++ [-W width]
+
+An example: dmenu_run -c -bw 2 -l 20 -g 4 -p 'Run: '
+
+This launches dmenu_run with -c (centered), -bw (border width), -l (number of vertical lines) and -g (number of grid columns).
+
+* Installing dmenu-distrotube on Arch Linux
+All you need to do is to download the PKGBUILD from this repository.  Then run the following command:
+
+=makepkg -cf=
+
+This will create a file that ends in .pkg.tar.zst (for example, dmenu-distrotube-git-5.0-1-x86_64.pkg.tar.zst).  Then run:
+
+=sudo pacman -U *.pkg.tar.zst=
+
+Alternatively, you could also install dmenu-distrotube from my own DTOS core repository.  To do so, add the following to the end of /etc/pacman.conf :
+
+#+begin_example
+[dtos-core-repo]
+SigLevel = Required DatabaseOptional
+Server = https://gitlab.com/dwt1/$repo/-/raw/main/$arch
+#+end_example
+
+Then, sync the repositories and update your system with:
+=sudo pacman -Syyu=
+
+=NOTE:= Pacman will complain about importing a PGP key that is either invalid or corrupted.  The problem can be fixed by locally signing the imported key:
+#+begin_example
+sudo pacman-key --lsign-key C71486C31555B12E
+#+end_example
+
+And, then:
+=sudo pacman -S dmenu-distrotube=
+
+=NOTE:= Installing dmenu-distrotube-git conflicts with the standard dmenu package.  If you already have dmenu installed, you will be asked if you want to remove dmenu and install dmenu-distrotube-git instead.
+
+* Installing dmenu-distrotube on other Linux distributions
+Download the source code from this repository or use a git clone:
+
++ git clone https://gitlab.com/dwt1/dmenu-distrotube.git
++ cd dmenu-distrotube
++ sudo make clean install && rm config.h
+
+=NOTE:= Installing dmenu-distrotube will overwrite your existing dmenu installation so make a backup of your current config if you need it.

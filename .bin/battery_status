@@ -1,6 +1,6 @@
 #!/bin/sh
 
-### This script monitors and sends notification(using dunstify) for the following battery states:-
+### This script monitors and sends notification(using notify-send) for the following battery states:-
 ## 1. Battery Plugged In
 ## 2. Battery Discharging(when adapter removed)
 ## 3. Battery Fully-Charged
@@ -8,7 +8,7 @@
 ## 5. Critical Battery(at 15%)
 
 # Icons
-path="~/.icons/"       # Path to icons
+path="~/.icons/status/battery/"       # Path to icons
 icon_cha="bat-ch.png"       # Charging Icon
 icons_dis=( "bat-disch1.png" "bat-disch2.png" )       # Discharging icon(2 icons 1 for below 50% and 1 for above 50%)
 icon_fch="bat-full.png"       # Fully charged icon
@@ -48,7 +48,7 @@ while :; do
 
     # Notification for battery plugged in
     if [ $BAT_STATE = "charging" -a $flag = "1" ]; then
-        dunstify -u low -r 90207 -i $path$icon_cha "Battery Plugged In! ($(printf %i%% $BAT_PERC))"
+        notify-send -u low -r 90207 -i $path$icon_cha "Battery Plugged In! ($(printf %i%% $BAT_PERC))"
         flag=0
     fi
 
@@ -60,25 +60,25 @@ while :; do
         else
             icon_dis=${icons_dis[0]}       # Icon when battery less than or equal to 50%
         fi
-        dunstify -u low -r 90207 -i $path$icon_dis "Battery Discharging! ($(printf %i%% $BAT_PERC))"
+        notify-send -u low -r 90207 -i $path$icon_dis "Battery Discharging! ($(printf %i%% $BAT_PERC))"
         flag=1
     fi
 
     # Notification for battery fully charged
     if [ $BAT_STATE = "fully-charged" -a $BAT_PERC = 100 ]; then
-        dunstify -u low -r 90207 -i $path$icon_fch "Battery Fully-Charged! ($(printf %i%% $BAT_PERC))"
+        notify-send -u low -r 90207 -i $path$icon_fch "Battery Fully-Charged! ($(printf %i%% $BAT_PERC))"
         full=0
     fi
 
     # Notification for low battery(25% or below)
     if [ $BAT_PERC -le 25 -a $low = "1" -a $BAT_PERC -gt 15 ]; then
-        dunstify -u low -r 90206 -i $path$icon_low "Battery Low! ($(printf %i%% $BAT_PERC))"
+        notify-send -u low -r 90206 -i $path$icon_low "Battery Low! ($(printf %i%% $BAT_PERC))"
         low=0
     fi
 
     # Notification for critical battery(15% or below)
     if [ $BAT_PERC -le 15 -a $clow = "1" ]; then
-        dunstify -u critical -r 90205 -i $path$icon_cri "CRITICAL BATTERY! ($(printf %i%% $BAT_PERC))" "Plug In Now!"
+        notify-send -u critical -r 90205 -i $path$icon_cri "CRITICAL BATTERY! ($(printf %i%% $BAT_PERC))" "Plug In Now!"
         clow=0
         low=0
     fi

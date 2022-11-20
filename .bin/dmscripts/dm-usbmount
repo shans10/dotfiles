@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+
+# script name: dm-usbmount
+# Description: mount/unmount usb drives using dmenu. No fancy daemon required
+# Dependencies : dmenu, udisks2
+# Author: Murtaza Udaipurwala
+
+# Set with the flags "-e", "-u","-o pipefail" cause the script to fail
+# if certain things happen, which is a good thing.  Otherwise, we can
+# get hidden bugs that are hard to discover.
+set -euo pipefail
+
+_path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && cd "$(dirname "$(readlink "${BASH_SOURCE[0]}" || echo ".")")" && pwd)"
+if [[  -f "${_path}/_dm-helper.sh" ]]; then
+  # shellcheck disable=SC1090,SC1091
+  source "${_path}/_dm-helper.sh"
+else
+  # shellcheck disable=SC1090
+  echo "No helper-script found"
+fi
+
+# script will not hit this if there is no config-file to load
+# shellcheck disable=SC1090
+source "$(get_config)"
+
+help(){
+    printf 'dm-usbmount [options]\n
+    -h\tDisplays this help menu
+    -m\tMount usb drive
+    -u\tUnmount usb drive\n
+    Drives are mounted at /run/media\n'
+}
+
+driveCount(){
+    count="$(echo "$1" | wc -l)"
+}
+
+mountAll(){
+    while IFS= read -r drive
+    do
+        udisksctl mount -b "${drive%% *}"
+    done < <(printf '%s\n' "$mountable")
+}
+
+unmountAll(){
+    while IFS= read -r drive
+    do
+        udisksctl unmount -b "$drive"
+    # done < <(printf '%s\n' "$mounted")
+    done < <(printf '%s\n' "${mounted%%* }")
+}
+
+mount(){
+    mountable="$(lsblk -lp | awk '/^\/dev\/sd.*part $/ { print $1 " ("$4")" }')"
+    [ "$mountable" = "" ] && exit 1
+
+    driveCount "$mountable"
+    [ "$count" = "1" ] && options="$mountable" || options="$mountable\nall"
+
+    chosen="$(printf '%s' "$options" | ${DMENU} "Drive to mount?")" || exit 1
+    if [ "$chosen" = "all" ]; then
+       mountAll 
+    else 
+        udisksctl mount -b "${chosen%% *}"
+    fi
+}
+
+unmount(){
+    # mounted="$(lsblk -lp | awk '/run/ { print $1 }')"
+    mounted="$(lsblk -lp | grep 'run' )"
+    [ "$mounted" = "" ] && exit 1
+
+    # driveCount "$mounted"
+    driveCount "${mounted%%* }"
+    # [ "$count" = "1" ] && options="$mounted" || options="$mounted\nall"
+    [ "$count" = "1" ] && options="${mounted%%* }" || options="${mounted%%* }\nall"
+
+    chosen="$(printf '%s' "${options}" | ${DMENU} "Drive to unmount?")"
+    if [ "$chosen" = "all" ] ; then 
+       unmountAll 
+   else
+       udisksctl unmount -b "$chosen"
+    fi
+}
+
+while getopts "hmu" arg 2>/dev/null; do
+    case "${arg}" in
+        h) help ;;
+        m) mount ;;
+        u) unmount ;;
+        *) printf "invalid option\nType dm-usbmount -h for help" ;;
+    esac
+done

@@ -24,7 +24,6 @@ local config = {
     servers = {
       "pyright",
       "clangd",
-      "hls",
       "bashls",
     },
     formatting = {
@@ -103,9 +102,15 @@ local config = {
       ensure_installed = { "lua", "python", "c", "cpp", "haskell", "bash" }, -- automatically install these treesitters
     },
 
-    ["nvim-lsp-installer"] = {
-      ensure_installed = { "sumneko_lua" }, -- automatically install these LSPs
+    -- use mason-lspconfig to configure LSP installations
+    ["mason-lspconfig"] = {
+      ensure_installed = { "sumneko_lua" },
     },
+
+    -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
+    -- ["mason-null-ls"] = { -- overrides `require("mason-null-ls").setup(...)`
+      -- ensure_installed = { "prettier", "stylua" },
+    -- },
 
     toggleterm = {
       shell = "fish", -- set toggleterm shell

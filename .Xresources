@@ -2,116 +2,49 @@ Xft.dpi: 96
 Xft.antialias: true
 Xft.hinting: true
 Xft.rgba: rgb
-Xft.autohint: false
-Xft.hintstyle: hintslight
-Xft.lcdfilter: lcddefault
+Xft.autohint: true
+Xft.hintstyle: hintfull
+Xft.lcdfilter: lcdfilter
 
-! XTERM SETTINGS
-! Name
-Xterm*termName: xterm-256color
-XTerm*renderFont: true
-XTerm*faceName: xft:SauceCodePro NF
-/* XTerm*faceName: xft:Mononoki Nerd Font, \ */
-/*                 xft:JoyPixels:size=12, \ */
-/*                 xft:Monospace:style=Medium:size=12 */
-XTerm*faceSize: 10
-XTerm*utf8: 2
-XTerm*locale: true
-XTerm*metaSendsEscape: true
+! COLORS FOR SXIV
+Sxiv.foreground:   #a9b1d6
+Sxiv.background:   #1a1b26
+Sxiv.font: Cantarell:style=bold:size=11
 
-XTerm.vt100.translations: #override \n\
-  Ctrl <Key> j: smaller-vt-font() \n\
-  Ctrl <Key> k: larger-vt-font()
+! FOR ALL OTHER PROGRAMS USE XRESOURCES
+! This includes xterm and urxvt
+*.foreground:   #bbc2cf
+*.background:   #282c34
+*.cursorColor:  #bbc2cf
 
+! black
+*.color0:       #1c1f24
+*.color8:       #5b6268
 
-! Every shell is a login shell by default (for inclusion of all necessary environment variables)
-XTerm*loginshell: true
+! red
+*.color1:       #ff6c6b
+*.color9:       #da8548
 
-! I like a LOT of scrollback...
-XTerm*savelines: 16384
+! green
+*.color2:       #98be65
+*.color10:      #4db5bd
 
-! double-click to select whole URLs :D
-XTerm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+! yellow
+*.color3:       #da8548
+*.color11:      #ecbe7b
 
-! URXVT SETTINGS
-URxvt*imLocale: en_US.UTF-8
-URxvt*termName: rxvt-unicode-256color
-URxvt*buffered: false
-URxvt.intensityStyles: false
-URxvt.font: xft:SauceCodePro NF:size=12, \
-            xft:JoyPixels:size=12, \
-            xft:Monospace:style=Medium:size=12
-URxvt.saveLines: 2000
-URxvt.scrollBar: false
-URxvt.cursorColor: white
+! blue
+*.color4:       #51afef
+*.color12:      #3071db
 
-!! Extensions
-URxvt.perl-ext-common: default,matcher,resize-font,url-select,keyboard-select,clipboard
-URxvt.colorUL: #4682B4
-!! url-select
-URxvt.keysym.M-u: perl:url-select:select_next
-URxvt.url-select.launcher: urxvt -e lynx -cfg=~/.lynx.cfg -lss=~/.lynx.lss
-URxvt.url-select.underline: true
-!! keyboard-select:
-URxvt.keysym.M-Escape: perl:keyboard-select:activate
-!! resize-font
-URxvt.keysym.C-k:   font-size:increase
-URxvt.keysym.C-j:   font-size:decrease
-!! Matcher
-URxvt.url-launcher:	urxvt -e lynx -cfg=~/.lynx.cfg -lss=~/.lynx.lss
-URxvt.matcher.button: 1
-!!clipboard
-URxvt.keysym.M-c: perl:clipboard:copy
-URxvt.keysym.M-v: perl:clipboard:paste
-URxvt*depth: 32
+! magenta
+*.color5:       #c678dd
+*.color13:      #a9a1e1
 
-!!! Gruvbox Palette
-!! COLORS
+! cyan
+*.color6:       #5699af
+*.color14:      #46d9ff
 
-! special
-URxvt*foreground:   #ebdbb2
-URxvt*background:   #1d2021
-URxvt*cursorColor:  #ebdbb2
-
-XTerm*foreground: #ebdbb2
-XTerm*background: #1d2021
-XTerm*cursorColor: #ebdbb2
-
-! hard contrast: *background: #1d2021
-! medium contrast: *background: #282828
-! soft contrast: *background: #32302f
-*background: #1d2021
-*foreground: #ebdbb2
-*cursorColor: #ebdbb2
-
-! Black + DarkGrey
-*color0:  #1d2021
-*color8:  #928374
-
-! DarkRed + Red
-*color1:  #cc241d
-*color9:  #fb4934
-
-! DarkGreen + Green
-*color2:  #98971a
-*color10: #b8bb26
-
-! DarkYellow + Yellow
-*color3:  #d79921
-*color11: #fabd2f
-
-! DarkBlue + Blue
-*color4:  #458588
-*color12: #83a598
-
-! DarkMagenta + Magenta
-*color5:  #b16286
-*color13: #d3869b
-
-! DarkCyan + Cyan
-*color6:  #689d6a
-*color14: #8ec07c
-
-! LightGrey + White
-*color7:  #a89984
-*color15: #ebdbb2
+! white
+*.color7:       #202328
+*.color15:      #dfdfdf
