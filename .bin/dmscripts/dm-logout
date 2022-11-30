@@ -40,7 +40,7 @@ output(){
 main() {
     # An array of options to choose.
     declare -a options=(
-    "Lock screen"
+    "Lock Screen"
     "Logout"
     "Reboot"
     "Shutdown"

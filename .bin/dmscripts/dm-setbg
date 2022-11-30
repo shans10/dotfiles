@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2154
 
-
 # Script name: dm-setbg
 # Description: A wallpaper setting utility using dmenu, imv and swaybg/xwallpaper
 # Dependencies: dmenu, xwallpaper or swaybg, imv

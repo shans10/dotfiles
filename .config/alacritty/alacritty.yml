@@ -1,5 +1,8 @@
 import:
-  - ~/.config/alacritty/tokyo-night.yaml
+  # - ~/.config/alacritty/tokyo-night.yaml
+  # uncomment the flavour you want below:
+  - ~/.config/alacritty/catppuccin/catppuccin-mocha.yml
+  # - ~/.config/alacritty/catppuccin/catppuccin-macchiato.yml
 
 shell:
   program: /usr/bin/fish

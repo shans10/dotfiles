@@ -126,9 +126,6 @@ alias remove='sudo swupd bundle-remove'
 alias search='sudo swupd search'
 alias clean='sudo swupd clean'
 
-# Set feh background and default image size
-# alias feh='feh --image-bg "#1d2021" --scale-down --auto-zoom'
-
 # Replace ls with exa
 alias ls='exa --icons --group-directories-first'
 alias la='exa -la --icons --group-directories-first'

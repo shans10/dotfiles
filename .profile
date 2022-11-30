@@ -30,19 +30,27 @@
 # export STARSHIP_DISTRO="$ICON "
 
 # Path
-export PATH=$PATH:/home/$USER/.local/bin:/home/$USER/.emacs.d/bin:/home/$USER/.bin/dmscripts
+export PATH=$PATH:/home/$USER/.local/bin:/home/$USER/.bin/dmscripts
 
 # General env
 export TERM=xterm-256color
 export EDITOR="nvim"
-# export VISUAL="emacs"
-export VISUAL="emacsclient -cn -a emacs"
+export VISUAL="emacs"
+# export VISUAL="emacsclient -cn -a emacs"
 
 # Firefox Precision Scrolling
 export MOZ_USE_XINPUT2=1
 
 # Bat Theme
-export BAT_THEME="base16"
+# export BAT_THEME="base16"
 
-# Use neovim for reading manpages
-# export MANPAGER="/bin/sh -c \"col -b | nvim -c 'set ft=man ts=8 nomod nolist nonu noma' -\""
+# Use bat for reading manpages
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+# Set session type for startx
+export XDG_SESSION_TYPE=x11
+
+# Automatically run startx on login
+if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+  exec startx
+fi

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+#
 # Script name: _dm-helper
 # Description: A helper script for the other scripts in the collection.
 # Dependencies:
@@ -9,11 +9,14 @@
 #               HostGrady
 #               aryak1
 
+# Set with the flags "-e", "-o pipefail" cause the script to fail
+# if certain things happen, which is a good thing.  Otherwise, we can
+# get hidden bugs that are hard to discover.
 set -euo pipefail
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    echo "This is a helper-script it does not do anything on its own."
-    exit 1
+  echo "This is a helper-script it does not do anything on its own."
+  exit 1
 fi
 
 ###########################
@@ -24,17 +27,17 @@ get_local_config() {
   # Do some subshell magic finding out where the script we are running 
   # is located and checking if ../config is a dir relative to the script
   echo "$(
-    cd "$(dirname "$(readlink "${BASH_SOURCE[0]}" || echo ".")")./"
-    if [[ -d "${PWD}/config" ]]; then
-      echo "${PWD}/config"
+  cd "$(dirname "$(readlink "${BASH_SOURCE[0]}" || echo ".")")./"
+  if [[ -d "${PWD}/config" ]]; then
+    echo "${PWD}/config"
     fi
-  )"
-}
+    )"
+  }
 
-get_config() {
-  local _config_files=()
-  local _local_conf
-  _local_conf="$(get_local_config)"
+  get_config() {
+    local _config_files=()
+    local _local_conf
+    _local_conf="$(get_local_config)"
 
   # add User config path
   _config_files+=( "${HOME}/.config/dmscripts/config" )
@@ -115,11 +118,11 @@ cp2cb() {
 }
 
 grep-desktop() {
-  case "$XDG_SESSION_TYPE" in
-    'x11') grep "Name=" /usr/share/xsessions/*.desktop | cut -d'=' -f2;;
-    'wayland') grep "Name=" /usr/share/wayland-sessions/*.desktop | cut -d'=' -f2 || grep "Name=" /usr/share/xsessions/*.desktop | grep -i "wayland" | cut -d'=' -f2 | cut -d' ' -f1;; 
-    *) err "Unknown display server";;
-  esac
+case "$XDG_SESSION_TYPE" in
+  'x11') grep "Name=" /usr/share/xsessions/*.desktop | cut -d'=' -f2;;
+  'wayland') grep "Name=" /usr/share/wayland-sessions/*.desktop | cut -d'=' -f2 || grep "Name=" /usr/share/xsessions/*.desktop | grep -i "wayland" | cut -d'=' -f2 | cut -d' ' -f1;; 
+  *) err "Unknown display server";;
+esac
 }
 
 ###############
@@ -135,24 +138,24 @@ xmlgetnext () {
 
 parse_rss() {
   echo "$1" | while xmlgetnext ; do
-    case $TAG in
-        'entry')
-          title=''
-          link=''
-          published=''
-          ;;
-        'media:title')
-          title="$VALUE"
-          ;;
-        'yt:videoId')
-          link="$VALUE"
-          ;;
-        'published')
-          published="$(date --date="${VALUE}" "+%Y-%m-%d %H:%M")"
-            ;;
-        '/entry')
-          echo " ${published} | ${link} | ${title}"
-          ;;
-        esac
-  done
+  case $TAG in
+    'entry')
+      title=''
+      link=''
+      published=''
+      ;;
+    'media:title')
+      title="$VALUE"
+      ;;
+    'yt:videoId')
+      link="$VALUE"
+      ;;
+    'published')
+      published="$(date --date="${VALUE}" "+%Y-%m-%d %H:%M")"
+      ;;
+    '/entry')
+      echo " ${published} | ${link} | ${title}"
+      ;;
+  esac
+done
 }

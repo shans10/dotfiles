@@ -9,8 +9,8 @@
    -- trayer
 
 Config { font            = "xft:Iosevka Nerd Font:weight=bold:pixelsize=13:antialias=true:hinting=true"
-       , bgColor      = "#1a1b26"
-       , fgColor      = "#a9b1d6"
+       , bgColor      = "#1e1e2e"
+       , fgColor      = "#cdd6f4"
        -- Position TopSize and BottomSize take 3 arguments:
        --   an alignment parameter (L/R/C) for Left, Right or Center.
        --   an integer for the percentage width, so 100 would be 100%.
@@ -40,5 +40,5 @@ Config { font            = "xft:Iosevka Nerd Font:weight=bold:pixelsize=13:antia
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " <icon=arch.xpm/> <fc=#32344a>|</fc> %UnsafeStdinReader% }{ <box type=Bottom width=2 mb=2 color=#ff9e64><fc=#ff9e64><action=`alacritty -e htop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#ff7a93><fc=#ff7a93><action=`alacritty -e htop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#b9f27c><fc=#b9f27c><action=`pavucontrol`> %volume% </action></fc></box>    <box type=Bottom width=2 mb=2 color=#bb9af7><fc=#bb9af7><action=`xfce4-power-manager -c`>%battery%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#0db9d7><fc=#0db9d7>%date%</fc></box> %trayerpad%"
+       , template = " <icon=arch.xpm/> <fc=#45475a>|</fc> %UnsafeStdinReader% }{ <box type=Bottom width=2 mb=2 color=#f9e2af><fc=#f9e2af><action=`alacritty -e htop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#f38ba8><fc=#f38ba8><action=`alacritty -e htop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#a6e3a1><fc=#a6e3a1><action=`pavucontrol`> %volume% </action></fc></box>    <box type=Bottom width=2 mb=2 color=#f5c2e7><fc=#f5c2e7><action=`xfce4-power-manager -c`>%battery%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#94e2d5><fc=#94e2d5>%date%</fc></box> %trayerpad%"
        }

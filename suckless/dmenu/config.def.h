@@ -59,7 +59,7 @@ static char *fonts[] =
 static const char *fonts[] = 
 #endif // XRESOURCES_PATCH
 {
-	"Cascadia Code:pixelsize=15:antialias=true:autohint=true",
+	"CaskaydiaCove Nerd Font:pixelsize=15:antialias=true:autohint=true",
 };
 #endif // PANGO_PATCH
 
@@ -107,7 +107,7 @@ static unsigned int lines      = 0;
  * 8. solarized-light.h
  * 9. tomorrow-night.h
  */
-#include "colors/tokyonight.h"
+#include "colors/catppuccin.h"
 
 #if GRID_PATCH
 /* -g option; if nonzero, dmenu uses a grid comprised of columns and lines */

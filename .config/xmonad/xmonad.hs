@@ -76,6 +76,7 @@ import XMonad.Util.SpawnOnce
 
 -- ColorScheme module (SET ONLY ONE!)
   -- Possible choice are:
+  -- Catppuccin
   -- DoomOne
   -- Dracula
   -- GruvboxDark
@@ -87,7 +88,7 @@ import XMonad.Util.SpawnOnce
   -- SolarizedLight
   -- Tokyonight
   -- TomorrowNight
-import Colors.Tokyonight
+import Colors.Catppuccin
 
 ------------------------------------------------------------------------
 ---VARIABLES
@@ -102,13 +103,13 @@ myTerminal :: String
 myTerminal = "alacritty"    -- Sets default terminal
 
 myBrowser :: String
-myBrowser = "google-chrome-stable"  -- Sets qutebrowser as browser
+myBrowser = "google-chrome-stable"  -- Sets google-chrome as browser
 
 myEmacs :: String
-myEmacs = "emacsclient -c -a 'emacs'"  -- Makes emacs keybindings easier to type
+myEmacs = "emacs"  -- Makes emacs keybindings easier to type
 
 myEditor :: String
-myEditor = "glrnvim"  -- Sets emacs as editor
+myEditor = "alacritty -t Neovim -e nvim"  -- Sets neovim as editor
 
 myBorderWidth :: Dimension
 myBorderWidth = 2           -- Sets border width for windows
@@ -132,13 +133,15 @@ myStartupHook = do
   -- Set resolution for all displays
   -- spawnOnce "xrandr --output HDMI-1 --mode 1920x1080 --rate 120.00 --output eDP-1 --off"
 
-  -- spawnOnce "xfsettingsd -D --daemon"                               -- Start settings daemon
-  spawnOnce "xfce4-power-manager --daemon"                          -- Start power manager
-  spawnOnce "xss-lock -- betterlockscreen -l"                       -- Autolock screen on display off
-  spawnOnce "picom"                                                 -- Start compositor
-  spawnOnce "nm-applet"                                             -- Start tray network applet
-  spawnOnce "blueman-applet"                                        -- Start tray bluetooth applet
+  -- spawnOnce "xfsettingsd --daemon"                                  -- Start settings daemon
+  -- spawnOnce "xfce4-power-manager --daemon"                          -- Start power manager
+  spawnOnce "lxsession -s Xmonad"                                      -- Start session manager
+  -- spawnOnce "xss-lock -- betterlockscreen -l --off 30"              -- Autolock screen on display off
+  -- spawnOnce "picom"                                                 -- Start compositor
+  -- spawnOnce "nm-applet"                                             -- Start tray network applet
+  -- spawnOnce "blueman-applet"                                        -- Start tray bluetooth applet
   spawnOnce "xsetroot -cursor_name left_ptr"                        -- Set cursor
+  -- spawn "/usr/bin/emacs --daemon"                                   -- emacs daemon for the emacsclient
   -- spawnOnce "dunst"                                                 -- Start notifications daemon
   -- spawnOnce "xset r rate 500 35"                                    -- Keyboard settings
 
@@ -151,7 +154,7 @@ myStartupHook = do
   -- spawnOnce "feh --randomize --bg-fill ~/Pictures/Wallpapers/*"  -- feh set random wallpaper
   -- spawnOnce "nitrogen --restore &"   -- if you prefer nitrogen to feh
 
-  setWMName "LG3D"
+  setWMName "Xmonad"
 
 ------------------------------------------------------------------------
 ---SCRATCHPADS
@@ -242,8 +245,8 @@ myShowWNameTheme :: SWNConfig
 myShowWNameTheme = def
   { swn_font              = "xft:Iosevka:bold:size=55"
   , swn_fade              = 1.0
-  , swn_bgcolor           = "#32344a"
-  , swn_color             = "#ffffff"
+  , swn_bgcolor           = "#45475a"
+  , swn_color             = "#cdd6f4"
   }
 
 -- The layout hook
@@ -278,17 +281,21 @@ myManageHook = composeAll
   -- I'm doing it this way because otherwise I would have to write out the full
   -- name of my workspaces and the names would be very long if using clickable workspaces.
   [ className =? "confirm"         --> doFloat
-  , className =? "file_progress"   --> doFloat
   , className =? "dialog"          --> doFloat
   , className =? "download"        --> doFloat
   , className =? "error"           --> doFloat
+  , className =? "file_progress"   --> doFloat
   , className =? "Gimp"            --> doFloat
   , className =? "notification"    --> doFloat
   , className =? "pinentry-gtk-2"  --> doFloat
   , className =? "splash"          --> doFloat
   , className =? "toolbar"         --> doFloat
+  , className =? "Lxappearance"    --> doCenterFloat
   , className =? "Yad"             --> doCenterFloat
+  , title =? "Appearance"          --> doCenterFloat
   , title =? "Bluetooth Devices"   --> doCenterFloat
+  , title =? "Display"             --> doCenterFloat
+  , title =? "Keyboard"            --> doCenterFloat
   , title =? "Power Manager"       --> doCenterFloat
   , title =? "Volume Control"      --> doCenterFloat
   , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
@@ -325,7 +332,8 @@ myKeys c =
   , ("M-C-q", addName "Quit XMonad"            $ io exitSuccess)
   , ("M-q", addName "Kill focused window"      $ kill1)
   , ("M-S-a", addName "Kill all windows on WS" $ killAll)
-  , ("M-S-<Return>", addName "Run prompt"      $ spawn "dm-run")]
+  , ("M-r", addName "Run prompt"               $ spawn "dm-run")
+  , ("M-<Escape>", addName "Logout menu"       $ spawn "dm-logout")]
 
   -- Switch to workspace
   ^++^ subKeys "Switch to workspace"
@@ -390,10 +398,21 @@ myKeys c =
   ^++^ subKeys "Favorite programs"
   [ ("M-<Return>", addName "Launch terminal"   $ spawn (myTerminal))
   , ("M-b", addName "Launch web browser"       $ spawn (myBrowser))
-  , ("M-e", addName "Launch emacsclient"       $ spawn (myEmacs))
+  , ("M-e", addName "Launch emacs"             $ spawn (myEmacs))
   , ("M-f", addName "Launch file manager"      $ spawn "thunar")
+  , ("M-S-f", addName "Launch firefox"         $ spawn "firefox")
   , ("M-n", addName "Launch neovim"            $ spawn (myEditor))
+  , ("M-v", addName "Launch vscode"            $ spawn "code")
   , ("M-w", addName "Show all wallpapers"      $ spawn "sxiv -t ~/Pictures/Wallpapers")]
+
+  -- Settings
+  ^++^ subKeys "Settings"
+  [ ("M-c a", addName "Appearance settings"        $ spawn "lxappearance")
+  , ("M-c b", addName "Bluetooth settings"         $ spawn "blueman-manager")
+  , ("M-c d", addName "Display settings"           $ spawn "lxrandr")
+  , ("M-c m", addName "System monitor"             $ spawn "system-monitoring-center")
+  , ("M-c p", addName "Power manager settings"     $ spawn "xfce4-power-manager -c")
+  , ("M-c s", addName "Sound settings"             $ spawn "pavucontrol")]
 
   -- Monitors
   ^++^ subKeys "Monitors"
@@ -459,7 +478,6 @@ myKeys c =
   [ ("M-s t", addName "Toggle scratchpad terminal"    $ namedScratchpadAction myScratchPads "terminal")
   , ("M-s c", addName "Toggle scratchpad calculator"  $ namedScratchpadAction myScratchPads "calculator")
   , ("M-s s", addName "Toggle scratchpad spotify"     $ namedScratchpadAction myScratchPads "spotify")]
-
 
   -- Multimedia Keys
   ^++^ subKeys "Multimedia keys"

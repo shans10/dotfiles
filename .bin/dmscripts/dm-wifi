@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# script name: dm-wifi
+# Script name: dm-wifi
 # Description: Connect to wifi using dmenu
 # Dependencies: dmenu, nmcli, Any Nerd Font
 # Contributor: WitherCubes

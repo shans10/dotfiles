@@ -29,12 +29,12 @@ BAT_PERC=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | awk '/percen
 
 # Setting the low and clow flags based on the battery status on script startup so that low and critical battery notifications are not triggered if already plugged in
 if [ $BAT_STATE = 'charging' ]; then
-    low=0
-    clow=0
+  low=0
+  clow=0
 
 else
-    low=1
-    clow=1
+  low=1
+  clow=1
 fi
 
 # Infinite Loop to check battery status as long as the laptop is powered on
@@ -48,58 +48,58 @@ while :; do
 
     # Notification for battery plugged in
     if [ $BAT_STATE = "charging" -a $flag = "1" ]; then
-        notify-send -u low -r 90207 -i $path$icon_cha "Battery Plugged In! ($(printf %i%% $BAT_PERC))"
-        flag=0
+      notify-send -u low -r 90207 -i $path$icon_cha "Battery Plugged In! ($(printf %i%% $BAT_PERC))"
+      flag=0
     fi
 
     # Notification for battery discharging
     if [ $BAT_STATE = "discharging" -a $flag = "0" ]; then
-        if [ $BAT_PERC -ge 50 ]; then
-            icon_dis=${icons_dis[1]}       # Icon when battery above 50%
+      if [ $BAT_PERC -ge 50 ]; then
+        icon_dis=${icons_dis[1]}       # Icon when battery above 50%
 
-        else
-            icon_dis=${icons_dis[0]}       # Icon when battery less than or equal to 50%
-        fi
-        notify-send -u low -r 90207 -i $path$icon_dis "Battery Discharging! ($(printf %i%% $BAT_PERC))"
-        flag=1
+      else
+        icon_dis=${icons_dis[0]}       # Icon when battery less than or equal to 50%
+      fi
+      notify-send -u low -r 90207 -i $path$icon_dis "Battery Discharging! ($(printf %i%% $BAT_PERC))"
+      flag=1
     fi
 
     # Notification for battery fully charged
     if [ $BAT_STATE = "fully-charged" -a $BAT_PERC = 100 ]; then
-        notify-send -u low -r 90207 -i $path$icon_fch "Battery Fully-Charged! ($(printf %i%% $BAT_PERC))"
-        full=0
+      notify-send -u low -r 90207 -i $path$icon_fch "Battery Fully-Charged! ($(printf %i%% $BAT_PERC))"
+      full=0
     fi
 
     # Notification for low battery(25% or below)
     if [ $BAT_PERC -le 25 -a $low = "1" -a $BAT_PERC -gt 15 ]; then
-        notify-send -u low -r 90206 -i $path$icon_low "Battery Low! ($(printf %i%% $BAT_PERC))"
-        low=0
+      notify-send -u low -r 90206 -i $path$icon_low "Battery Low! ($(printf %i%% $BAT_PERC))"
+      low=0
     fi
 
     # Notification for critical battery(15% or below)
     if [ $BAT_PERC -le 15 -a $clow = "1" ]; then
-        notify-send -u critical -r 90205 -i $path$icon_cri "CRITICAL BATTERY! ($(printf %i%% $BAT_PERC))" "Plug In Now!"
-        clow=0
-        low=0
+      notify-send -u critical -r 90205 -i $path$icon_cri "CRITICAL BATTERY! ($(printf %i%% $BAT_PERC))" "Plug In Now!"
+      clow=0
+      low=0
     fi
 
     # Resetting the flags if battery charged back up
     if [ $BAT_STATE = "charging" ]; then
-        full=1
-        # Beyond 15%
-        if [ $BAT_PERC -gt 15 ]; then
-            clow=1
+      full=1
+      # Beyond 15%
+      if [ $BAT_PERC -gt 15 ]; then
+        clow=1
 
         # Beyond 25%
-        elif [ $BAT_PERC -gt 25 ]; then
-            low=1
-            clow=1
-        fi
+      elif [ $BAT_PERC -gt 25 ]; then
+        low=1
+        clow=1
+      fi
     fi
 
     # Checking Interval
     sleep 3
 
-done
+  done
 
-exit 0
+  exit 0

@@ -29,7 +29,7 @@ main() {
   # Here we obtain the location from the list in the config
   # As this is loaded from other file it is technically not defined
   # shellcheck disable=SC2154
-  _location="$(printf '%s\n' "${!weather_location[@]}" | ${DMENU} "Where do you want to see the weather?")"
+  _location="$(printf '%s\n' "${!weather_location[@]}" | sort | ${DMENU} "Where do you want to see the weather?")"
 
   # If $weather_opts is unset, give it an empty value
   weather_opts+=''

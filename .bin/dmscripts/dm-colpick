@@ -27,11 +27,10 @@ fi
 # shellcheck disable=SC1090
 source "$(get_config)"
 
-
 main() {
   # As this is loaded from other file it is technically not defined
   # shellcheck disable=SC2154
-  selected="$(printf '%s\n' "${!colpick_list[@]}" | ${DMENU} "color:" "$@")"
+  selected="$(printf '%s\n' "${!colpick_list[@]}" | sort -V | ${DMENU} "Colors:" "$@")"
   [ -z "${selected}" ] && exit 1
   echo "${colpick_list["${selected}"]}" | cp2cb
 }

@@ -1,7 +1,7 @@
 local config = {
 
   -- Set colorscheme to use
-  -- colorscheme = "catppuccin",
+  colorscheme = "catppuccin",
 
   -- Set vim options here (vim.<first_key>.<second_key> =  value)
   options = {
@@ -14,7 +14,6 @@ local config = {
     },
     g = {
       autoformat_enabled = false, -- enable or disable auto formatting at start (lsp.formatting.format_on_save must be enabled)
-      -- catppuccin_flavour = "mocha",
     }
   },
 
@@ -66,11 +65,11 @@ local config = {
       -- ["akinsho/bufferline.nvim"] = { disable = true },
 
       -- Statusline
-      ["rebelot/heirline.nvim"] = {
-        event = "ColorScheme",
-        config = function() require "user.heirline" end,
+      -- ["rebelot/heirline.nvim"] = {
+      --   event = "ColorScheme",
+        -- config = function() require "user.heirline" end,
         -- disable = true
-      },
+      -- },
 
       -- Install and setup user plugins
       --
@@ -81,10 +80,10 @@ local config = {
       -- },
 
       -- Theme
-      -- ["catppuccin/nvim"] = {
-      --  as = "catppuccin",
-      --  config = function() require("catppuccin").setup() end
-      -- },
+      ["catppuccin/nvim"] = {
+       as = "catppuccin",
+       config = function() require("catppuccin").setup() end
+      },
 
       -- Remember last position in a file
       ["ethanholz/nvim-lastplace"] = {
@@ -125,15 +124,8 @@ local config = {
 
   -- This function is run last
   -- good place to configure augroups/autocommands and custom filetypes
-  polish = function()
-    -- Glrnvim Settings
-    if vim.g.glrnvim_gui then
-      vim.cmd [[
-        set nobuflisted
-        Alpha
-      ]]
-    end
-  end,
+  -- polish = function()
+  -- end,
 }
 
 return config
