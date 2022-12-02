@@ -118,14 +118,24 @@ local config = {
     bufferline = {
       options = {
         show_duplicate_prefix = false,
-      }
+      },
+      highlights = require("catppuccin.groups.integrations.bufferline").get()
     }
   },
 
   -- This function is run last
   -- good place to configure augroups/autocommands and custom filetypes
-  -- polish = function()
-  -- end,
+  polish = function()
+    if vim.g.neovide then
+      vim.cmd [[
+        set guifont=JetBrainsMono\ Nerd\ Font:h11
+        let g:neovide_scroll_animation_length = 0
+        let g:neovide_hide_mouse_when_typing = v:true
+        let g:neovide_refresh_rate = 120
+        let g:neovide_cursor_animation_length=0.01
+      ]]
+    end
+  end,
 }
 
 return config

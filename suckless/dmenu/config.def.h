@@ -59,7 +59,7 @@ static char *fonts[] =
 static const char *fonts[] = 
 #endif // XRESOURCES_PATCH
 {
-	"CaskaydiaCove Nerd Font:pixelsize=15:antialias=true:autohint=true",
+	"JetBrainsMono Nerd Font:pixelsize=15:antialias=true:autohint=true",
 };
 #endif // PANGO_PATCH
 
@@ -97,15 +97,8 @@ static unsigned int lines      = 0;
 /*
  * SELECT YOUR COLOR SCHEME
  * Available themes are:
- * 1. doom-one.h
- * 2. dracula.h
- * 3. gruvbox-dark.h
- * 4. monokai-pro.h
- * 5. nord.h
- * 6. oceanic-next.h
- * 7. solarized-dark.h
- * 8. solarized-light.h
- * 9. tomorrow-night.h
+ * 1. catppuccin.h
+ * 2. tokyonight.h
  */
 #include "colors/catppuccin.h"
 

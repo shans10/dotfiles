@@ -1,14 +1,12 @@
 -- Xmobar (http://projects.haskell.org/xmobar/)
--- This is one of the xmobar configurations for DTOS.
--- This config is packaged in the DTOS repo as 'dtos-xmobar'
 -- Color scheme: Tokynight
--- Dependencies: 
+-- Dependencies:
    -- htop
-   -- emacs
-   -- pacman (Arch Linux)
+   -- xfce4-power-manager
+   -- pavucontrol
    -- trayer
 
-Config { font            = "xft:Iosevka Nerd Font:weight=bold:pixelsize=13:antialias=true:hinting=true"
+Config { font         = "xft:Iosevka Nerd Font:weight=bold:pixelsize=13:antialias=true:hinting=true"
        , bgColor      = "#1a1b26"
        , fgColor      = "#a9b1d6"
        -- Position TopSize and BottomSize take 3 arguments:
@@ -34,11 +32,11 @@ Config { font            = "xft:Iosevka Nerd Font:weight=bold:pixelsize=13:antia
                       -- Time and date
                     , Run Date "   %b %d %Y - %I:%M %p " "date" 50
                       -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
-                    , Run Com ".config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
+                    -- , Run Com ".config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
                       -- Prints out the left side items such as workspaces, layout, etc.
                     , Run UnsafeStdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " <icon=arch.xpm/> <fc=#32344a>|</fc> %UnsafeStdinReader% }{ <box type=Bottom width=2 mb=2 color=#ff9e64><fc=#ff9e64><action=`alacritty -e htop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#ff7a93><fc=#ff7a93><action=`alacritty -e htop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#b9f27c><fc=#b9f27c><action=`pavucontrol`> %volume% </action></fc></box>    <box type=Bottom width=2 mb=2 color=#bb9af7><fc=#bb9af7><action=`xfce4-power-manager -c`>%battery%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#0db9d7><fc=#0db9d7>%date%</fc></box> %trayerpad%"
+       , template = " <icon=arch.xpm/> <fc=#32344a>|</fc> %UnsafeStdinReader% }{ <box type=Bottom width=2 mb=2 color=#ff9e64><fc=#ff9e64><action=`alacritty -e htop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#ff7a93><fc=#ff7a93><action=`alacritty -e htop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#b9f27c><fc=#b9f27c><action=`pavucontrol`> %volume% </action></fc></box>    <box type=Bottom width=2 mb=2 color=#bb9af7><fc=#bb9af7><action=`xfce4-power-manager -c`>%battery%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#7da6ff><fc=#7da6ff><action=`dm-wifi`> %network% </action></fc></box>    <box type=Bottom width=2 mb=2 color=#0db9d7><fc=#0db9d7>%date%</fc></box> "
        }

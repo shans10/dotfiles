@@ -77,17 +77,7 @@ import XMonad.Util.SpawnOnce
 -- ColorScheme module (SET ONLY ONE!)
   -- Possible choice are:
   -- Catppuccin
-  -- DoomOne
-  -- Dracula
-  -- GruvboxDark
-  -- MonokaiPro
-  -- Nord
-  -- OceanicNext
-  -- Palenight
-  -- SolarizedDark
-  -- SolarizedLight
   -- Tokyonight
-  -- TomorrowNight
 import Colors.Catppuccin
 
 ------------------------------------------------------------------------
@@ -109,7 +99,7 @@ myEmacs :: String
 myEmacs = "emacs"  -- Makes emacs keybindings easier to type
 
 myEditor :: String
-myEditor = "alacritty -t Neovim -e nvim"  -- Sets neovim as editor
+myEditor = "nvim-qt"  -- Sets neovim as editor
 
 myBorderWidth :: Dimension
 myBorderWidth = 2           -- Sets border width for windows
@@ -128,7 +118,7 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 ------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
-  spawn "killall trayer"  -- kill current trayer on each restart
+  -- spawn "killall trayer"  -- kill current trayer on each restart
 
   -- Set resolution for all displays
   -- spawnOnce "xrandr --output HDMI-1 --mode 1920x1080 --rate 120.00 --output eDP-1 --off"
@@ -146,7 +136,7 @@ myStartupHook = do
   -- spawnOnce "xset r rate 500 35"                                    -- Keyboard settings
 
   -- System tray for xmobar
-  spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 5 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent true --alpha 0 " ++ colorTrayer ++ " --height 25")
+  -- spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 5 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent false --alpha 0 " ++ colorTrayer ++ " --height 25")
 
   -- Set wallpaper
   spawnOnce "xargs xwallpaper --stretch < ~/.cache/wall"
@@ -294,6 +284,7 @@ myManageHook = composeAll
   , className =? "Yad"             --> doCenterFloat
   , title =? "Appearance"          --> doCenterFloat
   , title =? "Bluetooth Devices"   --> doCenterFloat
+  , title =? "Network Connections" --> doCenterFloat
   , title =? "Display"             --> doCenterFloat
   , title =? "Keyboard"            --> doCenterFloat
   , title =? "Power Manager"       --> doCenterFloat
@@ -411,6 +402,7 @@ myKeys c =
   , ("M-c b", addName "Bluetooth settings"         $ spawn "blueman-manager")
   , ("M-c d", addName "Display settings"           $ spawn "lxrandr")
   , ("M-c m", addName "System monitor"             $ spawn "system-monitoring-center")
+  , ("M-c n", addName "NM connection editor"       $ spawn "nm-connection-editor")
   , ("M-c p", addName "Power manager settings"     $ spawn "xfce4-power-manager -c")
   , ("M-c s", addName "Sound settings"             $ spawn "pavucontrol")]
 

@@ -7,7 +7,7 @@
 
 ;;; FONT ;;;
 ; Set font family
-(setq doom-font (font-spec :family "Cascadia Code" :size 16))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15))
 
 ; Enable bold and italic faces
 (after! doom-themes
@@ -16,10 +16,10 @@
 
 ; Set custom styles
 (custom-set-faces!
-  '(font-lock-keyword-face :slant italic :weight semibold)
-  '(font-lock-comment-face :slant italic :weight semibold)
-  '(italic :slant italic :weight semibold)
-  '(tree-sitter-hl-face:property :slant italic :weight semibold)
+  '(font-lock-keyword-face :slant italic :weight medium)
+  '(font-lock-comment-face :slant italic :weight medium)
+  '(italic :slant italic :weight medium)
+  '(tree-sitter-hl-face:property :slant italic :weight medium)
   '(line-number :slant normal)
   '(line-number-current-line :slant normal :weight bold))
 
@@ -121,6 +121,11 @@
 (defun term-here ()
   (interactive)
   (start-process "" nil "alacritty"))
+
+(use-package autothemer
+  :ensure t)
+
+(load-theme 'catppuccin-mocha t)
 
 ;;; LOAD USER DEFINED KEYBINDINGS ;;;
 (load! "keybindings")
