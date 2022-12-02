@@ -1,6 +1,4 @@
-# Make prompt single line
-# [line_break]
-# disabled = true
+# ~/.config/starship.toml
 
 # Inserts a blank line between shell prompts
 add_newline = true
@@ -12,7 +10,7 @@ command_timeout = 1000
 format = """\
 [╭╴](238)$env_var\
 $all[╰─](238)$character"""
-
+# 
 # Change the default prompt characters
 [character]
 success_symbol = "[](238)"
@@ -84,3 +82,10 @@ disabled = true
 
 [ruby]
 format = "via [ $version]($style) "
+
+[kubernetes]
+format = 'on [ $context\($namespace\)](bold purple) '
+disabled = false
+[kubernetes.context_aliases]
+"clcreative-k8s-staging" = "cl-k8s-staging"
+"clcreative-k8s-production" = "cl-k8s-prod"
