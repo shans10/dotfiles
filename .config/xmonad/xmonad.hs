@@ -68,7 +68,7 @@ import XMonad.Hooks.InsertPosition
 -- Utilities
 import XMonad.Util.Dmenu
 import XMonad.Util.EZConfig (additionalKeysP, mkNamedKeymap)
-import XMonad.Util.Hacks (windowedFullscreenFixEventHook, javaHack, trayerAboveXmobarEventHook, trayAbovePanelEventHook, trayerPaddingXmobarEventHook, trayPaddingXmobarEventHook, trayPaddingEventHook)
+import XMonad.Util.Hacks (windowedFullscreenFixEventHook, trayerAboveXmobarEventHook, trayAbovePanelEventHook, trayerPaddingXmobarEventHook, trayPaddingXmobarEventHook, trayPaddingEventHook)
 import XMonad.Util.NamedActions
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run (runProcessWithInput, safeSpawn, spawnPipe)
@@ -124,10 +124,10 @@ myStartupHook = do
   -- spawnOnce "xrandr --output HDMI-1 --mode 1920x1080 --rate 120.00 --output eDP-1 --off"
 
   -- spawnOnce "xfsettingsd --daemon"                                  -- Start settings daemon
-  -- spawnOnce "xfce4-power-manager --daemon"                          -- Start power manager
-  spawnOnce "lxsession -s Xmonad"                                      -- Start session manager
+  spawnOnce "xfce4-power-manager --daemon"                          -- Start power manager
+  -- spawnOnce "lxsession -n -s Xmonad"                                      -- Start session manager
   -- spawnOnce "xss-lock -- betterlockscreen -l --off 30"              -- Autolock screen on display off
-  -- spawnOnce "picom"                                                 -- Start compositor
+  spawnOnce "picom -b"                                              -- Start compositor
   -- spawnOnce "nm-applet"                                             -- Start tray network applet
   -- spawnOnce "blueman-applet"                                        -- Start tray bluetooth applet
   spawnOnce "xsetroot -cursor_name left_ptr"                        -- Set cursor
@@ -500,7 +500,7 @@ main = do
   xmproc1 <- spawnPipe ("xmobar -x 1 $HOME/.config/xmobar/" ++ colorScheme ++ "-xmobarrc")
 
   -- the xmonad, ya know...what the WM is named after!
-  xmonad $ addDescrKeys' ((mod4Mask, xK_grave), showKeybindings) myKeys $ ewmh $ docks $ def
+  xmonad $ addDescrKeys' ((mod4Mask, xK_grave), showKeybindings) myKeys $ ewmhFullscreen . ewmh $ docks $ def
     { manageHook         = myManageHook <+> manageDocks
     , handleEventHook    = windowedFullscreenFixEventHook <> swallowEventHook (className =? "Alacritty"  <||> className =? "kitty" <||> className =? "XTerm") (return True) <> trayerPaddingXmobarEventHook <+> myHandleEventHook
     , modMask            = myModMask
