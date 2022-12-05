@@ -49,13 +49,16 @@ main() {
     )
 
     # look up what managers are used (makes it more dynamic)
-    declare -a MANAGERS
-    while IFS= read -r manager
-    do
-        MANAGERS+=("${manager,,}")
-    done < <(grep-desktop)
+    # declare -a MANAGERS
+    # while IFS= read -r manager
+    # do
+    #     MANAGERS+=("${manager,,}")
+    # done < <(grep-desktop)
     # Original code, used as a refrence and as backup
     # done < <(grep 'Name=' /usr/share/xsessions/*.desktop | cut -d'=' -f2)
+
+    # Find current session id to logout of it
+    session=$(loginctl session-status | awk 'NR==1{print $1}')
 
     # Piping the above array into dmenu.
     # We use "printf '%s\n'" to format the array one item to a line.
@@ -65,14 +68,12 @@ main() {
     case $choice in
         'Logout')
             if [[ "$(echo -e "No\nYes" | ${DMENU} "${choice}?" "${@}" )" == "Yes" ]]; then
-                for manager in "${MANAGERS[@]}"; do 
-                    killall "${manager}" || output "Process ${manager} was not running."
-                done
+                loginctl terminate-session $session
             else
                 output "User chose not to logout." && exit 1
             fi
             ;;
-        'Lock screen')
+        'Lock Screen')
             # shellcheck disable=SC2154
             ${logout_locker}
             ;;

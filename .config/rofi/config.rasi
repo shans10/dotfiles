@@ -1,11 +1,21 @@
-configuration {
-	modi: "drun,run";
-	columns: 2;
-	show-icons: true;
-	icon-theme: "Hey-yellow-dark";
-	theme: "~/.config/rofi/themes/colors.rasi";
+configuration{
+    modi: "run,drun,window";
+    icon-theme: "Tela-circle-dark";
+    show-icons: true;
+    terminal: "alacritty";
+    drun-display-format: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: "   Apps ";
+    display-run: "   Run ";
+    display-window: " 﩯  Window";
+    display-Network: " 󰤨  Network";
+    sidebar-mode: true;
+    font: "JetBrainsMono Nerd Font 11";
+
+    // Keybindings
+    kb-cancel: "Control+c,Escape,Control+g,Control+bracketleft";
 }
 
-element-icon {
-    size:             2.5ch ;
-}
+@theme "catppuccin-mocha"

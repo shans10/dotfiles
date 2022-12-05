@@ -291,7 +291,7 @@ myManageHook = composeAll
   , title =? "Volume Control"      --> doCenterFloat
   , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
   , isFullscreen -->  doFullFloat
-  , isDialog --> doCenterFloat                                                                     -- Float Dialog Windows to Centre
+  , isDialog --> doCenterFloat <+> doF W.swapUp                                                                     -- Float Dialog Windows to Centre
   ] 
   <+> namedScratchpadManageHook myScratchPads
   <+> insertPosition Below Newer                    -- Insert New Windows at the Bottom of Stack Area
@@ -322,8 +322,8 @@ myKeys c =
   , ("M-S-r", addName "Restart XMonad"         $ spawn "xmonad --restart")
   , ("M-C-q", addName "Quit XMonad"            $ io exitSuccess)
   , ("M-q", addName "Kill focused window"      $ kill1)
+  , ("M-r", addName "Run prompt"               $ spawn "rofi -show run")
   , ("M-S-a", addName "Kill all windows on WS" $ killAll)
-  , ("M-r", addName "Run prompt"               $ spawn "dm-run")
   , ("M-<Escape>", addName "Logout menu"       $ spawn "dm-logout")]
 
   -- Switch to workspace
@@ -370,20 +370,21 @@ myKeys c =
   , ("M-S-,", addName "Rotate all windows except master"       $ rotSlavesDown)
   , ("M-S-.", addName "Rotate all windows in current stack"    $ rotAllDown)]
 
-  -- Dmenu scripts (dmscripts)
+  -- Dmenu/Rofi scripts (dmscripts)
   ^++^ subKeys "Dmenu scripts"
-  [ ("M-d a", addName "Switch audio output"    $ spawn "dm-audio-out-switcher")
+  [ ("M-d a", addName "Applications menu"      $ spawn "rofi -show drun")
   , ("M-d b", addName "Set background"         $ spawn "dm-setbg")
   , ("M-d c", addName "Pick color from scheme" $ spawn "dm-colpick")
   , ("M-d e", addName "Edit config files"      $ spawn "dm-confedit")
   , ("M-d k", addName "Kill processes"         $ spawn "dm-kill")
   , ("M-d m", addName "View manpages"          $ spawn "dm-man")
   , ("M-d n", addName "View wifi networks"     $ spawn "dm-wifi")
+  , ("M-d p", addName "Switch audio output"    $ spawn "dm-audio-out-switcher")
   , ("M-d q", addName "Logout Menu"            $ spawn "dm-logout")
-  , ("M-d r", addName "Run program"            $ spawn "dm-run")
+  , ("M-d r", addName "Run program"            $ spawn "rofi -show run")
   , ("M-d s", addName "Take a screenshot"      $ spawn "dm-maim")
   , ("M-d t", addName "Show weather"           $ spawn "dm-weather")
-  , ("M-d w", addName "Switch window"          $ spawn "dm-window")]
+  , ("M-d w", addName "Switch window"          $ spawn "rofi -show window")]
 
   -- Favorite programs
   ^++^ subKeys "Favorite programs"
@@ -393,8 +394,7 @@ myKeys c =
   , ("M-f", addName "Launch file manager"      $ spawn "thunar")
   , ("M-S-f", addName "Launch firefox"         $ spawn "firefox")
   , ("M-n", addName "Launch neovim"            $ spawn (myEditor))
-  , ("M-v", addName "Launch vscode"            $ spawn "code")
-  , ("M-w", addName "Show all wallpapers"      $ spawn "sxiv -t ~/Pictures/Wallpapers")]
+  , ("M-v", addName "Launch vscode"            $ spawn "code")]
 
   -- Settings
   ^++^ subKeys "Settings"
@@ -404,7 +404,8 @@ myKeys c =
   , ("M-c m", addName "System monitor"             $ spawn "system-monitoring-center")
   , ("M-c n", addName "NM connection editor"       $ spawn "nm-connection-editor")
   , ("M-c p", addName "Power manager settings"     $ spawn "xfce4-power-manager -c")
-  , ("M-c s", addName "Sound settings"             $ spawn "pavucontrol")]
+  , ("M-c s", addName "Sound settings"             $ spawn "pavucontrol")
+  , ("M-c w", addName "Change wallpaper"           $ spawn "sxiv -t ~/Pictures/Wallpapers")]
 
   -- Monitors
   ^++^ subKeys "Monitors"

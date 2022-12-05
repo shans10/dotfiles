@@ -117,13 +117,14 @@ cp2cb() {
   esac
 }
 
-grep-desktop() {
-case "$XDG_SESSION_TYPE" in
-  'x11') grep "Name=" /usr/share/xsessions/*.desktop | cut -d'=' -f2;;
-  'wayland') grep "Name=" /usr/share/wayland-sessions/*.desktop | cut -d'=' -f2 || grep "Name=" /usr/share/xsessions/*.desktop | grep -i "wayland" | cut -d'=' -f2 | cut -d' ' -f1;; 
-  *) err "Unknown display server";;
-esac
-}
+# This function is not being used currently but kept in case if ever required
+# grep-desktop() {
+# case "$XDG_SESSION_TYPE" in
+#   'x11') grep "Name=" /usr/share/xsessions/*.desktop | cut -d'=' -f2;;
+#   'wayland') grep "Name=" /usr/share/wayland-sessions/*.desktop | cut -d'=' -f2 || grep "Name=" /usr/share/xsessions/*.desktop | grep -i "wayland" | cut -d'=' -f2 | cut -d' ' -f1;; 
+#   *) err "Unknown display server";;
+# esac
+# }
 
 ###############
 #   Parsing   #
