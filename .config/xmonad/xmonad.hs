@@ -10,7 +10,7 @@ import qualified XMonad.StackSet as W
 
 -- Actions
 import XMonad.Actions.CopyWindow (kill1)
-import XMonad.Actions.CycleWS (toggleWS', Direction1D(..), moveTo, shiftTo, WSType(..), nextScreen, prevScreen)
+import XMonad.Actions.CycleWS (toggleWS', Direction1D(..), doTo, moveTo, shiftTo, WSType(..), nextScreen, prevScreen)
 import XMonad.Actions.MouseResize
 import XMonad.Actions.Promote
 import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
@@ -58,7 +58,6 @@ import XMonad.Layout.Renamed
 import XMonad.Layout.ShowWName
 import XMonad.Layout.Simplest
 import XMonad.Layout.Spacing
-import XMonad.Layout.SubLayouts
 import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
 import XMonad.Layout.WindowNavigation
 import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
@@ -73,6 +72,7 @@ import XMonad.Util.NamedActions
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run (runProcessWithInput, safeSpawn, spawnPipe)
 import XMonad.Util.SpawnOnce
+import XMonad.Util.WorkspaceCompare
 
 -- ColorScheme module (SET ONLY ONE!)
   -- Possible choice are:
@@ -203,32 +203,15 @@ tall     = renamed [Replace "tall"]
            $ limitWindows 5
            $ smartBorders
            $ windowNavigation
-           $ addTabs shrinkText myTabTheme
            $ mySpacing 3
            $ ResizableTall 1 (3/100) (1/2) []
 monocle  = renamed [Replace "monocle"]
            $ smartBorders
            $ windowNavigation
-           $ addTabs shrinkText myTabTheme
-           $ subLayout [] (smartBorders Simplest)
            $ Full
 floats   = renamed [Replace "floats"]
            $ smartBorders
            $ simplestFloat
-tabs     = renamed [Replace "tabs"]
-           -- I cannot add spacing to this layout because it will
-           -- add spacing between window and tabs which looks bad.
-           $ tabbed shrinkText myTabTheme
-
--- setting colors for tabs layout and tabs sublayout.
-myTabTheme = def { fontName            = myFont
-                 , activeColor         = color15
-                 , inactiveColor       = color08
-                 , activeBorderColor   = color15
-                 , inactiveBorderColor = colorBack
-                 , activeTextColor     = colorBack
-                 , inactiveTextColor   = color16
-                 }
 
 -- Theme for showWName which prints current workspace when you change workspaces.
 myShowWNameTheme :: SWNConfig
@@ -249,7 +232,6 @@ myLayoutHook = avoidStruts
     myDefaultLayout = smartBorders tall
                       ||| noBorders monocle
                       ||| floats
-                      ||| noBorders tabs
 
 ------------------------------------------------------------------------
 ---WORKSPACES
@@ -322,7 +304,7 @@ myKeys c =
   , ("M-S-r", addName "Restart XMonad"         $ spawn "xmonad --restart")
   , ("M-C-q", addName "Quit XMonad"            $ io exitSuccess)
   , ("M-q", addName "Kill focused window"      $ kill1)
-  , ("M-r", addName "Run prompt"               $ spawn "rofi -show run")
+  , ("M-r", addName "Run prompt"               $ spawn "rofi -show run -no-show-icons")
   , ("M-S-a", addName "Kill all windows on WS" $ killAll)
   , ("M-<Escape>", addName "Logout menu"       $ spawn "dm-logout")]
 
@@ -337,6 +319,10 @@ myKeys c =
   , ("M-7", addName "Switch to workspace 7"    $ (windows $ W.greedyView $ myWorkspaces !! 6))
   , ("M-8", addName "Switch to workspace 8"    $ (windows $ W.greedyView $ myWorkspaces !! 7))
   , ("M-9", addName "Switch to workspace 9"    $ (windows $ W.greedyView $ myWorkspaces !! 8))
+  , ("M-.", addName "Switch to next non-empty WS"  $ moveTo Next nonEmptyNonNSP)
+  , ("M-,", addName "Switch to prev non-empty WS"  $ moveTo Prev nonEmptyNonNSP)
+  , ("M-C-.", addName "Switch to next empty WS"  $ moveTo Next emptyNonNSP)
+  , ("M-C-,", addName "Switch to prev empty WS"  $ moveTo Prev emptyNonNSP)
   , ("M-<Tab>", addName "Toggle between recent WS excluding NSP" $ toggleWS' ["NSP"])]
 
   -- Send window to workspace
@@ -354,7 +340,9 @@ myKeys c =
   -- Move window to WS and go there
   ^++^ subKeys "Move window to WS and go there"
   [ ("M-S-<Page_Up>", addName "Move window to next WS"   $ shiftTo Next nonNSP >> moveTo Next nonNSP)
-  , ("M-S-<Page_Down>", addName "Move window to prev WS" $ shiftTo Prev nonNSP >> moveTo Prev nonNSP)]
+  , ("M-S-<Page_Down>", addName "Move window to prev WS" $ shiftTo Prev nonNSP >> moveTo Prev nonNSP)
+  , ("M-S-n", addName "Move window to next empty WS"     $ doTo Next emptyNonNSP getSortByIndex (\ws -> withFocused (\w -> windows (W.view ws . W.shiftWin ws w))))
+  , ("M-S-p", addName "Move window to prev empty WS"     $ doTo Prev emptyNonNSP getSortByIndex (\ws -> withFocused (\w -> windows (W.view ws . W.shiftWin ws w))))]
 
   -- Window navigation
   ^++^ subKeys "Window navigation"
@@ -381,7 +369,7 @@ myKeys c =
   , ("M-d n", addName "View wifi networks"     $ spawn "dm-wifi")
   , ("M-d p", addName "Switch audio output"    $ spawn "dm-audio-out-switcher")
   , ("M-d q", addName "Logout Menu"            $ spawn "dm-logout")
-  , ("M-d r", addName "Run program"            $ spawn "rofi -show run")
+  , ("M-d r", addName "Run program"            $ spawn "rofi -show run -no-show-icons")
   , ("M-d s", addName "Take a screenshot"      $ spawn "dm-maim")
   , ("M-d t", addName "Show weather"           $ spawn "dm-weather")
   , ("M-d w", addName "Switch window"          $ spawn "rofi -show window")]
@@ -401,7 +389,7 @@ myKeys c =
   [ ("M-c a", addName "Appearance settings"        $ spawn "lxappearance")
   , ("M-c b", addName "Bluetooth settings"         $ spawn "blueman-manager")
   , ("M-c d", addName "Display settings"           $ spawn "lxrandr")
-  , ("M-c m", addName "System monitor"             $ spawn "system-monitoring-center")
+  , ("M-c m", addName "System monitor"             $ spawn "stacer")
   , ("M-c n", addName "NM connection editor"       $ spawn "nm-connection-editor")
   , ("M-c p", addName "Power manager settings"     $ spawn "xfce4-power-manager -c")
   , ("M-c s", addName "Sound settings"             $ spawn "pavucontrol")
@@ -409,8 +397,8 @@ myKeys c =
 
   -- Monitors
   ^++^ subKeys "Monitors"
-  [ ("M-.", addName "Switch focus to next monitor" $ nextScreen)
-  , ("M-,", addName "Switch focus to prev monitor" $ prevScreen)]
+  [ ("M-M1-.", addName "Switch focus to next monitor" $ nextScreen)
+  , ("M-M1-,", addName "Switch focus to prev monitor" $ prevScreen)]
 
   -- Switch layouts
   ^++^ subKeys "Switch layouts"
@@ -450,19 +438,6 @@ myKeys c =
   , ("M-=", addName "Increase max # of windows for layout" $ increaseLimit)
   , ("M--", addName "Decrease max # of windows for layout" $ decreaseLimit)]
 
-  -- Sublayouts
-  -- This is used to push windows to tabbed sublayouts, or pull them out of it.
-  ^++^ subKeys "Sublayouts"
-  [ ("M-C-h", addName "pullGroup L"           $ sendMessage $ pullGroup L)
-  , ("M-C-l", addName "pullGroup R"           $ sendMessage $ pullGroup R)
-  , ("M-C-k", addName "pullGroup U"           $ sendMessage $ pullGroup U)
-  , ("M-C-j", addName "pullGroup D"           $ sendMessage $ pullGroup D)
-  , ("M-C-m", addName "MergeAll"              $ withFocused (sendMessage . MergeAll))
-  , ("M-C-u", addName "UnMerge"               $ withFocused (sendMessage . UnMerge))
-  , ("M-C-/", addName "UnMergeAll"            $  withFocused (sendMessage . UnMergeAll))
-  , ("M-C-.", addName "Switch focus next tab" $  onGroup W.focusUp')
-  , ("M-C-,", addName "Switch focus prev tab" $  onGroup W.focusDown')]
-
   -- Scratchpads
   -- Toggle show/hide these programs. They run on a hidden workspace.
   -- When you toggle them to show, it brings them to current workspace.
@@ -484,6 +459,7 @@ myKeys c =
   -- The following lines are needed for named scratchpads.
     where nonNSP          = WSIs (return (\ws -> W.tag ws /= "NSP"))
           nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "NSP"))
+          emptyNonNSP     = WSIs (return (\ws -> not(isJust (W.stack ws)) && W.tag ws /= "NSP"))
 
           -- Function to toggle floating state on focused window.
           toggleFloat w = windows (\s -> if M.member w (W.floating s)
