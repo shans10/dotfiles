@@ -10,7 +10,7 @@ import qualified XMonad.StackSet as W
 
 -- Actions
 import XMonad.Actions.CopyWindow (kill1)
-import XMonad.Actions.CycleWS (toggleWS', Direction1D(..), doTo, moveTo, shiftTo, WSType(..), nextScreen, prevScreen)
+import XMonad.Actions.CycleWS (toggleWS', Direction1D(..), doTo, moveTo, shiftTo, WSType(..), nextWS, prevWS, nextScreen, prevScreen)
 import XMonad.Actions.MouseResize
 import XMonad.Actions.Promote
 import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
@@ -21,9 +21,8 @@ import XMonad.Actions.FloatKeys
 
 -- Data
 import Data.Char (isSpace, toUpper)
-import Data.Maybe (fromJust)
+import Data.Maybe (fromJust, isJust, isNothing)
 import Data.Monoid
-import Data.Maybe (isJust)
 import Data.Tree
 import qualified Data.Map as M
 
@@ -99,7 +98,7 @@ myEmacs :: String
 myEmacs = "emacs"  -- Makes emacs keybindings easier to type
 
 myEditor :: String
-myEditor = "nvim-qt"  -- Sets neovim as editor
+myEditor = myTerminal ++ " -e nvim"  -- Sets neovim as editor
 
 myBorderWidth :: Dimension
 myBorderWidth = 2           -- Sets border width for windows
@@ -238,7 +237,7 @@ myLayoutHook = avoidStruts
 ------------------------------------------------------------------------
 myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
 -- myWorkspaces = [" dev ", " www ", " sys ", " doc ", " vbox ", " chat ", " mus ", " vid ", " gfx "]
-myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
+myWorkspaceIndices = M.fromList $ zip myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 clickable ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
     where i = fromJust $ M.lookup ws myWorkspaceIndices
@@ -274,7 +273,7 @@ myManageHook = composeAll
   , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
   , isFullscreen -->  doFullFloat
   , isDialog --> doCenterFloat <+> doF W.swapUp                                                                     -- Float Dialog Windows to Centre
-  ] 
+  ]
   <+> namedScratchpadManageHook myScratchPads
   <+> insertPosition Below Newer                    -- Insert New Windows at the Bottom of Stack Area
 
@@ -289,7 +288,7 @@ subtitle' x = ((0,0), NamedAction $ map toUpper
 
 showKeybindings :: [((KeyMask, KeySym), NamedAction)] -> NamedAction
 showKeybindings x = addName "Show Keybindings" $ io $ do
-  h <- spawnPipe $ "yad --text-info --fontname=\"Cantarell 12\" --geometry=1366x768 --title \"XMonad keybindings\""
+  h <- spawnPipe "yad --text-info --fontname=\"Cantarell 12\" --geometry=1366x768 --title \"XMonad keybindings\""
   --hPutStr h (unlines $ showKm x) -- showKM adds ">>" before subtitles
   hPutStr h (unlines $ showKmSimple x) -- showKmSimple doesn't add ">>" to subtitles
   hClose h
@@ -308,22 +307,24 @@ myKeys c =
   , ("M-S-a", addName "Kill all windows on WS" $ killAll)
   , ("M-<Escape>", addName "Logout menu"       $ spawn "dm-logout")]
 
-  -- Switch to workspace
+  -- Switch to workspace (exclude NSP)
   ^++^ subKeys "Switch to workspace"
-  [ ("M-1", addName "Switch to workspace 1"    $ (windows $ W.greedyView $ myWorkspaces !! 0))
-  , ("M-2", addName "Switch to workspace 2"    $ (windows $ W.greedyView $ myWorkspaces !! 1))
-  , ("M-3", addName "Switch to workspace 3"    $ (windows $ W.greedyView $ myWorkspaces !! 2))
-  , ("M-4", addName "Switch to workspace 4"    $ (windows $ W.greedyView $ myWorkspaces !! 3))
-  , ("M-5", addName "Switch to workspace 5"    $ (windows $ W.greedyView $ myWorkspaces !! 4))
-  , ("M-6", addName "Switch to workspace 6"    $ (windows $ W.greedyView $ myWorkspaces !! 5))
-  , ("M-7", addName "Switch to workspace 7"    $ (windows $ W.greedyView $ myWorkspaces !! 6))
-  , ("M-8", addName "Switch to workspace 8"    $ (windows $ W.greedyView $ myWorkspaces !! 7))
-  , ("M-9", addName "Switch to workspace 9"    $ (windows $ W.greedyView $ myWorkspaces !! 8))
+  [ ("M-1", addName "Switch to workspace 1"        $ (windows $ W.greedyView $ myWorkspaces !! 0))
+  , ("M-2", addName "Switch to workspace 2"        $ (windows $ W.greedyView $ myWorkspaces !! 1))
+  , ("M-3", addName "Switch to workspace 3"        $ (windows $ W.greedyView $ myWorkspaces !! 2))
+  , ("M-4", addName "Switch to workspace 4"        $ (windows $ W.greedyView $ myWorkspaces !! 3))
+  , ("M-5", addName "Switch to workspace 5"        $ (windows $ W.greedyView $ myWorkspaces !! 4))
+  , ("M-6", addName "Switch to workspace 6"        $ (windows $ W.greedyView $ myWorkspaces !! 5))
+  , ("M-7", addName "Switch to workspace 7"        $ (windows $ W.greedyView $ myWorkspaces !! 6))
+  , ("M-8", addName "Switch to workspace 8"        $ (windows $ W.greedyView $ myWorkspaces !! 7))
+  , ("M-9", addName "Switch to workspace 9"        $ (windows $ W.greedyView $ myWorkspaces !! 8))
+  , ("M-]", addName "Switch to next WS"            $ nextWS)
+  , ("M-[", addName "Switch to prev WS"            $ prevWS)
   , ("M-.", addName "Switch to next non-empty WS"  $ moveTo Next nonEmptyNonNSP)
   , ("M-,", addName "Switch to prev non-empty WS"  $ moveTo Prev nonEmptyNonNSP)
-  , ("M-C-.", addName "Switch to next empty WS"  $ moveTo Next emptyNonNSP)
-  , ("M-C-,", addName "Switch to prev empty WS"  $ moveTo Prev emptyNonNSP)
-  , ("M-<Tab>", addName "Toggle between recent WS excluding NSP" $ toggleWS' ["NSP"])]
+  , ("M-C-.", addName "Switch to next empty WS"    $ moveTo Next emptyNonNSP)
+  , ("M-C-,", addName "Switch to prev empty WS"    $ moveTo Prev emptyNonNSP)
+  , ("M-<Tab>", addName "Toggle between recent WS" $ toggleWS' ["NSP"])]
 
   -- Send window to workspace
   ^++^ subKeys "Send window to workspace"
@@ -337,12 +338,12 @@ myKeys c =
   , ("M-S-8", addName "Send to workspace 8"    $ (windows $ W.shift $ myWorkspaces !! 7))
   , ("M-S-9", addName "Send to workspace 9"    $ (windows $ W.shift $ myWorkspaces !! 8))]
 
-  -- Move window to WS and go there
+  -- Move window to WS and go there (exclude NSP)
   ^++^ subKeys "Move window to WS and go there"
-  [ ("M-S-<Page_Up>", addName "Move window to next WS"   $ shiftTo Next nonNSP >> moveTo Next nonNSP)
-  , ("M-S-<Page_Down>", addName "Move window to prev WS" $ shiftTo Prev nonNSP >> moveTo Prev nonNSP)
-  , ("M-S-n", addName "Move window to next empty WS"     $ doTo Next emptyNonNSP getSortByIndex (\ws -> withFocused (\w -> windows (W.view ws . W.shiftWin ws w))))
-  , ("M-S-p", addName "Move window to prev empty WS"     $ doTo Prev emptyNonNSP getSortByIndex (\ws -> withFocused (\w -> windows (W.view ws . W.shiftWin ws w))))]
+  [ ("M-S-]", addName "Move window to next WS"       $ shiftTo Next nonNSP >> moveTo Next nonNSP)
+  , ("M-S-[", addName "Move window to prev WS"       $ shiftTo Prev nonNSP >> moveTo Prev nonNSP)
+  , ("M-S-n", addName "Move window to next empty WS" $ doTo Next emptyNonNSP getSortByIndex (\ws -> withFocused (\w -> windows (W.view ws . W.shiftWin ws w))))
+  , ("M-S-p", addName "Move window to prev empty WS" $ doTo Prev emptyNonNSP getSortByIndex (\ws -> withFocused (\w -> windows (W.view ws . W.shiftWin ws w))))]
 
   -- Window navigation
   ^++^ subKeys "Window navigation"
@@ -376,20 +377,22 @@ myKeys c =
 
   -- Favorite programs
   ^++^ subKeys "Favorite programs"
-  [ ("M-<Return>", addName "Launch terminal"   $ spawn (myTerminal))
-  , ("M-b", addName "Launch web browser"       $ spawn (myBrowser))
-  , ("M-e", addName "Launch emacs"             $ spawn (myEmacs))
+  [ ("M-<Return>", addName "Launch terminal"   $ spawn myTerminal)
+  , ("M-S-<Return>", addName "Launch kitty"    $ spawn "kitty")
+  , ("M-b", addName "Launch web browser"       $ spawn myBrowser)
+  , ("M-e", addName "Launch emacs"             $ spawn myEmacs)
   , ("M-f", addName "Launch file manager"      $ spawn "thunar")
   , ("M-S-f", addName "Launch firefox"         $ spawn "firefox")
-  , ("M-n", addName "Launch neovim"            $ spawn (myEditor))
-  , ("M-v", addName "Launch vscode"            $ spawn "code")]
+  , ("M-n", addName "Launch neovim"            $ spawn myEditor)
+  , ("M-v", addName "Launch vscode"            $ spawn "code")
+  , ("M-S-v", addName "Launch vscode insiders" $ spawn "code-insiders")]
 
   -- Settings
   ^++^ subKeys "Settings"
   [ ("M-c a", addName "Appearance settings"        $ spawn "lxappearance")
   , ("M-c b", addName "Bluetooth settings"         $ spawn "blueman-manager")
   , ("M-c d", addName "Display settings"           $ spawn "lxrandr")
-  , ("M-c m", addName "System monitor"             $ spawn "stacer")
+  , ("M-c m", addName "System monitor"             $ spawn "alacritty -t 'System Monitor' -e btop")
   , ("M-c n", addName "NM connection editor"       $ spawn "nm-connection-editor")
   , ("M-c p", addName "Power manager settings"     $ spawn "xfce4-power-manager -c")
   , ("M-c s", addName "Sound settings"             $ spawn "pavucontrol")
@@ -404,6 +407,7 @@ myKeys c =
   ^++^ subKeys "Switch layouts"
   [ ("M-C-<Tab>", addName "Switch to next layout" $ sendMessage NextLayout)
   , ("M-M1-m", addName "Toggle monocle layout"    $ sendMessage (T.Toggle "monocle"))
+  , ("M-C-b", addName "Toggle xmobar visibility"  $ sendMessage ToggleStruts)
   , ("M-<Space>", addName "Toggle noborders/full" $ sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts)]
 
   -- Window resizing
@@ -459,12 +463,12 @@ myKeys c =
   -- The following lines are needed for named scratchpads.
     where nonNSP          = WSIs (return (\ws -> W.tag ws /= "NSP"))
           nonEmptyNonNSP  = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "NSP"))
-          emptyNonNSP     = WSIs (return (\ws -> not(isJust (W.stack ws)) && W.tag ws /= "NSP"))
+          emptyNonNSP     = WSIs (return (\ws -> isNothing (W.stack ws) && W.tag ws /= "NSP"))
 
           -- Function to toggle floating state on focused window.
           toggleFloat w = windows (\s -> if M.member w (W.floating s)
                           then W.sink w s
-                          else (W.float w (W.RationalRect (1/6) (1/6) (2/3) (2/3)) s))
+                          else W.float w (W.RationalRect (1/6) (1/6) (2/3) (2/3)) s)
 
 ------------------------------------------------------------------------
 ---MAIN
@@ -482,14 +486,14 @@ main = do
     , modMask            = myModMask
     , terminal           = myTerminal
     , startupHook        = myStartupHook
-    , layoutHook         = showWName' myShowWNameTheme $ myLayoutHook
+    , layoutHook         = showWName' myShowWNameTheme myLayoutHook
     , workspaces         = myWorkspaces
     , borderWidth        = myBorderWidth
     , normalBorderColor  = myNormColor
     , focusedBorderColor = myFocusColor
-    , logHook = dynamicLogWithPP $  filterOutWsPP [scratchpadWorkspaceTag] $ xmobarPP
-        { ppOutput = \x -> hPutStrLn xmproc1 x   -- xmobar on external monitor
-                        -- >> hPutStrLn xmproc0 x   -- xmobar on laptop
+    , logHook = dynamicLogWithPP $ filterOutWsPP [scratchpadWorkspaceTag] $ xmobarPP
+        { ppOutput = hPutStrLn xmproc1   -- xmobar on external monitor
+                     -- >> hPutStrLn xmproc0 x   -- xmobar on laptop
         , ppCurrent = xmobarColor color06 "" . wrap
                       ("<box type=Bottom width=2 mb=2 color=" ++ color06 ++ ">") "</box>"
           -- Visible but not current workspace

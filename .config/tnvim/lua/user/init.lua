@@ -24,6 +24,7 @@ local config = {
       "pyright",
       "clangd",
       "bashls",
+      "hls",
     },
     formatting = {
       -- control auto formatting on save

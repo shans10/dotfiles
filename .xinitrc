@@ -36,4 +36,6 @@ xrandr --output HDMI-1 --mode 1920x1080 --rate 120.00 --output eDP-1 --off
 xss-lock -- betterlockscreen -l blur --off 30 &
 /usr/lib/xfce-polkit/xfce-polkit &
 unclutter --timeout 15 &
+blueman-applet &
 exec xmonad
+

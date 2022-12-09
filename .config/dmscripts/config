@@ -9,7 +9,7 @@
 
 # -p is needed as we use prompts, alternative programs have to handle prompts well.
 
-DMENU="rofi -dmenu -window-title"
+DMENU="rofi -dmenu -i -p"
 
 PDF_VIEWER="zathura"
 
