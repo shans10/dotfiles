@@ -66,7 +66,7 @@ import XMonad.Hooks.InsertPosition
 -- Utilities
 import XMonad.Util.Dmenu
 import XMonad.Util.EZConfig (additionalKeysP, mkNamedKeymap)
-import XMonad.Util.Hacks (windowedFullscreenFixEventHook, trayerAboveXmobarEventHook, trayAbovePanelEventHook, trayerPaddingXmobarEventHook, trayPaddingXmobarEventHook, trayPaddingEventHook)
+import XMonad.Util.Hacks (windowedFullscreenFixEventHook, trayerPaddingXmobarEventHook)
 import XMonad.Util.NamedActions
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run (runProcessWithInput, safeSpawn, spawnPipe)
@@ -117,7 +117,7 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 ------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
-  -- spawn "killall trayer"  -- kill current trayer on each restart
+  spawn "killall trayer"  -- kill current trayer on each restart
 
   -- Set resolution for all displays
   -- spawnOnce "xrandr --output HDMI-1 --mode 1920x1080 --rate 120.00 --output eDP-1 --off"
@@ -135,7 +135,7 @@ myStartupHook = do
   -- spawnOnce "xset r rate 500 35"                                    -- Keyboard settings
 
   -- System tray for xmobar
-  -- spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 5 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent false --alpha 0 " ++ colorTrayer ++ " --height 25")
+  spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 5 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent false --alpha 0 " ++ colorTrayer ++ " --height 25")
 
   -- Set wallpaper
   spawnOnce "xargs xwallpaper --stretch < ~/.cache/wall"
@@ -151,7 +151,6 @@ myStartupHook = do
 myScratchPads :: [NamedScratchpad]
 myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
                 , NS "calculator" spawnCalc findCalc manageCalc
-                , NS "spotify" spawnSpot findSpot manageSpot
                 ]
   where
     spawnTerm  = myTerminal ++ " -t scratchpad"
@@ -170,18 +169,6 @@ myScratchPads = [ NS "terminal" spawnTerm findTerm manageTerm
                  w = 0.45
                  t = 0.75 -h
                  l = 0.70 -w
-    spawnSpot  = "spotify"
-    findSpot   = resource =? "spotify"
-    manageSpot = customFloating $ W.RationalRect l t w h
-               where
-                 h = 0.9
-                 w = 0.9
-                 t = 0.95 -h
-                 l = 0.95 -w
-
--- Float spotify scratchpad
-myHandleEventHook :: Event -> X All
-myHandleEventHook = dynamicPropertyChange "WM_NAME" (title =? "Spotify" --> doCenterFloat)
 
 ------------------------------------------------------------------------
 ---LAYOUTS
@@ -270,12 +257,19 @@ myManageHook = composeAll
   , title =? "Keyboard"            --> doCenterFloat
   , title =? "Power Manager"       --> doCenterFloat
   , title =? "Volume Control"      --> doCenterFloat
-  , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float Firefox Dialog
+  , className =? "discord" --> doShift ( myWorkspaces !! 7) <+> doF (W.greedyView $ myWorkspaces !! 7) -- Move discord to ws 8
+  , className =? "TelegramDesktop" --> doShift ( myWorkspaces !! 7) <+> doF (W.greedyView $ myWorkspaces !! 7) -- Move telegram to ws 8
+  , (className =? "firefox" <&&> resource =? "Dialog") --> doFloat  -- Float firefox dialog
   , isFullscreen -->  doFullFloat
-  , isDialog --> doCenterFloat <+> doF W.swapUp                                                                     -- Float Dialog Windows to Centre
+  , isDialog --> doCenterFloat <+> doF W.swapUp -- Float dialog windows to centre and popup on top
   ]
   <+> namedScratchpadManageHook myScratchPads
-  <+> insertPosition Below Newer                    -- Insert New Windows at the Bottom of Stack Area
+  <+> insertPosition Below Newer -- Insert new windows at the bottom of stack area
+
+-- Move spotify to workspace 7 after launch and go there
+myHandleEventHook :: Event -> X All
+myHandleEventHook = dynamicPropertyChange "WM_NAME" (title =? "Spotify" --> doShift ( myWorkspaces !! 6)
+  <+> doF (W.greedyView $ myWorkspaces !! 6))
 
 ------------------------------------------------------------------------
 ---KEYBINDINGS
@@ -359,50 +353,6 @@ myKeys c =
   , ("M-S-,", addName "Rotate all windows except master"       $ rotSlavesDown)
   , ("M-S-.", addName "Rotate all windows in current stack"    $ rotAllDown)]
 
-  -- Dmenu/Rofi scripts (dmscripts)
-  ^++^ subKeys "Dmenu scripts"
-  [ ("M-d a", addName "Applications menu"      $ spawn "rofi -show drun")
-  , ("M-d b", addName "Set background"         $ spawn "dm-setbg")
-  , ("M-d c", addName "Pick color from scheme" $ spawn "dm-colpick")
-  , ("M-d e", addName "Edit config files"      $ spawn "dm-confedit")
-  , ("M-d k", addName "Kill processes"         $ spawn "dm-kill")
-  , ("M-d m", addName "View manpages"          $ spawn "dm-man")
-  , ("M-d n", addName "View wifi networks"     $ spawn "dm-wifi")
-  , ("M-d p", addName "Switch audio output"    $ spawn "dm-audio-out-switcher")
-  , ("M-d q", addName "Logout Menu"            $ spawn "dm-logout")
-  , ("M-d r", addName "Run program"            $ spawn "rofi -show run -no-show-icons")
-  , ("M-d s", addName "Take a screenshot"      $ spawn "dm-maim")
-  , ("M-d t", addName "Show weather"           $ spawn "dm-weather")
-  , ("M-d w", addName "Switch window"          $ spawn "rofi -show window")]
-
-  -- Favorite programs
-  ^++^ subKeys "Favorite programs"
-  [ ("M-<Return>", addName "Launch terminal"   $ spawn myTerminal)
-  , ("M-S-<Return>", addName "Launch kitty"    $ spawn "kitty")
-  , ("M-b", addName "Launch web browser"       $ spawn myBrowser)
-  , ("M-e", addName "Launch emacs"             $ spawn myEmacs)
-  , ("M-f", addName "Launch file manager"      $ spawn "thunar")
-  , ("M-S-f", addName "Launch firefox"         $ spawn "firefox")
-  , ("M-n", addName "Launch neovim"            $ spawn myEditor)
-  , ("M-v", addName "Launch vscode"            $ spawn "code")
-  , ("M-S-v", addName "Launch vscode insiders" $ spawn "code-insiders")]
-
-  -- Settings
-  ^++^ subKeys "Settings"
-  [ ("M-c a", addName "Appearance settings"        $ spawn "lxappearance")
-  , ("M-c b", addName "Bluetooth settings"         $ spawn "blueman-manager")
-  , ("M-c d", addName "Display settings"           $ spawn "lxrandr")
-  , ("M-c m", addName "System monitor"             $ spawn "alacritty -t 'System Monitor' -e btop")
-  , ("M-c n", addName "NM connection editor"       $ spawn "nm-connection-editor")
-  , ("M-c p", addName "Power manager settings"     $ spawn "xfce4-power-manager -c")
-  , ("M-c s", addName "Sound settings"             $ spawn "pavucontrol")
-  , ("M-c w", addName "Change wallpaper"           $ spawn "sxiv -t ~/Pictures/Wallpapers")]
-
-  -- Monitors
-  ^++^ subKeys "Monitors"
-  [ ("M-M1-.", addName "Switch focus to next monitor" $ nextScreen)
-  , ("M-M1-,", addName "Switch focus to prev monitor" $ prevScreen)]
-
   -- Switch layouts
   ^++^ subKeys "Switch layouts"
   [ ("M-C-<Tab>", addName "Switch to next layout" $ sendMessage NextLayout)
@@ -442,14 +392,63 @@ myKeys c =
   , ("M-=", addName "Increase max # of windows for layout" $ increaseLimit)
   , ("M--", addName "Decrease max # of windows for layout" $ decreaseLimit)]
 
+  -- Monitors
+  ^++^ subKeys "Monitors"
+  [ ("M-M1-.", addName "Switch focus to next monitor" $ nextScreen)
+  , ("M-M1-,", addName "Switch focus to prev monitor" $ prevScreen)]
+
   -- Scratchpads
   -- Toggle show/hide these programs. They run on a hidden workspace.
   -- When you toggle them to show, it brings them to current workspace.
   -- Toggle them to hide and it sends them back to hidden workspace (NSP).
   ^++^ subKeys "Scratchpads"
   [ ("M-s t", addName "Toggle scratchpad terminal"    $ namedScratchpadAction myScratchPads "terminal")
-  , ("M-s c", addName "Toggle scratchpad calculator"  $ namedScratchpadAction myScratchPads "calculator")
-  , ("M-s s", addName "Toggle scratchpad spotify"     $ namedScratchpadAction myScratchPads "spotify")]
+  , ("M-s c", addName "Toggle scratchpad calculator"  $ namedScratchpadAction myScratchPads "calculator")]
+
+  -- Dmenu/Rofi scripts (dmscripts)
+  ^++^ subKeys "Dmenu scripts"
+  [ ("M-d a", addName "Applications menu"      $ spawn "rofi -show drun")
+  , ("M-d b", addName "Set background"         $ spawn "dm-setbg")
+  , ("M-d c", addName "Pick color from scheme" $ spawn "dm-colpick")
+  , ("M-d e", addName "Edit config files"      $ spawn "dm-confedit")
+  , ("M-d k", addName "Kill processes"         $ spawn "dm-kill")
+  , ("M-d m", addName "View manpages"          $ spawn "dm-man")
+  , ("M-d n", addName "View wifi networks"     $ spawn "dm-wifi")
+  , ("M-d p", addName "Switch audio output"    $ spawn "dm-audio-out-switcher")
+  , ("M-d q", addName "Logout Menu"            $ spawn "dm-logout")
+  , ("M-d r", addName "Run program"            $ spawn "rofi -show run -no-show-icons")
+  , ("M-d s", addName "Take a screenshot"      $ spawn "dm-maim")
+  , ("M-d t", addName "Show weather"           $ spawn "dm-weather")
+  , ("M-d w", addName "Switch window"          $ spawn "rofi -show window")]
+
+  -- Settings/Configuration tools
+  ^++^ subKeys "Settings"
+  [ ("M-c a", addName "Appearance settings"        $ spawn "lxappearance")
+  , ("M-c b", addName "Bluetooth settings"         $ spawn "blueman-manager")
+  , ("M-c d", addName "Display settings"           $ spawn "lxrandr")
+  , ("M-c m", addName "System monitor"             $ spawn "alacritty -t 'System Monitor' -e btop")
+  , ("M-c n", addName "NM connection editor"       $ spawn "nm-connection-editor")
+  , ("M-c p", addName "Power manager settings"     $ spawn "xfce4-power-manager -c")
+  , ("M-c s", addName "Sound settings"             $ spawn "pavucontrol")
+  , ("M-c w", addName "Change wallpaper"           $ spawn "sxiv -t ~/Pictures/Wallpapers")]
+
+  -- Favorite programs
+  ^++^ subKeys "Favorite programs"
+  [ ("M-<Return>", addName "Launch terminal"   $ spawn myTerminal)
+  , ("M-S-<Return>", addName "Launch kitty"    $ spawn "kitty")
+  , ("M-b", addName "Launch web browser"       $ spawn myBrowser)
+  , ("M-e", addName "Launch emacs"             $ spawn myEmacs)
+  , ("M-f", addName "Launch file manager"      $ spawn "thunar")
+  , ("M-S-f", addName "Launch firefox"         $ spawn "firefox")
+  , ("M-n", addName "Launch neovim"            $ spawn myEditor)
+  , ("M-v", addName "Launch vscode"            $ spawn "code")
+  , ("M-S-v", addName "Launch vscode insiders" $ spawn "code-insiders")]
+
+  -- Multimedia applications
+  ^++^ subKeys "Multimedia applications"
+  [ ("M-a d", addName "Launch discord"  $ spawn "discord")
+  , ("M-a s", addName "Launch spotify"  $ spawn "spotify")
+  , ("M-a t", addName "Launch telegram" $ spawn "telegram-desktop")]
 
   -- Multimedia Keys
   ^++^ subKeys "Multimedia keys"
