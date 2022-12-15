@@ -16,7 +16,7 @@ local winbar = {
   fallthrough = false,
   {
     condition = function()
-      return st.condition.buffer_matches {
+      return astronvim.status.condition.buffer_matches {
         buftype = { "terminal", "prompt", "nofile", "help", "quickfix" },
         filetype = { "NvimTree", "neo-tree", "dashboard", "Outline", "aerial", "qf" },
       }

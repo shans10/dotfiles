@@ -1,39 +1,10 @@
-if not tnvim.status then return end
-local st = tnvim.status
-local components = {}
-local separator = tnvim.get_icon("Bar")
+local component = {}
+local separator = astronvim.get_icon("Bar")
+local st = require "user.plugins.heirline.status"
 
-local modes = {
-  ["n"] = { "NORMAL", "normal" },
-  ["no"] = { "N-PENDING", "normal" },
-  ["i"] = { "INSERT", "insert" },
-  ["ic"] = { "INSERT", "insert" },
-  ["t"] = { "TERMINAL", "normal" },
-  ["v"] = { "VISUAL", "visual" },
-  ["V"] = { "V-LINE", "visual" },
-  [""] = { "V-BLOCK", "visual" },
-  ["R"] = { "REPLACE", "replace" },
-  ["Rv"] = { "V-REPLACE", "replace" },
-  ["s"] = { "SELECT", "visual" },
-  ["S"] = { "S-LINE", "visual" },
-  [""] = { "S-BLOCK", "visual" },
-  ["c"] = { "COMMAND", "command" },
-  ["cv"] = { "COMMAND", "command" },
-  ["ce"] = { "COMMAND", "command" },
-  ["r"] = { "PROMPT", "inactive" },
-  ["rm"] = { "MORE", "inactive" },
-  ["r?"] = { "CONFIRM", "inactive" },
-  ["!"] = { "SHELL", "inactive" },
-}
-
-components.breadcrumbs = {
-  condition = st.condition.aerial_available,
-  init = st.init.breadcrumbs()
-}
-
-components.cwd = {
+component.cwd = {
   hl = { fg = "normal_fg", bg = "cwd_bg" },
-  { provider = tnvim.pad_string(tnvim.get_icon("Directory"), { left = 1, right = 1 }), hl = { fg = "command" } },
+  { provider = astronvim.pad_string(astronvim.get_icon("Directory"), { left = 1, right = 1 }), hl = { fg = "command" } },
   {
     provider = function(self)
       local cwd = vim.fn.getcwd(0)
@@ -43,7 +14,7 @@ components.cwd = {
   },
 }
 
-components.diagnostics = {
+component.diagnostics = {
   condition = st.condition.has_diagnostics,
   hl = { fg = "fg" },
   st.utils.surround(st.env.separators.left, "bg", {
@@ -79,14 +50,14 @@ components.diagnostics = {
   on_click = {
     name = "heirline_diagnostic",
     callback = function()
-      if tnvim.is_available "telescope.nvim" then
+      if astronvim.is_available "telescope.nvim" then
         vim.defer_fn(function() require("telescope.builtin").diagnostics({ bufnr = 0 }) end, 100)
       end
     end,
   },
 }
 
-components.file_info = {
+component.file_info = {
   hl = { fg = "fg", bg = "bg" },
   condition = st.condition.is_valid_file,
   { provider = st.provider.filename { padding = { left = 1, right = 1 } } },
@@ -107,12 +78,12 @@ components.file_info = {
   { provider = "%<" }
 }
 
-components.file_type = {
+component.file_type = {
   hl = { fg = "fg", bg = "bg" },
   condition = function()
     return vim.bo.filetype and vim.bo.filetype ~= ""
   end,
-  { provider = tnvim.pad_string(separator, { right = 1 }), hl = { fg = "cwd_bg" } },
+  { provider = astronvim.pad_string(separator, { right = 1 }), hl = { fg = "cwd_bg" } },
   {
     fallthrough = false,
     {
@@ -120,32 +91,32 @@ components.file_type = {
       provider = st.provider.file_icon { padding = { right = 1 } },
       hl = st.hl.filetype_color
     },
-    { provider = tnvim.pad_string(tnvim.get_icon("DefaultFile"), { right = 1 }) }
+    { provider = astronvim.pad_string(astronvim.get_icon("DefaultFile1"), { right = 1 }) }
   },
   {
     provider = function(self)
       local buffer = vim.bo[self and self.bufnr or 0]
-      return tnvim.status.utils.stylize(buffer.filetype, {
+      return astronvim.status.utils.stylize(buffer.filetype, {
         padding = { right = 1 }
       })
     end
   },
 }
 
-components.fill = { provider = st.provider.fill() }
+component.fill = { provider = st.provider.fill() }
 
-components.git_branch = {
+component.git_branch = {
   condition = st.condition.is_git_repo,
   hl = { fg = "fg", bg = "bg" },
-  -- { provider = tnvim.pad_string(separator, { right = 0 }), hl = { fg = "cwd_bg" } },
+  -- { provider = astronvim.pad_string(separator, { right = 0 }), hl = { fg = "cwd_bg" } },
   {
-    provider = tnvim.pad_string(tnvim.get_icon("GitBranch"), { left = 1, right = 1 }),
+    provider = astronvim.pad_string(astronvim.get_icon("GitBranch"), { left = 1, right = 1 }),
     hl = { fg = "git_branch_fg", bg = "bg" },
   },
   {
     provider = function(self)
       local branch = vim.b[self and self.bufnr or 0].gitsigns_head
-      local max_width = math.floor(tnvim.status.utils.width() * 0.09)
+      local max_width = math.floor(astronvim.status.utils.width() * 0.09)
       if #branch > max_width then branch = string.sub(branch, 0, max_width) .. "…" end
       return st.utils.stylize(branch, { padding = { right = 1 } })
     end,
@@ -153,31 +124,31 @@ components.git_branch = {
   on_click = {
     name = "heirline_branch",
     callback = function()
-      if tnvim.is_available "telescope.nvim" then
+      if astronvim.is_available "telescope.nvim" then
         vim.defer_fn(function() require("telescope.builtin").git_branches() end, 100)
       end
     end,
   },
 }
 
-components.git_diff = {
-  condition = tnvim.status.condition.git_changed,
+component.git_diff = {
+  condition = astronvim.status.condition.git_changed,
   {
-    provider = tnvim.status.provider.git_diff {
+    provider = astronvim.status.provider.git_diff {
       type = "added",
       icon = { kind = "GitAdd", padding = { left = 1, right = 1 } },
     },
     hl = { fg = "git_added" },
   },
   {
-    provider = tnvim.status.provider.git_diff {
+    provider = astronvim.status.provider.git_diff {
       type = "changed",
       icon = { kind = "GitChange", padding = { left = 1, right = 1 } },
     },
     hl = { fg = "git_changed" },
   },
   {
-    provider = tnvim.status.provider.git_diff {
+    provider = astronvim.status.provider.git_diff {
       type = "removed",
       icon = { kind = "GitDelete", padding = { left = 1, right = 1 } },
     },
@@ -186,14 +157,14 @@ components.git_diff = {
   on_click = {
     name = "heirline_git",
     callback = function()
-      if tnvim.is_available "telescope.nvim" then
+      if astronvim.is_available "telescope.nvim" then
         vim.defer_fn(function() require("telescope.builtin").git_status() end, 100)
       end
     end,
   },
 }
 
-components.lsp_status = {
+component.lsp_status = {
   fallthrough = false,
   hl = { bold = true },
   {
@@ -208,7 +179,7 @@ components.lsp_status = {
             if client.name == "null-ls" then
               local null_ls_sources = {}
               for _, type in ipairs { "FORMATTING", "DIAGNOSTICS" } do
-                for _, source in ipairs(tnvim.null_ls_sources(vim.bo.filetype, type)) do
+                for _, source in ipairs(astronvim.null_ls_sources(vim.bo.filetype, type)) do
                   null_ls_sources[source] = true
                 end
               end
@@ -218,7 +189,7 @@ components.lsp_status = {
             end
           end
           local str = table.concat(buf_client_names, ", ")
-          local max_width = math.floor(tnvim.status.utils.width() * truncate)
+          local max_width = math.floor(astronvim.status.utils.width() * truncate)
           if #str > max_width then str = string.sub(str, 0, max_width) .. "…" end
           return st.provider.str { str = "[" .. str .. "]", padding = { right = 1 } }
         end,
@@ -235,7 +206,7 @@ components.lsp_status = {
   },
 }
 
-components.lsp_progress = {
+component.lsp_progress = {
   {
     flexible = 1,
     { provider = st.provider.lsp_progress { padding = { right = 1 } } },
@@ -243,25 +214,25 @@ components.lsp_progress = {
   },
 }
 
-components.mode = {
+component.mode = {
   hl = { fg = "bg" },
   {
-    provider = tnvim.pad_string(tnvim.get_icon("Target"), { left = 1, right = 1 }),
+    provider = astronvim.pad_string(astronvim.get_icon("Target"), { left = 1, right = 1 }),
     hl = function()
-      local mode_bg = modes[vim.fn.mode()][2]
+      local mode_bg = st.env.modes[vim.fn.mode()][2]
       return { bg = mode_bg }
     end
   },
   -- {
-  --   provider = function() return tnvim.pad_string(modes[vim.fn.mode()][1], { left = 1, right = 1 }) end,
+  --   provider = function() return astronvim.pad_string(st.env.modes[vim.fn.mode()][1], { left = 1, right = 1 }) end,
   --   hl = function()
-  --     local mode_bg = modes[vim.fn.mode()][2]
+  --     local mode_bg = st.env.modes[vim.fn.mode()][2]
   --     return { bg = mode_bg, bold = true }
   --   end
   -- },
 }
 
-components.nav = {
+component.nav = {
   {
     provider = st.provider.ruler { padding = { left = 1, right = 1 } },
     hl = { fg = "normal_fg", bg = "cwd_bg" }
@@ -270,33 +241,44 @@ components.nav = {
     provider = st.provider.str { str = "%P/%L", padding = { left = 1, right = 1 } },
     -- provider = st.provider.percentage { padding = { left = 1, right = 1 } },
     hl = function()
-      local mode_bg = modes[vim.fn.mode()][2]
+      local mode_bg = st.env.modes[vim.fn.mode()][2]
       return { fg = "bg", bg = mode_bg }
     end
   },
 }
 
-components.spaces = {
-  { provider = tnvim.pad_string(separator, { right = 1 }), hl = { fg = "cwd_bg" } },
+component.spaces = {
+  { provider = astronvim.pad_string(separator, { right = 1 }), hl = { fg = "cwd_bg" } },
   {
     provider = function()
       local shiftwidth = vim.api.nvim_buf_get_option(0, "shiftwidth")
       return st.utils.stylize(
-        tnvim.pad_string(tnvim.get_icon("Space"), { right = 1 }) .. shiftwidth, { padding = { right = 1 } }
+        astronvim.pad_string(astronvim.get_icon("Space"), { right = 1 }) .. shiftwidth, { padding = { right = 1 } }
       )
     end,
   }
 }
 
-components.ts = {
+component.ts = {
   condition = st.condition.treesitter_available,
   hl = { fg = "ts_fg" },
-  provider = tnvim.pad_string(tnvim.get_icon("ActiveTS1"), { right = 2 }),
+  provider = astronvim.pad_string(astronvim.get_icon("ActiveTS1"), { right = 2 }),
 }
 
-components.winbar_filename = {
-  { provider = st.provider.file_icon { padding = { left = 1, right = 1 } }, hl = st.hl.filetype_color },
-  { provider = st.provider.filename() }
+local statusline = {
+  hl = { fg = "fg", bg = "bg" },
+  component.mode,
+  component.cwd,
+  component.git_branch,
+  component.git_diff,
+  component.fill,
+  component.lsp_progress,
+  component.diagnostics,
+  component.ts,
+  component.lsp_status,
+  component.spaces,
+  component.file_type,
+  component.nav,
 }
 
-return components
+return statusline

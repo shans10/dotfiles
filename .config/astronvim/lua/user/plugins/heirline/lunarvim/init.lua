@@ -1,7 +1,7 @@
 local heirline = require "heirline"
-local statusline = require "user.plugins.heirline.statusline"
-local winbar = require "user.plugins.heirline.winbar"
 local colors = require "user.plugins.heirline.colors"
+local winbar = require "user.plugins.heirline.winbar"
+local statusline = require "user.plugins.heirline.lunarvim.statusline"
 
 heirline.load_colors(colors.setup_colors())
 local heirline_opts = {

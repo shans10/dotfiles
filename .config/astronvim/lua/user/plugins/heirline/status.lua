@@ -25,23 +25,6 @@ status.env.modes = {
   ["!"] = { "SHELL", "inactive" },
 }
 
--- A local function to match pattern to a list(helper function for `buf_matchers` table)
-local function pattern_match(str, pattern_list)
-  for _, pattern in ipairs(pattern_list) do
-    if str:find(pattern) then return true end
-  end
-  return false
-end
-
--- A table defining matches for types
-status.env.buf_matchers = {
-  filetype = function(pattern_list) return pattern_match(vim.bo.filetype, pattern_list) end,
-  buftype = function(pattern_list) return pattern_match(vim.bo.buftype, pattern_list) end,
-  bufname = function(pattern_list) return pattern_match(vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":t"),
-    pattern_list)
-  end,
-}
-
 -- A table defining status separators
 status.env.separators = astronvim.user_plugin_opts("heirline.separators", {
   left = { "", "  " },
@@ -362,18 +345,10 @@ end
 
 -- A condition function if the window is currently active
 function status.condition.is_valid_file()
-  return not status.condition.buffer_matches {
+  return not astronvim.status.condition.buffer_matches {
     buftype = { "nofile", "prompt", "quickfix" },
     filetype = { "^git.*", "fugitive", "toggleterm", "NvimTree" },
   }
-end
-
--- A condition function if the buffer filetype,buftype,bufname match a pattern
-function status.condition.buffer_matches(patterns)
-  for kind, pattern_list in pairs(patterns) do
-    if status.env.buf_matchers[kind](pattern_list) then return true end
-  end
-  return false
 end
 
 -- A condition function if the current file is in a git repo

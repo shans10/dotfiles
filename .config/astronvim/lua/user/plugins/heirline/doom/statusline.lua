@@ -1,5 +1,5 @@
-local st = require "user.plugins.heirline.status"
 local component = {}
+local st = require "user.plugins.heirline.status"
 
 -- Define heirline components
 component.left_bar = {
@@ -174,7 +174,7 @@ component.lsp_status = {
       { provider = st.provider.lsp_progress { padding = { right = 1 } } },
       { provider = "" }
     },
-    { provider = astronvim.pad_string(astronvim.get_icon("ActiveLSP1"), { right = 1 }), hl = { fg = "treesitter_fg" } },
+    { provider = astronvim.pad_string(astronvim.get_icon("ActiveLSP1"), { right = 1 }), hl = { fg = "ts_fg" } },
   }),
   on_click = {
     name = "heirline_lsp",
@@ -186,15 +186,15 @@ component.lsp_status = {
 
 component.treesitter = {
   condition = st.condition.treesitter_available,
-  hl = { fg = "treesitter_fg" },
-  st.utils.surround(st.env.separators.right, "treesitter_bg", {
+  hl = { fg = "ts_fg" },
+  st.utils.surround(st.env.separators.right, "ts_bg", {
     provider = st.provider.str { str = "TS", icon = { kind = "ActiveTS" } },
     hl = { bold = true }
   }),
 }
 
 component.special_dir = {
-  hl = { fg = "treesitter_fg", bold = true },
+  hl = { fg = "ts_fg", bold = true },
   provider = function(self)
     local cwd = vim.fn.getcwd(0)
     self.cwd = vim.fn.fnamemodify(cwd, ":t")

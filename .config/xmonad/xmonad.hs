@@ -124,6 +124,7 @@ myStartupHook = do
 
   -- spawnOnce "xfsettingsd --daemon"                                  -- Start settings daemon
   spawnOnce "xfce4-power-manager --daemon"                          -- Start power manager
+  spawnOnce "thunar --daemon"                                       -- Start thunar daemon
   -- spawnOnce "lxsession -n -s Xmonad"                                      -- Start session manager
   -- spawnOnce "xss-lock -- betterlockscreen -l --off 30"              -- Autolock screen on display off
   spawnOnce "picom -b"                                              -- Start compositor
