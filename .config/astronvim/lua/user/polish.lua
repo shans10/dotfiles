@@ -9,4 +9,7 @@ return function()
     let g:neovide_cursor_animation_length=0.01
     ]]
   end
+
+  -- Load user autocmds
+  require "user.autocmds"
 end

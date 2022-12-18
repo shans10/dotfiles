@@ -66,7 +66,7 @@ import XMonad.Hooks.InsertPosition
 -- Utilities
 import XMonad.Util.Dmenu
 import XMonad.Util.EZConfig (additionalKeysP, mkNamedKeymap)
-import XMonad.Util.Hacks (windowedFullscreenFixEventHook, trayerPaddingXmobarEventHook)
+import XMonad.Util.Hacks (windowedFullscreenFixEventHook)
 import XMonad.Util.NamedActions
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run (runProcessWithInput, safeSpawn, spawnPipe)
@@ -117,14 +117,13 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 ------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
-  spawn "killall trayer"  -- kill current trayer on each restart
+  -- spawn "killall trayer"  -- kill current trayer on each restart
 
   -- Set resolution for all displays
   -- spawnOnce "xrandr --output HDMI-1 --mode 1920x1080 --rate 120.00 --output eDP-1 --off"
 
   -- spawnOnce "xfsettingsd --daemon"                                  -- Start settings daemon
   spawnOnce "xfce4-power-manager --daemon"                          -- Start power manager
-  spawnOnce "thunar --daemon"                                       -- Start thunar daemon
   -- spawnOnce "lxsession -n -s Xmonad"                                      -- Start session manager
   -- spawnOnce "xss-lock -- betterlockscreen -l --off 30"              -- Autolock screen on display off
   spawnOnce "picom -b"                                              -- Start compositor
@@ -136,7 +135,7 @@ myStartupHook = do
   -- spawnOnce "xset r rate 500 35"                                    -- Keyboard settings
 
   -- System tray for xmobar
-  spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 5 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent false --alpha 0 " ++ colorTrayer ++ " --height 25")
+  -- spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 5 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent false --alpha 0 " ++ colorTrayer ++ " --height 25")
 
   -- Set wallpaper
   spawnOnce "xargs xwallpaper --stretch < ~/.cache/wall"
@@ -482,7 +481,7 @@ main = do
   -- the xmonad, ya know...what the WM is named after!
   xmonad $ addDescrKeys' ((mod4Mask, xK_grave), showKeybindings) myKeys $ ewmhFullscreen . ewmh $ docks $ def
     { manageHook         = myManageHook <+> manageDocks
-    , handleEventHook    = windowedFullscreenFixEventHook <> swallowEventHook (className =? "Alacritty"  <||> className =? "kitty" <||> className =? "XTerm") (return True) <> trayerPaddingXmobarEventHook <+> myHandleEventHook
+    , handleEventHook    = windowedFullscreenFixEventHook <> swallowEventHook (className =? "Alacritty"  <||> className =? "kitty" <||> className =? "XTerm") (return True) <+> myHandleEventHook
     , modMask            = myModMask
     , terminal           = myTerminal
     , startupHook        = myStartupHook

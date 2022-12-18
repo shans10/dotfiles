@@ -20,7 +20,7 @@ conky.config = {
 
 	-- Placement (For SINGLE monitor users!)
 	alignment = 'top_right',           -- top_left,top_middle,top_right,bottom_left,bottom_middle,bottom_right,
-	gap_x = 50,                        -- pixels between right or left border
+	gap_x = 30,                        -- pixels between right or left border
 	gap_y = 70,                        -- pixels between bottom or left border
 
 	-- Size
@@ -96,8 +96,8 @@ conky.text = [[
   ${goto 12}${color1}${top_mem name 3}$alignr$color${top_mem mem_res 3}
   ${voffset 18}${color1}${alignc}${font4}XMONAD KEYBINDINGS${font}${color}
   ${color1}${hr}${color}
-  ${color1}[S]+[RET]${alignr}${color2}open terminal${color}
   ${color1}[S]+[ESC]${alignr}${color2}shutdown menu${color}
+  ${color1}[S]+[RET]${alignr}${color2}open terminal${color}
   ${color1}[S]+b${alignr}${color2}open browser${color}
   ${color1}[S]+r${alignr}${color2}run prompt${color}
   ${color1}[S]+q${alignr}${color2}close window${color}
@@ -106,21 +106,19 @@ conky.text = [[
   ${color1}[S]+[1-9]${alignr}${color2}switch workspace${color}
   ${color1}[S]+[SHIFT]+[1-9]${alignr}${color2}send window${color}
   ${color1}[S]+h/l${alignr}${color2}shrink/expand${color}
+  ${color1}[S]+`${alignr}${color2}show all keybindings${color}
   ${color1}${hr}${color}
   ${color1}[S]+e${alignr}${color2}launch emacs${color}
   ${color1}[S]+n${alignr}${color2}launch neovim${color}
-  ${color1}[S]+c${alignr}${color2}launch vscode${color}
+  ${color1}[S]+v${alignr}${color2}launch vscode${color}
   ${color1}${hr}${color}
   ${color1}[S]+c, a${alignr}${color2}appearance settings${color}
   ${color1}[S]+c, m${alignr}${color2}system monitor${color}
   ${color1}[S]+c, s${alignr}${color2}sound settings${color}
-  ${color1}[S]+c, w${alignr}${color2}open wallpapers${color}
   ${color1}${hr}${color}
   ${color1}[S]+d, b${alignr}${color2}dm-setbg${color}
   ${color1}[S]+d, c${alignr}${color2}dm-colpick${color}
   ${color1}[S]+d, e${alignr}${color2}dm-confedit${color}
-  ${color1}[S]+d, m${alignr}${color2}dm-man${color}
-  ${color1}[S]+d, q${alignr}${color2}dm-logout${color}
   ${color1}${hr}${color}
   ${color1}[S]+[SHIFT]+r${alignr}${color2}restart xmonad${color}
   ${color1}[S]+[CTRL]+q${alignr}${color2}quit xmonad${color}

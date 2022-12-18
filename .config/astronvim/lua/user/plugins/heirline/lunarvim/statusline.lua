@@ -209,7 +209,10 @@ component.lsp_status = {
 component.lsp_progress = {
   {
     flexible = 1,
-    { provider = st.provider.lsp_progress { padding = { right = 1 } } },
+    {
+      condition = function() return vim.bo.filetype ~= "haskell" end,
+      provider = st.provider.lsp_progress { padding = { right = 1 } }
+    },
     { provider = "" }
   },
 }

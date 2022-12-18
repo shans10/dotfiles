@@ -1,4 +1,5 @@
 return {
+  mode = 'symbol_text',
   symbol_map = {
     Array = "",
     Boolean = "蘒",

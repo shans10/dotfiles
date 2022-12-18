@@ -1,9 +1,9 @@
 ;; LSP
 ; LSP show diagnostics
 (map! :leader
-      (:prefix ("l" . "lsp")
-      :desc "Show lsp flycheck diagnostics"
-      "d" #'consult-lsp-diagnostics))
+      (:prefix ("c" . "code")
+      :desc "Show lsp diagnostics"
+      "X" #'consult-lsp-diagnostics))
 (map! :n "gr" #'lsp-find-references   ; LSP show hover documentation
       :n "gh" #'lsp-ui-doc-glance)    ; LSP show hover documentation
 

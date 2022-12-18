@@ -1,6 +1,6 @@
 --- HEADERS ---
 --
-local header1 = {
+local header = {
   "                                                                              ",
   "=================     ===============     ===============   ========  ========",
   "\\\\ . . . . . . .\\\\   //. . . . . . .\\\\   //. . . . . . .\\\\  \\\\. . .\\\\// . . //",
@@ -23,7 +23,7 @@ local header1 = {
   " `''                                                                      ``'  ",
 }
 
--- local header2 = {
+-- local header = {
 --   [[                                                                            ]],
 --   [[   ████████╗███████╗██╗   ██╗██╗  ██╗██╗███╗   ██╗██╗   ██╗██╗███╗   ███╗   ]],
 --   [[   ╚══██╔══╝██╔════╝██║   ██║██║ ██╔╝██║████╗  ██║██║   ██║██║████╗ ████║   ]],
@@ -37,15 +37,14 @@ local header1 = {
 
 --- FOOTER ---
 --
-local total_plugins = #vim.tbl_keys(packer_plugins) .. " plugins "   -- Total number of plugins
-  .. astronvim.get_icon("Plugin")
+local total_plugins = #vim.tbl_keys(packer_plugins) -- total number of plugins
 
 return {
   layout = {
     { type = "padding", val = vim.fn.max { 2, vim.fn.floor(vim.fn.winheight(0) * 0.2) } },
     {
       type = "text",
-      val = astronvim.user_plugin_opts("header", header1, false),
+      val = header,
       opts = { position = "center", hl = "DashboardHeader" },
     },
     { type = "padding", val = 3 },
@@ -57,7 +56,7 @@ return {
         astronvim.alpha_button("LDR f f", astronvim.get_icon("Find") .. "  Find file  "),
         astronvim.alpha_button("LDR f n", astronvim.get_icon("FileNew") .. "  New file  "),
         astronvim.alpha_button("LDR s p", astronvim.get_icon("Project") .. "  Open project  "),
-        astronvim.alpha_button("LDR f m", astronvim.get_icon("BookMark") .. "  Jump to bookmark  "),
+        astronvim.alpha_button("LDR s m", astronvim.get_icon("BookMark") .. "  Jump to bookmark  "),
       },
       opts = { position = "center", spacing = 1 },
     },
@@ -65,8 +64,10 @@ return {
     {
       type = "text",
       val = {
-        "Neovim loaded "
+        astronvim.get_icon("Plugin")
+        .. " Neovim loaded with total "
         .. total_plugins
+        .. " plugins"
       },
       opts = { position = "center", hl = "DashboardFooter" },
     },

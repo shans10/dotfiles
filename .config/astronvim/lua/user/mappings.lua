@@ -2,6 +2,8 @@ local mappings = {
   n = {
     --- STANDARD LEADER KEY OPERATIONS ---
     --
+    ["<leader>o"] = false,
+    ["<leader>."] = { function() require("telescope").extensions.file_browser.file_browser() end, desc = "File browser" },
     ["<leader>C"] = { "<cmd>cd %:p:h<cr>", desc = "Set CWD to file" },
 
     --- FILE EXPLORER ---
@@ -51,7 +53,7 @@ local mappings = {
     --- FILE ---
     --
     -- Disable default keybindings
-    ["<leader>fb"] = false,
+    -- ["<leader>fb"] = false,
     ["<leader>fh"] = false,
     ["<leader>fm"] = false,
     ["<leader>fo"] = false,
@@ -70,8 +72,8 @@ local mappings = {
     ["<leader>fC"] = { "<cmd>Bdelete!<cr>", desc = "Close unsaved" },
 
     -- Telescope
-    -- ["<leader>fb"] = { function() require("telescope").extensions.file_browser.file_browser() end,
-    --   desc = "File browser" },
+    ["<leader>fb"] = { function() require("telescope").extensions.file_browser.file_browser() end,
+      desc = "Telecope file browser" },
     ["<leader>fd"] = { "<cmd>Telescope find_files cwd=%:p:h find_command=rg,--ignore,--hidden,--files<cr>",
       desc = "Find files in CWD" },
     ["<leader>fr"] = { function() require("telescope.builtin").oldfiles() end, desc = "Recently opened files" },
@@ -87,8 +89,7 @@ local mappings = {
     --
     ["<leader>sm"] = { function() require("telescope.builtin").marks() end, desc = "Search bookmarks" },
     ["<leader>sM"] = { function() require("telescope.builtin").man_pages() end, desc = "Search man" },
-    ["<leader>sp"] = { function() require('telescope').extensions.projects.projects(require('telescope.themes').get_dropdown()) end,
-      desc = "Search projects" },
+    ["<leader>sp"] = { function() require("telescope").extensions.project.project() end, desc = "Search projects" },
 
     -- Move lines up and down
     ["<A-j>"] = { "<cmd>m .+1<cr>==", desc = "Move line down" },

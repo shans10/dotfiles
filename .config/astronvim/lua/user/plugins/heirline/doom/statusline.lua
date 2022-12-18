@@ -83,18 +83,15 @@ component.filetype = {
   condition = st.condition.has_filetype,
   hl = { fg = "dir_fg" },
   st.utils.surround(st.env.separators.right, "file_info_bg", {
-    provider = st.provider.filetype(),
+    provider = st.provider.filetype { padding = { right = 1 } },
     hl = { bold = true },
   }),
 }
 
 component.git_branch = {
   condition = st.condition.is_git_repo,
-  hl = { fg = "git_branch_fg" },
-  st.utils.surround(st.env.separators.right, "git_branch_bg", {
-    provider = st.provider.git_branch(),
-    hl = { bold = true },
-  }),
+  hl = { fg = "git_branch_fg", bold = true },
+  provider = st.provider.git_branch { padding = { left = 1, right = 1 } },
   on_click = {
     name = "heirline_branch",
     callback = function()
@@ -110,7 +107,7 @@ component.git_changes = {
   hl = { fg = "diag_WARN", bold = true },
   provider = function()
     local git_status = vim.b.gitsigns_status_dict
-    return git_status.added + git_status.removed + git_status.changed .. astronvim.get_icon("Change")
+    return git_status.added + git_status.removed + git_status.changed .. astronvim.get_icon("Change") .. " "
   end,
   on_click = {
     name = "heirline_git",
@@ -171,7 +168,10 @@ component.lsp_status = {
   st.utils.surround(st.env.separators.right, "lsp_bg", {
     {
       flexible = 3,
-      { provider = st.provider.lsp_progress { padding = { right = 1 } } },
+      {
+        condition = function() return vim.bo.filetype ~= "haskell" end,
+        provider = st.provider.lsp_progress { padding = { right = 1 } }
+      },
       { provider = "" }
     },
     { provider = astronvim.pad_string(astronvim.get_icon("ActiveLSP1"), { right = 1 }), hl = { fg = "ts_fg" } },
@@ -198,7 +198,7 @@ component.special_dir = {
   provider = function(self)
     local cwd = vim.fn.getcwd(0)
     self.cwd = vim.fn.fnamemodify(cwd, ":t")
-    return astronvim.pad_string(astronvim.get_icon("Directory"), { right = 1 }) .. self.cwd
+    return astronvim.pad_string(astronvim.get_icon("Directory"), { right = 1 }) .. self.cwd .. " "
   end,
 }
 
