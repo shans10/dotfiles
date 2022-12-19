@@ -1,9 +1,0 @@
-[Unit]
-Description=Notification when headphone plugged in or unplugged.
-
-[Service]
-Type=simple
-ExecStart=/usr/local/bin/headphones
-
-[Install]
-WantedBy=default.target

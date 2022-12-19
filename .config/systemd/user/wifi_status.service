@@ -1,9 +1,0 @@
-[Unit]
-Description=Wifi On/Off Notifications
-
-[Service]
-Type=simple
-ExecStart=/usr/local/bin/wifi_status
-
-[Install]
-WantedBy=default.target

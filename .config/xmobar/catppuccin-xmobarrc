@@ -32,9 +32,9 @@ Config { font         = "Iosevka Nerd Font Bold 13px"
                       -- Network
                     , Run Com ".config/xmobar/scripts/network" [] "network" 30
                       -- Time and date
-                    , Run Date "   %b %d %Y - %I:%M %p " "date" 50
+                    , Run Date "   %a, %d %b - %I:%M %p " "date" 50
                       -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
-                    , Run Com ".config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
+                    , Run Com ".config/xmobar/scripts/trayer-padding-icon.sh" [] "trayerpad" 20
                       -- Prints out the left side items such as workspaces, layout, etc.
                     , Run UnsafeStdinReader
                     ]

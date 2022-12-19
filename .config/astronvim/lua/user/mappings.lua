@@ -84,12 +84,17 @@ local mappings = {
       desc = "Show document diagnostics" },
     ["<leader>lD"] = { function() require("telescope.builtin").diagnostics() end, desc = "Show workspace diagnostics" },
     -- ["<leader>le"] = { function() require("telescope.builtin").lsp_definitions() end, desc = "Show definition" },
+    ["<leader>ln"] = { "<cmd>NullLsInfo<cr>", desc = "Null-Ls information" },
 
     --- SEARCH ---
     --
     ["<leader>sm"] = { function() require("telescope.builtin").marks() end, desc = "Search bookmarks" },
     ["<leader>sM"] = { function() require("telescope.builtin").man_pages() end, desc = "Search man" },
     ["<leader>sp"] = { function() require("telescope").extensions.project.project() end, desc = "Search projects" },
+
+    --- UI ---
+    --
+    ["<leader>uA"] = { function() astronvim.ui.toggle_autoformat() end, desc = "Toggle autoformatting" },
 
     -- Move lines up and down
     ["<A-j>"] = { "<cmd>m .+1<cr>==", desc = "Move line down" },
