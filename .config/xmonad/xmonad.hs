@@ -22,6 +22,20 @@ import System.IO (hClose, hPutStr, hPutStrLn)
 import XMonad
 -- Actions --
 --
+
+-- Hooks --
+--
+
+-- Layouts --
+--
+
+-- Window Actions --
+--
+
+-- Utilities --
+--
+
+import XMonad (xC_left_ptr)
 import XMonad.Actions.CopyWindow (kill1)
 import XMonad.Actions.CycleWS (Direction1D (..), WSType (..), doTo, moveTo, nextScreen, nextWS, prevScreen, prevWS, shiftTo, toggleWS')
 import XMonad.Actions.FloatKeys
@@ -31,8 +45,6 @@ import XMonad.Actions.RotSlaves (rotAllDown, rotSlavesDown)
 import XMonad.Actions.Search qualified as S
 import XMonad.Actions.WindowGo (runOrRaise)
 import XMonad.Actions.WithAll (killAll, sinkAll)
--- Hooks --
---
 import XMonad.Hooks.DynamicLog (PP (..), dynamicLogWithPP, shorten, wrap, xmobarColor, xmobarPP)
 import XMonad.Hooks.DynamicProperty
 import XMonad.Hooks.EwmhDesktops
@@ -46,8 +58,6 @@ import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
 import XMonad.Hooks.WindowSwallowing
 import XMonad.Hooks.WorkspaceHistory
--- Layouts --
---
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.LimitWindows (decreaseLimit, increaseLimit, limitWindows)
 import XMonad.Layout.MultiToggle (EOT (EOT), mkToggle, single, (??))
@@ -63,11 +73,8 @@ import XMonad.Layout.ToggleLayouts qualified as T (ToggleLayout (Toggle), toggle
 import XMonad.Layout.TrackFloating
 import XMonad.Layout.WindowArranger (WindowArrangerMsg (..), windowArrange)
 import XMonad.Layout.WindowNavigation
--- Window Actions --
---
 import XMonad.StackSet qualified as W
--- Utilities --
---
+import XMonad.Util.Cursor (setDefaultCursor)
 import XMonad.Util.Dmenu
 import XMonad.Util.EZConfig (additionalKeysP, mkNamedKeymap)
 import XMonad.Util.Hacks (windowedFullscreenFixEventHook)
@@ -116,31 +123,16 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 myStartupHook :: X ()
 myStartupHook = do
   -- spawn "killall trayer" -- kill current trayer on each restart
-
-  -- Set resolution for all displays
-  -- spawnOnce "xrandr --output HDMI-1 --mode 1920x1080 --rate 120.00 --output eDP-1 --off"
-
-  -- spawnOnce "xfsettingsd --daemon"                                  -- start settings daemon
   spawnOnce "xfce4-power-manager --daemon" -- Start power manager
-  -- spawnOnce "lxsession -n -s Xmonad"                                      -- start session manager
-  -- spawnOnce "xss-lock -- betterlockscreen -l --off 30"              -- autolock screen on display off
   spawnOnce "picom -b" -- Start compositor
-  -- spawnOnce "nm-applet"                                             -- start tray network applet
-  -- spawnOnce "blueman-applet"                                        -- start tray bluetooth applet
-  spawnOnce "xsetroot -cursor_name left_ptr" -- Set cursor
-  -- spawn "/usr/bin/emacs --daemon"                                   -- emacs daemon for the emacsclient
-  -- spawnOnce "dunst"                                                 -- start notifications daemon
-  -- spawnOnce "xset r rate 500 35"                                    -- keyboard settings
 
   -- System tray for xmobar
   -- spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 5 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent false --alpha 0 " ++ colorTrayer ++ " --height 25")
 
   -- Set wallpaper
   spawnOnce "xargs xwallpaper --stretch < ~/.cache/wall"
-  -- spawnOnce "~/.fehbg &"  -- set last saved feh wallpaper
-  -- spawnOnce "feh --randomize --bg-fill ~/Pictures/Wallpapers/*"  -- feh set random wallpaper
-  -- spawnOnce "nitrogen --restore &"   -- if you prefer nitrogen to feh
 
+  setDefaultCursor xC_left_ptr -- set cursor theme for desktop(by default it displays 'x')
   setWMName "Xmonad"
 
 ------------------------------------------------------------------------
@@ -514,8 +506,13 @@ myKeys c =
             ("<XF86MonBrightnessDown>", addName "Decrease brightness" $ spawn "~/.bin/brightness down"),
             ("<Print>", addName "Take screenshot (dmscripts)" $ spawn "dm-screenshot")
           ]
+        -- Trayer
+        ^++^ subKeys
+          "Trayer toggle"
+          [ ("M-C-t s", addName "Start trayer" $ spawn "trayer --edge top --align right --widthtype request --padding 5 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent false --alpha 0 --tint 0x1e1e2e --height 25"),
+            ("M-C-t k", addName "Kill trayer" $ spawn "killall trayer")
+          ]
   where
-    -- The following lines are needed for named scratchpads.
     nonNSP = WSIs (return (\ws -> W.tag ws /= "NSP")) -- skip NSP workspace
     nonEmptyNonNSP = WSIs (return (\ws -> isJust (W.stack ws) && W.tag ws /= "NSP")) -- skip empty and NSP workspaces
     emptyNonNSP = WSIs (return (\ws -> isNothing (W.stack ws) && W.tag ws /= "NSP")) -- skip non-empty and NSP workspaces

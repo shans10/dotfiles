@@ -1,6 +1,11 @@
 require("catppuccin").setup({
   custom_highlights = function(colors)
     return {
+      -- Line numbers
+      CursorLineNr = { bold = true, italic = true },
+      LineNr = { italic = true },
+
+      -- Indent blankline
       IndentBlanklineContextChar = { fg = colors.flamingo },
       -- IndentBlanklineContextStart = { sp = colors.flamingo },
     }

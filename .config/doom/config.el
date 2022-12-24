@@ -3,7 +3,7 @@
 (setq confirm-kill-emacs nil)                ; disable quit prompt
 
 ;;; THEME ;;;
-(setq doom-theme 'doom-tokyo-night)      ; set theme
+(setq doom-theme 'doom-catppuccin)      ; set theme
 
 ;;; FONT ;;;
 ; Set font family
@@ -20,8 +20,9 @@
   '(font-lock-comment-face :slant italic :weight medium)
   '(italic :slant italic :weight medium)
   '(tree-sitter-hl-face:property :slant italic :weight medium)
-  '(line-number :slant normal)
-  '(line-number-current-line :slant normal :weight bold))
+  ;; '(line-number :slant normal)
+  ;; '(line-number-current-line :slant normal :weight bold))
+  '(line-number-current-line :weight bold))
 
 ;;; WINDOW ;;;
 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))   ; Open emacs maximized
@@ -29,6 +30,10 @@
 ;;; VIM RELATED ;;;
 (setq evil-want-fine-undo 'fine   ; vim like undo
       evil-cross-lines t)         ; vim whichwrap
+
+;; Scrolloff
+(setq scroll-step 1)
+(setq scroll-margin 8)
 
 ;; Add space from both sides inside braces
 (defun my/c-mode-insert-space (arg)
@@ -122,10 +127,10 @@
   (interactive)
   (start-process "" nil "alacritty"))
 
-(use-package autothemer
-  :ensure t)
-
-(load-theme 'catppuccin-mocha t)
+;;; CATPPUCCIN THEME ;;;
+;; (use-package autothemer
+;;   :ensure t)
+;; (load-theme 'catppuccin-mocha t)
 
 ;;; LOAD USER DEFINED KEYBINDINGS ;;;
 (load! "keybindings")

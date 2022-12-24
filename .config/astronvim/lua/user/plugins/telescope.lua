@@ -7,6 +7,8 @@ return {
     project = {
       base_dirs = {
         "~/Programming",
+        "~/dotfiles",
+        "~/.config/nvim",
       },
       theme = "dropdown",
       order_by = "asc",

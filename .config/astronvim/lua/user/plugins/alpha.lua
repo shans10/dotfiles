@@ -24,6 +24,20 @@ local header = {
 }
 
 -- local header = {
+--   " █████  ███████ ████████ ██████   ██████",
+--   "██   ██ ██         ██    ██   ██ ██    ██",
+--   "███████ ███████    ██    ██████  ██    ██",
+--   "██   ██      ██    ██    ██   ██ ██    ██",
+--   "██   ██ ███████    ██    ██   ██  ██████",
+--   " ",
+--   "    ███    ██ ██    ██ ██ ███    ███",
+--   "    ████   ██ ██    ██ ██ ████  ████",
+--   "    ██ ██  ██ ██    ██ ██ ██ ████ ██",
+--   "    ██  ██ ██  ██  ██  ██ ██  ██  ██",
+--   "    ██   ████   ████   ██ ██      ██",
+-- }
+
+-- local header = {
 --   [[                                                                            ]],
 --   [[   ████████╗███████╗██╗   ██╗██╗  ██╗██╗███╗   ██╗██╗   ██╗██╗███╗   ███╗   ]],
 --   [[   ╚══██╔══╝██╔════╝██║   ██║██║ ██╔╝██║████╗  ██║██║   ██║██║████╗ ████║   ]],
@@ -41,7 +55,8 @@ local total_plugins = #vim.tbl_keys(packer_plugins) -- total number of plugins
 
 return {
   layout = {
-    { type = "padding", val = vim.fn.max { 2, vim.fn.floor(vim.fn.winheight(0) * 0.2) } },
+    -- { type = "padding", val = vim.fn.max { 2, vim.fn.floor(vim.fn.winheight(0) * 0.2) } },
+    { type = "padding", val = vim.fn.max { 2, vim.fn.floor(vim.fn.winheight(0) * 0.13) } },
     {
       type = "text",
       val = header,
@@ -65,9 +80,9 @@ return {
       type = "text",
       val = {
         astronvim.get_icon("Plugin")
-        .. " Neovim loaded with total "
-        .. total_plugins
-        .. " plugins"
+            .. " Neovim loaded with total "
+            .. total_plugins
+            .. " plugins"
       },
       opts = { position = "center", hl = "DashboardFooter" },
     },

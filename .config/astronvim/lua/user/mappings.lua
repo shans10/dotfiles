@@ -4,7 +4,19 @@ local mappings = {
     --
     ["<leader>o"] = false,
     ["<leader>."] = { function() require("telescope").extensions.file_browser.file_browser() end, desc = "File browser" },
-    ["<leader>C"] = { "<cmd>cd %:p:h<cr>", desc = "Set CWD to file" },
+    ["<leader>W"] = { "<cmd>cd %:p:h<cr>", desc = "Set CWD to file" },
+
+    -- Navigating wrapped lines
+    j = { "gj", desc = "Navigate down" },
+    k = { "gk", desc = "Navigate down" },
+
+    -- Better search
+    n = { require("user.utils").better_search "n", desc = "Next search" },
+    N = { require("user.utils").better_search "N", desc = "Previous search" },
+
+    -- Better increment/decrement
+    ["-"] = { "<c-x>", desc = "Descrement number" },
+    ["+"] = { "<c-a>", desc = "Increment number" },
 
     --- FILE EXPLORER ---
     --
@@ -23,28 +35,40 @@ local mappings = {
     --
     -- Buffer Standalone Keybindings
     ["<leader>ba"] = { "<cmd>silent! %bd|e#|bd#<cr>", desc = "Close all but current buffer" },
+    ["<leader>bd"] = { "<cmd>Bdelete<cr>", desc = "Delete buffer" },
+    ["<leader>bD"] = { "<cmd>Bdelete!<cr>", desc = "Force delete buffer" },
     ["<leader>bl"] = { "<C-6>", desc = "Last buffer" },
 
-    -- Bufdelete
-    ["<leader>c"] = { function() require("bufdelete").bufdelete(0, false) end, desc = "Close buffer" },
-    ["<leader>bd"] = { "<cmd>Bdelete<cr>", desc = "Delete" },
-    ["<leader>bD"] = { "<cmd>Bdelete!<cr>", desc = "Delete unsaved" },
+    -- Heirline bufferline
+    ["<A-.>"] = { function() astronvim.move_buf(vim.v.count > 0 and vim.v.count or 1) end, desc = "Move buffer tab right" },
+    ["<A-,>"] = { function() astronvim.move_buf(-(vim.v.count > 0 and vim.v.count or 1)) end,
+      desc = "Move buffer tab left" },
+    ["<leader>bn"] = { "<cmd>bnext<cr>", desc = "Next buffer" },
+    ["<leader>bp"] = { "<cmd>bprev<cr>", desc = "Previous buffer" },
+    ["<leader>bs"] = {
+      function()
+        astronvim.status.heirline.buffer_picker(function(bufnr) vim.api.nvim_win_set_buf(0, bufnr) end)
+      end,
+      desc = "Select buffer from tabline",
+    },
+    ["<leader>bt"] = {
+      function()
+        astronvim.status.heirline.buffer_picker(function(bufnr) astronvim.close_buf(bufnr) end)
+      end,
+      desc = "Delete buffer from tabline",
+    },
 
-    -- Bufferline
-    -- Close/pick buffers
-    ["<leader>bc"] = { "<cmd>BufferLinePickClose<cr>", desc = "Pick and close buffer" },
-    ["<leader>bj"] = { "<cmd>BufferLinePick<cr>", desc = "Pick and jump to buffer" },
-    ["<leader>b["] = { "<cmd>BufferLineCloseLeft<cr>", desc = "Close left buffers" },
-    ["<leader>b]"] = { "<cmd>BufferLineCloseRight<cr>", desc = "Close right buffers" },
-    -- Navigate buffers
-    ["<S-l>"] = { "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer tab" },
-    ["<S-h>"] = { "<cmd>BufferLineCyclePrev<cr>", desc = "Previous buffer tab" },
-    ["<A-.>"] = { "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer tab right" },
-    ["<A-,>"] = { "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer tab left" },
-    ["<leader>bn"] = { "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer tab" },
-    ["<leader>bp"] = { "<cmd>BufferLineCyclePrev<cr>", desc = "Previous buffer tab" },
-    ["<leader>b>"] = { "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer tab right" },
-    ["<leader>b<"] = { "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer tab left" },
+    -- -- Bufferline
+    -- -- Close/pick buffers
+    -- ["<leader>bc"] = { "<cmd>BufferLinePickClose<cr>", desc = "Pick and close buffer" },
+    -- ["<leader>bj"] = { "<cmd>BufferLinePick<cr>", desc = "Pick and jump to buffer" },
+    -- ["<leader>b["] = { "<cmd>BufferLineCloseLeft<cr>", desc = "Close left buffers" },
+    -- ["<leader>b]"] = { "<cmd>BufferLineCloseRight<cr>", desc = "Close right buffers" },
+    -- -- Navigate buffers
+    -- ["<A-.>"] = { "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer tab right" },
+    -- ["<A-,>"] = { "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer tab left" },
+    -- ["<leader>b>"] = { "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer tab right" },
+    -- ["<leader>b<"] = { "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer tab left" },
 
     -- Telescope
     ["<leader>,"] = { function() require("telescope.builtin").buffers() end, desc = "Switch buffer" },
@@ -84,7 +108,6 @@ local mappings = {
       desc = "Show document diagnostics" },
     ["<leader>lD"] = { function() require("telescope.builtin").diagnostics() end, desc = "Show workspace diagnostics" },
     -- ["<leader>le"] = { function() require("telescope.builtin").lsp_definitions() end, desc = "Show definition" },
-    ["<leader>ln"] = { "<cmd>NullLsInfo<cr>", desc = "Null-Ls information" },
 
     --- SEARCH ---
     --
@@ -96,17 +119,16 @@ local mappings = {
     --
     ["<leader>uA"] = { function() astronvim.ui.toggle_autoformat() end, desc = "Toggle autoformatting" },
 
-    -- Move lines up and down
-    ["<A-j>"] = { "<cmd>m .+1<cr>==", desc = "Move line down" },
-    ["<A-k>"] = { "<cmd>m .-2<cr>==", desc = "Move line up" },
-
-    -- Clear search highlight
-    ["<Esc>"] = { "<cmd>noh<cr>", desc = "Clear search highlight with esc" },
+    -- Move line/char up/down or left/right
+    ["<A-j>"] = { "<cmd>MoveLine(1)<cr>", desc = "Move line down" },
+    ["<A-k>"] = { "<cmd>MoveLine(-1)<cr>", desc = "Move line up" },
+    ["<A-h>"] = { "<cmd>MoveHChar(-1)<cr>", desc = "Move line down" },
+    ["<A-l>"] = { "<cmd>MoveHChar(1)<cr>", desc = "Move line up" },
   },
   i = {
-    -- Move line up and down
-    ["<A-j>"] = { "<Esc><cmd>m .+1<cr>==gi", desc = "Move line down" },
-    ["<A-k>"] = { "<Esc><cmd>m .-2<cr>==gi", desc = "Move line up" },
+    -- Move line up or down
+    ["<A-j>"] = { "<Esc><cmd>MoveLine(1)<cr>gi", desc = "Move line down" },
+    ["<A-k>"] = { "<Esc><cmd>MoveLine(-1)<cr>gi", desc = "Move line up" },
 
     -- Save File
     ["<C-s>"] = { "<Esc><cmd>w<cr>", desc = "Save file" },
@@ -117,7 +139,25 @@ local mappings = {
   t = {
     -- ToggleTerm
     ["<C-\\>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
+    ["<C-q>"] = { "<C-\\><C-n>", desc = "Terminal normal mode" },
+    ["<esc><esc>"] = { "<C-\\><C-n>:q<cr>", desc = "Terminal quit" },
   },
+  v = {
+    -- Navigating wrapped lines
+    j = { "gj", desc = "Navigate down" },
+    k = { "gk", desc = "Navigate down" },
+
+    -- Move selected block up/down or left/right
+    ["<A-j>"] = { ":MoveBlock(1)<cr>", desc = "Move selected block down" },
+    ["<A-k>"] = { ":MoveBlock(-1)<cr>", desc = "Move selected block up" },
+    ["<A-h>"] = { ":MoveHBlock(-1)<cr>", desc = "Move selected block down" },
+    ["<A-l>"] = { ":MoveHBlock(1)<cr>", desc = "Move selected block up" },
+  },
+  x = {
+    -- Better increment/decrement
+    ["+"] = { "g<C-a>", desc = "Increment number" },
+    ["-"] = { "g<C-x>", desc = "Descrement number" },
+  }
 }
 
 return mappings
