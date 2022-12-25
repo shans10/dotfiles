@@ -4,6 +4,7 @@ local separators = {
   right = { " ", "" } -- separator for the right side of the statusline
 }
 
+-- Statusline components table
 return {
   -- default highlight for the entire statusline
   hl = { fg = "fg", bg = "bg" },

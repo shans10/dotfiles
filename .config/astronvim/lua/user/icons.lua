@@ -20,11 +20,10 @@ if heirline_theme == "doom" then
   icons.ActiveLSP = ""
   icons.Bar = "┃"
   icons.Directory = ""
+  icons.DoomFileModified = ""
   icons.DoomMode = ""
   icons.EvilMode = ""
-  icons.FileModified = ""
-  icons.GitBranchModified = ""
-  icons.GitChanges = ""
+  icons.GitChanges = ""
 
 -- Lunarvim theme
 elseif heirline_theme == "lunarvim" then

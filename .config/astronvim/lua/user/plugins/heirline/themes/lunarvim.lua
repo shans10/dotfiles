@@ -38,6 +38,7 @@ local function shiftwidth_provider()
   )
 end
 
+-- Statusline components table
 return {
   -- default highlight for the entire statusline
   hl = { fg = "fg", bg = "bg" },
@@ -63,12 +64,7 @@ return {
       hl = { fg = "git_branch_icon" },
     },
     {
-      provider = function(self)
-        local branch = vim.b[self and self.bufnr or 0].gitsigns_head
-        local max_width = math.floor(st.utils.width() * 0.09)
-        if #branch > max_width then branch = string.sub(branch, 0, max_width) .. "…" end
-        return st.utils.stylize(branch, { padding = { right = 1 } })
-      end,
+      provider = st.provider.git_branch { padding = { right = 1 } },
     },
     on_click = {
       name = "heirline_branch",
