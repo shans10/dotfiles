@@ -5,6 +5,7 @@ local heirline = function(config)
   -- Get current statusline theme, set it to "astronvim" if it is nil
   local theme = vim.g.heirline_theme
 
+  -- Override statusline configuration
   -- If theme is not set or set to an unsupported theme, then return default statusline
   if not themes[theme] then
     config[1] = config[1]
@@ -12,6 +13,9 @@ local heirline = function(config)
     -- Set statusline based on chosen theme
     config[1] = require("user.plugins.heirline.themes." .. theme)
   end
+
+  -- Override winbar configuration
+  config[2] = require "user.plugins.heirline.winbar"
 
   return config
 end

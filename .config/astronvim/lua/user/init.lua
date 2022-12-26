@@ -63,9 +63,9 @@ local config = {
     -- Customize if icons should be highlighted
     icon_highlights = {
       breadcrumbs = true, -- LSP symbols in the breadcrumbs
-      -- file_icon = {
-      --   winbar = true, -- Filetype icon in the winbar inactive windows
-      -- },
+      file_icon = {
+        winbar = function() return astronvim.status.condition.is_active() end, -- filetype icon in the winbar based on winbar status
+      },
     },
   },
 }

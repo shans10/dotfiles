@@ -1,17 +1,9 @@
 return {
   --- Disable default plugins ---
   --
-  ["p00f/nvim-ts-rainbow"] = { disable = true },
-  ["windwp/nvim-ts-autotag"] = { disable = true },
-
-  --- Reconfigure default plugins ---
-  --
-  -- Statusline
-  -- ["rebelot/heirline.nvim"] = {
-  --   event = "VimEnter",
-  --   -- config = function() require "user.plugins.heirline.doom" end,
-  --   config = function() require "user.plugins.heirline.lunarvim" end,
-  -- },
+  -- ["p00f/nvim-ts-rainbow"] = { disable = true }, -- disable bracket pair colors
+  ["windwp/nvim-ts-autotag"] = { disable = true }, -- disable autotag based on treesitter
+  ["akinsho/bufferline.nvim"] = { disable = true }, -- disable bufferline
 
   --- Install and setup user plugins ---
   --

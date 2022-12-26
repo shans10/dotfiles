@@ -45,18 +45,18 @@ local mappings = {
       desc = "Move buffer tab left" },
     ["<leader>bn"] = { "<cmd>bnext<cr>", desc = "Next buffer" },
     ["<leader>bp"] = { "<cmd>bprev<cr>", desc = "Previous buffer" },
-    ["<leader>bs"] = {
-      function()
-        astronvim.status.heirline.buffer_picker(function(bufnr) vim.api.nvim_win_set_buf(0, bufnr) end)
-      end,
-      desc = "Select buffer from tabline",
-    },
-    ["<leader>bt"] = {
-      function()
-        astronvim.status.heirline.buffer_picker(function(bufnr) astronvim.close_buf(bufnr) end)
-      end,
-      desc = "Delete buffer from tabline",
-    },
+    -- ["<leader>bs"] = {
+    --   function()
+    --     astronvim.status.heirline.buffer_picker(function(bufnr) vim.api.nvim_win_set_buf(0, bufnr) end)
+    --   end,
+    --   desc = "Select buffer from tabline",
+    -- },
+    -- ["<leader>bt"] = {
+    --   function()
+    --     astronvim.status.heirline.buffer_picker(function(bufnr) astronvim.close_buf(bufnr) end)
+    --   end,
+    --   desc = "Delete buffer from tabline",
+    -- },
 
     -- -- Bufferline
     -- -- Close/pick buffers

@@ -537,7 +537,7 @@ main = do
 
   -- the xmonad, ya know...what the WM is named after!
   xmonad $
-    addDescrKeys' ((mod4Mask, xK_grave), showKeybindings) myKeys $
+    addDescrKeys' ((mod4Mask, xK_F1), showKeybindings) myKeys $
       ewmhFullscreen . ewmh $
         docks $
           def
