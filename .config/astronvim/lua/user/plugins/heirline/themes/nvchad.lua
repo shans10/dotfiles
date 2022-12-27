@@ -21,6 +21,8 @@ return {
       -- set the color of the surrounding based on the current mode using st module
       color = function() return { main = st.hl.mode_bg(), right = st.hl.mode_bg() } end,
     },
+    -- make mode text bold
+    hl = { bold = true },
   },
   -- we want an empty space here so we can use the component builder to make a new section with just an empty string
   st.component.builder {

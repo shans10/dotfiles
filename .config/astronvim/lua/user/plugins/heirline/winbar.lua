@@ -2,35 +2,37 @@ local st = astronvim.status
 
 -- An `init` function to build a set of children components for LSP breadcrumbs
 local function breadcrumbs_init(opts)
-  local aerial_avail, aerial = pcall(require, "aerial")
-  opts = astronvim.default_tbl(
-    opts,
-    { separator = " > ", icon = { enabled = true, hl = true }, padding = { left = 0, right = 0 } }
-  )
+  opts = astronvim.default_tbl(opts, {
+    separator = " > ",
+    icon = { enabled = true, hl = astronvim.status.env.icon_highlights.breadcrumbs },
+    padding = { left = 0, right = 0 },
+  })
   return function(self)
-    local data = aerial_avail and aerial.get_location(true) or {}
+    local data = require("aerial").get_location(true) or {}
     local children = {}
     -- create a child for each level
     for _, d in ipairs(data) do
-      local pos = st.utils.encode_pos(d.lnum, d.col, self.winnr)
+      local pos = astronvim.status.utils.encode_pos(d.lnum, d.col, self.winnr)
       local child = {
         { provider = string.gsub(d.name, "%%", "%%%%"):gsub("%s*->%s*", "") }, -- add symbol name
         on_click = { -- add on click function
           minwid = pos,
           callback = function(_, minwid)
-            local lnum, col, winnr = st.utils.decode_pos(minwid)
+            local lnum, col, winnr = astronvim.status.utils.decode_pos(minwid)
             vim.api.nvim_win_set_cursor(vim.fn.win_getid(winnr), { lnum, col })
           end,
           name = "heirline_breadcrumbs",
         },
       }
       if opts.icon.enabled then -- add icon and highlight if enabled
+        local hl = opts.icon.hl
+        if type(hl) == "function" then hl = hl(self) end
         table.insert(child, 1, {
           provider = string.format("%s ", d.icon),
-          hl = opts.icon.hl and string.format("Aerial%sIcon", d.kind) or nil,
+          hl = hl and string.format("Aerial%sIcon", d.kind) or nil,
         })
       end
-      table.insert(child, 1, { provider = opts.separator }) -- add a separator
+      table.insert(child, 1, { provider = opts.separator }) -- add a separator before element
       table.insert(children, child)
     end
     if opts.padding.left > 0 then -- add left padding
@@ -45,6 +47,7 @@ local function breadcrumbs_init(opts)
 end
 
 return {
+  -- default highlight for the entire winbar
   hl = { fg = "winbar_fg" },
   -- disable winbar for certain filetypes
   static = {
@@ -74,5 +77,5 @@ return {
   st.component.builder {
     condition = function() return st.condition.is_active() end,
     init = breadcrumbs_init()
-  },
+  }
 }

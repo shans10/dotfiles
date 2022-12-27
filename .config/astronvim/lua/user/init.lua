@@ -8,8 +8,8 @@ local config = {
       colors.buffer_path_fg = astronvim.get_hlgroup("NonText").fg
 
       -- Winbar
-      colors.winbar_fg = astronvim.get_hlgroup("Normal").fg
-      colors.winbarnc_fg = astronvim.get_hlgroup("Normal").fg
+      colors.winbar_fg = astronvim.get_hlgroup("NonText").fg
+      colors.winbarnc_fg = astronvim.get_hlgroup("NonText").fg
 
       -- Set colors based on chosen heirline statusline theme
       --
@@ -56,9 +56,6 @@ local config = {
     attributes = {
       -- Bufferline
       buffer_path = { bold = true, italic = true },
-
-      -- Nvchad statusline
-      mode = { bold = true },
     },
     -- Customize if icons should be highlighted
     icon_highlights = {

@@ -86,7 +86,6 @@ local mappings = {
     ["<leader>f."] = { function() require("telescope.builtin").grep_string() end, desc = "Search word under cursor" },
     ["<leader>fa"] = { "ggVG", desc = "Select all" },
     ["<leader>fi"] = { "gg=G", desc = "Indent all" },
-    ["<leader>fp"] = { "1<C-g>", desc = "Show full path" },
     ["<leader>fs"] = { "<cmd>w<cr>", desc = "Save" },
     ["<leader>ft"] = { "<cmd>%s/\\s\\+$//e | noh<cr>", desc = "Remove trailing whitespaces" },
     ["<leader>fS"] = { "<cmd>SudaWrite<cr>", desc = "Save as root" },

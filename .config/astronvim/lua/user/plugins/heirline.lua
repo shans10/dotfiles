@@ -15,7 +15,9 @@ local heirline = function(config)
   end
 
   -- Override winbar configuration
-  config[2] = require "user.plugins.heirline.winbar"
+  if theme == "lunarvim" then
+    config[2] = require "user.plugins.heirline.winbar"
+  end
 
   return config
 end
