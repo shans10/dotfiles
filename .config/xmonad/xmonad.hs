@@ -22,20 +22,6 @@ import System.IO (hClose, hPutStr, hPutStrLn)
 import XMonad
 -- Actions --
 --
-
--- Hooks --
---
-
--- Layouts --
---
-
--- Window Actions --
---
-
--- Utilities --
---
-
-import XMonad (xC_left_ptr)
 import XMonad.Actions.CopyWindow (kill1)
 import XMonad.Actions.CycleWS (Direction1D (..), WSType (..), doTo, moveTo, nextScreen, nextWS, prevScreen, prevWS, shiftTo, toggleWS')
 import XMonad.Actions.FloatKeys
@@ -45,6 +31,8 @@ import XMonad.Actions.RotSlaves (rotAllDown, rotSlavesDown)
 import XMonad.Actions.Search qualified as S
 import XMonad.Actions.WindowGo (runOrRaise)
 import XMonad.Actions.WithAll (killAll, sinkAll)
+-- Hooks --
+--
 import XMonad.Hooks.DynamicLog (PP (..), dynamicLogWithPP, shorten, wrap, xmobarColor, xmobarPP)
 import XMonad.Hooks.DynamicProperty
 import XMonad.Hooks.EwmhDesktops
@@ -58,6 +46,8 @@ import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
 import XMonad.Hooks.WindowSwallowing
 import XMonad.Hooks.WorkspaceHistory
+-- Layouts --
+--
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.LimitWindows (decreaseLimit, increaseLimit, limitWindows)
 import XMonad.Layout.MultiToggle (EOT (EOT), mkToggle, single, (??))
@@ -73,7 +63,11 @@ import XMonad.Layout.ToggleLayouts qualified as T (ToggleLayout (Toggle), toggle
 import XMonad.Layout.TrackFloating
 import XMonad.Layout.WindowArranger (WindowArrangerMsg (..), windowArrange)
 import XMonad.Layout.WindowNavigation
+-- Windows --
+--
 import XMonad.StackSet qualified as W
+-- Utilities --
+--
 import XMonad.Util.Cursor (setDefaultCursor)
 import XMonad.Util.Dmenu
 import XMonad.Util.EZConfig (additionalKeysP, mkNamedKeymap)
