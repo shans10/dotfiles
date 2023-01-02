@@ -19,7 +19,7 @@ return {
       -- it's a left element, so use the left separator
       separator = separators.left,
       -- set the color of the surrounding based on the current mode using st module
-      color = function() return { main = st.hl.mode_bg(), right = st.hl.mode_bg() } end,
+      color = function() return { main = st.hl.mode_bg(), right = "blank_bg" } end,
     },
     -- make mode text bold
     hl = { bold = true },
@@ -29,8 +29,7 @@ return {
     { provider = "" },
     -- define the surrounding separator and colors to be used inside of the component
     -- and the color to the right of the separated out section
-    surround = { separator = separators.left,
-      color = function() return { main = st.hl.mode_bg(), right = "file_info_bg" } end },
+    surround = { separator = separators.left, color = { main = "blank_bg", right = "file_info_bg" } },
   },
   -- add a section for the currently opened file information
   st.component.file_info {

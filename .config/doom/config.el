@@ -127,10 +127,10 @@
   (interactive)
   (start-process "" nil "alacritty"))
 
-;;; CATPPUCCIN THEME ;;;
-;; (use-package autothemer
-;;   :ensure t)
-;; (load-theme 'catppuccin-mocha t)
+;;; BREADCRUMBS ;;;
+;; (setq lsp-headerline-breadcrumb-enable t)
+;; (setq lsp-headerline-breadcrumb-segments '(symbols))
+;; (setq lsp-headerline-breadcrumb-icons-enable t)
 
 ;;; LOAD USER DEFINED KEYBINDINGS ;;;
 (load! "keybindings")
