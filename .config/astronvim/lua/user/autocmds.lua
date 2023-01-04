@@ -30,7 +30,7 @@ vim.api.nvim_create_autocmd("InsertEnter", {
   end,
 })
 vim.api.nvim_create_autocmd("InsertLeave", {
-    desc = "Switch to relative line numbering when leaving Insert mode",
+  desc = "Switch to relative line numbering when leaving Insert mode",
   group = "relative_number_switch",
   pattern = "*",
   callback = function()
@@ -40,3 +40,12 @@ vim.api.nvim_create_autocmd("InsertLeave", {
     end
   end,
 })
+
+-- Start jdtls when java files are opened
+-- vim.api.nvim_create_autocmd("Filetype", {
+--   pattern = "java", -- autocmd to start jdtls
+--   callback = function()
+--     local config = astronvim.lsp.server_settings "jdtls"
+--     if config.root_dir and config.root_dir ~= "" then require("jdtls").start_or_attach(config) end
+--   end,
+-- })
