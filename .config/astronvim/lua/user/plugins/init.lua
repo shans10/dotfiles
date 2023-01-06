@@ -43,7 +43,4 @@ return {
     opt = true,
     setup = function() table.insert(astronvim.file_plugins, "suda.vim") end,
   },
-
-  -- Java lsp configuration
-  ["mfussenegger/nvim-jdtls"] = { module = "jdtls" }, -- load jdtls on module
 }
