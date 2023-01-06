@@ -12,10 +12,10 @@ local heirline = function(config)
   end
 
   -- Override winbar configuration
-  if theme == "lunarvim" then
-    config[2] = require "user.plugins.heirline.winbar"
-  elseif vim.g.winbar_enabled == false then
+  if vim.g.winbar_enabled == false then
     config[2] = nil
+  elseif theme == "lunarvim" then
+    config[2] = require "user.plugins.heirline.winbar"
   end
 
   return config
