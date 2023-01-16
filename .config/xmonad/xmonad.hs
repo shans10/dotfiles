@@ -24,6 +24,7 @@ import XMonad
 --
 import XMonad.Actions.CopyWindow (kill1)
 import XMonad.Actions.CycleWS (Direction1D (..), WSType (..), doTo, moveTo, nextScreen, nextWS, prevScreen, prevWS, shiftTo, toggleWS')
+import XMonad.Actions.EasyMotion
 import XMonad.Actions.FloatKeys
 import XMonad.Actions.MouseResize
 import XMonad.Actions.Promote
@@ -195,8 +196,8 @@ myShowWNameTheme =
   def
     { swn_font = "xft:Iosevka:bold:size=55",
       swn_fade = 1.0,
-      swn_bgcolor = "#45475a",
-      swn_color = "#cdd6f4"
+      swn_bgcolor = color01,
+      swn_color = colorFore
     }
 
 -- The layout hook
@@ -242,10 +243,8 @@ myManageHook =
       className =? "file_progress" --> doFloat,
       className =? "Gimp" --> doFloat,
       className =? "notification" --> doFloat,
-      className =? "pinentry-gtk-2" --> doFloat,
       className =? "splash" --> doFloat,
       className =? "toolbar" --> doFloat,
-      className =? "Thunar" --> doCenterFloat,
       className =? "Lxappearance" --> doCenterFloat,
       className =? "Yad" --> doCenterFloat,
       title =? "Appearance" --> doCenterFloat,
@@ -255,16 +254,18 @@ myManageHook =
       title =? "Keyboard" --> doCenterFloat,
       title =? "Power Manager" --> doCenterFloat,
       title =? "Volume Control" --> doCenterFloat,
+      -- Move discord to ws 8 and go there, also float it
       className
         =? "discord"
         --> doShift (myWorkspaces !! 7)
         <+> doF (W.greedyView $ myWorkspaces !! 7)
-        <+> doFloat, -- move discord to ws 8 and go there, also float it
+        <+> doFloat,
+      -- Move telegram to ws 8 and go there, also float it
       className
         =? "TelegramDesktop"
         --> doShift (myWorkspaces !! 7)
         <+> doF (W.greedyView $ myWorkspaces !! 7)
-        <+> doFloat, -- move telegram to ws 8 and go there, also float it
+        <+> doFloat,
       (className =? "firefox" <&&> resource =? "Dialog") --> doFloat, -- float firefox dialog
       isFullscreen --> doFullFloat,
       isDialog --> doCenterFloat <+> doF W.swapUp -- float dialog windows to centre and popup on top
@@ -291,6 +292,21 @@ myHandleEventHook =
         <+> doF (W.greedyView $ myWorkspaces !! 6)
         <+> doFloat
     )
+
+------------------------------------------------------------------------
+---EASY MOTION
+------------------------------------------------------------------------
+emConf :: EasyMotionConfig
+emConf =
+  def
+    { txtCol = color03,
+      bgCol = color01,
+      borderCol = color01,
+      cancelKey = xK_Escape,
+      emFont = "xft:Iosevka:bold:size=55",
+      overlayF = textSize,
+      borderPx = 30
+    }
 
 ------------------------------------------------------------------------
 ---KEYBINDINGS
@@ -440,6 +456,12 @@ myKeys c =
           "Scratchpads"
           [ ("M-s t", addName "Toggle scratchpad terminal" $ namedScratchpadAction myScratchPads "terminal"),
             ("M-s c", addName "Toggle scratchpad calculator" $ namedScratchpadAction myScratchPads "calculator")
+          ]
+        -- EasyMotion
+        ^++^ subKeys
+          "EasyMotion"
+          [ ("M-z s", addName "Switch focus to a window" $ selectWindow emConf >>= (`whenJust` windows . W.focusWindow)),
+            ("M-z x", addName "Kill a window" $ selectWindow emConf >>= (`whenJust` killWindow))
           ]
         -- Dmenu/Rofi scripts (dmscripts)
         ^++^ subKeys

@@ -24,5 +24,6 @@ color14 = "#f5c2e7"
 color15 = "#94e2d5"
 color16 = "#a6adc8"
 
+-- Trayer tint color
 colorTrayer :: String
 colorTrayer = "--tint 0x1e1e2e"
