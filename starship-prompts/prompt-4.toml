@@ -1,0 +1,20 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = true
+
+[package]
+disabled = true
+
+[character]
+success_symbol = '[ ](bold #cba6f7)[ ](bold #f2cdcd)[ ](bold #b4befe)[ ](bold #a6e3a1)'
+error_symbol = '[ ](bold #cba6f7)[ ](bold #f2cdcd)[ ](bold #b4befe)[ ](bold #f38ba8)'
+vimcmd_symbol = '[ NORMAL](bold #fab387)'
+vimcmd_visual_symbol = '[ VISUAL](bold #89dceb)'
+
+[git_branch]
+symbol = ' '
+
+[git_status]
+modified = ''
+untracked = ''
+staged = ''
