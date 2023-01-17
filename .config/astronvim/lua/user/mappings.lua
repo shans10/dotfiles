@@ -120,19 +120,11 @@ end
 -- UI
 maps.n["<leader>uA"] = { function() astronvim.ui.toggle_autoformat() end, desc = "Toggle autoformatting" }
 
--- Move line/char up/down or left/right (move.nvim plugin)
-if is_available("move.nvim") then
-  maps.n["<A-j>"] = { "<cmd>MoveLine(1)<cr>", desc = "Move line down" }
-  maps.n["<A-k>"] = { "<cmd>MoveLine(-1)<cr>", desc = "Move line up" }
-  maps.n["<A-h>"] = { "<cmd>MoveHChar(-1)<cr>", desc = "Move line down" }
-  maps.n["<A-l>"] = { "<cmd>MoveHChar(1)<cr>", desc = "Move line up" }
-end
-
 --- INSERT MODE ---
 --
 -- Move line up or down
-maps.i["<A-j>"] = { "<Esc><cmd>MoveLine(1)<cr>gi", desc = "Move line down" }
-maps.i["<A-k>"] = { "<Esc><cmd>MoveLine(-1)<cr>gi", desc = "Move line up" }
+maps.i["<A-j>"] = { "<Esc><cmd>m .+1<cr>gi", desc = "Move line down" }
+maps.i["<A-k>"] = { "<Esc><cmd>m .-2<cr>gi", desc = "Move line up" }
 
 -- Save File
 maps.i["<C-s>"] = { "<Esc><cmd>w<cr>", desc = "Save file" }
@@ -152,14 +144,6 @@ maps.t["<esc><esc>"] = { "<C-\\><C-n>:q<cr>", desc = "Terminal quit" }
 -- Navigating wrapped lines
 maps.v["j"] = { "gj", desc = "Navigate down" }
 maps.v["k"] = { "gk", desc = "Navigate down" }
-
--- Move selected block up/down or left/right (move.nvim plugin)
-if is_available("move.nvim") then
-  maps.v["<A-j>"] = { ":MoveBlock(1)<cr>", desc = "Move selected block down" }
-  maps.v["<A-k>"] = { ":MoveBlock(-1)<cr>", desc = "Move selected block up" }
-  maps.v["<A-h>"] = { ":MoveHBlock(-1)<cr>", desc = "Move selected block down" }
-  maps.v["<A-l>"] = { ":MoveHBlock(1)<cr>", desc = "Move selected block up" }
-end
 
 -- Better increment/decrement
 maps.x["+"] = { "g<C-a>", desc = "Increment number" }

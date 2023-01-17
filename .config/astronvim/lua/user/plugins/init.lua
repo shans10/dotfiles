@@ -33,9 +33,11 @@ return {
     config = function() require "user.plugins.telescope-project" end,
   },
 
-  ["fedepujol/move.nvim"] = {
+  -- Move line(s) up and down
+  ["booperlv/nvim-gomove"] = {
     opt = true,
-    setup = function() table.insert(astronvim.file_plugins, "move.nvim") end,
+    setup = function() table.insert(astronvim.file_plugins, "nvim-gomove") end,
+    config = function() require "user.plugins.nvim-gomove" end,
   },
 
   -- Write read-only files with sudo
