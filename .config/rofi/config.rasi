@@ -1,8 +1,9 @@
-configuration{
-    modi: "run,drun,window";
-    icon-theme: "Tela-circle-dark";
-    show-icons: true;
+@theme "catppuccin-mocha"
+
+configuration {
+    font: "JetBrainsMono Nerd Font 11.5";
     terminal: "alacritty";
+    show-icons: true;
     drun-display-format: "{icon} {name}";
     location: 0;
     disable-history: false;
@@ -12,10 +13,10 @@ configuration{
     display-window: " 﩯  Window";
     display-Network: " 󰤨  Network";
     sidebar-mode: true;
-    font: "JetBrainsMono Nerd Font 11";
+    show-match: false;
+    window-format: " [{w}]\t  {t:0}";
+    modi: "run,drun,window";
 
     // Keybindings
     kb-cancel: "Control+c,Escape,Control+g,Control+bracketleft";
 }
-
-@theme "catppuccin-mocha"

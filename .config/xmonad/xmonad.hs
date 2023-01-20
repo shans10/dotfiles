@@ -34,11 +34,10 @@ import XMonad.Actions.WindowGo (runOrRaise)
 import XMonad.Actions.WithAll (killAll, sinkAll)
 -- Hooks --
 --
-import XMonad.Hooks.DynamicLog (PP (..), dynamicLogWithPP, shorten, wrap, xmobarColor, xmobarPP)
 import XMonad.Hooks.DynamicProperty
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.InsertPosition
-import XMonad.Hooks.ManageDocks (ToggleStruts (..), avoidStruts, docks, manageDocks)
+import XMonad.Hooks.ManageDocks (ToggleStruts (..))
 import XMonad.Hooks.ManageHelpers (doCenterFloat, doFullFloat, isDialog, isFullscreen)
 import XMonad.Hooks.RefocusLast (isFloat, refocusLastLayoutHook, refocusLastWhen, refocusingIsActive)
 import XMonad.Hooks.ServerMode
@@ -69,6 +68,7 @@ import XMonad.Layout.WindowNavigation
 import XMonad.StackSet qualified as W
 -- Utilities --
 --
+import XMonad.Util.ClickableWorkspaces (clickablePP)
 import XMonad.Util.Cursor (setDefaultCursor)
 import XMonad.Util.Dmenu
 import XMonad.Util.EZConfig (additionalKeysP, mkNamedKeymap)
@@ -164,13 +164,13 @@ mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spaci
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
 
 -- Below is a variation of the above except no borders are applied
--- if fewer than two windows. So a single window has no gaps.
+-- if fewer than two windows. So a single window has no gaps
 mySpacing' :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
 
--- Defining layouts.
--- limitWindows n sets maximum number of windows displayed for layout.
--- mySpacing n sets the gap size around the windows.
+-- Defining layouts
+-- limitWindows n sets maximum number of windows displayed for layout
+-- mySpacing n sets the gap size around the windows
 tall =
   renamed [Replace "tall"] $
     limitWindows 5 $
@@ -190,11 +190,11 @@ floats =
     smartBorders $
       simplestFloat
 
--- Theme for showWName which prints current workspace when you change workspaces.
+-- Theme for showWName which prints current workspace when you change workspaces
 myShowWNameTheme :: SWNConfig
 myShowWNameTheme =
   def
-    { swn_font = "xft:Iosevka:bold:size=55",
+    { swn_font = "xft:Iosevka Nerd Font:bold:size=55",
       swn_fade = 1.0,
       swn_bgcolor = color01,
       swn_color = colorFore
@@ -202,11 +202,10 @@ myShowWNameTheme =
 
 -- The layout hook
 myLayoutHook =
-  avoidStruts $
-    mouseResize $
-      windowArrange $
-        T.toggleLayouts monocle $
-          mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
+  mouseResize $
+    windowArrange $
+      T.toggleLayouts monocle $
+        mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
   where
     myDefaultLayout =
       refocusLastLayoutHook . trackFloating $
@@ -217,14 +216,11 @@ myLayoutHook =
 ------------------------------------------------------------------------
 ---WORKSPACES
 ------------------------------------------------------------------------
+myWorkspaces :: [String]
 myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
 
+-- myWorkspaces = [" I ", " II ", " III ", " IV ", " V ", " VI ", " VII ", " VIII ", " IX "]
 -- myWorkspaces = [" dev ", " www ", " sys ", " doc ", " vbox ", " chat ", " mus ", " vid ", " gfx "]
-myWorkspaceIndices = M.fromList $ zip myWorkspaces [1 ..] -- (,) == \x y -> (x,y)
-
-clickable ws = "<action=xdotool key super+" ++ show i ++ ">" ++ ws ++ "</action>"
-  where
-    i = fromJust $ M.lookup ws myWorkspaceIndices
 
 ------------------------------------------------------------------------
 ---WINDOW RULES
@@ -303,7 +299,7 @@ emConf =
       bgCol = color01,
       borderCol = color01,
       cancelKey = xK_Escape,
-      emFont = "xft:Iosevka:bold:size=55",
+      emFont = "xft:Iosevka Nerd Font:bold:size=55",
       overlayF = textSize,
       borderPx = 30
     }
@@ -404,7 +400,7 @@ myKeys c =
           "Switch layouts"
           [ ("M-C-<Tab>", addName "Switch to next layout" $ sendMessage NextLayout),
             ("M-M1-m", addName "Toggle monocle layout" $ sendMessage (T.Toggle "monocle")),
-            ("M-C-b", addName "Toggle xmobar visibility" $ sendMessage ToggleStruts),
+            ("M-b", addName "Toggle xmobar visibility" $ sendMessage ToggleStruts),
             ("M-<Space>", addName "Toggle noborders/full" $ sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts)
           ]
         -- Window resizing
@@ -460,8 +456,8 @@ myKeys c =
         -- EasyMotion
         ^++^ subKeys
           "EasyMotion"
-          [ ("M-z s", addName "Switch focus to a window" $ selectWindow emConf >>= (`whenJust` windows . W.focusWindow)),
-            ("M-z x", addName "Kill a window" $ selectWindow emConf >>= (`whenJust` killWindow))
+          [ ("M-z", addName "Switch focus to a window" $ selectWindow emConf >>= (`whenJust` windows . W.focusWindow)),
+            ("M-x", addName "Kill a window" $ selectWindow emConf >>= (`whenJust` killWindow))
           ]
         -- Dmenu/Rofi scripts (dmscripts)
         ^++^ subKeys
@@ -497,7 +493,7 @@ myKeys c =
           "Favorite programs"
           [ ("M-<Return>", addName "Launch terminal" $ spawn myTerminal),
             ("M-S-<Return>", addName "Launch kitty" $ spawn "kitty"),
-            ("M-b", addName "Launch web browser" $ spawn myBrowser),
+            ("M-w", addName "Launch web browser" $ spawn myBrowser),
             ("M-e", addName "Launch emacs" $ spawn myEmacs),
             ("M-f", addName "Launch file manager" $ spawn "thunar"),
             ("M-S-f", addName "Launch firefox" $ spawn "firefox"),
@@ -543,63 +539,61 @@ myKeys c =
         )
 
 ------------------------------------------------------------------------
+---XMOBAR
+------------------------------------------------------------------------
+myXmobarPP :: PP
+myXmobarPP =
+  def
+    { ppCurrent =
+        xmobarColor color06 ""
+          . wrap
+            ("<box type=Bottom width=2 mb=2 color=" ++ color06 ++ ">")
+            "</box>",
+      -- Visible but not current workspace
+      ppVisible = xmobarColor color06 "",
+      -- Hidden workspace
+      ppHidden =
+        xmobarColor color05 ""
+          . wrap
+            ("<box type=Top width=2 mt=2 color=" ++ color05 ++ ">")
+            "</box>",
+      -- Hidden workspaces (no windows)
+      ppHiddenNoWindows = xmobarColor color09 "",
+      -- Title of active window
+      ppTitle = xmobarColor color16 "" . shorten 60,
+      -- Separator character
+      ppSep = "<fc=" ++ color01 ++ "> | </fc>",
+      -- Urgent workspace
+      ppUrgent = xmobarColor color02 "" . wrap "!" "!",
+      -- Current layout
+      ppLayout = xmobarColor color02 "" . wrap "[" "]",
+      -- Adding # of windows on current workspace to the bar
+      ppExtras = [windowCount],
+      -- Order of things in xmobar
+      ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t]
+    }
+
+------------------------------------------------------------------------
 ---MAIN
 ------------------------------------------------------------------------
 main :: IO ()
 main = do
-  -- Launching two instances of xmobar on their monitors.
-  -- xmproc0 <- spawnPipe ("xmobar -x 0 $HOME/.config/xmobar/" ++ colorScheme ++ "-xmobarrc")
-  xmproc1 <- spawnPipe ("xmobar -x 1 $HOME/.config/xmobar/" ++ colorScheme ++ "-xmobarrc")
-
-  -- the xmonad, ya know...what the WM is named after!
-  xmonad $
-    addDescrKeys' ((mod4Mask, xK_F1), showKeybindings) myKeys $
-      ewmhFullscreen . ewmh $
-        docks $
-          def
-            { manageHook = myManageHook <+> manageDocks,
-              handleEventHook = windowedFullscreenFixEventHook <+> myEventHook <+> myHandleEventHook,
-              modMask = myModMask,
-              terminal = myTerminal,
-              startupHook = myStartupHook,
-              layoutHook = showWName' myShowWNameTheme myLayoutHook,
-              workspaces = myWorkspaces,
-              borderWidth = myBorderWidth,
-              normalBorderColor = myNormColor,
-              focusedBorderColor = myFocusColor,
-              logHook =
-                dynamicLogWithPP $
-                  filterOutWsPP [scratchpadWorkspaceTag] $
-                    xmobarPP
-                      { ppOutput = hPutStrLn xmproc1, -- xmobar on external monitor
-                      -- >> hPutStrLn xmproc0 x   -- xmobar on laptop
-                        ppCurrent =
-                          xmobarColor color06 ""
-                            . wrap
-                              ("<box type=Bottom width=2 mb=2 color=" ++ color06 ++ ">")
-                              "</box>",
-                        -- Visible but not current workspace
-                        ppVisible = xmobarColor color06 "" . clickable,
-                        -- Hidden workspace
-                        ppHidden =
-                          xmobarColor color05 ""
-                            . wrap
-                              ("<box type=Top width=2 mt=2 color=" ++ color05 ++ ">")
-                              "</box>"
-                            . clickable,
-                        -- Hidden workspaces (no windows)
-                        ppHiddenNoWindows = xmobarColor color09 "" . clickable,
-                        -- Title of active window
-                        ppTitle = xmobarColor color16 "" . shorten 60,
-                        -- Separator character
-                        ppSep = "<fc=" ++ color01 ++ "> | </fc>",
-                        -- Urgent workspace
-                        ppUrgent = xmobarColor color02 "" . wrap "!" "!",
-                        -- Current layout
-                        ppLayout = xmobarColor color02 "" . wrap "[" "]",
-                        -- Adding # of windows on current workspace to the bar
-                        ppExtras = [windowCount],
-                        -- Order of things in xmobar
-                        ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t]
-                      }
-            }
+  xmonad
+    . addDescrKeys' ((mod4Mask, xK_F1), showKeybindings) myKeys
+    . ewmh
+    . withEasySB (statusBarProp xmobar $ clickablePP myXmobarPP) defToggleStrutsKey
+    $ def
+      { manageHook = myManageHook,
+        handleEventHook = windowedFullscreenFixEventHook <+> myEventHook <+> myHandleEventHook,
+        modMask = myModMask,
+        terminal = myTerminal,
+        startupHook = myStartupHook,
+        layoutHook = showWName' myShowWNameTheme myLayoutHook,
+        workspaces = myWorkspaces,
+        borderWidth = myBorderWidth,
+        normalBorderColor = myNormColor,
+        focusedBorderColor = myFocusColor
+      }
+  where
+    -- Choose xmobar config based on selected colorscheme
+    xmobar = "xmobar -x 1 $HOME/.config/xmobar/" ++ colorScheme ++ "-xmobarrc"

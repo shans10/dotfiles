@@ -21,8 +21,10 @@ Config { font         = "Iosevka Nerd Font Bold 13px"
        , persistent   = True
        , iconRoot     = ".config/xmonad/xpm/"  -- default: "."
        , commands = [
+                      -- Prints out the left side items such as workspaces, layout, etc.
+                      Run UnsafeXMonadLog
                       -- Cpu usage in percent
-                      Run Cpu ["-t", "  <total>% ","-H","50","--high","red"] 10
+                    , Run Cpu ["-t", "  <total>% ","-H","50","--high","red"] 10
                       -- Ram used number and percent
                     , Run Memory ["-t", "  <used>M (<usedratio>%) "] 10
                       -- Volume
@@ -35,10 +37,8 @@ Config { font         = "Iosevka Nerd Font Bold 13px"
                     , Run Date "   %a, %d %b - %I:%M %p " "date" 50
                       -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
                     , Run Com ".config/xmobar/scripts/trayer-padding-icon.sh" [] "trayerpad" 20
-                      -- Prints out the left side items such as workspaces, layout, etc.
-                    , Run UnsafeStdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " <icon=arch.xpm/> <fc=#45475a>|</fc> %UnsafeStdinReader% }{ <box type=Bottom width=2 mb=2 color=#f9e2af><fc=#f9e2af><action=`alacritty -e btop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#f38ba8><fc=#f38ba8><action=`alacritty -e btop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#a6e3a1><fc=#a6e3a1><action=`pavucontrol`> %volume% </action></fc></box>    <box type=Bottom width=2 mb=2 color=#f5c2e7><fc=#f5c2e7><action=`xfce4-power-manager -c`>%battery%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#89b4fa><fc=#89b4fa><action=`dm-wifi`> %network% </action></fc></box>    <box type=Bottom width=2 mb=2 color=#94e2d5><fc=#94e2d5>%date%</fc></box> %trayerpad%"
+       , template = " <icon=arch.xpm/> <fc=#45475a>|</fc> %UnsafeXMonadLog% }{ <box type=Bottom width=2 mb=2 color=#f9e2af><fc=#f9e2af><action=`alacritty -e btop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#f38ba8><fc=#f38ba8><action=`alacritty -e btop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#a6e3a1><fc=#a6e3a1><action=`pavucontrol`> %volume% </action></fc></box>    <box type=Bottom width=2 mb=2 color=#f5c2e7><fc=#f5c2e7><action=`xfce4-power-manager -c`>%battery%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#89b4fa><fc=#89b4fa><action=`dm-wifi`> %network% </action></fc></box>    <box type=Bottom width=2 mb=2 color=#94e2d5><fc=#94e2d5>%date%</fc></box> %trayerpad%"
        }
