@@ -26,11 +26,11 @@
 ; Open external terminal in CWD
 (map! :leader
       :desc "Open terminal here"
-      "t t" #'term-here)
+      "t ." #'term-here)
 ; Built in terminals
 (map! :leader
       :desc "Eshell popup" "t e" #'+eshell/toggle
-      :desc "Vterm popup" "t v" #'+vterm/toggle)
+      :desc "Vterm popup" "t t" #'+vterm/toggle)
 
 ;; Dired
 (map! :leader
