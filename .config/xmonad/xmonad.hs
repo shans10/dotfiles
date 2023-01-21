@@ -37,13 +37,13 @@ import XMonad.Actions.WithAll (killAll, sinkAll)
 import XMonad.Hooks.DynamicProperty
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.InsertPosition
-import XMonad.Hooks.ManageDocks (ToggleStruts (..))
+import XMonad.Hooks.ManageDocks (ToggleStruts (..), avoidStruts)
 import XMonad.Hooks.ManageHelpers (doCenterFloat, doFullFloat, isDialog, isFullscreen)
 import XMonad.Hooks.RefocusLast (isFloat, refocusLastLayoutHook, refocusLastWhen, refocusingIsActive)
 import XMonad.Hooks.ServerMode
 import XMonad.Hooks.SetWMName
-import XMonad.Hooks.StatusBar
-import XMonad.Hooks.StatusBar.PP
+import XMonad.Hooks.StatusBar (statusBarProp, withSB)
+import XMonad.Hooks.StatusBar.PP (PP (..), shorten, wrap, xmobarColor)
 import XMonad.Hooks.WindowSwallowing
 import XMonad.Hooks.WorkspaceHistory
 -- Layouts --
@@ -202,10 +202,11 @@ myShowWNameTheme =
 
 -- The layout hook
 myLayoutHook =
-  mouseResize $
-    windowArrange $
-      T.toggleLayouts monocle $
-        mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
+  avoidStruts $
+    mouseResize $
+      windowArrange $
+        T.toggleLayouts monocle $
+          mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
   where
     myDefaultLayout =
       refocusLastLayoutHook . trackFloating $
@@ -218,9 +219,6 @@ myLayoutHook =
 ------------------------------------------------------------------------
 myWorkspaces :: [String]
 myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
-
--- myWorkspaces = [" I ", " II ", " III ", " IV ", " V ", " VI ", " VII ", " VIII ", " IX "]
--- myWorkspaces = [" dev ", " www ", " sys ", " doc ", " vbox ", " chat ", " mus ", " vid ", " gfx "]
 
 ------------------------------------------------------------------------
 ---WINDOW RULES
@@ -581,7 +579,7 @@ main = do
   xmonad
     . addDescrKeys' ((mod4Mask, xK_F1), showKeybindings) myKeys
     . ewmh
-    . withEasySB (statusBarProp xmobar $ clickablePP myXmobarPP) defToggleStrutsKey
+    . withSB (statusBarProp xmobar $ clickablePP myXmobarPP)
     $ def
       { manageHook = myManageHook,
         handleEventHook = windowedFullscreenFixEventHook <+> myEventHook <+> myHandleEventHook,
