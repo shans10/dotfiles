@@ -37,13 +37,13 @@ import XMonad.Actions.WithAll (killAll, sinkAll)
 import XMonad.Hooks.DynamicProperty
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.InsertPosition
-import XMonad.Hooks.ManageDocks (ToggleStruts (..), avoidStruts)
+import XMonad.Hooks.ManageDocks (ToggleStruts (..), avoidStruts, docks)
 import XMonad.Hooks.ManageHelpers (doCenterFloat, doFullFloat, isDialog, isFullscreen)
 import XMonad.Hooks.RefocusLast (isFloat, refocusLastLayoutHook, refocusLastWhen, refocusingIsActive)
 import XMonad.Hooks.ServerMode
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.StatusBar (statusBarProp, withSB)
-import XMonad.Hooks.StatusBar.PP (PP (..), shorten, wrap, xmobarColor)
+import XMonad.Hooks.StatusBar.PP (PP (..), filterOutWsPP, shorten, wrap, xmobarColor)
 import XMonad.Hooks.WindowSwallowing
 import XMonad.Hooks.WorkspaceHistory
 -- Layouts --
@@ -131,32 +131,6 @@ myStartupHook = do
   setWMName "Xmonad"
 
 ------------------------------------------------------------------------
----SCRATCHPADS
-------------------------------------------------------------------------
-myScratchPads :: [NamedScratchpad]
-myScratchPads =
-  [ NS "terminal" spawnTerm findTerm manageTerm,
-    NS "calculator" spawnCalc findCalc manageCalc
-  ]
-  where
-    spawnTerm = myTerminal ++ " -t scratchpad"
-    findTerm = title =? "scratchpad"
-    manageTerm = customFloating $ W.RationalRect l t w h
-      where
-        h = 0.9
-        w = 0.9
-        t = 0.95 - h
-        l = 0.95 - w
-    spawnCalc = "qalculate-gtk"
-    findCalc = className =? "Qalculate-gtk"
-    manageCalc = customFloating $ W.RationalRect l t w h
-      where
-        h = 0.55
-        w = 0.45
-        t = 0.75 - h
-        l = 0.70 - w
-
-------------------------------------------------------------------------
 ---LAYOUTS
 ------------------------------------------------------------------------
 -- Makes setting the spacingRaw simpler to write. The spacingRaw module adds a configurable amount of space around windows.
@@ -172,23 +146,23 @@ mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
 -- limitWindows n sets maximum number of windows displayed for layout
 -- mySpacing n sets the gap size around the windows
 tall =
-  renamed [Replace "tall"] $
-    limitWindows 5 $
-      smartBorders $
-        windowNavigation $
-          mySpacing 3 $
-            ResizableTall 1 (3 / 100) (1 / 2) []
+  renamed [Replace "tall"]
+    . limitWindows 5
+    . smartBorders
+    . windowNavigation
+    . mySpacing 3
+    $ ResizableTall 1 (3 / 100) (1 / 2) []
 
 monocle =
-  renamed [Replace "monocle"] $
-    smartBorders $
-      windowNavigation $
-        Full
+  renamed [Replace "monocle"]
+    . smartBorders
+    . windowNavigation
+    $ Full
 
 floats =
-  renamed [Replace "floats"] $
-    smartBorders $
-      simplestFloat
+  renamed [Replace "floats"]
+    . smartBorders
+    $ simplestFloat
 
 -- Theme for showWName which prints current workspace when you change workspaces
 myShowWNameTheme :: SWNConfig
@@ -200,13 +174,13 @@ myShowWNameTheme =
       swn_color = colorFore
     }
 
--- The layout hook
 myLayoutHook =
-  avoidStruts $
-    mouseResize $
-      windowArrange $
-        T.toggleLayouts monocle $
-          mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
+  avoidStruts
+    . mouseResize
+    . windowArrange
+    . T.toggleLayouts monocle
+    . mkToggle (NBFULL ?? NOBORDERS ?? EOT)
+    $ myDefaultLayout
   where
     myDefaultLayout =
       refocusLastLayoutHook . trackFloating $
@@ -221,15 +195,28 @@ myWorkspaces :: [String]
 myWorkspaces = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
 
 ------------------------------------------------------------------------
+---SCRATCHPADS
+------------------------------------------------------------------------
+myScratchPads :: [NamedScratchpad]
+myScratchPads =
+  [ NS "terminal" spawnTerm findTerm manageTerm,
+    NS "calculator" spawnCalc findCalc manageCalc
+  ]
+  where
+    spawnTerm = myTerminal ++ " -t scratchpad"
+    findTerm = title =? "scratchpad"
+    manageTerm = myCenterBig
+
+    spawnCalc = "qalculate-gtk"
+    findCalc = className =? "Qalculate-gtk"
+    manageCalc = myCenter
+
+------------------------------------------------------------------------
 ---WINDOW RULES
 ------------------------------------------------------------------------
-myManageHook :: XMonad.Query (Data.Monoid.Endo WindowSet)
+myManageHook :: ManageHook
 myManageHook =
   composeAll
-    -- 'doFloat' forces a window to float.  Useful for dialog boxes and such.
-    -- using 'doShift ( myWorkspaces !! 7)' sends program to workspace 8!
-    -- I'm doing it this way because otherwise I would have to write out the full
-    -- name of my workspaces and the names would be very long if using clickable workspaces.
     [ className =? "confirm" --> doFloat,
       className =? "dialog" --> doFloat,
       className =? "download" --> doFloat,
@@ -239,7 +226,8 @@ myManageHook =
       className =? "notification" --> doFloat,
       className =? "splash" --> doFloat,
       className =? "toolbar" --> doFloat,
-      className =? "Lxappearance" --> doCenterFloat,
+      className =? "Lxappearance" --> myCenter,
+      className =? "Sxiv" --> myCenterBig,
       className =? "Yad" --> doCenterFloat,
       title =? "Appearance" --> doCenterFloat,
       title =? "Bluetooth Devices" --> doCenterFloat,
@@ -266,6 +254,24 @@ myManageHook =
     ]
     <+> namedScratchpadManageHook myScratchPads
     <+> insertPosition Below Newer -- insert new windows at the bottom of stack area
+
+-- Custom centered floating window normal size
+myCenter :: ManageHook
+myCenter = customFloating $ W.RationalRect fromLeft fromTop width height
+  where
+    height = 1 / 2
+    width = 1 / 2
+    fromLeft = (1 - width) / 2
+    fromTop = (1 - height) / 2
+
+-- Custom centered floating window big size
+myCenterBig :: ManageHook
+myCenterBig = customFloating $ W.RationalRect fromLeft fromTop width height
+  where
+    height = 0.9
+    width = 0.9
+    fromLeft = 0.95 - width
+    fromTop = 0.95 - height
 
 ------------------------------------------------------------------------
 ---WINDOW EVENTS
@@ -443,9 +449,6 @@ myKeys c =
             ("M-M1-,", addName "Switch focus to prev monitor" $ prevScreen)
           ]
         -- Scratchpads
-        -- Toggle show/hide these programs. They run on a hidden workspace.
-        -- When you toggle them to show, it brings them to current workspace.
-        -- Toggle them to hide and it sends them back to hidden workspace (NSP).
         ^++^ subKeys
           "Scratchpads"
           [ ("M-s t", addName "Toggle scratchpad terminal" $ namedScratchpadAction myScratchPads "terminal"),
@@ -579,7 +582,8 @@ main = do
   xmonad
     . addDescrKeys' ((mod4Mask, xK_F1), showKeybindings) myKeys
     . ewmh
-    . withSB (statusBarProp xmobar $ clickablePP myXmobarPP)
+    . withSB (statusBarProp xmobar . clickablePP . filterOutWsPP [scratchpadWorkspaceTag] $ myXmobarPP)
+    . docks
     $ def
       { manageHook = myManageHook,
         handleEventHook = windowedFullscreenFixEventHook <+> myEventHook <+> myHandleEventHook,
