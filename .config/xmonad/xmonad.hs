@@ -82,9 +82,6 @@ import XMonad.Util.WorkspaceCompare
 ------------------------------------------------------------------------
 ---VARIABLES
 ------------------------------------------------------------------------
-myFont :: String
-myFont = "xft:Iosevka Nerd Font Mono:regular:size=9:antialias=true:hinting=true"
-
 myModMask :: KeyMask
 myModMask = mod4Mask -- sets modkey to super/windows key
 
@@ -92,13 +89,13 @@ myTerminal :: String
 myTerminal = "alacritty" -- sets default terminal
 
 myBrowser :: String
-myBrowser = "google-chrome-stable" -- sets google-chrome as browser
+myBrowser = "google-chrome-stable" -- sets default browser
 
 myEmacs :: String
-myEmacs = "emacs" -- makes emacs keybindings easier to type
+myEmacs = "emacs" -- sets default emacs command
 
 myEditor :: String
-myEditor = myTerminal ++ " -e nvim" -- sets neovim as editor
+myEditor = myTerminal ++ " -e nvim" -- sets default editor
 
 myBorderWidth :: Dimension
 myBorderWidth = 2 -- sets border width for windows
@@ -112,21 +109,22 @@ myFocusColor = color13 -- this variable is imported from Colors.THEME
 windowCount :: X (Maybe String) -- number of windows in current workspace
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
 
+sysTray :: String -- sets default system tray command
+sysTray =
+  "trayer --edge top --align right --widthtype request --padding 5 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent false --alpha 0 "
+    ++ colorTrayer
+    ++ " --height 25"
+
 ------------------------------------------------------------------------
 ---STARTUP
 ------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
   -- spawn "killall trayer" -- kill current trayer on each restart
-  spawnOnce "xfce4-power-manager --daemon" -- Start power manager
-  spawnOnce "picom -b" -- Start compositor
-
-  -- System tray for xmobar
-  -- spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 5 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent false --alpha 0 " ++ colorTrayer ++ " --height 25")
-
-  -- Set wallpaper
-  spawnOnce "xargs xwallpaper --stretch < ~/.cache/wall"
-
+  spawnOnce "xfce4-power-manager --daemon" -- start power manager
+  spawnOnce "picom -b" -- start compositor
+  spawnOnce "xargs xwallpaper --stretch < ~/.cache/wall" -- set wallpaper
+  -- spawn ("sleep 2 && " ++ sysTray) -- start system tray
   setDefaultCursor xC_left_ptr -- set cursor theme for desktop(by default it displays 'x')
   setWMName "Xmonad"
 
@@ -522,7 +520,7 @@ myKeys c =
         -- Trayer
         ^++^ subKeys
           "Trayer toggle"
-          [ ("M-C-t s", addName "Start trayer" $ spawn "trayer --edge top --align right --widthtype request --padding 5 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent false --alpha 0 --tint 0x1e1e2e --height 25"),
+          [ ("M-C-t s", addName "Start trayer" $ spawn sysTray),
             ("M-C-t k", addName "Kill trayer" $ spawn "killall trayer")
           ]
   where
