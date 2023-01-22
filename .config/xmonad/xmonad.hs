@@ -42,8 +42,8 @@ import XMonad.Hooks.ManageHelpers (doCenterFloat, doFullFloat, isDialog, isFulls
 import XMonad.Hooks.RefocusLast (isFloat, refocusLastLayoutHook, refocusLastWhen, refocusingIsActive)
 import XMonad.Hooks.ServerMode
 import XMonad.Hooks.SetWMName
-import XMonad.Hooks.StatusBar (statusBarProp, withSB)
-import XMonad.Hooks.StatusBar.PP (PP (..), filterOutWsPP, shorten, wrap, xmobarColor)
+import XMonad.Hooks.StatusBar (StatusBarConfig (..), statusBarProp, withSB, xmonadPropLog)
+import XMonad.Hooks.StatusBar.PP (PP (..), dynamicLogString, filterOutWsPP, shorten, wrap, xmobarColor)
 import XMonad.Hooks.WindowSwallowing
 import XMonad.Hooks.WorkspaceHistory
 -- Layouts --
@@ -575,6 +575,31 @@ myXmobarPP =
     }
 
 ------------------------------------------------------------------------
+---POLYBAR
+------------------------------------------------------------------------
+-- myPolybar :: StatusBarConfig
+-- myPolybar =
+--   def
+--     { sbLogHook =
+--         xmonadPropLog
+--           =<< dynamicLogString myPolybarPP,
+--       sbStartupHook = spawn "~/.config/polybar/launch.sh",
+--       sbCleanupHook = spawn "killall polybar"
+--     }
+--
+-- myPolybarPP :: PP
+-- myPolybarPP =
+--   def
+--     { -- Current layout
+--       ppLayout = textColor color02 . wrap "[" "]",
+--       -- Order of things in xmobar
+--       ppOrder = \(_ : l : _ : _) -> [l]
+--     }
+--
+-- textColor :: String -> String -> String
+-- textColor color = wrap ("%{F" <> color <> "}") " %{F-}"
+
+------------------------------------------------------------------------
 ---MAIN
 ------------------------------------------------------------------------
 main :: IO ()
@@ -583,6 +608,7 @@ main = do
     . addDescrKeys' ((mod4Mask, xK_F1), showKeybindings) myKeys
     . ewmh
     . withSB (statusBarProp xmobar . clickablePP . filterOutWsPP [scratchpadWorkspaceTag] $ myXmobarPP)
+    -- . withSB myPolybar
     . docks
     $ def
       { manageHook = myManageHook,
