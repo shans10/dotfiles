@@ -82,6 +82,9 @@ import XMonad.Util.WorkspaceCompare
 ------------------------------------------------------------------------
 ---VARIABLES
 ------------------------------------------------------------------------
+myFont :: String
+myFont = "xft:Iosevka Nerd Font" -- sets default font
+
 myModMask :: KeyMask
 myModMask = mod4Mask -- sets modkey to super/windows key
 
@@ -114,6 +117,9 @@ sysTray =
   "trayer --edge top --align right --widthtype request --padding 5 --SetDockType true --SetPartialStrut true --expand true --monitor 0 --transparent false --alpha 0 "
     ++ colorTrayer
     ++ " --height 25"
+
+font :: String -> Int -> String -- function to return myFont with specified weight and size
+font weight size = myFont ++ ":" ++ weight ++ ":size=" ++ show size ++ ":antialias=true:hinting=true"
 
 ------------------------------------------------------------------------
 ---STARTUP
@@ -166,7 +172,7 @@ floats =
 myShowWNameTheme :: SWNConfig
 myShowWNameTheme =
   def
-    { swn_font = "xft:Iosevka Nerd Font:bold:size=55",
+    { swn_font = font "bold" 55,
       swn_fade = 1.0,
       swn_bgcolor = color01,
       swn_color = colorFore
@@ -301,7 +307,7 @@ emConf =
       bgCol = color01,
       borderCol = color01,
       cancelKey = xK_Escape,
-      emFont = "xft:Iosevka Nerd Font:bold:size=55",
+      emFont = font "bold" 55,
       overlayF = textSize,
       borderPx = 30
     }
