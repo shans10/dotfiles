@@ -37,12 +37,12 @@ import XMonad.Actions.WithAll (killAll, sinkAll)
 import XMonad.Hooks.DynamicProperty
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.InsertPosition
-import XMonad.Hooks.ManageDocks (ToggleStruts (..), avoidStruts, docks)
+import XMonad.Hooks.ManageDocks (ToggleStruts (..))
 import XMonad.Hooks.ManageHelpers (doCenterFloat, doFullFloat, isDialog, isFullscreen)
 import XMonad.Hooks.RefocusLast (isFloat, refocusLastLayoutHook, refocusLastWhen, refocusingIsActive)
 import XMonad.Hooks.ServerMode
 import XMonad.Hooks.SetWMName
-import XMonad.Hooks.StatusBar (StatusBarConfig (..), statusBarProp, withSB, xmonadPropLog)
+import XMonad.Hooks.StatusBar (StatusBarConfig (..), defToggleStrutsKey, statusBarProp, withEasySB, xmonadPropLog)
 import XMonad.Hooks.StatusBar.PP (PP (..), dynamicLogString, filterOutWsPP, shorten, wrap, xmobarColor)
 import XMonad.Hooks.WindowSwallowing
 import XMonad.Hooks.WorkspaceHistory
@@ -179,8 +179,7 @@ myShowWNameTheme =
     }
 
 myLayoutHook =
-  avoidStruts
-    . mouseResize
+  mouseResize
     . windowArrange
     . T.toggleLayouts monocle
     . mkToggle (NBFULL ?? NOBORDERS ?? EOT)
@@ -408,7 +407,6 @@ myKeys c =
           "Switch layouts"
           [ ("M-C-<Tab>", addName "Switch to next layout" $ sendMessage NextLayout),
             ("M-M1-m", addName "Toggle monocle layout" $ sendMessage (T.Toggle "monocle")),
-            ("M-b", addName "Toggle xmobar visibility" $ sendMessage ToggleStruts),
             ("M-<Space>", addName "Toggle noborders/full" $ sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts)
           ]
         -- Window resizing
@@ -549,7 +547,8 @@ myKeys c =
 myXmobarPP :: PP
 myXmobarPP =
   def
-    { ppCurrent =
+    { -- Currently focused workspace
+      ppCurrent =
         xmobarColor color06 ""
           . wrap
             ("<box type=Bottom width=2 mb=2 color=" ++ color06 ++ ">")
@@ -609,11 +608,10 @@ myXmobarPP =
 main :: IO ()
 main = do
   xmonad
-    . addDescrKeys' ((mod4Mask, xK_F1), showKeybindings) myKeys
+    . withEasySB (statusBarProp xmobar $ clickablePP myXmobarPP) defToggleStrutsKey
+    -- . withEasySB myPolybar defToggleStrutsKey
     . ewmh
-    . withSB (statusBarProp xmobar . clickablePP . filterOutWsPP [scratchpadWorkspaceTag] $ myXmobarPP)
-    -- . withSB myPolybar
-    . docks
+    . addDescrKeys' ((mod4Mask, xK_F1), showKeybindings) myKeys
     $ def
       { manageHook = myManageHook,
         handleEventHook = windowedFullscreenFixEventHook <+> myEventHook <+> myHandleEventHook,
