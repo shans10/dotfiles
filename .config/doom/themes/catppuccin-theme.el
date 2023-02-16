@@ -32,7 +32,7 @@ The theme has to be reloaded after changing anything in this group."
   :group 'catppuccin)
 
 (defcustom catppuccin-height-title-1 1.3
-  "Header 1 font size"
+  "Header 1 font size."
   :type 'number
   :group 'catppuccin)
 
@@ -52,8 +52,8 @@ The theme has to be reloaded after changing anything in this group."
   :group 'catppuccin)
 
 (defcustom catppuccin-flavor 'mocha
-  "The flavor to use for the Catppuccin theme
-Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
+  "The flavor to use for the Catppuccin theme.
+Must be one of `mocha`, `macchiato`, `frappe`, or `latte`."
   :type '(choice (const :tag "Mocha" mocha)
                  (const :tag "Macchiato" macchiato)
                  (const :tag "Frappe" frappe)
@@ -86,7 +86,7 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                                      (base      . "#1e1e2e")
                                      (mantle    . "#181825")
                                      (crust     . "#11111b"))
-  "Colors used for catppuccin-mocha"
+  "Colors used for catppuccin-mocha."
   :tag "Mocha Colors"
   :options '(rosewater flamingo pink mauve red maroon peach yellow green teal sky sapphire blue lavender text subtext1 subtext0 overlay2 overlay1 overlay0 surface2 surface1 surface0 base mantle crust)
   :type '(alist :key-type symbol :value-type string)
@@ -118,7 +118,7 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                                          (base      . "#24273a")
                                          (mantle    . "#1e2030")
                                          (crust     . "#181926"))
-  "Colors used for catppuccin-macchiato"
+  "Colors used for catppuccin-macchiato."
   :tag "Macchiato Colors"
   :options '(rosewater flamingo pink mauve red maroon peach yellow green teal sky sapphire blue lavender text subtext1 subtext0 overlay2 overlay1 overlay0 surface2 surface1 surface0 base mantle crust)
   :type '(alist :key-type symbol :value-type string)
@@ -150,7 +150,7 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                                       (base      . "#303446")
                                       (mantle    . "#292c3c")
                                       (crust     . "#232634"))
-  "Colors used for catppuccin-frappe"
+  "Colors used for catppuccin-frappe."
   :tag "Frappe Colors"
   :options '(rosewater flamingo pink mauve red maroon peach yellow green teal sky sapphire blue lavender text subtext1 subtext0 overlay2 overlay1 overlay0 surface2 surface1 surface0 base mantle crust)
   :type '(alist :key-type symbol :value-type string)
@@ -182,15 +182,16 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                                      (base      . "#eff1f5")
                                      (mantle    . "#e6e9ef")
                                      (crust     . "#dce0e8"))
-  "Colors used for catppuccin-latte"
+  "Colors used for catppuccin-latte."
   :tag "Latte Colors"
   :options '(rosewater flamingo pink mauve red maroon peach yellow green teal sky sapphire blue lavender text subtext1 subtext0 overlay2 overlay1 overlay0 surface2 surface1 surface0 base mantle crust)
   :type '(alist :key-type symbol :value-type string)
   :group 'catppuccin)
 
-;;;; Internal functions, not documented
+;;;; Internal functions
 
 (defun catppuccin-quantize-color (color)
+  "Quantize COLOR to a 256 color palette."
   (let ((i 1)
         (str "#"))
     (while (<= i 5)
@@ -206,21 +207,43 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
      17))))
       (setq i (+ i 2)))
     str))
+
+;; Color operations
+(let* ((hex-to-rgb (lambda (color)
+                     (mapcar
+                      (lambda (i) (string-to-number (substring color i (+ i 2)) 16))
+                      '(1 3 5))))
+       (rgb-to-hex (lambda (r g b)
+                     (format "#%02x%02x%02x" r g b)))
+       (rnd (lambda (n) (round (+ .5 n)))))
+
+  (defun catppuccin-lighten (color value)
+    "Lighten COLOR by VALUE%."
+    (let* ((factor (/ value 100.0)))
+      (apply rgb-to-hex (mapcar (lambda (v) (funcall rnd (min 255 (+ (* (- 255 v) factor) v))))
+              (funcall hex-to-rgb color)))))
+
+  (defun catppuccin-darken (color value)
+    "Darken COLOR by VALUE%."
+    (let* ((factor (/ value 100.0)))
+      (apply rgb-to-hex (mapcar (lambda (v) (floor (* (- 1 factor) v)))
+                                (funcall hex-to-rgb color))))))
+
 ;;;; User functions
 
 (defun catppuccin-reload ()
-  "Reload the Catppuccin theme, useful for after having set custom colors with `catppuccin-set-color`"
+  "Reload the Catppuccin theme, useful for after having set custom colors with `catppuccin-set-color`."
   (interactive)
   (disable-theme 'catppuccin)
   (load-theme 'catppuccin t))
 
 (defun catppuccin-set-color (color value &optional flavor)
-  "Set the COLOR of FLAVOR or the current flavor to VALUE"
+  "Set the COLOR of FLAVOR or the current flavor to VALUE."
   (interactive "SChange color: \nsSet %s to: ")
   (setcdr (assoc color (symbol-value (intern-soft (concat "catppuccin-" (symbol-name (or flavor catppuccin-flavor)) "-colors")))) value))
 
 (defun catppuccin-get-color (color &optional flavor)
-  "Get the COLOR of FLAVOR or the current flavor"
+  "Get the COLOR of FLAVOR or the current flavor."
   (interactive "SThe color to get: ")
   (alist-get color (symbol-value (intern-soft (concat "catppuccin-" (symbol-name (or flavor catppuccin-flavor)) "-colors")))))
 
@@ -253,8 +276,8 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                 (ctp-mantle           (catppuccin-get-color 'mantle) (catppuccin-quantize-color (catppuccin-get-color 'mantle)))
                 (ctp-crust            (catppuccin-get-color 'crust) (catppuccin-quantize-color (catppuccin-get-color 'crust)))
 
-                ;; TODO: automatically lighten base to create ctp-current
-                (ctp-current    (if (eq catppuccin-flavor 'latte) "#ffffff" "#262637"))))
+                (ctp-current          (catppuccin-lighten (catppuccin-get-color 'base) 5)
+                                      (catppuccin-quantize-color (catppuccin-lighten (catppuccin-get-color 'base) 5)))))
       (faces '(;; default / basic faces
                (cursor :background ,ctp-rosewater)
                (default :background ,ctp-base :foreground ,ctp-text)
@@ -310,7 +333,7 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                (font-lock-doc-face :inherit font-lock-comment-face)
                (font-lock-function-name-face :foreground ,ctp-blue)
                (font-lock-keyword-face :foreground ,ctp-mauve)
-               (font-lock-negation-char-face :foreground ,undef)
+               (font-lock-negation-char-face :foreground ,ctp-sky)
                (font-lock-preprocessor-face :foreground ,ctp-yellow)
                (font-lock-reference-face :inherit font-lock-constant-face) ;; obsolete
                (font-lock-regexp-grouping-backslash :foreground ,undef)
@@ -321,12 +344,19 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                (font-lock-warning-face :inherit warning)
                ;; auto-complete
                (ac-completion-face :underline t :foreground ,undef)
+               ;; avy
+               (avy-background-face :foreground ,ctp-text :background ,ctp-base)
+               (avy-goto-char-timer-face :foreground ,ctp-blue :background ,ctp-surface0)
+               (avy-lead-face :foreground ,ctp-base :background ,ctp-mauve)
+               (avy-lead-face-0 :foreground ,ctp-base :background ,ctp-yellow)
+               (avy-lead-face-1 :foreground ,ctp-base :background ,ctp-overlay0)
+               (avy-lead-face-2 :foreground ,ctp-base :background ,ctp-sky)
                ;; company
                ;; TODO: find undef'ed faces
                (company-echo-common :foreground ,ctp-base :background ,ctp-text)
                (company-preview :background ,ctp-current :foreground ,undef)
                (company-preview-common :inherit company-preview
-                                       :foreground ,undef)
+                                       :foreground ,ctp-green)
                (company-preview-search :inherit company-preview
                                        :foreground ,undef)
                (company-scrollbar-bg :background ,ctp-surface0)
@@ -338,14 +368,14 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                                                  :foreground ,ctp-base)
                (company-tooltip-selection :inherit match)
                (company-tooltip-mouse :background ,ctp-base)
-               (company-tooltip-common :foreground ,ctp-text :weight bold)
+               (company-tooltip-common :foreground ,ctp-rosewater)
                ;;(company-tooltip-common-selection :inherit company-tooltip-common)
-               (company-tooltip-annotation :foreground ,undef)
+               (company-tooltip-annotation :inherit font-lock-comment-face)
                ;;(company-tooltip-annotation-selection :inherit company-tooltip-annotation)
                ;; completions (minibuffer.el)
                (completions-annotations :inherit font-lock-comment-face)
-               (completions-common-part :foreground ,undef)
-               (completions-first-difference :foreground ,undef)
+               (completions-common-part :foreground ,ctp-rosewater)
+               (completions-first-difference :foreground ,ctp-text)
                ;; diff-hl
                (diff-hl-change :foreground ,ctp-peach :background ,ctp-peach)
                (diff-hl-delete :foreground ,ctp-red :background ,ctp-red)
@@ -529,6 +559,15 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                (helm-time-zone-current :foreground ,undef)
                (helm-time-zone-home :foreground ,undef)
                (helm-visible-mark :foreground ,undef)
+               ;; consult
+               (consult-async-split :foreground ,ctp-mauve)
+               ;; corfu
+               (corfu-default :background ,ctp-surface0)
+               (corfu-current :background ,ctp-surface1)
+               (corfu-bar :background ,ctp-subtext0)
+               (corfu-border :inherit corfu-default)
+               (corfu-annotations :inherit font-lock-comment-face)
+               (corfu-deprecated :strike-through t)
                ;; highlight-indentation minor mode
                (highlight-indentation-face :background ,ctp-subtext1)
                ;; icicle
@@ -660,7 +699,7 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                (magit-diffstat-added :foreground ,ctp-green)
                (magit-diffstat-removed :foreground ,ctp-red)
                (magit-hash :foreground ,ctp-subtext0)
-               (diff-header :background ,undef)
+               (diff-header :foreground ,ctp-blue)
                (diff-hunk-header :foreground ,ctp-text :background ,ctp-surface2)
                (magit-diff-hunk-heading :inherit diff-hunk-header)
                (magit-diff-hunk-heading-highlight :inherit diff-hunk-header :weight bold)
@@ -750,6 +789,11 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                ;;(neo-vc-unregistered-face nil)
                (neo-vc-up-to-date-face :foreground ,ctp-text)
                (neo-vc-user-face :foreground ,ctp-mauve)
+               ;; orderless
+               (orderless-match-face-0 :foreground ,ctp-blue :weight bold)
+               (orderless-match-face-1 :foreground ,ctp-mauve :weight bold)
+               (orderless-match-face-2 :foreground ,ctp-teal :weight bold)
+               (orderless-match-face-3 :foreground ,ctp-peach :weight bold)
                ;; org
                (org-agenda-date :foreground ,ctp-subtext0 :weight normal)
                (org-agenda-date-today :foreground ,ctp-subtext0 :weight bold)
@@ -927,7 +971,7 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                (web-mode-html-attr-name-face :foreground ,ctp-blue)
                (web-mode-html-attr-value-face :foreground ,ctp-green)
                (web-mode-html-tag-face :foreground ,ctp-mauve)
-               (web-mode-keyword-face :foreground ,undef)
+               (web-mode-keyword-face :inherit font-lock-keyword-face)
                (web-mode-string-face :inherit font-lock-string-face)
                (web-mode-type-face :inherit font-lock-type-face)
                (web-mode-warning-face :inherit warning)
@@ -952,7 +996,9 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                (whitespace-trailing :inherit trailing-whitespace)
                ;; yard-mode
                (yard-tag-face :inherit font-lock-builtin-face)
-               (yard-directive-face :inherit font-lock-builtin-face))))
+               (yard-directive-face :inherit font-lock-builtin-face)
+               ;; line-reminder
+               (line-reminder-modified-sign-face :foreground ,ctp-green))))
 
   (apply #'custom-theme-set-faces
          'catppuccin
@@ -970,7 +1016,7 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                       ((((min-colors 16777216)) ; fully graphical envs
                         ,(funcall expand-with-func 'cadr spec))
                        (t                       ; terminal with 256 colors
-                        ,(funcall expand-with-func 'caddr spec))))
+                        ,(funcall expand-with-func '(lambda (v) (cadr (cdr v))) spec))))
                     whole-theme))
             whole-theme))
 
@@ -990,7 +1036,7 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
                ,(funcall get-func (alist-get 'ctp-teal colors))
                ,(funcall get-func (alist-get (if (eq catppuccin-flavor 'latte) 'ctp-surface2  'ctp-subtext1) colors))]))
            `((rustic-ansi-faces
-              (vector 
+              (vector
                 ,(funcall get-func (alist-get (if (eq catppuccin-flavor 'latte) 'ctp-subtext1  'ctp-surface1) colors))
                 ,(funcall get-func (alist-get 'ctp-red colors))
                 ,(funcall get-func (alist-get 'ctp-green colors))
@@ -1012,6 +1058,8 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`"
 
 ;; Unbind functions used for internal use
 (fmakunbound 'catppuccin-quantize-color)
+(fmakunbound 'catppuccin-lighten-color)
+(fmakunbound 'catppuccin-darken-color)
 
 ;; Local Variables:
 ;; indent-tabs-mode: nil

@@ -37,3 +37,6 @@ cursor:
     shape: Block
     blinking: Always
   blink_interval: 500
+
+key_bindings:
+  - { key: Return, mods: Shift, chars: "\x1b[13;2u" }

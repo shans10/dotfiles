@@ -293,7 +293,7 @@ myHandleEventHook =
         =? "Spotify"
         --> doShift (myWorkspaces !! 6)
         <+> doF (W.greedyView $ myWorkspaces !! 6)
-        <+> doFloat
+        <+> myCenterBig
     )
 
 ------------------------------------------------------------------------
