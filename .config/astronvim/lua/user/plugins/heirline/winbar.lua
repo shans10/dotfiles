@@ -1,10 +1,11 @@
-local st = astronvim.status
+local utils = require "astronvim.utils"
+local st = require "astronvim.utils.status"
 
 -- An `init` function to build a set of children components for LSP breadcrumbs
 local function breadcrumbs_init(opts)
-  opts = astronvim.default_tbl(opts, {
-    separator = " > ",
-    icon = { enabled = true, hl = astronvim.status.env.icon_highlights.breadcrumbs },
+  opts = utils.extend_tbl(opts, {
+    separator = st.env.separators.breadcrumbs or "  ",
+    icon = { enabled = true, hl = st.env.icon_highlights.breadcrumbs },
     padding = { left = 0, right = 0 },
   })
   return function(self)
@@ -12,7 +13,7 @@ local function breadcrumbs_init(opts)
     local children = {}
     -- create a child for each level
     for _, d in ipairs(data) do
-      local pos = astronvim.status.utils.encode_pos(d.lnum, d.col, self.winnr)
+      local pos = st.utils.encode_pos(d.lnum, d.col, self.winnr)
       local child = {
         { provider = string.gsub(d.name, "%%", "%%%%"):gsub("%s*->%s*", "") }, -- add symbol name
         on_click = { -- add on click function
@@ -36,10 +37,10 @@ local function breadcrumbs_init(opts)
       table.insert(children, child)
     end
     if opts.padding.left > 0 then -- add left padding
-      table.insert(children, 1, { provider = astronvim.pad_string(" ", { left = opts.padding.left - 1 }) })
+      table.insert(children, 1, { provider = st.pad_string(" ", { left = opts.padding.left - 1 }) })
     end
     if opts.padding.right > 0 then -- add right padding
-      table.insert(children, { provider = astronvim.pad_string(" ", { right = opts.padding.right - 1 }) })
+      table.insert(children, { provider = st.pad_string(" ", { right = opts.padding.right - 1 }) })
     end
     -- instantiate the new child
     self[1] = self:new(children, 1)

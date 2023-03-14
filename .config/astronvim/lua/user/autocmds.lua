@@ -8,14 +8,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end
 })
 
--- Close following buffers with 'q'
-vim.api.nvim_create_autocmd("FileType", {
-    desc = "Close the specified buffers with 'q'",
-    group = vim.api.nvim_create_augroup("_buffer_mappings", { clear = true }),
-    pattern = "qf,help,man",
-    command = "nnoremap <silent> <buffer> q :close<CR>",
-})
-
 -- Change line numbering system based on mode
 vim.api.nvim_create_augroup("relative_number_switch", { clear = true })
 vim.api.nvim_create_autocmd("InsertEnter", {

@@ -1,5 +1,6 @@
-local st = astronvim.status
-local separator = astronvim.get_icon "Separator" -- separator icon
+local get_icon = require("astronvim.utils").get_icon
+local separator = get_icon "Separator" -- separator icon
+local st = require "astronvim.utils.status"
 
 -- A highlight function to return highlight based on vi mode
 local function mode_hl()
@@ -34,7 +35,7 @@ end
 local function shiftwidth_provider()
   local shiftwidth = vim.api.nvim_buf_get_option(0, "shiftwidth")
   return st.utils.stylize(
-    astronvim.pad_string(astronvim.get_icon "Shiftwidth", { right = 1 }) .. shiftwidth, { padding = { right = 1 } }
+    st.pad_string(get_icon "Shiftwidth", { right = 1 }) .. shiftwidth, { padding = { right = 1 } }
   )
 end
 
@@ -50,7 +51,7 @@ return {
     hl = { fg = "bg" },
     -- set mode icon and hl
     {
-      provider = astronvim.pad_string(astronvim.get_icon "Mode", { left = 1, right = 1 }),
+      provider = st.pad_string(get_icon "Mode", { left = 1, right = 1 }),
       hl = mode_hl
     },
     update = "ModeChanged",
@@ -60,7 +61,7 @@ return {
     condition = st.condition.is_git_repo,
     hl = { fg = "git_branch_fg", bg = "git_branch_bg" },
     {
-      provider = astronvim.pad_string(astronvim.get_icon "GitBranch", { left = 1, right = 1 }),
+      provider = st.pad_string(get_icon "GitBranch", { left = 1, right = 1 }),
       hl = { fg = "git_branch_icon" },
     },
     {
@@ -129,13 +130,13 @@ return {
   },
   -- add a component to show current shiftwidth(indent spaces) of a file
   st.component.builder {
-    { provider = astronvim.pad_string(separator, { right = 1 }), hl = { fg = "separator_bg" } },
+    { provider = st.pad_string(separator, { right = 1 }), hl = { fg = "separator_bg" } },
     { provider = shiftwidth_provider }
   },
   -- add a section to show opened filetype
   st.component.builder {
     condition = st.condition.has_filetype,
-    { provider = astronvim.pad_string(separator, { right = 1 }), hl = { fg = "separator_bg" } },
+    { provider = st.pad_string(separator, { right = 1 }), hl = { fg = "separator_bg" } },
     {
       provider = st.provider.file_icon { padding = { right = 1 } },
       hl = st.hl.filetype_color
@@ -149,7 +150,7 @@ return {
       hl = { fg = "ruler_fg", bg = "ruler_bg" }
     },
     {
-      provider = st.provider.str { str = "%P/%L", padding = { left = 1, right = 1 } },
+      provider = " %P/%L ",
       hl = mode_hl
     },
     update = { "CursorMoved", "BufEnter", "ModeChanged" },

@@ -1,4 +1,5 @@
-local st = astronvim.status
+local get_icon = require("astronvim.utils").get_icon
+local st = require "astronvim.utils.status"
 local separators = {
   left = { "", " " }, -- separator for the left side of the statusline
   right = { " ", "" } -- separator for the right side of the statusline
@@ -75,8 +76,8 @@ return {
   {
     -- define a simple component where the provider is just a folder icon
     st.component.builder {
-      -- astronvim.get_icon gets the user interface icon for a closed folder with a space after it
-      { provider = astronvim.get_icon "FolderClosed" },
+      -- get_icon gets the user interface icon for a closed folder with a space after it
+      { provider = get_icon "FolderClosed" },
       -- add padding after icon
       padding = { right = 1 },
       -- set the foreground color to be used for the icon
@@ -102,7 +103,7 @@ return {
   { -- make nav section with icon border
     -- define a custom component with just a file icon
     st.component.builder {
-      { provider = astronvim.get_icon "ScrollText" },
+      { provider = get_icon "ScrollText" },
       -- add padding after icon
       padding = { right = 1 },
       -- set the icon foreground

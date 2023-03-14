@@ -1,4 +1,5 @@
-local st = astronvim.status
+local get_icon = require("astronvim.utils").get_icon
+local st = require "astronvim.utils.status"
 
 -- A highlight function to return highlight for modified files
 local function file_modified_hl(default)
@@ -56,7 +57,7 @@ end
 
 -- A condition function if buffer is a valid file
 local function is_valid_file_condition()
-  return not astronvim.status.condition.buffer_matches {
+  return not st.condition.buffer_matches {
     buftype = { "nofile", "prompt", "quickfix" },
     filetype = { "^git.*", "fugitive", "toggleterm", "NvimTree" },
   }
@@ -77,7 +78,7 @@ end
 local function cwd_provider(opts)
   return function(self)
     local cwd = vim.fn.getcwd(0)
-    local icon = astronvim.pad_string(astronvim.get_icon("Directory"), { left = 1, right = 1 })
+    local icon = st.pad_string(get_icon("Directory"), { left = 1, right = 1 })
     self.cwd = vim.fn.fnamemodify(cwd, ":t")
     return st.utils.stylize(icon .. self.cwd, opts)
   end
@@ -113,7 +114,7 @@ end
 local function git_changes_provider(opts)
   return function(self)
     local git_status = vim.b[self and self.bufnr or 0].gitsigns_status_dict
-    local icon = astronvim.pad_string(astronvim.get_icon "GitChanges", { left = 1, right = 1 })
+    local icon = st.pad_string(get_icon "GitChanges", { left = 1, right = 1 })
     local count = git_status.added + git_status.removed + git_status.changed
     return st.utils.stylize(icon .. count, opts)
   end
@@ -136,13 +137,13 @@ return {
   -- add a bar on left corner before mode
   st.component.builder {
     hl = { fg = "normal" },
-    provider = astronvim.get_icon "Bar",
+    provider = get_icon "Bar",
     surround = { separator = "left" }
   },
   -- add the vim mode component
   st.component.builder {
-    hl = function() return { fg = astronvim.status.hl.mode_bg() } end,
-    provider = astronvim.get_icon "EvilMode",
+    hl = function() return { fg = st.hl.mode_bg() } end,
+    provider = get_icon "EvilMode",
     surround = { separator = "left" },
     update = "ModeChanged",
   },
@@ -251,7 +252,7 @@ return {
       update = { "User", pattern = { "LspProgressUpdate", "LspRequest" } },
     },
     {
-      provider = astronvim.pad_string(astronvim.get_icon("ActiveLSP"), { right = 2 }), hl = { fg = "treesitter_fg" },
+      provider = st.pad_string(get_icon("ActiveLSP"), { right = 2 }), hl = { fg = "treesitter_fg" },
       update = { "LspAttach", "LspDetach", "BufEnter" },
     },
     surround = { separator = "right", condition = st.condition.lsp_attached },

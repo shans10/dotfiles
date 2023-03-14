@@ -1,4 +1,4 @@
-local is_available = astronvim.is_available
+local is_available = require "astronvim.utils".is_available
 
 local maps = { i = {}, n = {}, t = {}, v = {}, x = {} }
 
@@ -6,10 +6,9 @@ local maps = { i = {}, n = {}, t = {}, v = {}, x = {} }
 --
 -- Disable default keybindings
 maps.n["<leader>o"] = false
-maps.n["<leader>fb"] = false
-maps.n["<leader>fh"] = false
-maps.n["<leader>fm"] = false
-maps.n["<leader>fo"] = false
+maps.n["<leader>b|"] = false
+maps.n["<leader>b\\"] = false
+maps.n["<leader>bb"] = false
 
 -- Standard leader-key operations
 maps.n["<leader>."] = { function() require("telescope").extensions.file_browser.file_browser() end, desc = "File browser" }
@@ -39,82 +38,88 @@ maps.n["<leader>tt"] = { "<cmd>!alacritty<cr><cr>", desc = "Open alacritty in cw
 maps.n["<C-\\>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" }
 
 -- Buffer Standalone Keybindings
-maps.n["<leader>ba"] = { "<cmd>silent! %bd|e#|bd#<cr>", desc = "Close all but current buffer" }
-maps.n["<leader>bd"] = { function() astronvim.close_buf(0) end, desc = "Delete buffer" }
-maps.n["<leader>bD"] = { function() astronvim.close_buf(0, true) end, desc = "Force delete buffer" }
-maps.n["<leader>bl"] = { "<C-6>", desc = "Last buffer" }
-maps.n["<leader>bn"] = { "<cmd>bnext<cr>", desc = "Next buffer" }
-maps.n["<leader>bp"] = { "<cmd>bprev<cr>", desc = "Previous buffer" }
+maps.n["<S-l>"] = { function() require("astronvim.utils.buffer").nav(vim.v.count > 0 and vim.v.count or 1) end, desc = "Next buffer" }
+maps.n["<S-h>"] = { function() require("astronvim.utils.buffer").nav( -(vim.v.count > 0 and vim.v.count or 1)) end, desc = "Previous buffer" }
+maps.n["<leader>ba"] = { "ggVG", desc = "Select all" }
+maps.n["<leader>bd"] = { function() require("astronvim.utils.buffer").close() end, desc = "Delete buffer" }
+maps.n["<leader>bD"] = { function() require("astronvim.utils.buffer").close(0, true) end, desc = "Force delete buffer" }
+maps.n["<leader>bi"] = { "gg=G", desc = "Indent all" }
+maps.n["<leader>bl"] = { "<cmd>b#<cr>", desc = "Last buffer" }
+maps.n["<leader>bn"] = { function() require("astronvim.utils.buffer").nav(vim.v.count > 0 and vim.v.count or 1) end, desc = "Next buffer" }
+maps.n["<leader>bp"] = { function() require("astronvim.utils.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1)) end, desc = "Previous buffer" }
+maps.n["<leader>bs"] = { "<cmd>w<cr>", desc = "Save buffer" }
+maps.n["<leader>bt"] = { "<cmd>%s/\\s\\+$//e | noh<cr>", desc = "Remove trailing whitespaces" }
+if is_available("suda.vim") then
+  maps.n["<leader>bS"] = { "<cmd>SudaWrite<cr>", desc = "Save buffer as root" }
+end
 
 -- Heirline bufferline
 if vim.g.heirline_bufferline then
-  maps.n["<A-.>"] = { function() astronvim.move_buf(vim.v.count > 0 and vim.v.count or 1) end,
-    desc = "Move buffer tab right" }
-  maps.n["<A-,>"] = { function() astronvim.move_buf(-(vim.v.count > 0 and vim.v.count or 1)) end,
-    desc = "Move buffer tab left" }
-  maps.n["<leader>bs"] = {
+  maps.n["<A-.>"] = {
+    function() require("astronvim.utils.buffer").move(vim.v.count > 0 and vim.v.count or 1) end,
+    desc = "Move buffer tab right",
+  }
+  maps.n["<A-,>"] = {
+    function() require("astronvim.utils.buffer").move(-(vim.v.count > 0 and vim.v.count or 1)) end,
+    desc = "Move buffer tab left",
+  }
+  maps.n["<leader>bb"] = {
     function()
-      astronvim.status.heirline.buffer_picker(function(bufnr) vim.api.nvim_win_set_buf(0, bufnr) end)
+      require("astronvim.utils.status").heirline.buffer_picker(function(bufnr) vim.api.nvim_win_set_buf(0, bufnr) end)
     end,
     desc = "Select buffer from tabline",
   }
-  maps.n["<leader>bt"] = {
+  maps.n["<leader>bT"] = {
     function()
       astronvim.status.heirline.buffer_picker(function(bufnr) astronvim.close_buf(bufnr) end)
     end,
     desc = "Delete buffer from tabline",
   }
-end
-
--- Bufferline
-if is_available "bufferline.nvim" then
-  -- Close/pick buffers
-  maps.n["<leader>bc"] = { "<cmd>BufferLinePickClose<cr>", desc = "Pick and close buffer" }
-  maps.n["<leader>bj"] = { "<cmd>BufferLinePick<cr>", desc = "Pick and jump to buffer" }
-  maps.n["<leader>b["] = { "<cmd>BufferLineCloseLeft<cr>", desc = "Close left buffers" }
-  maps.n["<leader>b]"] = { "<cmd>BufferLineCloseRight<cr>", desc = "Close right buffers" }
-  -- Navigate buffers
-  maps.n["<A-.>"] = { "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer tab right" }
-  maps.n["<A-,>"] = { "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer tab left" }
-  maps.n["<leader>b>"] = { "<cmd>BufferLineMoveNext<cr>", desc = "Move buffer tab right" }
-  maps.n["<leader>b<"] = { "<cmd>BufferLineMovePrev<cr>", desc = "Move buffer tab left" }
-end
-
--- File Standalone Keybindings
-maps.n["<leader>f."] = { function() require("telescope.builtin").grep_string() end, desc = "Search word under cursor" }
-maps.n["<leader>fa"] = { "ggVG", desc = "Select all" }
-maps.n["<leader>fc"] = { function() astronvim.close_buf(0) end, desc = "Close" }
-maps.n["<leader>fC"] = { function() astronvim.close_buf(0, true) end, desc = "Force close" }
-maps.n["<leader>fi"] = { "gg=G", desc = "Indent all" }
-maps.n["<leader>fs"] = { "<cmd>w<cr>", desc = "Save" }
-maps.n["<leader>ft"] = { "<cmd>%s/\\s\\+$//e | noh<cr>", desc = "Remove trailing whitespaces" }
-if is_available("suda.vim") then
-  maps.n["<leader>fS"] = { "<cmd>SudaWrite<cr>", desc = "Save as root" }
+  maps.n["<leader>b\\"] = {
+    function()
+      require("astronvim.utils.status").heirline.buffer_picker(function(bufnr)
+        vim.cmd.split()
+        vim.api.nvim_win_set_buf(0, bufnr)
+      end)
+    end,
+    desc = "Horizontal split buffer from tabline",
+  }
+  maps.n["<leader>b|"] = {
+    function()
+      require("astronvim.utils.status").heirline.buffer_picker(function(bufnr)
+        vim.cmd.vsplit()
+        vim.api.nvim_win_set_buf(0, bufnr)
+      end)
+    end,
+    desc = "Vertical split buffer from tabline",
+  }
 end
 
 -- Telescope
 if is_available "telescope.nvim" then
   -- Buffer
   maps.n["<leader>,"] = { function() require("telescope.builtin").buffers() end, desc = "Switch buffer" }
-  maps.n["<leader>bb"] = { function() require("telescope.builtin").buffers() end, desc = "Switch buffer" }
+  maps.n["<Tab>"] = {
+    function()
+      if #vim.t.bufs > 1 then
+        require("telescope.builtin").buffers { sort_mru = true, ignore_current_buffer = true }
+      else
+        require "astronvim.utils".notify "No other buffers open"
+      end
+    end,
+    desc = "Switch Buffers",
+  }
 
-  -- File
-  maps.n["<leader>fb"] = { function() require("telescope").extensions.file_browser.file_browser() end,
-    desc = "Telecope file browser" }
+  -- Find
   maps.n["<leader>fd"] = { "<cmd>Telescope find_files cwd=%:p:h find_command=rg,--ignore,--hidden,--files<cr>",
     desc = "Find files in CWD" }
-  maps.n["<leader>fr"] = { function() require("telescope.builtin").oldfiles() end, desc = "Recently opened files" }
+  maps.n["<leader>fp"] = { function() require("telescope").extensions.project.project() end, desc = "Find projects" }
 
   -- LSP
   maps.n["<leader>ld"] = { function() require("telescope.builtin").diagnostics({ bufnr = 0 }) end,
     desc = "Show document diagnostics" }
   maps.n["<leader>lD"] = { function() require("telescope.builtin").diagnostics() end, desc = "Show workspace diagnostics" }
   maps.n["<leader>le"] = { function() require("telescope.builtin").lsp_definitions() end, desc = "Show definition" }
-
-  -- Search
-  maps.n["<leader>sm"] = { function() require("telescope.builtin").marks() end, desc = "Search bookmarks" }
-  maps.n["<leader>sM"] = { function() require("telescope.builtin").man_pages() end, desc = "Search man" }
-  maps.n["<leader>sp"] = { function() require("telescope").extensions.project.project() end, desc = "Search projects" }
 end
 
 -- UI

@@ -1,14 +1,17 @@
 return {
-  highlights = {
-    Normal = {
-      guibg = "Normal",
+  "akinsho/toggleterm.nvim",
+  opts = {
+    highlights = {
+      Normal = {
+        guibg = "Normal",
+      },
+      NormalFloat = {
+        link = "NormalFloat"
+      },
+      FloatBorder = {
+        link = "FloatBorder"
+      },
     },
-    NormalFloat = {
-      link = "NormalFloat"
-    },
-    FloatBorder = {
-      link = "FloatBorder"
-    },
-  },
-  shell = "fish"
+    shell = "fish"
+  }
 }
