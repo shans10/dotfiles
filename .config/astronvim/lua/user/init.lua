@@ -58,6 +58,7 @@ local config = {
     attributes = {
       -- Bufferline
       buffer_path = { bold = true, italic = true },
+      mode = { bold = true }
     },
     -- Customize if icons should be highlighted
     icon_highlights = {

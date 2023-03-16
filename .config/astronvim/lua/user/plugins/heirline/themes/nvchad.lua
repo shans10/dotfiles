@@ -1,4 +1,5 @@
 local get_icon = require("astronvim.utils").get_icon
+local is_available = require "astronvim.utils".is_available
 local st = require "astronvim.utils.status"
 local separators = {
   left = { "", " " }, -- separator for the left side of the statusline
@@ -22,8 +23,6 @@ return {
       -- set the color of the surrounding based on the current mode using st module
       color = function() return { main = st.hl.mode_bg(), right = "blank_bg" } end,
     },
-    -- make mode text bold
-    hl = { bold = true },
   },
   -- we want an empty space here so we can use the component builder to make a new section with just an empty string
   st.component.builder {
@@ -63,7 +62,7 @@ return {
     on_click = {
       name = "heirline_diagnostic",
       callback = function()
-        if astronvim.is_available "telescope.nvim" then
+        if is_available "telescope.nvim" then
           vim.defer_fn(function() require("telescope.builtin").diagnostics({ bufnr = 0 }) end, 100)
         end
       end,

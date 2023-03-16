@@ -9,5 +9,7 @@ return {
     sources = {
       "filesystem",
     },
+    add_blank_line_top = false,
+    enable_diagnostics = true
   }
 }

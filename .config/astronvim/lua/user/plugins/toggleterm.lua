@@ -12,6 +12,6 @@ return {
         link = "FloatBorder"
       },
     },
-    shell = "fish"
+    shell = "zsh"
   }
 }

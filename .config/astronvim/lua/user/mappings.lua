@@ -38,15 +38,27 @@ maps.n["<leader>tt"] = { "<cmd>!alacritty<cr><cr>", desc = "Open alacritty in cw
 maps.n["<C-\\>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" }
 
 -- Buffer Standalone Keybindings
-maps.n["<S-l>"] = { function() require("astronvim.utils.buffer").nav(vim.v.count > 0 and vim.v.count or 1) end, desc = "Next buffer" }
-maps.n["<S-h>"] = { function() require("astronvim.utils.buffer").nav( -(vim.v.count > 0 and vim.v.count or 1)) end, desc = "Previous buffer" }
+maps.n["<S-l>"] = {
+  function() require("astronvim.utils.buffer").nav(vim.v.count > 0 and vim.v.count or 1) end,
+  desc = "Next buffer"
+}
+maps.n["<S-h>"] = {
+  function() require("astronvim.utils.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1)) end,
+  desc = "Previous buffer"
+}
 maps.n["<leader>ba"] = { "ggVG", desc = "Select all" }
 maps.n["<leader>bd"] = { function() require("astronvim.utils.buffer").close() end, desc = "Delete buffer" }
 maps.n["<leader>bD"] = { function() require("astronvim.utils.buffer").close(0, true) end, desc = "Force delete buffer" }
 maps.n["<leader>bi"] = { "gg=G", desc = "Indent all" }
 maps.n["<leader>bl"] = { "<cmd>b#<cr>", desc = "Last buffer" }
-maps.n["<leader>bn"] = { function() require("astronvim.utils.buffer").nav(vim.v.count > 0 and vim.v.count or 1) end, desc = "Next buffer" }
-maps.n["<leader>bp"] = { function() require("astronvim.utils.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1)) end, desc = "Previous buffer" }
+maps.n["<leader>bn"] = {
+  function() require("astronvim.utils.buffer").nav(vim.v.count > 0 and vim.v.count or 1) end,
+  desc = "Next buffer"
+}
+maps.n["<leader>bp"] = {
+  function() require("astronvim.utils.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1)) end,
+  desc = "Previous buffer"
+}
 maps.n["<leader>bs"] = { "<cmd>w<cr>", desc = "Save buffer" }
 maps.n["<leader>bt"] = { "<cmd>%s/\\s\\+$//e | noh<cr>", desc = "Remove trailing whitespaces" }
 if is_available("suda.vim") then
@@ -54,7 +66,7 @@ if is_available("suda.vim") then
 end
 
 -- Heirline bufferline
-if vim.g.heirline_bufferline then
+if vim.g.tabline then
   maps.n["<A-.>"] = {
     function() require("astronvim.utils.buffer").move(vim.v.count > 0 and vim.v.count or 1) end,
     desc = "Move buffer tab right",
@@ -63,7 +75,7 @@ if vim.g.heirline_bufferline then
     function() require("astronvim.utils.buffer").move(-(vim.v.count > 0 and vim.v.count or 1)) end,
     desc = "Move buffer tab left",
   }
-  maps.n["<leader>bb"] = {
+  maps.n["<leader>bB"] = {
     function()
       require("astronvim.utils.status").heirline.buffer_picker(function(bufnr) vim.api.nvim_win_set_buf(0, bufnr) end)
     end,
@@ -71,7 +83,9 @@ if vim.g.heirline_bufferline then
   }
   maps.n["<leader>bT"] = {
     function()
-      astronvim.status.heirline.buffer_picker(function(bufnr) astronvim.close_buf(bufnr) end)
+      require("astronvim.utils.status").heirline.buffer_picker(
+        function(bufnr) require("astronvim.utils.buffer").close(bufnr) end
+      )
     end,
     desc = "Delete buffer from tabline",
   }
@@ -99,6 +113,7 @@ end
 if is_available "telescope.nvim" then
   -- Buffer
   maps.n["<leader>,"] = { function() require("telescope.builtin").buffers() end, desc = "Switch buffer" }
+  maps.n["<leader>bb"] = { function() require("telescope.builtin").buffers() end, desc = "Switch buffer" }
   maps.n["<Tab>"] = {
     function()
       if #vim.t.bufs > 1 then
@@ -111,19 +126,23 @@ if is_available "telescope.nvim" then
   }
 
   -- Find
-  maps.n["<leader>fd"] = { "<cmd>Telescope find_files cwd=%:p:h find_command=rg,--ignore,--hidden,--files<cr>",
-    desc = "Find files in CWD" }
+  maps.n["<leader>fd"] = {
+    "<cmd>Telescope find_files cwd=%:p:h find_command=rg,--ignore,--hidden,--files<cr>",
+    desc = "Find files in CWD"
+  }
   maps.n["<leader>fp"] = { function() require("telescope").extensions.project.project() end, desc = "Find projects" }
 
   -- LSP
-  maps.n["<leader>ld"] = { function() require("telescope.builtin").diagnostics({ bufnr = 0 }) end,
-    desc = "Show document diagnostics" }
+  maps.n["<leader>ld"] = {
+    function() require("telescope.builtin").diagnostics({ bufnr = 0 }) end,
+    desc = "Show document diagnostics"
+  }
   maps.n["<leader>lD"] = { function() require("telescope.builtin").diagnostics() end, desc = "Show workspace diagnostics" }
   maps.n["<leader>le"] = { function() require("telescope.builtin").lsp_definitions() end, desc = "Show definition" }
 end
 
 -- UI
-maps.n["<leader>uA"] = { function() astronvim.ui.toggle_autoformat() end, desc = "Toggle autoformatting" }
+maps.n["<leader>uA"] = { function() require("astronvim.utils.ui").toggle_autoformat() end, desc = "Toggle autoformatting" }
 
 --- INSERT MODE ---
 --

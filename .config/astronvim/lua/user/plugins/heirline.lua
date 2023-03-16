@@ -16,7 +16,7 @@ return {
     -- Override winbar configuration
     if vim.g.winbar_enabled == false then
       opts.winbar = nil
-    elseif theme == "lunarvim" then
+    elseif (theme == "lunarvim" or not themes[theme]) and not vim.g.tabline then
       opts.winbar = require "user.plugins.heirline.winbar"
     end
 

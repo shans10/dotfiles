@@ -12,9 +12,6 @@ return {
     ensure_installed = {
       "lua",
       "python",
-      "c",
-      "cpp",
-      "haskell",
       "bash"
     }
   },

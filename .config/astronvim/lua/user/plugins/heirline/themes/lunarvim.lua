@@ -1,5 +1,6 @@
 local get_icon = require("astronvim.utils").get_icon
 local separator = get_icon "Separator" -- separator icon
+local is_available = require "astronvim.utils".is_available
 local st = require "astronvim.utils.status"
 
 -- A highlight function to return highlight based on vi mode
@@ -70,7 +71,7 @@ return {
     on_click = {
       name = "heirline_branch",
       callback = function()
-        if astronvim.is_available "telescope.nvim" then
+        if is_available "telescope.nvim" then
           vim.defer_fn(function() require("telescope.builtin").git_branches() end, 100)
         end
       end,
@@ -99,7 +100,7 @@ return {
     on_click = {
       name = "heirline_diagnostic",
       callback = function()
-        if astronvim.is_available "telescope.nvim" then
+        if is_available "telescope.nvim" then
           vim.defer_fn(function() require("telescope.builtin").diagnostics({ bufnr = 0 }) end, 100)
         end
       end,
