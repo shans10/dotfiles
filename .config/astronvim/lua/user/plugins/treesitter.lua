@@ -8,11 +8,9 @@ return {
     indent = { enable = true, disable = { "python" } },
     matchup = { enable = true },
     rainbow = { enable = true },
-    -- Automatically install treesitters
     ensure_installed = {
       "lua",
       "python",
-      "bash"
     }
   },
 }
