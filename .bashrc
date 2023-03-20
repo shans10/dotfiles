@@ -48,5 +48,13 @@ if ! shopt -oq posix; then
 fi
 
 ### USER SETTINGS ###
-# Starship Prompt
+# Aliases
+if [ -f ~/.aliases ]; then
+    . ~/.aliases
+fi
+
+# Starship prompt
 eval "$(starship init bash)"
+
+# Zoxide support
+eval "$(zoxide init bash)"
