@@ -26,6 +26,15 @@ fi
 # Syntax highlighting
 if [ -f ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
     source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=blue,underline
+    ZSH_HIGHLIGHT_STYLES[precommand]=fg=blue,underline
+    ZSH_HIGHLIGHT_STYLES[arg0]=fg=blue
+    ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=17
+    ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=17
+    ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=green
+    ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=green
+    ZSH_HIGHLIGHT_STYLES[path]=fg=17,underline
+    ZSH_HIGHLIGHT_STYLES[default]=fg=17
 fi
 
 # History substring search
