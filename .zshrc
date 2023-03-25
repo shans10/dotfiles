@@ -12,24 +12,30 @@ compinit
 # End of lines added by compinstall
 
 ### USER SETTINGS ###
-# Aliases
+## Aliases
 if [ -f ~/.aliases ]; then
     . ~/.aliases
 fi
 
-# Up/Down partial history search support
-autoload -U history-search-end
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey "^[[A" history-beginning-search-backward-end
-bindkey "^[[B" history-beginning-search-forward-end
-
+## Plugins
 # Autosuggestions
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [ -f ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
 
 # Syntax highlighting
-source /home/shan/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ -f ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+    source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
 
+# History substring search
+if [ -f ~/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh ]; then
+    source ~/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+    bindkey '^[[A' history-substring-search-up
+    bindkey '^[[B' history-substring-search-down
+fi
+
+## External plugins
 # Starship prompt
 eval "$(starship init zsh)"
 

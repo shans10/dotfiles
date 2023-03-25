@@ -20,7 +20,7 @@ DMEDITOR="emacsclient -cn -a emacs"
 # DMEDITOR="${DMTERM} vim"
 
 # TODO: Rename this variable to something more traditional
-logout_locker='betterlockscreen -l --off 30'
+logout_locker='betterlockscreen -l blur --off 30'
 # logout_locker='dm-tool lock'
 
 # This case statement lets you change what the DMENU variable is for different scripts, so if you
@@ -34,6 +34,7 @@ case "${0##*-}" in
 #  "colpick") DMENU="dmenu -i -p";;
  # "confedit") DMENU="dmenu -i -l 30 -p";;
  "kill") DMENU="dmenu -i -l 15 -p";;
+ "wifi") DMENU="dmenu -i -l 15 -p";;
 #  "youtube") DMBROWSER="firefox";;
   *);;
 esac
