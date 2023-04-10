@@ -116,9 +116,9 @@ conky.text = [[
   ${color1}[S]+c, m${alignr}${color2}system monitor${color}
   ${color1}[S]+c, s${alignr}${color2}sound settings${color}
   ${color1}${hr}${color}
-  ${color1}[S]+d, b${alignr}${color2}dm-setbg${color}
-  ${color1}[S]+d, c${alignr}${color2}dm-colpick${color}
-  ${color1}[S]+d, e${alignr}${color2}dm-confedit${color}
+  ${color1}[S]+d, b${alignr}${color2}wallpaper picker${color}
+  ${color1}[S]+d, c${alignr}${color2}color picker${color}
+  ${color1}[S]+d, e${alignr}${color2}edit configs${color}
   ${color1}${hr}${color}
   ${color1}[S]+[SHIFT]+r${alignr}${color2}restart xmonad${color}
   ${color1}[S]+[CTRL]+q${alignr}${color2}quit xmonad${color}

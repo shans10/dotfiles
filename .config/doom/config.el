@@ -3,8 +3,8 @@
 (setq confirm-kill-emacs nil)                ; disable quit prompt
 
 ;;; THEME ;;;
-;; (setq doom-theme 'catppuccin)      ; set theme
-(setq doom-theme 'doom-tokyo-night)      ; set theme
+(setq doom-theme 'catppuccin)      ; set theme
+;; (setq doom-theme 'doom-tokyo-night)      ; set theme
 
 ;;; FONT ;;;
 ; Set font family

@@ -126,11 +126,11 @@ font weight size = myFont ++ ":" ++ weight ++ ":size=" ++ show size ++ ":antiali
 ------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
-  -- spawn "killall trayer" -- kill current trayer on each restart
+  spawn "killall trayer" -- kill current trayer on each restart
   spawnOnce "xfce4-power-manager --daemon" -- start power manager
   spawnOnce "picom -b" -- start compositor
   spawnOnce "xargs xwallpaper --stretch < ~/.cache/wall" -- set wallpaper
-  -- spawn ("sleep 2 && " ++ sysTray) -- start system tray
+  spawn ("sleep 2 && " ++ sysTray) -- start system tray
   setDefaultCursor xC_left_ptr -- set cursor theme for desktop(by default it displays 'x')
   setWMName "Xmonad"
 

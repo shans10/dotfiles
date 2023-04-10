@@ -51,6 +51,11 @@ The theme has to be reloaded after changing anything in this group."
   :type 'number
   :group 'catppuccin)
 
+(defcustom catppuccin-highlight-matches nil
+  "Use background color to make highlighted matches more visible."
+  :type 'boolean
+  :group 'catppuccin)
+
 (defcustom catppuccin-flavor 'mocha
   "The flavor to use for the Catppuccin theme.
 Must be one of `mocha`, `macchiato`, `frappe`, or `latte`."
@@ -276,8 +281,12 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`."
                 (ctp-mantle           (catppuccin-get-color 'mantle) (catppuccin-quantize-color (catppuccin-get-color 'mantle)))
                 (ctp-crust            (catppuccin-get-color 'crust) (catppuccin-quantize-color (catppuccin-get-color 'crust)))
 
-                (ctp-current          (catppuccin-lighten (catppuccin-get-color 'base) 5)
-                                      (catppuccin-quantize-color (catppuccin-lighten (catppuccin-get-color 'base) 5)))))
+                (ctp-current          (if (eq catppuccin-flavor 'latte)
+                                           (catppuccin-darken (catppuccin-get-color 'base) 5)
+                                           (catppuccin-lighten (catppuccin-get-color 'base) 5))
+                                      (catppuccin-quantize-color (if (eq catppuccin-flavor 'latte)
+                                                                     (catppuccin-darken (catppuccin-get-color 'base) 5)
+                                                                   (catppuccin-lighten (catppuccin-get-color 'base) 5))))))
       (faces '(;; default / basic faces
                (cursor :background ,ctp-rosewater)
                (default :background ,ctp-base :foreground ,ctp-text)
@@ -296,6 +305,7 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`."
                (link-unvisited :foreground ,ctp-mauve :underline t)
                (linum :foreground ,ctp-surface1 :background ,ctp-base)
                (line-number :foreground ,ctp-surface1 :background ,ctp-base)
+               (line-number-current-line :inherit line-number :foreground ,ctp-lavender)
                (match :background ,ctp-surface1 :foreground ,ctp-text)
                (menu :background ,ctp-current :inverse-video nil :foreground ,ctp-text)
                (minibuffer-prompt :weight normal :foreground ,ctp-subtext0)
@@ -368,10 +378,10 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`."
                                                  :foreground ,ctp-base)
                (company-tooltip-selection :inherit match)
                (company-tooltip-mouse :background ,ctp-base)
-               (company-tooltip-common :foreground ,ctp-rosewater)
+               (company-tooltip-common :foreground ,ctp-text :weight bold)
                ;;(company-tooltip-common-selection :inherit company-tooltip-common)
-               (company-tooltip-annotation :inherit font-lock-comment-face)
-               ;;(company-tooltip-annotation-selection :inherit company-tooltip-annotation)
+               (company-tooltip-annotation :foreground ,ctp-green)
+               (company-tooltip-annotation-selection :foreground ,ctp-mauve)
                ;; completions (minibuffer.el)
                (completions-annotations :inherit font-lock-comment-face)
                (completions-common-part :foreground ,ctp-rosewater)
@@ -569,7 +579,7 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`."
                (corfu-annotations :inherit font-lock-comment-face)
                (corfu-deprecated :strike-through t)
                ;; highlight-indentation minor mode
-               (highlight-indentation-face :background ,ctp-subtext1)
+               (highlight-indentation-face :background ,ctp-mantle)
                ;; icicle
                ;; TODO: Verify this looks proper
                (icicle-whitespace-highlight :background ,ctp-text)
@@ -846,6 +856,25 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`."
                (org-upcoming-deadline :foreground ,ctp-maroon)
                (org-verbatim :inherit org-quote)
                (org-warning :inherit warning)
+               ;; calfw
+               (cfw:face-title :foreground ,ctp-blue :weight bold :height 1.5)
+               (cfw:face-header :foreground ,ctp-text)
+               (cfw:face-sunday :foreground ,ctp-overlay1)
+               (cfw:face-saturday :foreground ,ctp-overlay1)
+               (cfw:face-holiday :foreground ,ctp-green)
+               (cfw:face-grid :foreground ,ctp-surface0)
+               (cfw:face-default-content :foreground ,ctp-peach)
+               (cfw:face-periods :foreground ,undef)
+               (cfw:face-day-title :foreground ,ctp-subtext0)
+               (cfw:face-default-day :foreground ,ctp-text)
+               (cfw:face-annotation :foreground ,undef)
+               (cfw:face-disable :foreground ,ctp-surface1)
+               (cfw:face-today-title :foreground ,ctp-peach)
+               (cfw:face-today :inherit cfw:face-today-title)
+               (cfw:face-select :background ,ctp-surface1 :foreground ,ctp-text)
+               (cfw:face-toolbar :background ,ctp-base)
+               (cfw:face-toolbar-button-off :foreground ,ctp-rosewater)
+               (cfw:face-toolbar-button-on :foreground ,ctp-mauve)
                ;; outline
                (outline-1 :foreground ,ctp-blue)
                (outline-2 :foreground ,ctp-blue)
@@ -876,7 +905,9 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`."
                (rst-level-8 :foreground ,ctp-blue)
                ;; show-paren
                (show-paren-match :foreground ,ctp-pink
-                                 :weight bold)
+                                 :weight bold
+                                 ,@(when catppuccin-highlight-matches
+                                     (list :background ctp-surface0)))
                (show-paren-match-expression :inherit match)
                (show-paren-mismatch :inherit warning)
                ;; slime
@@ -998,7 +1029,28 @@ Must be one of `mocha`, `macchiato`, `frappe`, or `latte`."
                (yard-tag-face :inherit font-lock-builtin-face)
                (yard-directive-face :inherit font-lock-builtin-face)
                ;; line-reminder
-               (line-reminder-modified-sign-face :foreground ,ctp-green))))
+               (line-reminder-modified-sign-face :foreground ,ctp-green)
+               ;; highlight-indent-guides
+               ;; (highlight-indent-guides-odd-face :background ,ctp-base)
+               ;; (highlight-indent-guides-even-face :background ,ctp-base)
+               (highlight-indent-guides-character-face :foreground ,ctp-surface0)
+               ;; (highlight-indent-guides-top-odd-face :background ,ctp-base)
+               ;; (highlight-indent-guides-top-even-face :background ,ctp-base)
+               (highlight-indent-guides-top-character-face :foreground ,ctp-pink)
+               ;; (highlight-indent-guides-stack-odd-face :background ,ctp-base)
+               ;; (highlight-indent-guides-stack-even-face :background ,ctp-base)
+               (highlight-indent-guides-stack-character-face :foreground ,ctp-flamingo)
+               ;; lui
+               (lui-button-face :foreground ,ctp-sky :underline t)
+               (lui-highlight-face :foreground ,ctp-sky)
+               (lui-time-stamp-face :foreground ,ctp-lavender :weight bold)
+               ;; circe
+               (circe-fool-face :foreground ,ctp-subtext1)
+               (circe-highlight-nick-face :foreground ,ctp-sky :weight bold)
+               (circe-prompt-face :foreground ,ctp-base
+                                  :background ,ctp-teal
+                                  :weight bold)
+               (circe-server-face :foreground ,ctp-blue :weight bold))))
 
   (apply #'custom-theme-set-faces
          'catppuccin
