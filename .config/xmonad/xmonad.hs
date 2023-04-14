@@ -126,11 +126,12 @@ font weight size = myFont ++ ":" ++ weight ++ ":size=" ++ show size ++ ":antiali
 ------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
-  spawn "killall trayer" -- kill current trayer on each restart
+  -- spawn "killall trayer" -- kill current trayer on each restart
   spawnOnce "xfce4-power-manager --daemon" -- start power manager
   spawnOnce "picom -b" -- start compositor
   spawnOnce "xargs xwallpaper --stretch < ~/.cache/wall" -- set wallpaper
-  spawn ("sleep 2 && " ++ sysTray) -- start system tray
+  spawnOnce "conky -c .config/conky/xmonad/catppuccin.conkyrc" -- start conky
+  -- spawn ("sleep 2 && " ++ sysTray) -- start system tray
   setDefaultCursor xC_left_ptr -- set cursor theme for desktop(by default it displays 'x')
   setWMName "Xmonad"
 
@@ -473,7 +474,7 @@ myKeys c =
             ("M-d m", addName "View manpages" $ spawn "dm-man"),
             ("M-d n", addName "View wifi networks" $ spawn "dm-wifi"),
             ("M-d p", addName "Switch audio output" $ spawn "dm-audio-out-switcher"),
-            ("M-d q", addName "Shutdown Menu" $ spawn "dm-shutdown"),
+            ("M-d q", addName "Shutdown menu" $ spawn "dm-shutdown"),
             ("M-d r", addName "Run program" $ spawn "rofi -show run -no-show-icons"),
             ("M-d s", addName "Take a screenshot" $ spawn "dm-screenshot"),
             ("M-d t", addName "Show weather" $ spawn "dm-weather"),
@@ -496,13 +497,13 @@ myKeys c =
           "Favorite programs"
           [ ("M-<Return>", addName "Launch terminal" $ spawn myTerminal),
             ("M-S-<Return>", addName "Launch kitty" $ spawn "kitty"),
-            ("M-w", addName "Launch web browser" $ spawn myBrowser),
             ("M-e", addName "Launch emacs" $ spawn myEmacs),
             ("M-f", addName "Launch file manager" $ spawn "thunar"),
             ("M-S-f", addName "Launch firefox" $ spawn "firefox"),
             ("M-n", addName "Launch neovim" $ spawn myEditor),
             ("M-v", addName "Launch vscode" $ spawn "code"),
-            ("M-S-v", addName "Launch vscode insiders" $ spawn "code-insiders")
+            ("M-S-v", addName "Launch vscode insiders" $ spawn "code-insiders"),
+            ("M-w", addName "Launch web browser" $ spawn myBrowser)
           ]
         -- Multimedia applications
         ^++^ subKeys
@@ -511,15 +512,15 @@ myKeys c =
             ("M-a s", addName "Launch spotify" $ spawn "spotify"),
             ("M-a t", addName "Launch telegram" $ spawn "telegram-desktop")
           ]
-        -- Multimedia Keys
+        -- Multimedia keys
         ^++^ subKeys
           "Multimedia keys"
-          [ ("<XF86AudioMute>", addName "Toggle audio mute" $ spawn "~/.bin/audio mute"),
+          [ ("<XF86AudioMute>", addName "Toggle mute" $ spawn "~/.bin/audio mute"),
             ("<XF86AudioRaiseVolume>", addName "Raise volume" $ spawn "~/.bin/audio up"),
             ("<XF86AudioLowerVolume>", addName "Lower volume" $ spawn "~/.bin/audio down"),
             ("<XF86MonBrightnessUp>", addName "Increase brightness" $ spawn "~/.bin/brightness up"),
             ("<XF86MonBrightnessDown>", addName "Decrease brightness" $ spawn "~/.bin/brightness down"),
-            ("<Print>", addName "Take screenshot (dmscripts)" $ spawn "dm-screenshot")
+            ("<Print>", addName "Take a screenshot" $ spawn "dm-screenshot")
           ]
         -- Trayer
         ^++^ subKeys
