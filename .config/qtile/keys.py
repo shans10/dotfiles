@@ -146,7 +146,9 @@ keys = [
         lazy.layout.maximize(),
         desc="Toggle window between minimum and maximum sizes",
     ),
-    Key([mod, "control"], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
+    Key(
+        [mod, "control"], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"
+    ),
     Key([mod], "space", toggle_floating(center=True), desc="Toggle floating"),
     # Stack controls
     Key(

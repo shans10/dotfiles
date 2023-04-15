@@ -3,8 +3,7 @@ from libqtile.config import Match
 import subprocess
 import os
 
-
-# Autostart spplications
+# Autostart applications
 @hook.subscribe.startup_once
 def autostart():
     home = os.path.expanduser("~")

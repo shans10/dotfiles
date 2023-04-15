@@ -34,6 +34,7 @@ floating_layout = layout.Floating(
         Match(title="Confirmation"),  # tastyworks exit box
         Match(title="Qalculate!"),  # qalculate-gtk
         Match(wm_class="lxappearance"),
+        Match(wm_class="pavucontrol"),
         Match(wm_class="Sxiv"),
     ],
 )

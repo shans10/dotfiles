@@ -2,6 +2,8 @@ from libqtile.lazy import lazy
 from qtile_extras import widget
 from qtile_extras.widget.decorations import BorderDecoration
 from colors import catppuccin
+import os
+import subprocess
 
 widget_defaults = dict(
     font="Iosevka Nerd Font",
@@ -10,13 +12,32 @@ widget_defaults = dict(
     background=catppuccin["base"],
     foreground=catppuccin["text"],
 )
-
 extension_defaults = widget_defaults.copy()
 
 
-def clock():
+def battery():
+    return widget.GenPollText(
+        name="battery",
+        foreground=catppuccin["pink"],
+        update_interval=1,
+        mouse_callbacks={"Button1": lazy.spawn("xfce4-power-manager -c")},
+        func=lambda: subprocess.check_output(
+            os.path.expanduser("~/.config/qtile/scripts/battery"),
+        ).decode("utf-8"),
+        decorations=[
+            BorderDecoration(
+                colour=catppuccin["pink"],
+                border_width=[0, 0, 3, 0],
+                padding_x=None,
+                padding_y=None,
+            )
+        ],
+    )
+
+
+def cal():
     return widget.Clock(
-        format="%a, %d %b - %I:%M %p",
+        format="  %a, %d %b - %I:%M %p",
         foreground=catppuccin["teal"],
         decorations=[
             BorderDecoration(
@@ -31,7 +52,7 @@ def clock():
 
 def cpu():
     return widget.CPU(
-        format=" {load_percent}%",
+        format=" {load_percent}% ({freq_current}GHz)",
         foreground=catppuccin["yellow"],
         mouse_callbacks={"Button1": lazy.spawn("alacritty" " -e btop")},
         decorations=[
@@ -87,12 +108,32 @@ def logo():
 
 def memory():
     return widget.Memory(
-        format=" {MemPercent}%",
+        format="{MemUsed: .0f}{mm} ({MemPercent}%)",
         foreground=catppuccin["red"],
         mouse_callbacks={"Button1": lazy.spawn("alacritty" " -e btop")},
         decorations=[
             BorderDecoration(
                 colour=catppuccin["red"],
+                border_width=[0, 0, 3, 0],
+                padding_x=None,
+                padding_y=None,
+            )
+        ],
+    )
+
+
+def network():
+    return widget.GenPollText(
+        name="network",
+        foreground=catppuccin["blue"],
+        update_interval=1,
+        mouse_callbacks={"Button1": lazy.spawn("dm-wifi")},
+        func=lambda: subprocess.check_output(
+            os.path.expanduser("~/.config/qtile/scripts/network"),
+        ).decode("utf-8"),
+        decorations=[
+            BorderDecoration(
+                colour=catppuccin["blue"],
                 border_width=[0, 0, 3, 0],
                 padding_x=None,
                 padding_y=None,
@@ -111,6 +152,26 @@ def sep_small():
 
 def systray():
     return widget.Systray(padding=5, icon_size=17)
+
+
+def volume():
+    return widget.GenPollText(
+        name="volume",
+        foreground=catppuccin["green"],
+        update_interval=1,
+        mouse_callbacks={"Button1": lazy.spawn("pavucontrol")},
+        func=lambda: subprocess.check_output(
+            os.path.expanduser("~/.config/qtile/scripts/volume"),
+        ).decode("utf-8"),
+        decorations=[
+            BorderDecoration(
+                colour=catppuccin["green"],
+                border_width=[0, 0, 3, 0],
+                padding_x=None,
+                padding_y=None,
+            )
+        ],
+    )
 
 
 def win_name():

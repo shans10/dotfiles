@@ -1,16 +1,19 @@
 from libqtile.bar import Bar
 
 from widgets import (
-    clock,
+    battery,
+    cal,
     cpu,
     group_box,
     layout,
     line_sep,
     logo,
     memory,
+    network,
     sep_large,
     sep_small,
     systray,
+    volume,
     win_name,
 )
 
@@ -28,7 +31,13 @@ main_bar_widgets = [
     sep_large,
     memory,
     sep_large,
-    clock,
+    volume,
+    sep_large,
+    battery,
+    sep_large,
+    network,
+    sep_large,
+    cal,
     sep_small,
     systray,
     sep_small,
