@@ -19,7 +19,7 @@ def battery():
     return widget.GenPollText(
         name="battery",
         foreground=catppuccin["pink"],
-        update_interval=1,
+        update_interval=60,
         mouse_callbacks={"Button1": lazy.spawn("xfce4-power-manager -c")},
         func=lambda: subprocess.check_output(
             os.path.expanduser("~/.config/qtile/scripts/battery"),
@@ -39,6 +39,7 @@ def cal():
     return widget.Clock(
         format="  %a, %d %b - %I:%M %p",
         foreground=catppuccin["teal"],
+        update_interval=60,
         decorations=[
             BorderDecoration(
                 colour=catppuccin["teal"],
@@ -54,6 +55,7 @@ def cpu():
     return widget.CPU(
         format=" {load_percent}% ({freq_current}GHz)",
         foreground=catppuccin["yellow"],
+        update_interval=5,
         mouse_callbacks={"Button1": lazy.spawn("alacritty" " -e btop")},
         decorations=[
             BorderDecoration(
@@ -81,6 +83,8 @@ def group_box():
         highlight_color=catppuccin["base"],
         highlight_method="line",
         this_current_screen_border=catppuccin["green"],
+        urgent_border=catppuccin["red"],
+        urgent_text=catppuccin["red"],
     )
 
 
@@ -110,6 +114,7 @@ def memory():
     return widget.Memory(
         format="{MemUsed: .0f}{mm} ({MemPercent}%)",
         foreground=catppuccin["red"],
+        update_interval=5,
         mouse_callbacks={"Button1": lazy.spawn("alacritty" " -e btop")},
         decorations=[
             BorderDecoration(
@@ -126,7 +131,7 @@ def network():
     return widget.GenPollText(
         name="network",
         foreground=catppuccin["blue"],
-        update_interval=1,
+        update_interval=10,
         mouse_callbacks={"Button1": lazy.spawn("dm-wifi")},
         func=lambda: subprocess.check_output(
             os.path.expanduser("~/.config/qtile/scripts/network"),

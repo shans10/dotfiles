@@ -31,8 +31,9 @@ floating_layout = layout.Floating(
     float_rules=[
         *layout.Floating.default_float_rules,
         Match(title="Bluetooth Devices"),
-        Match(title="Confirmation"),  # tastyworks exit box
-        Match(title="Qalculate!"),  # qalculate-gtk
+        Match(title="Confirmation"),
+        Match(title="Network Connections"),
+        Match(title="Qalculate!"),
         Match(wm_class="lxappearance"),
         Match(wm_class="pavucontrol"),
         Match(wm_class="Sxiv"),
