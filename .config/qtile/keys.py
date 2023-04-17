@@ -77,18 +77,30 @@ keys = [
     Key([mod], "q", lazy.window.kill(), desc="Kill active window"),
     Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    # Worspace navigation
+    # Workspace navigation
     Key(
         [mod],
         "comma",
-        lazy.screen.prev_group(skip_empty=True),
-        desc="Move window to prev group",
+        lazy.screen.prev_group(),
+        desc="Switch to prev group",
     ),
     Key(
         [mod],
         "period",
+        lazy.screen.next_group(),
+        desc="Switch to next group",
+    ),
+    Key(
+        [mod],
+        "bracketleft",
+        lazy.screen.prev_group(skip_empty=True),
+        desc="Switch to prev non-empty group",
+    ),
+    Key(
+        [mod],
+        "bracketright",
         lazy.screen.next_group(skip_empty=True),
-        desc="Move window to prev group",
+        desc="Switch to next non-empty group",
     ),
     Key(
         [mod, "shift"],

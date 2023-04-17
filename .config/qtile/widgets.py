@@ -2,6 +2,7 @@ from libqtile.lazy import lazy
 from qtile_extras import widget
 from qtile_extras.widget.decorations import BorderDecoration
 from colors import catppuccin
+from variables import myTerm
 import os
 import subprocess
 
@@ -56,7 +57,7 @@ def cpu():
         format=" {load_percent}% ({freq_current}GHz)",
         foreground=catppuccin["yellow"],
         update_interval=5,
-        mouse_callbacks={"Button1": lazy.spawn("alacritty" " -e btop")},
+        mouse_callbacks={"Button1": lazy.spawn(myTerm + " -e btop")},
         decorations=[
             BorderDecoration(
                 colour=catppuccin["yellow"],
@@ -115,7 +116,7 @@ def memory():
         format="{MemUsed: .0f}{mm} ({MemPercent}%)",
         foreground=catppuccin["red"],
         update_interval=5,
-        mouse_callbacks={"Button1": lazy.spawn("alacritty" " -e btop")},
+        mouse_callbacks={"Button1": lazy.spawn(myTerm + " -e btop")},
         decorations=[
             BorderDecoration(
                 colour=catppuccin["red"],
