@@ -133,5 +133,13 @@
 ;; (setq lsp-headerline-breadcrumb-segments '(symbols))
 ;; (setq lsp-headerline-breadcrumb-icons-enable t)
 
+;;; VERTICO POSTFRAME ;;
+;; Enable childframe only in gui
+(use-package! vertico-posframe
+  :when (display-graphic-p)
+  :hook (vertico-mode . vertico-posframe-mode)
+  :config
+  (add-hook 'doom-after-reload-hook #'posframe-delete-all))
+
 ;;; LOAD USER DEFINED KEYBINDINGS ;;;
 (load! "keybindings")
