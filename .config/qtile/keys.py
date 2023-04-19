@@ -158,10 +158,8 @@ keys = [
         lazy.layout.maximize(),
         desc="Toggle window between minimum and maximum sizes",
     ),
-    Key(
-        [mod, "control"], "f", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"
-    ),
-    Key([mod], "space", toggle_floating(center=True), desc="Toggle floating"),
+    Key([mod], "space", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
+    Key([mod, "control"], "f", toggle_floating(center=True), desc="Toggle floating"),
     # Stack controls
     Key(
         [mod, "shift"],
@@ -202,7 +200,7 @@ keys = [
     ),
     # Favourite programs
     Key([mod], "Return", lazy.spawn(myTerm), desc="Launch terminal"),
-    Key([mod, "shift"], "Return", lazy.spawn("kitty"), desc="Launch kitty terminal"),
+    Key([mod, "shift"], "Return", lazy.spawn("wezterm"), desc="Launch wezterm"),
     Key([mod], "e", lazy.spawn("emacsclient -cn -a emacs"), desc="Launch emacs"),
     Key([mod], "f", lazy.spawn("thunar"), desc="Launch file manager"),
     Key([mod, "shift"], "f", lazy.spawn("firefox"), desc="Launch firefox"),

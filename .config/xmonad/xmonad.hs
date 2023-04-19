@@ -496,7 +496,7 @@ myKeys c =
         ^++^ subKeys
           "Favorite programs"
           [ ("M-<Return>", addName "Launch terminal" $ spawn myTerminal),
-            ("M-S-<Return>", addName "Launch kitty" $ spawn "kitty"),
+            ("M-S-<Return>", addName "Launch wezterm" $ spawn "wezterm"),
             ("M-e", addName "Launch emacs" $ spawn myEmacs),
             ("M-f", addName "Launch file manager" $ spawn "thunar"),
             ("M-S-f", addName "Launch firefox" $ spawn "firefox"),
