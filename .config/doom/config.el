@@ -141,5 +141,12 @@
   :config
   (add-hook 'doom-after-reload-hook #'posframe-delete-all))
 
+;;; TERMINAL CURSOR ;;;
+;; Change cursor in terminal emacs based on mode
+(unless (display-graphic-p)
+        (require 'evil-terminal-cursor-changer)
+        (evil-terminal-cursor-changer-activate) ; or (etcc-on)
+        )
+
 ;;; LOAD USER DEFINED KEYBINDINGS ;;;
 (load! "keybindings")

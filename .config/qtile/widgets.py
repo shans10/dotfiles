@@ -84,6 +84,7 @@ def group_box():
         highlight_color=catppuccin["base"],
         highlight_method="line",
         this_current_screen_border=catppuccin["green"],
+        urgent_alert_method = "line",
         urgent_border=catppuccin["red"],
         urgent_text=catppuccin["red"],
     )
