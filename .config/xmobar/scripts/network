@@ -11,15 +11,15 @@ WIFI=$(iwgetid -r)
 
 # Wired connection status
 if [ $WIRED_STATE = 'connected' ]; then
-    NET_ICON=' eth up'
+    NET_ICON='󰈀 eth up'
 
 # Wifi status
 elif [ $WIFI_STATE = 'connected' ]; then
-    NET_ICON="  $WIFI"
+    NET_ICON="󰖩  $WIFI"
 
 # No internet
 else
-    NET_ICON='睊  No IN'
+    NET_ICON='󰖪  No IN'
 fi
 
 echo "$NET_ICON"

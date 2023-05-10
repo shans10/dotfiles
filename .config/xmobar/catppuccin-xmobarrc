@@ -26,11 +26,11 @@ Config { font         = "Iosevka Nerd Font Bold 13px"
                       -- Cpu usage in percent
                     , Run Cpu ["-t", "  <total>% ","-H","50","--high","red"] 10
                       -- Ram used number and percent
-                    , Run Memory ["-t", "  <used>M (<usedratio>%) "] 10
+                    , Run Memory ["-t", " 󰍛 <used>M (<usedratio>%) "] 10
                       -- Volume
                     , Run Com ".config/xmobar/scripts/volume" [] "volume" 10
                       -- Battery
-                    , Run Battery ["-t", "  AC-<acstatus> (<left>%) "] 10
+                    , Run Battery ["-t", " 󰁹 AC-<acstatus> (<left>%) "] 10
                       -- Network
                     , Run Com ".config/xmobar/scripts/network" [] "network" 30
                       -- Time and date

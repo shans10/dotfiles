@@ -20,7 +20,7 @@ def battery():
     return widget.GenPollText(
         name="battery",
         foreground=catppuccin["pink"],
-        update_interval=60,
+        update_interval=1,
         mouse_callbacks={"Button1": lazy.spawn("xfce4-power-manager -c")},
         func=lambda: subprocess.check_output(
             os.path.expanduser("~/.config/qtile/scripts/battery"),
@@ -114,7 +114,7 @@ def logo():
 
 def memory():
     return widget.Memory(
-        format="{MemUsed: .0f}{mm} ({MemPercent}%)",
+        format="󰍛{MemUsed: .0f}{mm} ({MemPercent}%)",
         foreground=catppuccin["red"],
         update_interval=5,
         mouse_callbacks={"Button1": lazy.spawn(myTerm + " -e btop")},

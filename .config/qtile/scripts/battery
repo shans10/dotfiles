@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # Icons
-iconsAc=( " " " " " " " " " " )   # Charging
-iconsDc=( "" "" "" "" "" "" "" "" "" "" )   # Discharging
+iconsAc=( "󰢜 " "󰂇 " "󰢝 " "󰢞 " "󰂋 " )   # Charging
+iconsDc=( "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" )   # Discharging
 
 
 # Battery percentage
@@ -18,7 +18,7 @@ if [ $BAT_STATE = 'charging' ]; then
 
 # Fully charged icon
 elif [ $BAT_STATE = 'fully-charged' ]; then
-    BAT_ICON=''
+    BAT_ICON='󰂅'
 
 # Discharging icons
 else
