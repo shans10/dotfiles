@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Icons
-iconsAc=( "󰢜 " "󰂇 " "󰢝 " "󰢞 " "󰂋 " )   # Charging
+iconsAc=( "󰢜" "󰂇" "󰢝" "󰢞" "󰂋" )   # Charging
 iconsDc=( "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" )   # Discharging
 
 
