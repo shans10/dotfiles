@@ -4,16 +4,11 @@
 
 ;;; THEME ;;;
 (setq doom-theme 'catppuccin)      ; set theme
-;; (setq doom-theme 'doom-tokyo-night)      ; set theme
+;; (setq doom-theme 'doom-one)      ; set theme
 
 ;;; FONT ;;;
 ; Set font family
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15))
-
-; Enable bold and italic faces
-(after! doom-themes
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t))
 
 ; Set custom styles
 (custom-set-faces!
@@ -21,12 +16,10 @@
   '(font-lock-comment-face :slant italic :weight medium)
   '(italic :slant italic :weight medium)
   '(tree-sitter-hl-face:property :slant italic :weight medium)
-  ;; '(line-number :slant normal)
-  ;; '(line-number-current-line :slant normal :weight bold))
-  '(line-number-current-line :weight bold))
+  '(line-number-current-line :slant italic :weight bold))
 
 ;;; WINDOW ;;;
-;; (add-to-list 'default-frame-alist '(fullscreen . maximized))   ; Open emacs maximized
+(add-to-list 'default-frame-alist '(fullscreen . maximized))   ; Open emacs maximized
 
 ;;; VIM RELATED ;;;
 (setq evil-want-fine-undo 'fine   ; vim like undo
@@ -82,24 +75,21 @@
       lsp-eldoc-enable-hover nil)             ; disable doc below modeline on hover
 
 ;;; NEOTREE ;;;
+;; (doom-themes-neotree-config)
 (after! neotree
   (setq neo-smart-open t
-        neo-window-fixed-size nil))
-
-;; Load all-the-icons
-(after! doom-themes
-  (remove-hook 'doom-load-theme-hook #'doom-themes-neotree-config))
+        neo-window-fixed-size nil
+        doom-themes-neotree-file-icons t))    ; show filetype icons
 
 ;;; MODELINE ;;;
 (setq doom-modeline-major-mode-icon t)            ; show major mode icon in doom modeline(filetype icon)
 (setq lsp-modeline-code-actions-enable nil)       ; disable code actions in doom modeline
-;; (setq which-key-allow-imprecise-window-fit nil)   ; emacsclient which-key overlap fix
 
 ;;; CENTAUR TABS ;;;
-;; (setq centaur-tabs-set-bar 'left              ; set indicator style
+;; (setq centaur-tabs-set-bar 'left               ; set indicator style
 ;;       centaur-tabs-gray-out-icons 'buffer
 ;;       centaur-tabs-height 15                   ; set tab height
-;;       centaur-tabs-close-button "")           ; set close button style
+;;       centaur-tabs-close-button "")          ; set close button style
 
 ;;; WHITESPACE MODE ;;;
 (global-whitespace-mode +1)                ; enable globally
