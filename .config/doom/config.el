@@ -7,10 +7,10 @@
 ;; (setq doom-theme 'doom-one)      ; set theme
 
 ;;; FONT ;;;
-; Set font family
+;; Set font family
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15))
 
-; Set custom styles
+;; Set custom styles
 (custom-set-faces!
   '(font-lock-keyword-face :slant italic :weight medium)
   '(font-lock-comment-face :slant italic :weight medium)
@@ -19,7 +19,13 @@
   '(line-number-current-line :slant italic :weight bold))
 
 ;;; WINDOW ;;;
-(add-to-list 'default-frame-alist '(fullscreen . maximized))   ; Open emacs maximized
+;; (add-to-list 'default-frame-alist '(fullscreen . maximized))   ; open emacs maximized
+
+;; Disable window decoration if using graphical session
+(if (display-graphic-p)
+  (setq default-frame-alist '((undecorated . t))))
+(add-to-list 'default-frame-alist '(drag-internal-border . 1))    ; enable drag and resize for internal borders
+(add-to-list 'default-frame-alist '(internal-border-width . 1))   ; set internal border size
 
 ;;; VIM RELATED ;;;
 (setq evil-want-fine-undo 'fine   ; vim like undo
@@ -84,6 +90,7 @@
 ;;; MODELINE ;;;
 (setq doom-modeline-major-mode-icon t)            ; show major mode icon in doom modeline(filetype icon)
 (setq lsp-modeline-code-actions-enable nil)       ; disable code actions in doom modeline
+(setq doom-modeline-modal-icon nil)               ; disable mode icon and show mode text
 
 ;;; CENTAUR TABS ;;;
 ;; (setq centaur-tabs-set-bar 'left               ; set indicator style
@@ -135,8 +142,7 @@
 ;; Change cursor in terminal emacs based on mode
 (unless (display-graphic-p)
         (require 'evil-terminal-cursor-changer)
-        (evil-terminal-cursor-changer-activate) ; or (etcc-on)
-        )
+        (evil-terminal-cursor-changer-activate)) ; or (etcc-on)
 
 ;;; LOAD USER DEFINED KEYBINDINGS ;;;
 (load! "keybindings")
