@@ -117,13 +117,11 @@ alias autoremove='sudo dnf autoremove'
 
 ## OPENSUSE
 # Aliases for package management
-alias up='sudo zypper up'
-alias in='sudo zypper in'
-alias se='sudo zypper se'
-alias dup='sudo zypper dup'
-alias rem='sudo zypper rm'
-alias ref='sudo zypper refresh'
-alias red='sudo zypper rm --clean-deps'
+alias update='sudo zypper dup'
+alias install='sudo zypper in'
+alias search='sudo zypper se'
+alias remove='sudo zypper rm'
+alias remdep='sudo zypper rm -u'
 
 
 ## CLEAR LINUX
@@ -141,6 +139,18 @@ alias lh='exa -a --icons --group-directories-first'
 
 # Alias for edit command
 alias edit='emacsclient -cn -a emacs'
+
+
+### EXTERNAL MODULES ###
+
+#Zoxide support
+# zoxide init fish | source
+
+# direnv support
+# direnv hook fish | source
+
+# pipenv completion
+# eval (env _PIPENV_COMPLETE=fish_source pipenv)
 
 
 ### HIGHLIGHTING ###

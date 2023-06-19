@@ -57,4 +57,10 @@ fi
 eval "$(starship init bash)"
 
 # Zoxide support
-eval "$(zoxide init bash)"
+# eval "$(zoxide init bash)"
+
+# direnv support
+# eval "$(direnv hook bash)"
+
+# pipenv completion
+# eval "$(_PIPENV_COMPLETE=bash_source pipenv)"
