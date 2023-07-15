@@ -6,7 +6,7 @@
    -- pavucontrol
    -- trayer
 
-Config { font         = "Iosevka Nerd Font Bold 13px"
+Config { font         = "Iosevka Nerd Font Medium 10"
        , bgColor      = "#1e1e2e"
        , fgColor      = "#cdd6f4"
        -- Position TopSize and BottomSize take 3 arguments:
