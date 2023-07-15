@@ -53,14 +53,27 @@ if [ -f ~/.aliases ]; then
     . ~/.aliases
 fi
 
+# Add colors to manpages
+export LESS_TERMCAP_mb=$'\e[1;32m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[01;33m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;4;31m'
+export MANROFFOPT="-c"
+
 # Starship prompt
-eval "$(starship init bash)"
+if command -v starship &> /dev/null; then
+    eval "$(starship init bash)"
+fi
 
 # Zoxide support
-# eval "$(zoxide init bash)"
+if command -v zoxide &> /dev/null; then
+    eval "$(zoxide init bash)"
+fi
 
 # direnv support
-# eval "$(direnv hook bash)"
-
-# pipenv completion
-# eval "$(_PIPENV_COMPLETE=bash_source pipenv)"
+if command -v direnv &> /dev/null; then
+    eval "$(direnv hook bash)"
+fi

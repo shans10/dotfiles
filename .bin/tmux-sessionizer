@@ -8,6 +8,7 @@
 tmux ls &>/dev/null
 TMUX_STATUS=$?
 
+# Safely replace full path with '~' for directories in home
 home_replacer=""                                          # default to a noop
 echo "$HOME" | grep -E "^[a-zA-Z0-9\-_/.@]+$" &>/dev/null # chars safe to use in sed
 home_sed_safe=$?
@@ -24,7 +25,7 @@ header=" ctrl-s: sessions / ctrl-p: projects / ctrl-x: zoxide"   # keybinding in
 # Keybindings to invoke separate actions
 session_bind="ctrl-s:change-prompt(sessions> )+reload(tmux list-sessions -F '#S')"                                                              # show active sessions
 project_bind="ctrl-p:change-prompt(projects> )+reload(find "${project_dirs[@]}" -mindepth 1 -maxdepth 1 -type d | sed -e \"$home_replacer\")"   # show project directories
-zoxide_bind="ctrl-x:change-prompt(zoxide> )+reload(zoxide query -l | sed -e \"$home_replacer\")"
+zoxide_bind="ctrl-x:change-prompt(zoxide> )+reload(zoxide query -l | sed -e \"$home_replacer\")"                                                # show zoxide directories
 
 # Function to list sessions by most recently used
 get_sessions_by_mru() {
@@ -44,7 +45,6 @@ else
 				--bind "$zoxide_bind" \
         --border-label "$border_label" \
         --header "$header" \
-        --prompt "sessions> "
       )
     else # tmux is not running
 		  # Show project directories in default view
@@ -54,7 +54,6 @@ else
 				--bind "$zoxide_bind" \
         --border-label "$border_label" \
         --header "$header" \
-        --prompt "> "
       )
     fi
   else # inside tmux
@@ -66,7 +65,6 @@ else
 			--bind "$zoxide_bind" \
       --border-label "$border_label" \
       --header "$header" \
-      --prompt "> " \
       -p 60%,50%
     )
   fi

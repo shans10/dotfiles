@@ -17,12 +17,6 @@ function fish_user_key_bindings
 end
 
 
-### PROMPT ###
-
-# Starship PROMPT
-starship init fish | source
-
-
 ### FUNCTIONS ###
 
 # Bash Style Command Substitution and Chaining
@@ -77,61 +71,6 @@ end
 
 ### ALIASES ###
 
-## ARCH LINUX
-# Aliases for package managment
-# pacman
-alias pupdate='sudo pacman -Syu'
-alias pinstall='sudo pacman -S'
-alias premove='sudo pacman -Rns'
-
-# yay as aur helper - updates everything
-alias update="yay -Syu"
-alias install="yay -S"
-alias remove='yay -Rns'
-
-# Cleanup orphaned packages
-alias cleanup='sudo pacman -Rns (pacman -Qtdq)'
-
-# Mirror Update to latest top 200 mirrors
-alias mirror-update='sudo reflector --country India --latest 5 --protocol http --protocol https --sort rate --save /etc/pacman.d/mirrorlist'
-
-
-## Pop!_OS(Debian/Ubuntu based)
-# Aliases for package management(apt)
-alias update='sudo apt update'
-alias upgrade='sudo apt upgrade'
-alias install='sudo apt install'
-alias remove='sudo apt remove --purge'
-alias autoremove='sudo apt autoremove'
-alias autoclean='sudo dnf autoclean'
-
-
-## FEDORA
-# Aliases for package managment
-alias update='sudo dnf update'
-alias install='sudo dnf install'
-alias remove='sudo dnf remove'
-alias search='sudo dnf search'
-alias autoremove='sudo dnf autoremove'
-
-
-## OPENSUSE
-# Aliases for package management
-alias update='sudo zypper dup'
-alias install='sudo zypper in'
-alias search='sudo zypper se'
-alias remove='sudo zypper rm'
-alias remdep='sudo zypper rm -u'
-
-
-## CLEAR LINUX
-# Aliases for package managment(swupd)
-alias update='sudo swupd update'
-alias add='sudo swupd bundle-add'
-alias remove='sudo swupd bundle-remove'
-alias search='sudo swupd search'
-alias clean='sudo swupd clean'
-
 # Replace ls with exa
 alias ls='exa --icons --group-directories-first'
 alias la='exa -la --icons --group-directories-first'
@@ -143,42 +82,57 @@ alias edit='emacsclient -cn -a emacs'
 
 ### EXTERNAL MODULES ###
 
+# Starship prompt
+if command -q starship
+  starship init fish | source
+end
+
 #Zoxide support
-# zoxide init fish | source
+if command -q zoxide
+  zoxide init fish | source
+end
 
 # direnv support
-# direnv hook fish | source
-
-# pipenv completion
-# eval (env _PIPENV_COMPLETE=fish_source pipenv)
+if command -q direnv
+  direnv hook fish | source
+end
 
 
 ### HIGHLIGHTING ###
 
 # Use terminal colorscheme
-set fish_color_autosuggestion      brblack
-set fish_color_cancel              -r
-set fish_color_command             brgreen
-set fish_color_comment             brmagenta
-set fish_color_cwd                 green
-set fish_color_cwd_root            red
-set fish_color_end                 brmagenta
-set fish_color_error               brred
-set fish_color_escape              brcyan
-set fish_color_history_current     --bold
-set fish_color_host                normal
-set fish_color_match               --background=brblue
-set fish_color_normal              normal
-set fish_color_operator            cyan
-set fish_color_param               brblue
-set fish_color_quote               yellow
-set fish_color_redirection         bryellow
-set fish_color_search_match        'bryellow' '--background=brblack'
-set fish_color_selection           'white' '--bold' '--background=brblack'
-set fish_color_status              red
-set fish_color_user                brgreen
-set fish_color_valid_path          --underline
-set fish_pager_color_completion    normal
-set fish_pager_color_description   yellow
-set fish_pager_color_prefix        'white' '--bold' '--underline'
-set fish_pager_color_progress      'brwhite' '--background=cyan'
+# set fish_color_autosuggestion      brblack
+# set fish_color_cancel              -r
+# set fish_color_command             brgreen
+# set fish_color_comment             brmagenta
+# set fish_color_cwd                 green
+# set fish_color_cwd_root            red
+# set fish_color_end                 brmagenta
+# set fish_color_error               brred
+# set fish_color_escape              brcyan
+# set fish_color_history_current     --bold
+# set fish_color_host                normal
+# set fish_color_match               --background=brblue
+# set fish_color_normal              normal
+# set fish_color_operator            cyan
+# set fish_color_param               brblue
+# set fish_color_quote               yellow
+# set fish_color_redirection         bryellow
+# set fish_color_search_match        'bryellow' '--background=brblack'
+# set fish_color_selection           'white' '--bold' '--background=brblack'
+# set fish_color_status              red
+# set fish_color_user                brgreen
+# set fish_color_valid_path          --underline
+# set fish_pager_color_completion    normal
+# set fish_pager_color_description   yellow
+# set fish_pager_color_prefix        'white' '--bold' '--underline'
+# set fish_pager_color_progress      'brwhite' '--background=cyan'
+
+# Add colors to manpages
+set -x LESS_TERMCAP_mb (printf '\e[1;32m')
+set -x LESS_TERMCAP_md (printf '\e[1;32m')
+set -x LESS_TERMCAP_me (printf '\e[0m')
+set -x LESS_TERMCAP_se (printf '\e[0m')
+set -x LESS_TERMCAP_so (printf '\e[01;33m')
+set -x LESS_TERMCAP_ue (printf '\e[0m')
+set -x LESS_TERMCAP_us (printf '\e[1;4;31m')
