@@ -126,12 +126,12 @@ font weight size = myFont ++ ":" ++ weight ++ ":size=" ++ show size ++ ":antiali
 ------------------------------------------------------------------------
 myStartupHook :: X ()
 myStartupHook = do
-  -- spawn "killall trayer" -- kill current trayer on each restart
+  spawn "killall trayer" -- kill current trayer on each restart
   spawnOnce "xfce4-power-manager --daemon" -- start power manager
   spawnOnce "picom -b" -- start compositor
   spawnOnce "xargs xwallpaper --stretch < ~/.cache/wall" -- set wallpaper
   spawnOnce "conky -c .config/conky/xmonad/catppuccin.conkyrc" -- start conky
-  -- spawn ("sleep 2 && " ++ sysTray) -- start system tray
+  spawn ("sleep 2 && " ++ sysTray) -- start system tray
   setDefaultCursor xC_left_ptr -- set cursor theme for desktop(by default it displays 'x')
   setWMName "Xmonad"
 
@@ -343,7 +343,7 @@ myKeys c =
           ("M-S-r", addName "Restart XMonad" $ spawn "xmonad --restart"),
           ("M-C-q", addName "Quit XMonad" $ io exitSuccess),
           ("M-q", addName "Kill focused window" $ kill1),
-          ("M-r", addName "Run prompt" $ spawn "rofi -show run -no-show-icons"),
+          ("M-r", addName "Run applications" $ spawn "rofi -show drun"),
           ("M-S-a", addName "Kill all windows on WS" $ killAll),
           ("M-<Escape>", addName "Shutdown menu" $ spawn "dm-shutdown")
         ]
@@ -496,7 +496,7 @@ myKeys c =
         ^++^ subKeys
           "Favorite programs"
           [ ("M-<Return>", addName "Launch terminal" $ spawn myTerminal),
-            ("M-S-<Return>", addName "Launch wezterm" $ spawn "wezterm"),
+            ("M-S-<Return>", addName "Launch kitty" $ spawn "kitty"),
             ("M-e", addName "Launch emacs" $ spawn myEmacs),
             ("M-f", addName "Launch file manager" $ spawn "thunar"),
             ("M-S-f", addName "Launch firefox" $ spawn "firefox"),

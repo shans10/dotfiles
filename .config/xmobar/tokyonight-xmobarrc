@@ -19,7 +19,7 @@ Config { font         = "Iosevka Nerd Font Medium 10"
        , hideOnStart  = False
        , allDesktops  = True
        , persistent   = True
-       , iconRoot     = ".config/xmonad/xpm/"  -- default: "."
+       , iconRoot     = ".config/xmobar/xpm/"
        , commands = [
                       -- Prints out the left side items such as workspaces, layout, etc.
                       Run UnsafeXMonadLog
