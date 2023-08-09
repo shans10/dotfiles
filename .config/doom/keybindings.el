@@ -10,7 +10,7 @@
 ;; Select all text in file
 (map! :leader
       :desc "Select all"
-      "f a" #'mark-whole-buffer)
+      "b a" #'mark-whole-buffer)
 
 ;; Kill current buffer without prompt
 (map! :leader

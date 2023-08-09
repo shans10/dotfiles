@@ -50,7 +50,10 @@
 ;(unpin! t)
 
 ;; Manually install vertico childframe
-(package! vertico-posframe)
+;; (package! vertico-posframe)
 
 ;; Terminal emacs cursor changer
 (package! evil-terminal-cursor-changer)
+
+;; Catppuccin theme
+(package! catppuccin-theme)

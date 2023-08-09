@@ -4,7 +4,7 @@
 
 ;;; THEME ;;;
 (setq doom-theme 'catppuccin)      ; set theme
-;; (setq doom-theme 'doom-one)      ; set theme
+;; (setq doom-theme 'doom-tokyo-night)      ; set theme
 
 ;;; FONT ;;;
 ;; Set font family
@@ -12,20 +12,21 @@
 
 ;; Set custom styles
 (custom-set-faces!
-  '(font-lock-keyword-face :slant italic :weight medium)
-  '(font-lock-comment-face :slant italic :weight medium)
-  '(italic :slant italic :weight medium)
-  '(tree-sitter-hl-face:property :slant italic :weight medium)
-  '(line-number-current-line :slant italic :weight bold))
+  ;; '(font-lock-keyword-face :slant italic :weight medium)
+  '(font-lock-comment-face :slant italic :weight medium))
+  ;; '(italic :slant italic :weight medium))
+  ;; '(tree-sitter-hl-face:property :slant italic :weight medium)
+  ;; '(line-number-current-line :slant italic :weight medium))
 
 ;;; WINDOW ;;;
 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))   ; open emacs maximized
+(doom/set-frame-opacity 97)   ; add transparency
 
-;; Disable window decoration if using graphical session
+;; Disable window decoation if using graphical session
 (if (display-graphic-p)
   (setq default-frame-alist '((undecorated . t))))
-(add-to-list 'default-frame-alist '(drag-internal-border . 1))    ; enable drag and resize for internal borders
-(add-to-list 'default-frame-alist '(internal-border-width . 1))   ; set internal border size
+;; (add-to-list 'default-frame-alist '(drag-internal-border . 1))    ; enable drag and resize for internal borders
+;; (add-to-list 'default-frame-alist '(internal-border-width . 1))   ; set internal border size
 
 ;;; VIM RELATED ;;;
 (setq evil-want-fine-undo 'fine   ; vim like undo
@@ -90,7 +91,7 @@
 ;;; MODELINE ;;;
 (setq doom-modeline-major-mode-icon t)            ; show major mode icon in doom modeline(filetype icon)
 (setq lsp-modeline-code-actions-enable nil)       ; disable code actions in doom modeline
-(setq doom-modeline-modal-icon nil)               ; disable mode icon and show mode text
+;; (setq doom-modeline-modal-icon nil)               ; disable mode icon and show mode text
 
 ;;; CENTAUR TABS ;;;
 ;; (setq centaur-tabs-set-bar 'left               ; set indicator style
@@ -132,11 +133,11 @@
 
 ;;; VERTICO POSTFRAME ;;
 ;; Enable childframe only in gui
-(use-package! vertico-posframe
-  :when (display-graphic-p)
-  :hook (vertico-mode . vertico-posframe-mode)
-  :config
-  (add-hook 'doom-after-reload-hook #'posframe-delete-all))
+;; (use-package! vertico-posframe
+;;   :when (display-graphic-p)
+;;   :hook (vertico-mode . vertico-posframe-mode)
+;;   :config
+;;   (add-hook 'doom-after-reload-hook #'posframe-delete-all))
 
 ;;; TERMINAL CURSOR ;;;
 ;; Change cursor in terminal emacs based on mode
