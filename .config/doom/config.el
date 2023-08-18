@@ -3,12 +3,16 @@
 (setq confirm-kill-emacs nil)                ; disable quit prompt
 
 ;;; THEME ;;;
-(setq doom-theme 'catppuccin)      ; set theme
-;; (setq doom-theme 'doom-tokyo-night)      ; set theme
+;; (setq doom-theme 'catppuccin)      ; set theme
+(setq doom-theme 'doom-tokyo-night)      ; set theme
+
+;; Catppuccin flavour
+(setq catppuccin-flavor 'mocha) ; or 'latte, 'macchiato, or 'mocha
 
 ;;; FONT ;;;
 ;; Set font family
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 15))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font")) ; editor font
+(setq doom-emoji-fallback-font-families '("icons-in-terminal")) ; fix terminal unicode icons
 
 ;; Set custom styles
 (custom-set-faces!
@@ -20,11 +24,16 @@
 
 ;;; WINDOW ;;;
 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))   ; open emacs maximized
-(doom/set-frame-opacity 97)   ; add transparency
+
+;; Transparency
+;; (doom/set-frame-opacity 97)   ; add transparency
+(set-frame-parameter nil 'alpha-background 97) ; for current frame
+(add-to-list 'default-frame-alist '(alpha-background . 97)) ; for all new frames henceforth
 
 ;; Disable window decoation if using graphical session
 (if (display-graphic-p)
-  (setq default-frame-alist '((undecorated . t))))
+  (setq default-frame-alist '((undecorated . t))) ; for current frame
+  (add-to-list 'default-frame-alist '(undecorated . t))) ; for all new frames henceforth
 ;; (add-to-list 'default-frame-alist '(drag-internal-border . 1))    ; enable drag and resize for internal borders
 ;; (add-to-list 'default-frame-alist '(internal-border-width . 1))   ; set internal border size
 
@@ -79,7 +88,8 @@
 ;;; LSP ;;;
 (setq lsp-ui-doc-enable nil                   ; disable doc hover information unless key pressed
       lsp-ui-sideline-show-code-actions nil   ; disable code action hints in sideline
-      lsp-eldoc-enable-hover nil)             ; disable doc below modeline on hover
+      lsp-eldoc-enable-hover nil              ; disable doc below modeline on hover
+      lsp-signature-auto-activate nil)        ; disable function signature help popup
 
 ;;; NEOTREE ;;;
 ;; (doom-themes-neotree-config)

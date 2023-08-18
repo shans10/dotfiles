@@ -19,8 +19,7 @@
 
 ;; Neotree
 (map! :leader
-      :desc "Neotree" "t n" #'neotree-toggle
-      :desc "Open directory in neotree" "d n" #'neotree-dir)
+      :desc "Neotree" "t n" #'neotree-toggle)
 
 ;; Terminal
 ; Open external terminal in CWD
@@ -33,13 +32,6 @@
       :desc "Vterm popup" "t t" #'+vterm/toggle)
 
 ;; Dired
-(map! :leader
-      (:prefix ("d" . "dired")
-       :desc "Open dired" "d" #'dired
-       :desc "Dired jump to current" "j" #'dired-jump)
-      (:after dired
-       (:map dired-mode-map
-        :desc "Dired view file" "d v" #'dired-view-file)))
 ; Evil mode
 (evil-define-key 'normal dired-mode-map
   (kbd "M-RET") 'dired-display-file
