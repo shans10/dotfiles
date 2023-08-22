@@ -57,3 +57,6 @@
 
 ;; Catppuccin theme
 (package! catppuccin-theme)
+
+;; Zoom active splits
+(package! zoom-window)

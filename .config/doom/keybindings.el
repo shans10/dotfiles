@@ -31,6 +31,11 @@
       :desc "Eshell popup" "t e" #'+eshell/toggle
       :desc "Vterm popup" "t t" #'+vterm/toggle)
 
+;; Zoom active window
+(map! :leader
+      (:desc "Zoom window"
+       "w z" #'zoom-window-zoom))
+
 ;; Dired
 ; Evil mode
 (evil-define-key 'normal dired-mode-map

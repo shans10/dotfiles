@@ -25,6 +25,10 @@
 ;;; WINDOW ;;;
 ;; (add-to-list 'default-frame-alist '(fullscreen . maximized))   ; open emacs maximized
 
+;; Automatically switch to newly created splits
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
+
 ;; Transparency
 ;; (doom/set-frame-opacity 97)   ; add transparency
 (set-frame-parameter nil 'alpha-background 97) ; for current frame
@@ -91,6 +95,9 @@
       lsp-eldoc-enable-hover nil              ; disable doc below modeline on hover
       lsp-signature-auto-activate nil)        ; disable function signature help popup
 
+;; Formatting
+(setq-hook! 'js-mode-hook +format-with-lsp nil)
+
 ;;; NEOTREE ;;;
 ;; (doom-themes-neotree-config)
 (after! neotree
@@ -99,7 +106,7 @@
         doom-themes-neotree-file-icons t))    ; show filetype icons
 
 ;;; MODELINE ;;;
-(setq doom-modeline-major-mode-icon t)            ; show major mode icon in doom modeline(filetype icon)
+;; (setq doom-modeline-major-mode-icon t)            ; show major mode icon in doom modeline(filetype icon)
 (setq lsp-modeline-code-actions-enable nil)       ; disable code actions in doom modeline
 ;; (setq doom-modeline-modal-icon nil)               ; disable mode icon and show mode text
 
@@ -154,6 +161,9 @@
 (unless (display-graphic-p)
         (require 'evil-terminal-cursor-changer)
         (evil-terminal-cursor-changer-activate)) ; or (etcc-on)
+
+;;; ZOOM WINDOW ;;;
+(setq zoom-window-mode-line-color nil) ; disable modeline color
 
 ;;; LOAD USER DEFINED KEYBINDINGS ;;;
 (load! "keybindings")
