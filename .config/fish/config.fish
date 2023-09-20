@@ -71,13 +71,8 @@ end
 
 ### ALIASES ###
 
-# Replace ls with exa
-alias ls='exa --icons --group-directories-first'
-alias la='exa -la --icons --group-directories-first'
-alias lh='exa -a --icons --group-directories-first'
-
-# Alias for edit command
-alias edit='emacsclient -cn -a emacs'
+# Source aliases file
+source ~/.aliases
 
 
 ### EXTERNAL MODULES ###

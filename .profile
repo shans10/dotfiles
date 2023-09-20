@@ -29,11 +29,7 @@
 
 # export STARSHIP_DISTRO="$ICON "
 
-# Path
-export PATH=$PATH:/home/$USER/.local/bin:/home/$USER/.bin/dmscripts
-
 # General env
-export TERM=xterm-256color
 export EDITOR="nvim"
 # export VISUAL="emacs"
 export VISUAL="emacsclient -cn -a emacs"
@@ -41,19 +37,16 @@ export VISUAL="emacsclient -cn -a emacs"
 # Firefox Precision Scrolling
 export MOZ_USE_XINPUT2=1
 
-# Bat Theme
-# export BAT_THEME="base16"
-
-# Use bat for reading manpages
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-
 # Set session type for startx
-export XDG_SESSION_TYPE=x11
+# export XDG_SESSION_TYPE=x11
 
-# Load ghcup env
-[ -f "/home/shan/.ghcup/env" ] && source "/home/shan/.ghcup/env" # ghcup-env
+# Set fzf theme(catppuccin)
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
 
 # Automatically run startx on login
-if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-  exec startx
-fi
+# if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+#   exec startx
+# fi
