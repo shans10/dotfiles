@@ -1,12 +1,17 @@
 import:
-  # - ~/.config/alacritty/tokyo-night.yaml
-  - ~/.config/alacritty/catppuccin/catppuccin-mocha.yml
+  # - ~/.config/alacritty/themes/catppuccin-mocha.yml
+  - ~/.config/alacritty/themes/nord.yaml
+  # - ~/.config/alacritty/themes/tokyonight.yaml
 
 shell:
   program: /usr/bin/fish
 
 window:
   decorations: none
+  opacity: 0.97
+  padding:
+    x: 0
+    y: 5
 
 scrolling:
   history: 5000
