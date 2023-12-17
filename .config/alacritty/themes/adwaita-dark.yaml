@@ -29,7 +29,7 @@ colors:
 
   # Bright colors
   bright:
-    black: "#1e1e1e" # surface1
+    black: "#9a9996" # surface1
     red: "#ed333b" # red
     green: "#57e389" # green
     yellow: "#ff7800" # yellow

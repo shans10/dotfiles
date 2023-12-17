@@ -1,0 +1,50 @@
+colors:
+  primary:
+    background: "#0d1117"
+    foreground: "#e6edf3"
+    # Bright and dim foreground colors
+    dim_foreground: "#7d8590"
+    bright_foreground: "#b1bac4"
+
+  # Cursor colors
+  cursor:
+    text: "#0d1117"
+    cursor: "#e6edf3"
+
+  # Selection colors
+  selection:
+    text: "#0d1117"
+    background: "#58a6ff"
+
+  # Normal colors
+  normal:
+    black: "#0d1117"
+    red: "#ff7b72"
+    green: "#3fb950"
+    yellow: "#d29922"
+    blue: "#58a6ff"
+    magenta: "#bc8cff"
+    cyan: "#76e3ea"
+    white: "#b1bac4"
+
+  # Bright colors
+  bright:
+    black: "#484f58"
+    red: "#ffa198"
+    green: "#56d364"
+    yellow: "#e3b341"
+    blue: "#79c0ff"
+    magenta: "#d2a8ff"
+    cyan: "#b3f0ff"
+    white: "#f0f6fc"
+
+  # Dim colors
+  dim:
+    black: "#0d1117"
+    red: "#ff7b72"
+    green: "#3fb950"
+    yellow: "#d29922"
+    blue: "#58a6ff"
+    magenta: "#bc8cff"
+    cyan: "#76e3ea"
+    white: "#b1bac4"

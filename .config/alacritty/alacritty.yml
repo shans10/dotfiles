@@ -1,6 +1,7 @@
 import:
   # - ~/.config/alacritty/themes/adwaita-dark.yaml
-  - ~/.config/alacritty/themes/catppuccin-mocha.yml
+  # - ~/.config/alacritty/themes/catppuccin-mocha.yml
+  - ~/.config/alacritty/themes/github-dark.yaml
   # - ~/.config/alacritty/themes/nord.yaml
   # - ~/.config/alacritty/themes/tokyonight.yaml
 
@@ -11,7 +12,7 @@ window:
   decorations: none
   opacity: 0.97
   padding:
-    x: 0
+    x: 10
     y: 5
 
 scrolling:
@@ -19,19 +20,19 @@ scrolling:
 
 font:
   normal:
-    family: "JetBrainsMono Nerd Font"
+    family: "JetBrainsMono NF"
     style: Medium
 
   bold:
-    family: "JetBrainsMono Nerd Font"
+    family: "JetBrainsMono NF"
     style: Bold
 
   italic:
-    family: "JetBrainsMono Nerd Font"
+    family: "JetBrainsMono NF"
     style: Italic
 
   bold_italic:
-    family: "JetBrainsMono Nerd Font"
+    family: "JetBrainsMono NF"
     style: Bold Italic
 
   size: 11.5
