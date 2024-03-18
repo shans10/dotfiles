@@ -11,8 +11,8 @@ $all[╰─](238)$character"""
 # 
 # Change the default prompt characters
 [character]
-success_symbol = "[](238)"
-error_symbol = "[](238)"
+success_symbol = "[󰁔](238)"
+error_symbol = "[󰁔](238)"
 
 # Shows an icon that should be included by zshrc script based on the distribution or os
 [env_var.STARSHIP_DISTRO]
@@ -31,13 +31,13 @@ show_always = true
 [directory]
 truncation_length = 3
 truncation_symbol = "…/"
-home_symbol = " ~"
+home_symbol = "󰋞 ~"
 read_only_style = "197"
 read_only = "  "
 format = "at [$path]($style)[$read_only]($read_only_style) "
 
 [git_branch]
-symbol = " "
+symbol = "󰊢 "
 format = "on [$symbol$branch]($style) "
 truncation_length = 4
 truncation_symbol = "…/"
@@ -48,18 +48,18 @@ format = '[\($all_status$ahead_behind\)]($style) '
 style = "bold green"
 conflicted = "🏳"
 up_to_date = " "
-untracked = " "
+untracked = "󰀪 "
 ahead = "⇡${count}"
 diverged = "⇕⇡${ahead_count}⇣${behind_count}"
 behind = "⇣${count}"
-stashed = " "
+stashed = "󰏗 "
 modified = " "
 staged = '[++\($count\)](green)'
-renamed = "襁 "
+renamed = "󰖷 "
 deleted = " "
 
 [terraform]
-format = "via [ terraform $version]($style) 壟 [$workspace]($style) "
+format = "via [ terraform $version]($style) 󰑃 [$workspace]($style) "
 
 [vagrant]
 format = "via [ vagrant $version]($style) "
@@ -71,11 +71,11 @@ format = "via [ $context](bold blue) "
 format = "via [ $version](bold purple) "
 
 [python]
-symbol = " "
+symbol = "󰌠 "
 python_binary = "python3"
 
 [nodejs]
-format = "via [ $version](bold green) "
+format = "via [󰎙 $version](bold green) "
 disabled = true
 
 [ruby]
