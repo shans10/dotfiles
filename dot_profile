@@ -6,6 +6,7 @@ fi
 # Set neovim as manpager
 if [[ -x "$(command -v nvim)" ]]; then
   export MANPAGER="nvim +Man!"
+  export EDITOR="$(which nvim)"
 fi
 
 # Set PATH so it includes user's private bin if it exists
@@ -18,5 +19,9 @@ if [[ -d "$HOME/.local/bin" ]] ; then
   PATH="$PATH:$HOME/.local/bin"
 fi
 
-# Default editor
-export EDITOR=$(which hx)
+# Set helix as default editor
+if [[ -x "$(command -v helix)" ]]; then
+  export EDITOR="$(which helix)"
+elif [[ -x "$(command -v hx)" ]]; then
+  export EDITOR="$(which hx)"
+fi
