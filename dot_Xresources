@@ -1,0 +1,5 @@
+! COLORS FOR Nsxiv
+Nsxiv.window.foreground: #F5F5F5
+Nsxiv.window.background: #2C2C2C
+Nsxiv.bar.background:    #242424
+Nsxiv.bar.font: Cantarell:size=11
