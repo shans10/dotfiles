@@ -22,8 +22,7 @@ prompt
 # Install nix package manager using Determinate Systems installer
 ohai 'Installing `nix` package manager...'
 if [ ! -x "$(command -v nix)" ]; then
-  curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | \
-    sh -s -- install ostree --no-confirm --persistence=/var/lib/nix
+  curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
   # Load nix env in current shell
   printf "\n--> Loading nix env in current shell...\n"
   . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
@@ -47,7 +46,7 @@ ohai 'Installing `home-manager`...'
 nix-shell '<home-manager>' -A install
 
 # Configure shell profile for home-manager
-if [ ! -f "$HOME/.profile" ] || [ ! "$(cat $HOME/.profile | grep hm-session-vars)" ]
+if [ ! -f "$HOME/.profile" ] || [ ! "$(cat $HOME/.profile | grep -q 'hm-session-vars')" ]
 then
   printf "\n--> Configuring shell for home-manager...\n"
   echo -e "\n# Source home-manager session vars" >> $HOME/.profile
