@@ -17,7 +17,7 @@ prompt
 NVIM_DIR="$HOME/.config/nvim"
 
 # Clone neovim config if it doesn't exist
-if [ ! -d "$NVIM_DIR" ]; then
+if [[ ! -d "$NVIM_DIR" ]]; then
   ohai "Cloning neovim config..."
   git clone https://github.com/shans10/astronvim-config.git $NVIM_DIR
 else

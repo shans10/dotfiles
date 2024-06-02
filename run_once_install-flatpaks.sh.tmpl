@@ -20,7 +20,7 @@ prompt
 # the remote is disabled so we enable it.
 #
 # User remote
-if [ ! $(flatpak remotes --user --columns=name | grep flathub) ]; then # check if remote is listed
+if [[ ! $(flatpak remotes --user --columns=name | grep flathub) ]]; then # check if remote is listed
   ohai "Adding Flathub (User) remote..."
   if ! flatpak remote-add --user --if-not-exists flathub \
     https://dl.flathub.org/repo/flathub.flatpakrepo --title "Flathub (User)"; then # try to add the remote

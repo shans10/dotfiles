@@ -11,7 +11,7 @@ ohai " " "${tty_yellow}############### INSTALLING NIX AND HOME-MANAGER #########
 printf "\n"
 
 # Exit script if home-manager is already installed
-if [ -x "$(command -v home-manager)" ]; then
+if [[ -x "$(command -v home-manager)" ]]; then
   printf "Nix and home-manager already installed. Exiting...\n"
   exit
 fi
@@ -21,7 +21,7 @@ prompt
 
 # Install nix package manager using Determinate Systems installer
 ohai 'Installing `nix` package manager...'
-if [ ! -x "$(command -v nix)" ]; then
+if [[ ! -x "$(command -v nix)" ]]; then
   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
   # Load nix env in current shell
   printf "\n--> Loading nix env in current shell...\n"
@@ -46,7 +46,7 @@ ohai 'Installing `home-manager`...'
 nix-shell '<home-manager>' -A install
 
 # Configure shell profile for home-manager
-if [ ! -f "$HOME/.profile" ] || [ ! "$(cat $HOME/.profile | grep -q 'hm-session-vars')" ]
+if [[ ! -f "$HOME/.profile" ] || [ ! "$(cat $HOME/.profile | grep hm-session-vars)" ]]
 then
   printf "\n--> Configuring shell for home-manager...\n"
   echo -e "\n# Source home-manager session vars" >> $HOME/.profile

@@ -14,14 +14,14 @@ printf "\n"
 prompt
 
 # Create directory for cloning themes
-if [ ! -d "$HOME/Themes" ]; then
+if [[ ! -d "$HOME/Themes" ]]; then
   mkdir $HOME/Themes
 fi
 CLONE_DIR="$HOME/Themes"
 
 # Install Colloid gtk theme
 ohai "Installing Colloid Gtk theme..."
-if [ ! -d "$CLONE_DIR/Colloid-gtk-theme" ]; then
+if [[ ! -d "$CLONE_DIR/Colloid-gtk-theme" ]]; then
   git -C $CLONE_DIR clone https://github.com/vinceliuice/Colloid-gtk-theme.git
 else
   git -C $CLONE_DIR/Colloid-gtk-theme pull
@@ -37,7 +37,7 @@ wget -qO- https://git.io/papirus-icon-theme-install | DESTDIR="$HOME/.local/shar
 # Apply papirus-folders theme
 printf "\n"
 ohai 'Applying  papirus-folders `adwaita` colors...'
-if [ ! -d "$CLONE_DIR/papirus-folders" ]; then
+if [[ ! -d "$CLONE_DIR/papirus-folders" ]]; then
   git -C $CLONE_DIR clone https://github.com/PapirusDevelopmentTeam/papirus-folders.git
 else
   git -C $CLONE_DIR/papirus-folders pull
