@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# Tell this script to exit if there are any errors
+set -oue pipefail
+
+# Source utils
+UTILS_DIR="$(dirname "$(readlink -f "$0")")/utils"
+source "$UTILS_DIR/string-formatter"    # string formatters to add colors and bling
+source "$UTILS_DIR/confirmation-prompt" # yes/no confirmation prompt
+
+# Display script header
+printf "\n"
+ohai " " "${tty_yellow}############### INSTALLING FLATPAKS ###############"
+printf "\n"
+
+# Add confirmation prompt to continue/exit script based on user response
+prompt
+
+# Setting up Flathub remotes
+#
+# If the remote is not listed then it means the remote is either disabled
+# or it doesn't exist. So, first we try to add the remote if it fails, it means
+# the remote is disabled so we enable it.
+#
+# User remote
+if [[ ! $(flatpak remotes --user --columns=name | grep flathub) ]]; then # check if remote is listed
+  ohai "Adding Flathub (User) remote..."
+  if ! flatpak remote-add --user --if-not-exists flathub \
+    https://dl.flathub.org/repo/flathub.flatpakrepo --title "Flathub (User)"; then # try to add the remote
+    ohai "Enabling Flathub (User) remote..."
+    flatpak remote-modify --user --enable flathub # enable the remote
+  fi
+  printf "\n\n"
+fi
+
+# Additional apps from flathub remote
+ohai "Installing Flatpak Apps..."
+flatpak install --user --noninteractive \
+  ca.desrt.dconf-editor \
+  com.discordapp.Discord \
+  com.github.tchx84.Flatseal \
+  com.google.Chrome \
+  com.mattjakeman.ExtensionManager \
+  md.obsidian.Obsidian
+printf "\n"
+
+# Signal end
+printf "${tty_green}DONE!\n"

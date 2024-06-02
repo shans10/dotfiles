@@ -1,0 +1,6 @@
+#!/bin/sh
+
+CAL_ICON=''
+CAL=$(date '+%I:%M %p')
+
+echo "$CAL_ICON  $CAL"

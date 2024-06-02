@@ -1,0 +1,13 @@
+[[language]]
+name = "just"
+auto-format = false
+scope = "source.just"
+injection-regex = "(just|justfile)"
+file-types = ["just"]
+roots = []
+comment-token = "#"
+
+[[language]]
+name = "nix"
+auto-format = true
+formatter = { command = "alejandra" }

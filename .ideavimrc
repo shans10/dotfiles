@@ -1,0 +1,59 @@
+""" GENERAL SETTINGS """
+""
+"" -- Suggested options --
+" Show a few lines of context around the cursor. Note that this makes the
+" text scroll if you mouse-click near the start or end of the window.
+set scrolloff=5
+
+" Do incremental searching.
+set incsearch
+set ignorecase
+set smartcase
+set hlsearch
+set gdefault
+set visualbell
+set noerrorbells
+set surround
+set commentary
+set clipboard+=unnamed
+
+""" KEYBINDINGS """
+""
+"" Set leader key
+let mapleader = " "
+
+"" Switch to normal mode using jj
+imap jj <Esc>
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+"" Disable search highlights
+nnoremap <Esc> :nohlsearch<CR>
+
+"" File
+nmap <leader>fa ggVG
+nmap <leader>fc :q<CR>
+nmap <leader>fi gg=G
+nmap <leader>fs :w<CR>
+
+"" Line navigation
+nmap <leader>le $
+nmap <leader>lb 0
+nmap <leader>lw ^
+
+"" Tabs
+nmap <leader>tn :bnext<CR>
+nmap <leader>tp :bprev<CR>
+
+"" Goto mappings
+nmap <leader><leader> <Action>(GotoAction)
+nmap <leader>. <Action>(GotoFile)
+
+"" Code actions
+nmap <leader>cd <Action>(Debug)
+nmap <leader>cf <Action>(ReformatCode)
+nmap <leader>cr <Action>(Run)
+
+"" Map \b to toggle the breakpoint on the current line
+map \b <Action>(ToggleLineBreakpoint)

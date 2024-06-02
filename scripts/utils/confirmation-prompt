@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Ask for user confirmation
+prompt() {
+  while true; do
+
+    read -p "$(tty_mkbold 36)Do you want to proceed? ([Y]es/[n]o): ${tty_reset}" yn
+
+    case $yn in
+      [yY] ) printf "\n${tty_green}Proceeding...${tty_reset}\n\n";
+        break;;
+      [nN] ) printf "\n${tty_red}Exiting...${tty_reset}\n";
+        exit;;
+      * ) printf "\n${tty_bold}Invalid response! Try again.${tty_reset}\n\n";;
+    esac
+
+  done
+}
