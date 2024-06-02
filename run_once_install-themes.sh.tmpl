@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+# Source utils
+UTILS_DIR={{ joinPath .chezmoi.sourceDir "scripts/utils" }}
+source "$UTILS_DIR/string-formatter"    # string formatters to add colors and bling
+source "$UTILS_DIR/confirmation-prompt" # yes/no confirmation prompt
+
+# Display script header
+printf "\n"
+ohai " " "${tty_yellow}############### INSTALLING THEMES ###############"
+printf "\n"
+
+# Add confirmation prompt to continue/exit script based on user response
+prompt
+
+# Create directory for cloning themes
+if [[ ! -d "$HOME/Themes" ]]; then
+  mkdir $HOME/Themes
+fi
+CLONE_DIR="$HOME/Themes"
+
+# Install Colloid gtk theme
+ohai "Installing Colloid Gtk theme..."
+if [[ ! -d "$CLONE_DIR/Colloid-gtk-theme" ]]; then
+  git -C $CLONE_DIR clone https://github.com/vinceliuice/Colloid-gtk-theme.git
+else
+  git -C $CLONE_DIR/Colloid-gtk-theme pull
+fi
+cd $CLONE_DIR/Colloid-gtk-theme
+./install.sh -c dark --tweaks normal --tweaks rimless
+
+# Install Papirus icon theme
+printf "\n"
+ohai "Installing Papirus icon theme..."
+wget -qO- https://git.io/papirus-icon-theme-install | DESTDIR="$HOME/.local/share/icons" sh
+
+# Apply papirus-folders theme
+printf "\n"
+ohai 'Applying  papirus-folders `adwaita` colors...'
+if [[ ! -d "$CLONE_DIR/papirus-folders" ]]; then
+  git -C $CLONE_DIR clone https://github.com/PapirusDevelopmentTeam/papirus-folders.git
+else
+  git -C $CLONE_DIR/papirus-folders pull
+fi
+cd $CLONE_DIR/papirus-folders
+./papirus-folders -C adwaita --theme Papirus-Dark
+
+# Signal end
+printf "${tty_green}\nALL THEMES SUCCESFULLY INSTALLED!\n"

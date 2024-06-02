@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+# Source utils
+UTILS_DIR={{ joinPath .chezmoi.sourceDir "scripts/utils" }}
+source "$UTILS_DIR/string-formatter"    # string formatters to add colors and bling
+source "$UTILS_DIR/confirmation-prompt" # yes/no confirmation prompt
+
+# Display script header
+printf "\n"
+ohai " " "${tty_yellow}############### INSTALLING FLATPAKS ###############"
+printf "\n"
+
+# Add confirmation prompt to continue/exit script based on user response
+prompt
+
+# Flatpak install command
+FLATPAK_INSTALL="flatpak install --system --noninteractive"
+
+# Core GNOME apps from fedora remote
+ohai "Installing Core GNOME Apps..."
+$FLATPAK_INSTALL fedora \
+  org.gnome.Calculator \
+  org.gnome.Calendar \
+  org.gnome.Characters \
+  org.gnome.Connections \
+  org.gnome.Contacts \
+  org.gnome.Evince \
+  org.gnome.Geary \
+  org.gnome.Logs \
+  org.gnome.Loupe \
+  org.gnome.Maps \
+  org.gnome.NautilusPreviewer \
+  org.gnome.Snapshot \
+  org.gnome.TextEditor \
+  org.gnome.Totem \
+  org.gnome.Weather \
+  org.gnome.baobab \
+  org.gnome.clocks \
+  org.gnome.font-viewer
+printf "\n"
+
+# Setting up Flathub remotes
+#
+# If the remote is not listed then it means the remote is either disabled
+# or it doesn't exist. So, first we try to add the remote if it fails, it means
+# the remote is disabled so we enable it.
+#
+# System remote
+if [[ ! "$(flatpak remotes --system --columns=name | grep flathub)" ]]; then # check if remote is listed
+  ohai "Adding Flathub (System) remote..."
+  if ! sudo flatpak remote-add --system --if-not-exists flathub \
+    https://dl.flathub.org/repo/flathub.flatpakrepo --title "Flathub (System)"; then # try to add the remote
+    ohai "Enabling Flathub (System) remote..."
+    sudo flatpak remote-modify --system --enable flathub # enable the remote
+  fi
+  printf "\n\n"
+fi
+
+# Additional apps from flathub remote
+ohai "Installing Additional Apps..."
+$FLATPAK_INSTALL flathub \
+  ca.desrt.dconf-editor \
+  com.discordapp.Discord \
+  com.github.tchx84.Flatseal \
+  com.google.Chrome \
+  com.mattjakeman.ExtensionManager \
+  md.obsidian.Obsidian
+printf "\n"
+
+# Signal end
+printf "${tty_green}DONE!\n"

@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Source utils
+UTILS_DIR={{ joinPath .chezmoi.sourceDir "scripts/utils" }}
+source "$UTILS_DIR/string-formatter"    # string formatters to add colors and bling
+source "$UTILS_DIR/confirmation-prompt" # yes/no confirmation prompt
+
+# Display script header
+printf "\n"
+ohai " " "${tty_yellow}############### SETTING UP NEOVIM CONFIG ###############"
+printf "\n"
+
+# Add confirmation prompt to continue/exit script based on user response
+prompt
+
+# Set neovim directory
+NVIM_DIR="$HOME/.config/nvim"
+
+# Clone neovim config if it doesn't exist
+if [[ ! -d "$NVIM_DIR" ]]; then
+  ohai "Cloning neovim config..."
+  git clone https://github.com/shans10/astronvim-config.git $NVIM_DIR
+else
+  ohai "" "${tty_yellow}Directory already exists, delete it and try again. Exiting..."
+  printf "\n"
+fi
+
+# Signal end
+printf "${tty_green}DONE!\n"

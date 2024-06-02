@@ -1,0 +1,10 @@
+[commit]
+	gpgsign = true
+
+[gpg]
+	format = "ssh"
+
+[user]
+	email = "shantanu.shukla10@gmail.com"
+	name = "Shantanu Shukla"
+	signingkey = "~/.ssh/id_ed25519.pub"

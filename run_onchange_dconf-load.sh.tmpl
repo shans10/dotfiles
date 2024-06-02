@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Source utils
+UTILS_DIR={{ joinPath .chezmoi.sourceDir "scripts/utils" }}
+source "$UTILS_DIR/string-formatter"    # string formatters to add colors and bling
+source "$UTILS_DIR/confirmation-prompt" # yes/no confirmation prompt
+
+# Display script header
+printf "\n"
+ohai " " "${tty_yellow}############### APPLYING DCONF SETTINGS ###############"
+printf "\n"
+
+# Add confirmation prompt to continue/exit script based on user response
+prompt
+
+ohai "Loading writable dconf changes..."
+# dconf.ini hash: {{ include "dconf.ini" | sha256sum }}
+dconf load / < {{ joinPath .chezmoi.sourceDir "dconf.ini" | quote }}
+
+# Signal end
+printf "\n${tty_green}Dconf settings loaded!\n"

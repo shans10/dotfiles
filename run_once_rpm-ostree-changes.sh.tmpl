@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+# Source utils
+UTILS_DIR={{ joinPath .chezmoi.sourceDir "scripts/utils" }}
+source "$UTILS_DIR/string-formatter"    # string formatters to add colors and bling
+source "$UTILS_DIR/confirmation-prompt" # yes/no confirmation prompt
+
+# Display script header
+printf "\n"
+ohai " " "${tty_yellow}############### RPM OSTREE LAYERING AND OVERRIDES ###############"
+printf "\n"
+
+# Add confirmation prompt to continue/exit script based on user response
+prompt
+
+# Overrides (Remove base packages)
+ohai "Removing base packages..."
+REMOVE="rpm-ostree override remove"
+$REMOVE firefox firefox-langpacks
+$REMOVE gnome-terminal gnome-terminal-nautilus
+$REMOVE toolbox
+printf "\n"
+
+# Layer (Install additional packages)
+ohai "Adding additional packages..."
+INSTALL="rpm-ostree install"
+$INSTALL alacritty
+$INSTALL distrobox
+$INSTALL fish
+$INSTALL gnome-console
+$INSTALL gnome-tweaks
+
+# Signal end
+printf "${tty_yellow}\nFINISHED!\n"
