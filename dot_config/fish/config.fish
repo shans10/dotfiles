@@ -71,6 +71,9 @@ end
 
 ### ALIASES ###
 
+# Source common shell aliases
+source ~/.alias
+
 # Replace ls with exa
 if command -q eza
     alias ls='eza --git --icons --color=always --group-directories-first'

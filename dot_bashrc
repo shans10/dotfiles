@@ -2,6 +2,9 @@
 
 ## ALIASES
 #
+# Source common aliases
+source ~/.alias
+
 # Replace ls with exa
 if [[ -x "$(command -v eza)" ]]; then
     alias ls='eza --git --icons --color=always --group-directories-first'

@@ -1,4 +1,4 @@
-theme = "tokyonight"
+theme = "onedark"
 
 [editor]
 bufferline = "multiple"
