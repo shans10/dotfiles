@@ -17,7 +17,7 @@ printf "\n"
 prompt
 
 # Dconf file path relative to this script
-DCONF_FILE="$SCRIPT_DIR/../dconf.ini"
+DCONF_FILE="$UTILS_DIR/../../dconf.ini"
 ohai "Loading writable dconf changes..."
 dconf load -f / < $DCONF_FILE
 
