@@ -5,8 +5,8 @@
 # Replace ls with exa
 if [[ -x "$(command -v eza)" ]]; then
     alias ls='eza --git --icons --color=always --group-directories-first'
-    alias la='eza -la --git --icons --color=always --group-directories-first'
-    alias lh='eza -a --git --icons --color=always --group-directories-first'
+    alias la='eza -a --git --icons --color=always --group-directories-first'
+    alias ll='eza -la --git --icons --color=always --group-directories-first'
 fi
 
 # home-manager
