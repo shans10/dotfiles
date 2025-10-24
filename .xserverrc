@@ -1,1 +1,0 @@
-exec /usr/bin/X -nolisten tcp -ardelay 500 -arinterval 28 "$@" vt$XDG_VTNR

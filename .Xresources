@@ -1,12 +1,3 @@
-! FONT
-Xft.dpi: 96
-Xft.antialias: true
-Xft.hinting: true
-Xft.rgba: rgb
-Xft.autohint: true
-Xft.hintstyle: hintfull
-Xft.lcdfilter: lcdfilter
-
 ! COLORS FOR SXIV
 ! Sxiv.foreground: #CDD6F4
 ! Sxiv.background: #1E1E2E
