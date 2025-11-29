@@ -18,4 +18,8 @@ user_pref("sidebar.old-sidebar.has-used", true);
 user_pref("pdfjs.enabledCache.state", false);
 user_pref("pdfjs.migrationVersion", 2);
 user_pref("pref.downloads.disable_button.edit_actions", false);
+user_pref("media.videocontrols.picture-in-picture.video-toggle.enabled", false);
+user_pref("browser.ml.chat.enabled", false);
+user_pref("browser.ml.chat.sidebar", false);
+user_pref("browser.tabs.groups.smart.enabled", false);
 user_pref("browser.uiCustomization.state", "{\"placements\":{\"widget-overflow-fixed-list\":[],\"unified-extensions-area\":[],\"nav-bar\":[\"back-button\",\"forward-button\",\"stop-reload-button\",\"customizableui-special-spring1\",\"vertical-spacer\",\"urlbar-container\",\"customizableui-special-spring2\",\"downloads-button\",\"fxa-toolbar-menu-button\",\"close-page-button\"],\"toolbar-menubar\":[\"menubar-items\"],\"TabsToolbar\":[\"tabbrowser-tabs\",\"new-tab-button\",\"alltabs-button\",\"notifications-button\",\"site-info\"],\"vertical-tabs\":[],\"PersonalToolbar\":[\"personal-bookmarks\"]},\"seen\":[\"reader-view-button\",\"copy-link-button\",\"send-to-device-button\",\"open-in-browser-button\",\"mute-button\",\"unified-extensions-button\",\"tracking-protection-button\",\"identity-button\",\"permissions-button\",\"notifications-button\",\"close-page-button\",\"back-button-ffpwa\",\"forward-button-ffpwa\",\"developer-button\",\"screenshot-button\"],\"dirtyAreaCache\":[\"nav-bar\",\"TabsToolbar\",\"vertical-tabs\",\"toolbar-menubar\",\"PersonalToolbar\"],\"currentVersion\":23,\"newElementCount\":2}");
