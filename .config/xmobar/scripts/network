@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Wired connection
+WIRED_STATE=$(nmcli -p d | awk '/enp1s0/{print $3; exit}')
+
+# Wifi Connection
+WIFI_STATE=$(nmcli -p d | awk '/wlp2s0/{print $3; exit}')
+
+# Getting wifi SSID
+WIFI=$(iwgetid -r)
+
+# Wired connection status
+if [ $WIRED_STATE = 'connected' ]; then
+    NET_ICON='󰈀 eth up'
+
+# Wifi status
+elif [ $WIFI_STATE = 'connected' ]; then
+    NET_ICON="󰖩  $WIFI"
+
+# No internet
+else
+    NET_ICON='󰖪  No IN'
+fi
+
+echo "$NET_ICON"
+
+exit 0

@@ -1,0 +1,222 @@
+// Keybindings
+keybinds clear-defaults=true {
+    // Enter tmux mode
+    shared_except "locked" "tmux" {
+        bind "Ctrl a" { SwitchToMode "tmux"; }
+    }
+    shared_except "normal" "locked" "entersearch" {
+        bind "esc" { SwitchToMode "normal"; }
+    }
+    shared_among "session" "tmux" {
+        bind "d" { Detach; }
+    }
+    tmux {
+        bind "[" { SwitchToMode "Scroll"; }
+
+        // Leave tmux mode
+        bind "Ctrl a" { Write 2; SwitchToMode "normal"; }
+
+        // Tab creation
+        bind "c" { NewTab; SwitchToMode "Normal"; }
+        bind "t" { NewTab; SwitchToMode "Normal"; }
+
+        // Session manager
+        bind "s" "$" ":" {
+            LaunchOrFocusPlugin "session-manager" {
+                floating true
+                move_to_focused_tab true
+            };
+            SwitchToMode "Normal"
+        }
+
+        // Splitting panes
+        bind "\\" { NewPane "Right"; SwitchToMode "Normal"; }
+        bind "-" { NewPane "Down"; SwitchToMode "Normal"; }
+
+        // Moving between tabs
+        bind "p" { GoToPreviousTab; SwitchToMode "Normal"; }
+        bind "n" { GoToNextTab; SwitchToMode "Normal"; }
+        // Toggle between last two tabs
+        bind "a" { ToggleTab; SwitchToMode "normal"; }
+        // Switch to tabs 1-9
+        bind "1" { GoToTab 1; SwitchToMode "normal"; }
+        bind "2" { GoToTab 2; SwitchToMode "normal"; }
+        bind "3" { GoToTab 3; SwitchToMode "normal"; }
+        bind "4" { GoToTab 4; SwitchToMode "normal"; }
+        bind "5" { GoToTab 5; SwitchToMode "normal"; }
+        bind "6" { GoToTab 6; SwitchToMode "normal"; }
+        bind "7" { GoToTab 7; SwitchToMode "normal"; }
+        bind "8" { GoToTab 8; SwitchToMode "normal"; }
+        bind "9" { GoToTab 9; SwitchToMode "normal"; }
+        // Renaming tabs
+        bind "," { SwitchToMode "RenameTab"; TabNameInput 0; }
+
+        // Moving between panes
+        bind "Left" { MoveFocus "Left"; SwitchToMode "Normal"; }
+        bind "Right" { MoveFocus "Right"; SwitchToMode "Normal"; }
+        bind "Down" { MoveFocus "Down"; SwitchToMode "Normal"; }
+        bind "Up" { MoveFocus "Up"; SwitchToMode "Normal"; }
+        bind "h" { MoveFocus "Left"; SwitchToMode "Normal"; }
+        bind "l" { MoveFocus "Right"; SwitchToMode "Normal"; }
+        bind "j" { MoveFocus "Down"; SwitchToMode "Normal"; }
+        bind "k" { MoveFocus "Up"; SwitchToMode "Normal"; }
+        // Renaming panes
+        bind "." { SwitchToMode "RenamePane"; PaneNameInput 0; }
+        // Resizing panes
+        bind "H" { Resize "Increase Left"; }
+        bind "L" { Resize "Increase Right"; }
+        bind "K" { Resize "Increase Up"; }
+        bind "J" { Resize "Increase Down"; }
+        // Cycle through panes
+        bind "o" { FocusNextPane; }
+        // Fullscreen pane
+        bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
+
+        // Cycle through layouts
+        bind "Space" { NextSwapLayout; }
+
+        // Close focused tab/pane
+        bind "x" { CloseFocus; SwitchToMode "Normal"; }
+    }
+    shared_among "scroll" "Search" {
+        // Navigation
+        bind "j" "Down" { ScrollDown; }
+        bind "PageDown" "J" { PageScrollDown; }
+        bind "k" "Up" { ScrollUp; }
+        bind "PageUp" "K" { PageScrollUp; }
+        bind "d" { HalfPageScrollDown; }
+        bind "u" { HalfPageScrollUp; }
+        bind "Ctrl b" { PageScrollUp; }
+        bind "Ctrl f" { PageScrollDown; }
+
+        // Exit to normal mode
+        bind "Esc" { SwitchToMode "Normal"; }
+        bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
+    }
+    scroll {
+        // Search an item
+        bind "s" { SwitchToMode "EnterSearch"; SearchInput 0; }
+        bind "Ctrl r" { SwitchToMode "EnterSearch"; SearchInput 0; }
+
+        // uncomment this and adjust key if using copy_on_select=false
+        // bind "Alt c" { Copy; }
+    }
+    entersearch {
+        // Exit to scroll mode
+        bind "Ctrl c" { ScrollToBottom; SwitchToMode "Scroll"; }
+        bind "Esc" { SwitchToMode "Scroll"; }
+
+        // Initiate search
+        bind "Enter" { SwitchToMode "Search"; }
+    }
+    search {
+        // Search an item
+        bind "Ctrl r" { SwitchToMode "EnterSearch"; SearchInput 0; }
+
+        // Exit to scroll mode
+        bind "Ctrl s" { ScrollToBottom; SwitchToMode "Scroll"; }
+
+        // Navigate through searches
+        bind "n" { Search "down"; }
+        bind "p" { Search "up"; }
+
+        // Toggle search options
+        bind "c" { SearchToggleOption "CaseSensitivity"; }
+        bind "w" { SearchToggleOption "Wrap"; }
+        bind "o" { SearchToggleOption "WholeWord"; }
+    }
+    shared_among "renametab" "renamepane" {
+        bind "Enter" { SwitchToMode "Normal"; }
+        bind "Ctrl c" { SwitchToMode "Normal"; }
+    }
+}
+
+// Plugin aliases - can be used to change the implementation of Zellij
+// changing these requires a restart to take effect
+plugins {
+    compact-bar location="zellij:compact-bar"
+    configuration location="zellij:configuration"
+    filepicker location="zellij:strider" {
+        cwd "/"
+    }
+    plugin-manager location="zellij:plugin-manager"
+    session-manager location="zellij:session-manager"
+    status-bar location="zellij:status-bar"
+    strider location="zellij:strider"
+    tab-bar location="zellij:tab-bar"
+    welcome-screen location="zellij:session-manager" {
+        welcome_screen false
+    }
+}
+
+// Plugins to load in the background when a new session starts
+// eg. "file:/path/to/my-plugin.wasm"
+// eg. "https://example.com/my-plugin.wasm"
+load_plugins {
+    // Show pane frames only in search mode
+    "https://github.com/dj95/zjstatus/releases/latest/download/zjframes.wasm" {
+        hide_frame_except_for_search     "true"
+        hide_frame_except_for_fullscreen "true"
+    }
+}
+ui {
+    pane_frames {
+        rounded_corners true
+        hide_session_name true
+    }
+}
+web_client {
+    font "monospace"
+}
+
+// Use a simplified UI without special fonts (arrow glyphs)
+// Options:
+//   - true
+//   - false (Default)
+//
+// simplified_ui true
+
+// Choose the theme that is specified in the themes section.
+// Default: default
+//
+theme "onedark"
+
+// Choose the path to the default shell that zellij will use for opening new panes
+// Default: $SHELL
+//
+default_shell "fish"
+
+// The name of the default layout to load on startup
+// Default: "default"
+//
+default_layout "compact"
+
+// Toggle having pane frames around the panes
+// Options:
+//   - true (default, enabled)
+//   - false
+//
+pane_frames false
+
+// Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
+// eg. when terminal window with an active zellij session is closed
+// (Requires restart)
+// Options:
+//   - detach (Default)
+//   - quit
+//
+on_force_close "quit"
+
+// Path to the default editor to use to edit pane scrollbuffer
+// Default: $EDITOR or $VISUAL
+scrollback_editor "/usr/bin/nvim"
+
+// Whether to stack panes when resizing beyond a certain size
+// Default: true
+//
+stacked_resize false
+
+// Whether to show tips on startup
+// Default: true
+//
+show_startup_tips false

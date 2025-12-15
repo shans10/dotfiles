@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Icons
+iconsV=( "" "" "" )
+
+# Master mute state
+MUTE_STATE=$(pactl list sinks | awk '/Mute/ { print $2 }' | xargs echo | cut -d' ' -f2)
+
+# Setting mute status
+if [ $MUTE_STATE = 'yes' ]; then
+    VOL_ICON='󰖁'
+    VOL='MUTED'
+
+# Setting volume status
+else
+    # Master volume
+    VOL=$(pactl list sinks | awk '/Volume/ { print $12 }' | tr -d % | xargs echo | cut -d' ' -f2)
+    j=$((VOL/35))
+    VOL_ICON=${iconsV[$j]}
+    # Getting current volume with percent
+    VOL=$(pactl list sinks | awk '/Volume/ { print $12 }' | xargs echo | cut -d' ' -f2)
+fi
+
+echo "$VOL_ICON $VOL"
+
+exit 0

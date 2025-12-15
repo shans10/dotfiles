@@ -1,0 +1,25 @@
+# Font settings
+font-family = Monaspace Neon Frozen
+font-size = 11
+
+# Set theme
+theme = One Double Dark
+
+# Disable window titlebar
+window-decoration = none
+
+# Disable window size popup
+resize-overlay = never
+
+# Default shell
+command = /usr/bin/fish --login --interactive
+
+# Window padding
+window-padding-x = 5
+window-padding-y = 5
+window-padding-balance = true
+
+# Cursor settings
+cursor-style = block
+cursor-style-blink = true
+shell-integration-features = no-cursor

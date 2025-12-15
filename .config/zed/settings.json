@@ -1,0 +1,47 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "vim_mode": true,
+  "terminal": {
+    "font_size": 14,
+    "blinking": "on",
+    "shell": {
+      "program": "fish"
+    }
+  },
+  "telemetry": {
+    "diagnostics": true,
+    "metrics": true
+  },
+  "relative_line_numbers": "enabled",
+  "vertical_scroll_margin": 15.0,
+  "scroll_beyond_last_line": "off",
+  "gutter": {
+    "line_numbers": true
+  },
+  "minimap": {
+    "show": "never"
+  },
+  "cursor_shape": "bar",
+  "cursor_blink": true,
+  "buffer_font_fallbacks": ["Symbols Nerd Font Mono"],
+  // "buffer_font_family": "Adwaita Mono",
+  "file_types": {},
+  "show_whitespaces": "trailing",
+  "ensure_final_newline_on_save": true,
+  "soft_wrap": "editor_width",
+  "base_keymap": "VSCode",
+  "ui_font_size": 17.0,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark"
+  }
+}

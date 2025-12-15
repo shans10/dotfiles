@@ -1,0 +1,44 @@
+-- Xmobar (http://projects.haskell.org/xmobar/)
+-- Color scheme: Catppuccin-mocha
+-- Dependencies:
+   -- btop
+   -- xfce4-power-manager
+   -- pavucontrol
+   -- trayer
+
+Config { font         = "Iosevka Nerd Font Medium 10"
+       , bgColor      = "#1e1e2e"
+       , fgColor      = "#cdd6f4"
+       -- Position TopSize and BottomSize take 3 arguments:
+       --   an alignment parameter (L/R/C) for Left, Right or Center.
+       --   an integer for the percentage width, so 100 would be 100%.
+       --   an integer for the minimum pixel height for xmobar, so 24 would force a height of at least 24 pixels.
+       --   NOTE: The height should be the same as the trayer (system tray) height.
+       , position       = TopSize L 100 25
+       , lowerOnStart = True
+       , hideOnStart  = False
+       , allDesktops  = True
+       , persistent   = True
+       , iconRoot     = ".config/xmobar/xpm/"
+       , commands = [
+                      -- Prints out the left side items such as workspaces, layout, etc.
+                      Run UnsafeXMonadLog
+                      -- Cpu usage in percent
+                    , Run Cpu ["-t", "  <total>% ","-H","50","--high","red"] 10
+                      -- Ram used number and percent
+                    , Run Memory ["-t", " 󰍛 <used>M (<usedratio>%) "] 10
+                      -- Volume
+                    , Run Com ".config/xmobar/scripts/volume" [] "volume" 10
+                      -- Battery
+                    , Run Battery ["-t", " 󰁹 AC-<acstatus> (<left>%) "] 10
+                      -- Network
+                    , Run Com ".config/xmobar/scripts/network" [] "network" 30
+                      -- Time and date
+                    , Run Date "   %a, %d %b - %I:%M %p " "date" 50
+                      -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
+                    , Run Com ".config/xmobar/scripts/trayer-padding-icon.sh" [] "trayerpad" 20
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = " <icon=arch.xpm/> <fc=#45475a>|</fc> %UnsafeXMonadLog% }{ <box type=Bottom width=2 mb=2 color=#f9e2af><fc=#f9e2af><action=`alacritty -e btop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#f38ba8><fc=#f38ba8><action=`alacritty -e btop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#a6e3a1><fc=#a6e3a1><action=`pavucontrol`> %volume% </action></fc></box>    <box type=Bottom width=2 mb=2 color=#f5c2e7><fc=#f5c2e7><action=`xfce4-power-manager -c`>%battery%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#89b4fa><fc=#89b4fa><action=`dm-wifi`> %network% </action></fc></box>    <box type=Bottom width=2 mb=2 color=#94e2d5><fc=#94e2d5>%date%</fc></box> %trayerpad%"
+       }

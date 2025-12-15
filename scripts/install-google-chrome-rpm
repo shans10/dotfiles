@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+# Tell this script to exit if there are any errors
+set -oue pipefail
+
+# Source utils
+UTILS_DIR="$(dirname "$(readlink -f "$0")")/utils"
+source "$UTILS_DIR/string-formatter"    # string formatters to add colors and bling
+source "$UTILS_DIR/confirmation-prompt" # yes/no confirmation prompt
+
+# Display script header
+printf "\n"
+ohai " " "${tty_yellow}############### INSTALLING GOOGLE CHROME RPM ###############"
+printf "\n"
+
+# Exit script if not running Fedora Silverblue
+if ! [[ "$(cat /etc/os-release | grep -i silverblue)" ]]; then
+  printf "Not a Fedora Silverblue system. Exiting...\n"
+  exit 1
+fi
+
+# Add confirmation prompt to continue/exit script based on user response
+prompt
+
+unset HAVE_SUDO_ACCESS # unset this from the environment
+
+# Check sudo access and prompt for password once
+have_sudo_access() {
+  if [[ ! -x "/usr/bin/sudo" ]]
+  then
+    return 1
+  fi
+
+  local -a SUDO=("/usr/bin/sudo")
+
+  if [[ -z "${HAVE_SUDO_ACCESS-}" ]]
+  then
+    if [[ -n "${NONINTERACTIVE-}" ]]
+    then
+      "${SUDO[@]}" -l mkdir &>/dev/null
+    else
+      "${SUDO[@]}" -v && "${SUDO[@]}" -l mkdir &>/dev/null
+    fi
+    HAVE_SUDO_ACCESS="$?"
+  fi
+
+  return "${HAVE_SUDO_ACCESS}"
+}
+
+# Get root privileges
+printf "${tty_yellow}"
+ohai 'Checking for `sudo` access (which may request your password)...'
+have_sudo_access
+printf "\n"
+
+# For now disabling gpgcheck seems to be the only sane way to
+# install google-chrome via rpm-ostree.
+#
+# Enable the google-chrome repo
+ohai "Enabling google-chrome yum repo..."
+sudo sed -i 's/enabled=0/enabled=1/g' /etc/yum.repos.d/google-chrome.repo &&
+  printf "${tty_green}SUCCESS!\n\n" ||
+  printf "${tty_red}FAILURE!\n\n"
+
+# Disable gpgcheck
+ohai "Disabling gpgcheck for google-chrome repo..."
+sudo sed -i 's/gpgcheck=1/gpgcheck=0/g' /etc/yum.repos.d/google-chrome.repo &&
+  printf "${tty_green}SUCCESS!\n\n" ||
+  printf "${tty_red}FAILURE!\n\n"
+
+# Install Google Chrome
+ohai "Installing Google Chrome..."
+rpm-ostree install google-chrome-stable &&
+  printf "${tty_green}SUCCESS!\n\n" ||
+  printf "${tty_red}FAILURE!\n\n"
+
+# Signal end
+printf "${tty_green}DONE!\n"

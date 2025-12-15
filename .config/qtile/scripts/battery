@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# Icons
+iconsAc=( "󰢜" "󰂇" "󰢝" "󰢞" "󰂋" )   # Charging
+iconsDc=( "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹" )   # Discharging
+
+
+# Battery percentage
+BAT_PERC=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | awk '/percentage/{print $2}' | tr -d %)
+
+# Battery charging state
+BAT_STATE=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | awk '/state/{print $2}')
+
+# Charging icons
+if [ $BAT_STATE = 'charging' ]; then
+    i=$((BAT_PERC/20))
+    BAT_ICON=${iconsAc[$i]}
+
+# Fully charged icon
+elif [ $BAT_STATE = 'fully-charged' ]; then
+    BAT_ICON='󰂅'
+
+# Discharging icons
+else
+    # For 100% battery
+    if [ $BAT_PERC -eq 100 ]; then
+        BAT_ICON=${iconsDc[9]}
+
+        # For below 100% battery
+    else
+        i=$((BAT_PERC/10))
+        BAT_ICON=${iconsDc[$i]}
+    fi
+fi
+
+# Battery Percentage with % sign
+BAT_PERC=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0 | awk '/percentage/{print $2}')
+
+echo -n "$BAT_ICON $BAT_PERC"
+
+exit 0

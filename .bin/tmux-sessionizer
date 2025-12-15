@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+#
+############################################################################### TMUX SESSION MANAGER ################################################################################################
+# A script to navigate projects and create tmux sessions from them
+#
+
+# Check if tmux is running and set status variable
+tmux ls &>/dev/null
+TMUX_STATUS=$?
+
+# Safely replace full path with '~' for directories in home
+home_replacer=""                                          # default to a noop
+echo "$HOME" | grep -E "^[a-zA-Z0-9\-_/.@]+$" &>/dev/null # chars safe to use in sed
+home_sed_safe=$?
+if [ $home_sed_safe -eq 0 ]; then                         # $HOME should be safe to use in sed
+	home_replacer="s|^$HOME/|~/|"
+fi
+
+# Array of directories to search for projects
+project_dirs=("$HOME/OSS" "/mnt/Stuff/Programming")
+
+border_label=" Tmux Session Manager "                            # tmux popup heading
+header=" ctrl-s: sessions / ctrl-p: projects / ctrl-x: zoxide"   # keybinding info
+
+# Keybindings to invoke separate actions
+session_bind="ctrl-s:change-prompt(sessions> )+reload(tmux list-sessions -F '#S')"                                                              # show active sessions
+project_bind="ctrl-p:change-prompt(projects> )+reload(find "${project_dirs[@]}" -mindepth 1 -maxdepth 1 -type d | sed -e \"$home_replacer\")"   # show project directories
+zoxide_bind="ctrl-x:change-prompt(zoxide> )+reload(zoxide query -l | sed -e \"$home_replacer\")"                                                # show zoxide directories
+
+# Function to list sessions by most recently used
+get_sessions_by_mru() {
+	tmux list-sessions -F '#{session_last_attached} #{session_name}: #{session_windows} window(s)#{?session_attached, (attached),}' | sort --numeric-sort --reverse | awk '{$1=""; print $0}'
+}
+
+if [[ $# -eq 1 ]]; then
+  selected=$1
+else
+	if [ "$TMUX" = "" ]; then         # not in tmux
+		if [ $TMUX_STATUS -eq 0 ]; then # tmux is running
+			# Show session list and project directories in default view
+      selected=$(
+			(get_sessions_by_mru && (find "${project_dirs[@]}" -mindepth 1 -maxdepth 1 -type d | sed -e "$home_replacer")) | fzf \
+			  --bind "$session_bind" \
+			  --bind "$project_bind" \
+				--bind "$zoxide_bind" \
+        --border-label "$border_label" \
+        --header "$header" \
+      )
+    else # tmux is not running
+		  # Show project directories in default view
+      selected=$(
+      find "${project_dirs[@]}" -mindepth 1 -maxdepth 1 -type d | sed -e "$home_replacer" | fzf \
+			  --bind "$project_bind" \
+				--bind "$zoxide_bind" \
+        --border-label "$border_label" \
+        --header "$header" \
+      )
+    fi
+  else # inside tmux
+		# Show session list and project directories in default view
+    selected=$(
+    (get_sessions_by_mru && (find "${project_dirs[@]}" -mindepth 1 -maxdepth 1 -type d | sed -e "$home_replacer")) | fzf-tmux \
+			--bind "$session_bind" \
+			--bind "$project_bind" \
+			--bind "$zoxide_bind" \
+      --border-label "$border_label" \
+      --header "$header" \
+      -p 60%,50%
+    )
+  fi
+fi
+
+# Exit silently when nothing is selected
+if [[ -z $selected ]]; then
+  exit 0
+fi
+
+# Extract name from selected entry
+if [[ $selected == *":"* ]]; then
+  selected_name=$(echo $selected | awk '{print $1}')
+  selected_name=${selected_name//:/}
+else
+	selected_name=$(basename "$selected" | tr . _)
+fi
+
+if [ $TMUX_STATUS -eq 0 ]; then                                   # tmux is running
+	session=$(tmux list-sessions -F '#S' | grep "^$selected_name$") # find existing session
+else
+	session=""
+fi
+
+if [ "$TMUX" = "" ]; then                                         # not currently in tmux
+	if [ "$session" = "" ]; then                                    # session does not exist
+		tmux new-session -s "$selected_name" -c "$selected"           # create session and attach
+	else                                                            # session exists
+		tmux attach -t "$session"                                     # attach to session
+	fi
+else                                                              # currently in tmux
+	if [ "$session" = "" ]; then                                    # session does not exist
+		tmux new-session -d -s "$selected_name" -c "$selected"        # create session
+		tmux switch-client -t "$selected_name"                        # attach to session
+	else                                                            # session exists
+		tmux switch-client -t "$session"                              # switch to session
+	fi
+fi

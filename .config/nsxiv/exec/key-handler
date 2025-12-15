@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+# Rotate image
+rotate() {
+    degree="$1"
+    convert -rotate "$degree" "$file" "$file"
+}
+
+while read file
+do
+    case "$1" in
+        # Copy file to clipboard(requires `xclip`)
+        "c")
+            xclip -selection clipboard -target image/png "$file" &&
+            notify-send -a "Nsxiv" -i nsxiv "$file has been copied to clipboard." && exit 0
+        ;;
+        # Move file to trash
+        "d")
+            gio trash "$file" && notify-send -a "Nsxiv" -i nsxiv "$file moved to Trash."
+        ;;
+        # Permanently delete file(requires `dmenu`)
+        "D")
+            [ "$(printf "No\\nYes" | dmenu -i -p "Really delete $file?")" = "Yes" ] &&
+            rm "$file" && notify-send -a "Nsxiv" -i nsxiv "$file deleted."
+        ;;
+        # Open file in Gimp
+        "g")
+            command -v gimp &> /dev/null && gimp "$file" ||
+            notify-send -a "Nsxiv" -i nsxiv "ERROR" "Gimp is not installed! Install gimp if you want to use this function in Nsxiv." &&
+            exit 1;
+        ;;
+        # Show file information in notification
+        "i")
+            notify-send -a "Nsxiv" -i nsxiv "File information" \
+            "$(mediainfo "$file" | tr -s ' ' | grep -v CompleteName_Last)"
+        ;;
+        # Set wallpaper
+        "w")
+            # Works with gnome only
+            # gsettings set org.gnome.desktop.background picture-uri-dark $file
+
+            # Works with X11 window managers(requires `xwallpaper`)
+            xwallpaper --stretch "$file" &&
+            filename=$HOME/.cache/wall
+            if [ ! -f $filename ]; then
+                touch $filename
+            fi
+            echo "$file" > $HOME/.cache/wall &&
+
+            notify-send -a "Nsxiv" -i nsxiv "Wallpaper changed." && exit 0
+        ;;
+        "7")
+            rotate 270
+        ;;
+        "8")
+            rotate 180
+        ;;
+        "9")
+            rotate 90
+        ;;
+        esac
+done

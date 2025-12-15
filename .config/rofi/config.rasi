@@ -1,0 +1,22 @@
+@theme "catppuccin-mocha"
+
+configuration {
+    font: "JetBrainsMono Nerd Font 11.5";
+    terminal: "alacritty";
+    show-icons: true;
+    drun-display-format: "{icon} {name}";
+    location: 0;
+    disable-history: false;
+    hide-scrollbar: true;
+    display-drun: " 󰀘  Apps ";
+    display-run: "   Run ";
+    display-window: " 󰕰  Window";
+    display-Network: " 󰤨  Network";
+    sidebar-mode: true;
+    show-match: false;
+    window-format: " [{w}]\t  {t:0}";
+    modi: "run,drun,window";
+
+    // Keybindings
+    kb-cancel: "Control+c,Escape,Control+g,Control+bracketleft";
+}

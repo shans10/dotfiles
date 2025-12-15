@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# Tell this script to exit if there are any errors
+set -oue pipefail
+
+# Source utils
+UTILS_DIR="$(dirname "$(readlink -f "$0")")/utils"
+source "$UTILS_DIR/string-formatter"    # string formatters to add colors and bling
+source "$UTILS_DIR/confirmation-prompt" # yes/no confirmation prompt
+
+# Display script header
+printf "\n"
+ohai " " "${tty_yellow}############### FIXING FLATPAK CHROME APPS ###############"
+printf "\n"
+
+# Add confirmation prompt to continue/exit script based on user response
+prompt
+
+# For flatpak google-chrome running on wayland, the web apps are grouped
+# under chrome icon in dock in Gnome, the current dirty fix is to change
+# the `StartupWMClass` field in the .desktop file to look same as `Icon` field
+ohai 'Changing `StartupWMClass` field in .desktop files...'
+find ~/.local/share/applications -name "com.google.Chrome.flextop*" \
+  -exec sed -i 's/StartupWMClass=crx_\([a-z]*\)/StartupWMClass=chrome-\1-Default/' {} +
+printf "\n${tty_green}DONE!\n"

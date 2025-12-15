@@ -1,0 +1,40 @@
+theme = "onedark"
+
+[editor]
+bufferline = "multiple"
+color-modes = true
+cursorline = true
+line-number = "relative"
+mouse = false
+scrolloff = 8
+true-color = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = false
+
+[editor.indent-guides]
+render = true
+character = "▏" # Some characters that work well: "▏", "┆", "┊", "⸽"
+
+[editor.statusline]
+left = ["mode", "spinner", "version-control", "file-name", "read-only-indicator", "file-modification-indicator"]
+right = ["diagnostics", "selections", "register", "position", "file-encoding", "file-type"]
+
+### KEYBINDINGS ###
+#
+[keys.normal]
+x = ["select_line_below"]
+X = ["select_line_above"]
+
+"A-x" = "extend_to_line_bounds"
+
+[keys.select]
+x = ["select_line_below"]
+X = ["select_line_above"]
+
+"A-x" = "extend_to_line_bounds"

@@ -1,0 +1,735 @@
+;==========================================================
+;
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;
+;==========================================================
+
+############################################################################ COLORS ##################################################################################
+
+[color]
+bg = #1a1b26
+fg = #1d2021
+
+########################################################################################################################################################################
+################################################################### BAR SETTINGS FOR I3WM ##################################################################################
+
+[bar/mainbar-i3]
+#monitor = eDP-1
+width = 100%
+height = 19
+offset-x = 5%
+offset-y = 2%
+bottom = false
+fixed-center = true
+line-size = 2
+enable-ipc = true
+pseudo-transparency = true
+
+background = ${color.bg}
+foreground = ${color.fg}
+
+border-size = 0
+border-color = ${color.bg}
+
+module-margin-left = 1
+module-margin-right = 1
+
+;=== Fonts ========================================================
+font-0 = "Iosevka Nerd Font:pixelsize=10;2"
+font-1 = "Material Design Icons:size=11;2"
+
+;=== Tray ========================================================
+tray-detached = false
+tray-offset-x = -68
+tray-offset-y = -15
+tray-padding = 5
+tray-maxsize = 20
+tray-scale = 1.0
+tray-position = right
+tray-background = ${color.bg}
+
+scroll-up = i3wm-wsnext
+scroll-down = i3wm-wsprev
+
+;=== Module Location ========================================================
+modules-left = i3 title
+modules-right = ethernet memory backlight battery volume wifi date
+
+########################################################################################################################################################################
+################################################################### BAR SETTINGS FOR BSPWM ##################################################################################
+
+[bar/mainbar-bspwm]
+#monitor = eDP-1
+width = 100%
+height = 19
+offset-x = 0%
+offset-y = 0%
+bottom = false
+fixed-center = true
+line-size = 2
+enable-ipc = true
+pseudo-transparency = true
+wm-restack = bspwm
+
+background = ${color.bg}
+foreground = ${color.fg}
+
+border-size = 0
+border-color = ${color.bg}
+
+module-margin-left = 1
+module-margin-right = 1
+
+;=== Fonts ========================================================
+font-0 = "Iosevka Nerd Font:pixelsize=10;2"
+font-1 = "Material Design Icons:size=11;2"
+
+;=== Tray ========================================================
+tray-detached = false
+tray-offset-x = 0
+tray-offset-y = 0
+tray-padding = 5
+tray-maxsize = 20
+tray-scale = 1.0
+tray-position = right
+
+tray-background = ${color.bg}
+scroll-up = bspwm-desknext
+scroll-down = bspwm-deskprev
+
+;=== Module Location ========================================================
+modules-left = bspwm title
+modules-right = ethernet memory backlight battery volume wifi date
+
+########################################################################################################################################################################
+################################################################### BAR SETTINGS FOR XMONAD ##################################################################################
+
+[bar/mainbar-xmonad]
+monitor = HDMI-1
+width = 100%
+height = 19
+offset-x = 0%
+offset-y = 0%
+bottom = false
+fixed-center = true
+line-size = 2
+enable-ipc = true
+pseudo-transparency = true
+override-redirect = true
+
+background = ${color.bg}
+foreground = ${color.fg}
+
+border-size = 0
+border-color = ${color.bg}
+
+module-margin-left = 1
+module-margin-right = 1
+
+;=== Fonts ========================================================
+font-0 = "Iosevka Nerd Font:pixelsize=10;2"
+font-1 = "Material Design Icons:size=11;2"
+font-2 = "Iosevka Nerd Font:pixelsize=14;3"
+
+;=== Tray ========================================================
+tray-detached = false
+tray-offset-x = 0
+tray-offset-y = 0
+tray-padding = 5
+tray-maxsize = 20
+tray-scale = 1.0
+tray-position = right
+
+tray-background = ${color.bg}
+scroll-up = bspwm-desknext
+scroll-down = bspwm-deskprev
+
+;=== Module Location ========================================================
+modules-left = ewmh title
+modules-right = ethernet memory battery volume wifi date
+
+########################################################################################################################################################################
+########################################################################## MODULES ##################################################################################
+
+##################################### Window Manager Specific Modules ################################################
+
+;===================== Module-i3 =====================================
+[module/i3]
+type = internal/i3
+
+; Only show workspaces defined on the same output as the bar
+;
+; Useful if you want to show monitor specific workspaces
+; on different bars
+;
+; Default: false
+pin-workspaces = true
+
+; This will split the workspace name on ':'
+; Default: false
+strip-wsnumbers = false
+
+; Sort the workspaces by index instead of the default
+; sorting that groups the workspaces by output
+; Default: false
+index-sort = false
+
+; Create click handler used to focus workspace
+; Default: true
+enable-click = true
+
+; Create scroll handlers used to cycle workspaces
+; Default: true
+enable-scroll = true
+
+; Wrap around when reaching the first/last workspace
+; Default: true
+wrapping-scroll = false
+
+; Set the scroll cycle direction
+; Default: true
+reverse-scroll = false
+
+; Use fuzzy (partial) matching on labels when assigning
+; icons to workspaces
+; Example: code;♚ will apply the icon to all workspaces
+; containing 'code' in the label
+; Default: false
+fuzzy-match = true
+
+;ws-icon-[0-9]+ = label;icon
+; NOTE: The label needs to match the name of the i3 workspace
+ws-icon-0 = 10;10
+ws-icon-1 = 1;1
+ws-icon-2 = 2;2
+ws-icon-3 = 3;3
+ws-icon-4 = 4;4
+ws-icon-5 = 5;5
+ws-icon-6 = 6;6
+ws-icon-7 = 7;7
+ws-icon-8 = 8;8
+ws-icon-9 = 9;9
+;ws-icon-default = 
+; NOTE: You cannot skip icons, e.g. to get a ws-icon-6
+; you must also define a ws-icon-5.
+
+; Available tags:
+;   <label-state> (default) - gets replaced with <label-(focused|unfocused|visible|urgent)>
+;   <label-mode> (default)
+format = <label-state> <label-mode>
+
+label-mode = %mode%
+label-mode-padding = 1
+label-mode-foreground = ${color.fg}
+label-mode-background = #8ec07c
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+;   %output%
+; Default: %icon%  %name%
+; focused = Active workspace on focused monitor
+label-focused = %index%
+label-focused-background = #fe8019
+label-focused-foreground = ${color.fg}
+label-focused-underline =
+label-focused-padding = 1
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %index%
+label-unfocused-padding = 1
+label-unfocused-background = #928374
+label-unfocused-foreground = ${color.fg}
+label-unfocused-underline =
+
+; visible = Active workspace on unfocused monitor
+label-visible = %index%
+label-visible-background = ${self.label-focused-background}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = 1
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%
+; urgent = Workspace with urgency hint set
+label-urgent = %index%
+label-urgent-background = #cc241d
+label-urgent-foreground = ${color.fg}
+;label-urgent-underline = #cc241d
+label-urgent-padding = 1
+
+format-foreground = ${color.fg}
+format-background = ${color.bg}
+
+;===================== Module-bspwm =====================================
+[module/bspwm]
+type = internal/bspwm
+
+; Only show workspaces defined on the same output as the bar
+; NOTE: The bspwm and XRandR monitor names must match, which they do by default.
+; But if you rename your bspwm monitors with bspc -n this option will no longer
+; behave correctly.
+; Default: true
+pin-workspaces = true
+
+; Output mode flags after focused state label
+; Default: false
+inline-mode = false
+
+; Create click handler used to focus workspace
+; Default: true
+enable-click = false
+
+; Create scroll handlers used to cycle workspaces
+; Default: true
+enable-scroll = false
+
+; Set the scroll cycle direction
+; Default: true
+reverse-scroll = false
+
+; Use fuzzy (partial) matching on labels when assigning
+; icons to workspaces
+; Example: code;♚ will apply the icon to all workspaces
+; containing 'code' in the label
+; Default: false
+fuzzy-match = true
+
+; ws-icon-[0-9]+ = <label>;<icon>
+; Note that the <label> needs to correspond with the bspwm workspace name
+; Neither <label> nor <icon> can contain a semicolon (;)
+ws-icon-0 = 1,1
+ws-icon-1 = 2,2
+ws-icon-2 = 3,3
+ws-icon-3 = 4,4
+ws-icon-4 = 5,5
+ws-icon-5 = 6,6
+ws-icon-6 = 7,7
+ws-icon-7 = 8,8
+ws-icon-8 = 9,9
+;ws-icon-default = ♟
+
+; Available tags:
+;   <label-monitor>
+;   <label-state> - gets replaced with <label-(focused|urgent|occupied|empty)>
+;   <label-mode> - gets replaced with <label-(monocle|tiled|fullscreen|floating|locked|sticky|private)>
+; Default: <label-state>
+format = <label-state> <label-mode>
+
+; Available tokens:
+;   %name%
+; Default: %name%
+label-monitor = %name%
+
+; If any values for label-dimmed-N are defined, the workspace/mode
+; colors will get overridden with those values if the monitor is out of focus
+; To only override workspaces in a specific state, use:
+;   label-dimmed-focused
+;   label-dimmed-occupied
+;   label-dimmed-urgent
+;   label-dimmed-empty
+label-dimmed-foreground = #555
+label-dimmed-focused-background = #f00
+label-dimmed-padding = 1
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-focused = %index%
+label-focused-foreground = #1d2021
+label-focused-background = #fe8019
+label-focused-padding = 1
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-occupied = %index%
+label-occupied-foreground = #1d2021
+label-occupied-background = #928374
+label-occupied-padding    = 1
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-urgent = %index%
+label-urgent-foreground = #1d2021
+label-urgent-background = #cc241d
+label-urgent-underline = #9b0a20
+label-urgent-padding    = 1
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-empty = %icon%
+label-empty-foreground = #55
+
+; The following labels will be used to indicate the layout/mode
+; for the focused workspace. Requires <label-mode>
+;
+; Available tokens:
+;   None
+;label-monocle = 
+;label-tiled = 
+;label-fullscreen = 
+;label-floating = 
+;label-pseudotiled = P
+;label-locked = 
+;label-locked-foreground = #bd2c40
+;label-sticky = 
+;label-sticky-foreground = #fba922
+;label-private = 
+;label-private-foreground = #bd2c40
+;label-marked = M
+
+;================== Module-Xworkspaces ========================================
+[module/ewmh]
+type = internal/xworkspaces
+
+; Only show workspaces defined on the same output as the bar
+;
+; Useful if you want to show monitor specific workspaces
+; on different bars
+;
+; Default: false
+pin-workspaces = false
+
+; Create click handler used to focus desktop
+; Default: true
+enable-click = false
+
+; Create scroll handlers used to cycle desktops
+; Default: true
+enable-scroll = false
+
+; Workspace Icons
+;icon-0 = 1;1
+;icon-1 = 2;2
+;icon-2 = 3;3
+;icon-3 = 4;4
+;icon-4 = 5;5
+;icon-5 = 6;6
+;icon-6 = 7;7
+;icon-7 = 8;8
+;icon-8 = 9;9
+;icon-9 = NSP;10
+;icon-10 = NSP;NSP
+;icon-default = NSP
+
+format = <label-state>
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-active = %name%
+label-active-foreground = #1d2021
+label-active-background = #fe8019
+label-active-padding = 1
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-occupied = %name%
+label-occupied-foreground = #1d2021
+label-occupied-background = #928374
+label-occupied-padding    = 1
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-urgent = %name%
+label-urgent-foreground = #1d2021
+label-urgent-background = #cc241d
+label-urgent-padding    = 1
+
+; Available tokens:
+;   %name%
+;   %icon%
+;   %index%
+; Default: %icon%  %name%
+label-empty =
+label-empty-foreground = #1d2021
+label-empty-background = #928374
+
+#####################################################################################################
+##################################### Common Modules ################################################
+
+;=== Battery =======================================================
+[module/battery]
+type = internal/battery
+interval = 30
+full-at = 100
+time-format = %H:%M
+battery = BAT0
+adapter = AC0
+format-charging = <label-charging>
+;label-charging = %percentage%% (%time%)
+label-charging = "  %percentage%% "
+format-discharging = <label-discharging>
+;label-discharging = %percentage%% (%time%)
+label-discharging = "  %percentage%% "
+format-full = "<label-full> "
+format-charging-background = #8ec07c
+format-discharging-background = #8ec07c
+format-full-background = #689d6a
+format-charging-padding-right = 2
+
+format-full-prefix = "  "
+ramp-capacity-0 = " "
+ramp-capacity-1 = " "
+ramp-capacity-2 = " "
+ramp-capacity-3 = " "
+ramp-capacity-4 = " "
+ramp-capacity-5 = " "
+ramp-capacity-6 = " "
+ramp-capacity-7 = " "
+ramp-capacity-8 = " "
+ramp-capacity-9 = " "
+
+bar-capacity-width = 10
+
+animation-charging-0 = " "
+animation-charging-1 = " "
+animation-charging-2 = " "
+animation-charging-3 = " "
+animation-charging-4 = " "
+animation-charging-5 = " "
+animation-charging-6 = " "
+
+animation-charging-framerate = 500
+
+;=== Volume =======================================================
+[module/volume]
+type = internal/pulseaudio
+interval = 1
+;speaker-mixer = Speaker
+;headphone-mixer = Headphone
+;headphone-id = 16
+;mapped = true
+format-volume = <label-volume>
+format-volume-foreground = ${color.fg}
+format-volume-background = #fabd2f
+label-volume = "  %percentage%%"
+format-muted =  <label-muted>
+label-muted = " 婢 MUTED"
+format-muted-foreground = ${color.fg}
+format-muted-background = #cc241d
+label-volume-padding-right = 1
+label-muted-padding-right = 1
+ramp-volume-0 = " "
+ramp-volume-1 = " "
+ramp-volume-2 = " "
+
+;=== Ethernet =======================================================
+[module/ethernet]
+interval = 30
+type = internal/network
+interface = enp1s0
+label-connected = " %{T2}%{T-} eth up"
+format-connected = <label-connected>
+format-connected-foreground = #71f79f
+label-connected-padding-right = 2
+label-connected-padding-left = 2
+format-connected-padding-left = 2
+
+;=== Wifi =======================================================
+[module/wifi]
+type = internal/network
+interface = wlp2s0
+;enable-click = true
+; Seconds to sleep between updates
+; Default: 1
+interval = 3
+
+; Test connectivity every Nth update
+; A value of 0 disables the feature
+; NOTE: Experimental (needs more testing)
+; Default: 0
+;ping-interval = 3
+
+; @deprecated: Define min width using token specifiers (%downspeed:min% and %upspeed:min%)
+; Minimum output width of upload/download rate
+; Default: 3
+;;udspeed-minwidth = 5
+
+; Accumulate values from all interfaces
+; when querying for up/downspeed rate
+; Default: false
+accumulate-stats = true
+
+; Consider an `UNKNOWN` interface state as up.
+; Some devices have an unknown state, even when they're running
+; Default: false
+unknown-as-up = true
+
+; Available tags:
+;   <label-connected> (default)
+;   <ramp-signal>
+format-connected = <label-connected>
+format-connected-background = #83a598
+format-connected-foreground = ${color.fg}
+; Available tags:
+;   <label-disconnected> (default)
+format-disconnected = <label-disconnected>
+format-disconnected-background = ${color.bg}
+; Available tags:
+;   <label-connected> (default)
+;   <label-packetloss>
+;   <animation-packetloss>
+;;format-packetloss = <animation-packetloss> <label-connected>
+
+; Available tokens:
+;   %ifname%    [wireless+wired]
+;   %local_ip%  [wireless+wired]
+;   %local_ip6% [wireless+wired]
+;   %essid%     [wireless]
+;   %signal%    [wireless]
+;   %upspeed%   [wireless+wired]
+;   %downspeed% [wireless+wired]
+;   %linkspeed% [wired]
+; Default: %ifname% %local_ip%
+label-connected = " 直 %essid%"
+;label-connected-foreground = ${color.light-blue}
+label-connected-padding-right = 1
+
+; Available tokens:
+;   %ifname%    [wireless+wired]
+; Default: (none)
+label-disconnected = " 睊 WiFi Disconnected"
+label-disconnected-foreground = ${color.fg}
+label-disconnected-background = #cc241d
+label-disconnected-padding-right = 1
+
+; Available tokens:
+;   %ifname%    [wireless+wired]
+;   %local_ip%  [wireless+wired]
+;   %local_ip6% [wireless+wired]
+;   %essid%     [wireless]
+;   %signal%    [wireless]
+;   %upspeed%   [wireless+wired]
+;   %downspeed% [wireless+wired]
+;   %linkspeed% [wired]
+; Default: (none)
+;label-packetloss = %essid%
+;label-packetloss-foreground = #eefafafa
+
+; Only applies if <ramp-signal> is used
+ramp-signal-0 = " 冷"
+ramp-signal-1 = " 爛"
+ramp-signal-2 = " 嵐"
+ramp-signal-3 = " 襤"
+ramp-signal-4 = " 蠟"
+
+; Only applies if <animation-packetloss> is used
+;;animation-packetloss-0 = ⚠
+;;animation-packetloss-0-foreground = #ffa64c
+;;animation-packetloss-1 = ⚠
+;;animation-packetloss-1-foreground = #000000
+; Framerate in milliseconds
+;;animation-packetloss-framerate = 500
+
+;=== Date/Time =======================================================
+[module/date]
+type = internal/date
+interval = 30
+label =  %time%
+time = "  %I:%M %p"
+time-alt = "  %a, %d %B"
+label-foreground = ${color.fg}
+label-background = #b8bb26
+label-padding-right = 1
+
+;=== Xwindow =======================================================
+[module/title]
+type = internal/xwindow
+interval = 1
+; Available tags:
+;   <label> (default)
+format = <label>
+format-background = #a89984
+format-foreground = ${color.fg}
+format-padding = 1
+
+; Available tokens:
+;   %title%
+; Default: %title%
+label = "  %title%"
+label-maxlen = 50
+
+; Used instead of label when there is no window title
+; Available tokens:
+;   None
+;label-empty = "%{T2}%{T-} i3-gaps "
+;label-empty = "%{T2}%{T-} bspwm "
+label-empty = "%{T3} %{T-} xmonad "
+label-empty-foreground = ${color.fg}
+label-empty-background = #a89984
+
+;=== Memory =======================================================
+[module/memory]
+type = internal/memory
+interval = 30
+format = <label>
+label = "  %gb_used%/%gb_free% "
+
+format-background = #d3869b
+
+;=== Backlight =======================================================
+[module/backlight]
+type = internal/backlight
+interval = 1
+; Use the following command to list available cards:
+; $ ls -1 /sys/class/backlight/
+card = intel_backlight
+
+; Available tags:
+;   <label> (default)
+;   <ramp>
+;   <bar>
+format = %{T2}<ramp>%{T-} <label>
+format-background = #fb4934
+format-foreground = ${color.fg}
+label-padding-right = 1
+
+; Available tokens:
+;   %percentage% (default)
+label = %percentage%%
+
+; Only applies if <ramp> is used
+
+ramp-0 = " "
+ramp-1 = " "
+ramp-2 = " "
+ramp-3 = " "
+
+########################################################################### EOF #############################################################################################
