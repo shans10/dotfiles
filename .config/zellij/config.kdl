@@ -1,11 +1,12 @@
 // Keybindings
+//
 keybinds clear-defaults=true {
     // Enter tmux mode
     shared_except "locked" "tmux" {
         bind "Ctrl a" { SwitchToMode "tmux"; }
     }
     shared_except "normal" "locked" "entersearch" {
-        bind "esc" { SwitchToMode "normal"; }
+        bind "Esc" { SwitchToMode "normal"; }
     }
     shared_among "session" "tmux" {
         bind "d" { Detach; }
@@ -90,7 +91,6 @@ keybinds clear-defaults=true {
         bind "Ctrl f" { PageScrollDown; }
 
         // Exit to normal mode
-        bind "Esc" { SwitchToMode "Normal"; }
         bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
     }
     scroll {
@@ -125,7 +125,7 @@ keybinds clear-defaults=true {
         bind "w" { SearchToggleOption "Wrap"; }
         bind "o" { SearchToggleOption "WholeWord"; }
     }
-    shared_among "renametab" "renamepane" {
+    shared_among "renametab" "renamepane" "tmux" {
         bind "Enter" { SwitchToMode "Normal"; }
         bind "Ctrl c" { SwitchToMode "Normal"; }
     }
@@ -133,6 +133,7 @@ keybinds clear-defaults=true {
 
 // Plugin aliases - can be used to change the implementation of Zellij
 // changing these requires a restart to take effect
+//
 plugins {
     compact-bar location="zellij:compact-bar"
     configuration location="zellij:configuration"
@@ -152,6 +153,7 @@ plugins {
 // Plugins to load in the background when a new session starts
 // eg. "file:/path/to/my-plugin.wasm"
 // eg. "https://example.com/my-plugin.wasm"
+//
 load_plugins {
     // Show pane frames only in search mode
     "https://github.com/dj95/zjstatus/releases/latest/download/zjframes.wasm" {
@@ -209,6 +211,7 @@ on_force_close "quit"
 
 // Path to the default editor to use to edit pane scrollbuffer
 // Default: $EDITOR or $VISUAL
+//
 scrollback_editor "/usr/bin/nvim"
 
 // Whether to stack panes when resizing beyond a certain size
