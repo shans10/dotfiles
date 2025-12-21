@@ -1,3 +1,5 @@
+### EDITOR SETTINGS ###
+#
 theme = "onedark"
 
 [editor]
@@ -8,6 +10,7 @@ line-number = "relative"
 mouse = false
 scrolloff = 8
 true-color = true
+trim-trailing-whitespace = true
 
 [editor.cursor-shape]
 insert = "bar"
@@ -27,14 +30,30 @@ right = ["diagnostics", "selections", "register", "position", "file-encoding", "
 
 ### KEYBINDINGS ###
 #
+[keys.insert]
+# Exit to normal mode
+j = { j = "normal_mode" }
+"C-[" = "normal_mode"
+
+# Save file
+"C-S-s" = ["normal_mode", "commit_undo_checkpoint", ":write"]
+
 [keys.normal]
+# Save file
+"C-S-s" = ["commit_undo_checkpoint", ":write"]
+
+# Change x/X behaviour
 x = ["select_line_below"]
 X = ["select_line_above"]
 
 "A-x" = "extend_to_line_bounds"
 
 [keys.select]
+# Change x/X behaviour
 x = ["select_line_below"]
 X = ["select_line_above"]
 
 "A-x" = "extend_to_line_bounds"
+
+# Exit to normal mode
+"C-[" = "normal_mode"
