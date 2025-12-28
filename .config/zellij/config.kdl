@@ -5,6 +5,10 @@ keybinds clear-defaults=true {
     shared_except "locked" "tmux" {
         bind "Ctrl a" { SwitchToMode "tmux"; }
     }
+    // Close focused tab/pane
+    // shared_except "locked" {
+    //     bind "Ctrl q" { CloseFocus; SwitchToMode "Normal"; }
+    // }
     shared_except "normal" "locked" "entersearch" {
         bind "Esc" { SwitchToMode "normal"; }
     }
@@ -12,14 +16,11 @@ keybinds clear-defaults=true {
         bind "d" { Detach; }
     }
     tmux {
+        // Switch to scroll mode
         bind "[" { SwitchToMode "Scroll"; }
 
         // Leave tmux mode
         bind "Ctrl a" { Write 2; SwitchToMode "normal"; }
-
-        // Tab creation
-        bind "c" { NewTab; SwitchToMode "Normal"; }
-        bind "t" { NewTab; SwitchToMode "Normal"; }
 
         // Session manager
         bind "s" "$" ":" {
@@ -30,15 +31,17 @@ keybinds clear-defaults=true {
             SwitchToMode "Normal"
         }
 
-        // Splitting panes
-        bind "\\" { NewPane "Right"; SwitchToMode "Normal"; }
-        bind "-" { NewPane "Down"; SwitchToMode "Normal"; }
-
+        /// TABS ///
+        //
+        // Tab creation
+        bind "c" { NewTab; SwitchToMode "Normal"; }
+        bind "t" { NewTab; SwitchToMode "Normal"; }
         // Moving between tabs
         bind "p" { GoToPreviousTab; SwitchToMode "Normal"; }
         bind "n" { GoToNextTab; SwitchToMode "Normal"; }
         // Toggle between last two tabs
         bind "a" { ToggleTab; SwitchToMode "normal"; }
+        bind "Tab" { ToggleTab; SwitchToMode "normal"; }
         // Switch to tabs 1-9
         bind "1" { GoToTab 1; SwitchToMode "normal"; }
         bind "2" { GoToTab 2; SwitchToMode "normal"; }
@@ -51,7 +54,13 @@ keybinds clear-defaults=true {
         bind "9" { GoToTab 9; SwitchToMode "normal"; }
         // Renaming tabs
         bind "," { SwitchToMode "RenameTab"; TabNameInput 0; }
+        // Moving tabs
+        bind "Ctrl [" { MoveTab "Left"; }
+        bind "Ctrl ]" { MoveTab "Right"; }
 
+
+        /// PANES ///
+        //
         // Moving between panes
         bind "Left" { MoveFocus "Left"; SwitchToMode "Normal"; }
         bind "Right" { MoveFocus "Right"; SwitchToMode "Normal"; }
@@ -69,15 +78,42 @@ keybinds clear-defaults=true {
         bind "K" { Resize "Increase Up"; }
         bind "J" { Resize "Increase Down"; }
         // Cycle through panes
-        bind "o" { FocusNextPane; }
+        bind "o" { SwitchFocus; }
         // Fullscreen pane
         bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
+        // New panes
+        bind "v" { NewPane; SwitchToMode "Normal"; }
+        bind "S" { NewPane "stacked"; SwitchToMode "Normal"; }
+        // Splitting panes
+        bind "\\" { NewPane "Right"; SwitchToMode "Normal"; }
+        bind "-" { NewPane "Down"; SwitchToMode "Normal"; }
+        // Floating and Embed panes
+        bind "f" { ToggleFloatingPanes; SwitchToMode "Normal"; }
+        bind "e" { TogglePaneEmbedOrFloating; SwitchToMode "Normal"; }
+        // Moving panes
+        bind "Ctrl n" { MovePane; }
+        bind "Ctrl p" { MovePaneBackwards; }
+        // Breaking panes
+        bind "Ctrl b" { BreakPane; SwitchToMode "Normal"; }
+        bind "Ctrl l" { BreakPaneRight; SwitchToMode "Normal"; }
+        bind "Ctrl h" { BreakPaneLeft; SwitchToMode "Normal"; }
 
         // Cycle through layouts
         bind "Space" { NextSwapLayout; }
 
         // Close focused tab/pane
         bind "x" { CloseFocus; SwitchToMode "Normal"; }
+
+        // Quit zellij
+        bind "q" { Quit; }
+
+        // Strider(file-finder)
+        bind "F" {
+            LaunchPlugin "zellij:strider" {
+                floating true;
+            };
+            SwitchToMode "Normal"
+        }
     }
     shared_among "scroll" "Search" {
         // Navigation
@@ -142,12 +178,7 @@ plugins {
     }
     plugin-manager location="zellij:plugin-manager"
     session-manager location="zellij:session-manager"
-    status-bar location="zellij:status-bar"
     strider location="zellij:strider"
-    tab-bar location="zellij:tab-bar"
-    welcome-screen location="zellij:session-manager" {
-        welcome_screen false
-    }
 }
 
 // Plugins to load in the background when a new session starts
@@ -158,13 +189,13 @@ load_plugins {
     // Show pane frames only in search mode
     "https://github.com/dj95/zjstatus/releases/latest/download/zjframes.wasm" {
         hide_frame_except_for_search     "true"
-        hide_frame_except_for_fullscreen "true"
+        hide_frame_except_for_fullscreen "false"
     }
 }
 ui {
     pane_frames {
-        rounded_corners true
-        hide_session_name true
+        rounded_corners false
+        hide_session_name false
     }
 }
 web_client {
@@ -191,7 +222,7 @@ default_shell "fish"
 // The name of the default layout to load on startup
 // Default: "default"
 //
-default_layout "compact"
+default_layout "my-layout"
 
 // Toggle having pane frames around the panes
 // Options:
@@ -223,3 +254,9 @@ stacked_resize false
 // Default: true
 //
 show_startup_tips false
+
+// Whether to serialize the pane viewport (the visible part of the terminal excluding the scrollback)
+// If enabled along with session_serialization
+// Default: false
+//
+pane_viewport_serialization true
