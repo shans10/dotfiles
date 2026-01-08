@@ -12,7 +12,7 @@ window-decoration = none
 resize-overlay = never
 
 # Default shell
-command = /usr/bin/fish --login --interactive
+command = /usr/bin/fish --interactive
 
 # Window padding
 window-padding-x = 5
@@ -20,6 +20,7 @@ window-padding-y = 5
 window-padding-balance = true
 
 # Cursor settings
+cursor-invert-fg-bg = true
 cursor-style = block
 cursor-style-blink = true
 shell-integration-features = no-cursor

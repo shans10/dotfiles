@@ -7,26 +7,29 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "features": {
+    "edit_prediction_provider": "copilot",
+  },
   "vim_mode": true,
   "terminal": {
     "font_size": 14,
     "blinking": "on",
     "shell": {
-      "program": "fish"
-    }
+      "program": "fish",
+    },
   },
   "telemetry": {
     "diagnostics": true,
-    "metrics": true
+    "metrics": true,
   },
   "relative_line_numbers": "enabled",
   "vertical_scroll_margin": 15.0,
   "scroll_beyond_last_line": "off",
   "gutter": {
-    "line_numbers": true
+    "line_numbers": true,
   },
   "minimap": {
-    "show": "never"
+    "show": "never",
   },
   "cursor_shape": "bar",
   "cursor_blink": true,
@@ -42,6 +45,7 @@
   "theme": {
     "mode": "system",
     "light": "One Light",
-    "dark": "One Dark"
-  }
+    "dark": "One Dark",
+  },
+  "load_direnv": "shell_hook",
 }

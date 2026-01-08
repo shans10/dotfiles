@@ -1,14 +1,14 @@
 // Keybindings
 //
 keybinds clear-defaults=true {
+    // Lock modes
+    locked {
+        bind "Ctrl g" { SwitchToMode "Normal"; }
+    }
     // Enter tmux mode
     shared_except "locked" "tmux" {
         bind "Ctrl a" { SwitchToMode "tmux"; }
     }
-    // Close focused tab/pane
-    // shared_except "locked" {
-    //     bind "Ctrl q" { CloseFocus; SwitchToMode "Normal"; }
-    // }
     shared_except "normal" "locked" "entersearch" {
         bind "Esc" { SwitchToMode "normal"; }
     }
@@ -88,15 +88,15 @@ keybinds clear-defaults=true {
         bind "\\" { NewPane "Right"; SwitchToMode "Normal"; }
         bind "-" { NewPane "Down"; SwitchToMode "Normal"; }
         // Floating and Embed panes
-        bind "f" { ToggleFloatingPanes; SwitchToMode "Normal"; }
+        bind "w" { ToggleFloatingPanes; SwitchToMode "Normal"; }
         bind "e" { TogglePaneEmbedOrFloating; SwitchToMode "Normal"; }
         // Moving panes
         bind "Ctrl n" { MovePane; }
         bind "Ctrl p" { MovePaneBackwards; }
         // Breaking panes
         bind "Ctrl b" { BreakPane; SwitchToMode "Normal"; }
-        bind "Ctrl l" { BreakPaneRight; SwitchToMode "Normal"; }
-        bind "Ctrl h" { BreakPaneLeft; SwitchToMode "Normal"; }
+        bind "Ctrl r" { BreakPaneRight; SwitchToMode "Normal"; }
+        bind "Ctrl l" { BreakPaneLeft; SwitchToMode "Normal"; }
 
         // Cycle through layouts
         bind "Space" { NextSwapLayout; }
@@ -107,12 +107,33 @@ keybinds clear-defaults=true {
         // Quit zellij
         bind "q" { Quit; }
 
-        // Strider(file-finder)
-        bind "F" {
-            LaunchPlugin "zellij:strider" {
-                floating true;
+        // Strider(file-picker)
+        bind "f" {
+            LaunchPlugin "filepicker" {
+                floating true
             };
-            SwitchToMode "Normal"
+            SwitchToMode "Normal";
+        }
+
+        // Sessionizer
+        bind "g" {
+            LaunchOrFocusPlugin "sessionizer" {
+                floating true
+                move_to_focused_tab true
+                cwd "/"
+                root_dirs "/home/shan/Programming"
+            };
+            SwitchToMode "Normal";
+        }
+
+        // Zellij Favs
+        bind "Shift f" {
+            LaunchOrFocusPlugin "zjfavs" {
+                cwd "/"
+                floating true
+                display_tab_panes true
+            };
+            SwitchToMode "Normal";
         }
     }
     shared_among "scroll" "Search" {
@@ -130,6 +151,9 @@ keybinds clear-defaults=true {
         bind "Ctrl c" { ScrollToBottom; SwitchToMode "Normal"; }
     }
     scroll {
+        bind "Ctrl s" { SwitchToMode "Normal"; }
+        bind "e" { EditScrollback; SwitchToMode "Normal"; }
+
         // Search an item
         bind "s" { SwitchToMode "EnterSearch"; SearchInput 0; }
         bind "Ctrl r" { SwitchToMode "EnterSearch"; SearchInput 0; }
@@ -165,20 +189,59 @@ keybinds clear-defaults=true {
         bind "Enter" { SwitchToMode "Normal"; }
         bind "Ctrl c" { SwitchToMode "Normal"; }
     }
+    shared_except "locked" {
+        bind "Ctrl g" { SwitchToMode "Locked"; }
+        bind "Ctrl q" { Quit; }
+        bind "Alt w" { ToggleFloatingPanes; }
+        bind "Alt n" { NewPane; }
+        bind "Alt i" { MoveTab "Left"; }
+        bind "Alt o" { MoveTab "Right"; }
+        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
+        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
+        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
+        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
+        bind "Alt =" "Alt +" { Resize "Increase"; }
+        bind "Alt -" { Resize "Decrease"; }
+        bind "Alt [" { PreviousSwapLayout; }
+        bind "Alt ]" { NextSwapLayout; }
+        bind "Alt p" { TogglePaneInGroup; }
+        bind "Alt Shift p" { ToggleGroupMarking; }
+        bind "Alt x" { CloseFocus; SwitchToMode "Normal"; }
+        // Strider(file-picker)
+        bind "Alt f" {
+            LaunchPlugin "filepicker" {
+                cwd "/"
+                floating true
+            };
+            SwitchToMode "Normal";
+        }
+        // Zellij Favs
+        bind "Alt Shift f" {
+            LaunchOrFocusPlugin "zjfavs" {
+                cwd "/"
+                floating true
+                display_tab_panes true
+            }
+        }
+    }
 }
 
 // Plugin aliases - can be used to change the implementation of Zellij
 // changing these requires a restart to take effect
 //
 plugins {
+    // Inbuilt plugins
     compact-bar location="zellij:compact-bar"
-    configuration location="zellij:configuration"
     filepicker location="zellij:strider" {
         cwd "/"
     }
     plugin-manager location="zellij:plugin-manager"
     session-manager location="zellij:session-manager"
-    strider location="zellij:strider"
+
+    // Custom plugins
+    sessionizer location="https://github.com/laperlej/zellij-sessionizer/releases/latest/download/zellij-sessionizer.wasm"
+    zjframe location="https://github.com/dj95/zjstatus/releases/latest/download/zjframes.wasm"
+    zjfavs location="https://github.com/JoseMM2002/zellij-favs/releases/latest/download/zellij-favs.wasm"
 }
 
 // Plugins to load in the background when a new session starts
@@ -187,7 +250,7 @@ plugins {
 //
 load_plugins {
     // Show pane frames only in search mode
-    "https://github.com/dj95/zjstatus/releases/latest/download/zjframes.wasm" {
+    zjframe {
         hide_frame_except_for_search     "true"
         hide_frame_except_for_fullscreen "false"
     }
@@ -207,7 +270,7 @@ web_client {
 //   - true
 //   - false (Default)
 //
-// simplified_ui true
+simplified_ui true
 
 // Choose the theme that is specified in the themes section.
 // Default: default
@@ -222,7 +285,7 @@ default_shell "fish"
 // The name of the default layout to load on startup
 // Default: "default"
 //
-default_layout "my-layout"
+default_layout "compact"
 
 // Toggle having pane frames around the panes
 // Options:

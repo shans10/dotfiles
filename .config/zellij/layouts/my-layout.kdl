@@ -5,7 +5,6 @@ layout {
         }
         children
     }
-
     swap_tiled_layout name="vertical" {
         tab max_panes=4 {
             pane split_direction="vertical" {
@@ -27,7 +26,6 @@ layout {
             }
         }
     }
-
     swap_tiled_layout name="horizontal" {
         tab max_panes=3 {
             pane
@@ -47,11 +45,9 @@ layout {
             }
         }
     }
-
     swap_floating_layout name="staggered" {
         floating_panes
     }
-
     swap_floating_layout name="enlarged" {
         floating_panes max_panes=10 {
             pane { x "5%"; y 1; width "90%"; height "90%"; }

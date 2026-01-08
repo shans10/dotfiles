@@ -3,56 +3,47 @@
 ## ALIASES
 #
 # Replace ls with exa
-if [[ -x "$(command -v eza)" ]]; then
-    alias ls='eza --git --icons --color=always --group-directories-first'
-    alias la='eza -a --git --icons --color=always --group-directories-first'
-    alias ll='eza -la --git --icons --color=always --group-directories-first'
+if command -v eza >/dev/null 2>&1; then
+    alias ls='eza --git --icons --color=always --group-directories-first --classify=auto'
+    alias la='ls -a'
+    alias ll='ls -la'
 fi
 
-# home-manager
-if [[ -x "$(command -v home-manager)" ]]; then
-    alias hm='home-manager'
-    alias hms='home-manager switch'
+# Replace cat with bat
+if command -v bat >/dev/null 2>&1; then
+    cat() {
+        if [ -t 1 ]; then
+            bat --paging=never --style=plain --color=always "$@"
+        else
+            command cat "$@"
+        fi
+    }
 fi
 
-# chezmoi
-if [[ -x "$(command -v chezmoi)" ]]; then
-    alias cz='chezmoi'
-fi
-
-# distrobox
-if [[ -x "$(command -v distrobox)" ]]; then
-    alias dbc='distrobox create'
-    alias dbe='distrobox enter'
-    alias dbr='distrobox rm'
-    alias dbx='distrobox'
+# Use 'fzf-zellij' instead of 'fzf' if inside zellij
+if command -v fzf-zellij >/dev/null 2>&1; then
+    fzf() {
+        case "$1" in
+            --bash|--zsh|--fish|--version|-h|--help|--man)
+                command fzf "$@"
+                ;;
+            *)
+                fzf-zellij "$@"
+                ;;
+        esac
+    }
 fi
 
 ## EXTERNAL MODULES
 #
 # Starship prompt
-if [[ -x "$(command -v starship)" ]]; then
-    eval "$(starship init bash)"
-fi
+command -v starship >/dev/null 2>&1 && eval "$(starship init bash)"
 
 # Zoxide support
-if [[ -x "$(command -v zoxide)" ]]; then
-    eval "$(zoxide init bash)"
-fi
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init bash)"
 
 # direnv support
-if [[ -x "$(command -v direnv)" ]]; then
-    eval "$(direnv hook bash)"
-fi
+command -v direnv >/dev/null 2>&1 && eval "$(direnv hook bash)"
 
-## HIGHLIGHTING
-#
-# Add colors to manpages
-# export LESS_TERMCAP_mb=$'\e[1;32m'
-# export LESS_TERMCAP_md=$'\e[1;32m'
-# export LESS_TERMCAP_me=$'\e[0m'
-# export LESS_TERMCAP_se=$'\e[0m'
-# export LESS_TERMCAP_so=$'\e[01;33m'
-# export LESS_TERMCAP_ue=$'\e[0m'
-# export LESS_TERMCAP_us=$'\e[1;4;31m'
-# export MANROFFOPT="-c"
+# Set up fzf key bindings and fuzzy completion
+command -v fzf >/dev/null 2>&1 && eval "$(fzf --bash)"
