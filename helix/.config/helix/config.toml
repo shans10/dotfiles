@@ -1,0 +1,60 @@
+### EDITOR SETTINGS ###
+#
+theme = "onedark"
+
+[editor]
+bufferline = "multiple"
+color-modes = true
+cursorline = true
+line-number = "relative"
+mouse = false
+scrolloff = 8
+true-color = true
+trim-trailing-whitespace = true
+gutters = ["diff", "diagnostics", "line-numbers", "spacer"]
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = false
+
+[editor.indent-guides]
+render = true
+character = "▏" # Some characters that work well: "▏", "┆", "┊", "⸽"
+
+[editor.statusline]
+left = ["mode", "spinner", "version-control", "file-name", "read-only-indicator", "file-modification-indicator"]
+right = ["diagnostics", "selections", "register", "position", "file-encoding", "file-type"]
+
+### KEYBINDINGS ###
+#
+[keys.insert]
+# Exit to normal mode
+j = { j = "normal_mode" }
+"C-[" = "normal_mode"
+
+# Save file
+"C-S-s" = ["normal_mode", "commit_undo_checkpoint", ":write"]
+
+[keys.normal]
+# Save file
+"C-S-s" = ["commit_undo_checkpoint", ":write"]
+
+# Change x/X behaviour
+x = ["select_line_below"]
+X = ["select_line_above"]
+
+"A-x" = "extend_to_line_bounds"
+
+[keys.select]
+# Change x/X behaviour
+x = ["select_line_below"]
+X = ["select_line_above"]
+
+"A-x" = "extend_to_line_bounds"
+
+# Exit to normal mode
+"C-[" = "normal_mode"

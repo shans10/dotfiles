@@ -1,0 +1,128 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "cli_default_open_behavior": "existing_window",
+  "agent_servers": {
+    "gemini": {
+      "type": "registry",
+    },
+  },
+  "project_panel": {
+    "dock": "left",
+  },
+  "agent": {
+    "dock": "right",
+    "flexible": true,
+    "button": true,
+    "favorite_models": [],
+    "model_parameters": [],
+  },
+  "collaboration_panel": {
+    "button": false,
+  },
+  "git_panel": {
+    "dock": "left",
+    "button": true,
+  },
+  "outline_panel": {
+    "button": true,
+  },
+  "tabs": {
+    "git_status": false,
+    "file_icons": true,
+  },
+  "tab_bar": {
+    "show_tab_bar_buttons": true,
+    "show_nav_history_buttons": false,
+    "show": true,
+  },
+  "title_bar": {
+    "button_layout": "platform_default",
+    "show_user_menu": false,
+    "show_user_picture": false,
+    "show_onboarding_banner": true,
+    "show_project_items": true,
+    "show_branch_name": true,
+    "show_branch_status_icon": true,
+  },
+  "toolbar": {
+    "quick_actions": false,
+    "breadcrumbs": false,
+  },
+  "edit_predictions": {
+    "provider": "copilot",
+  },
+  "extend_comment_on_newline": false,
+  "session": {
+    "trust_all_worktrees": true,
+  },
+  "vim_mode": true,
+  "terminal": {
+    "flexible": false,
+    "dock": "bottom",
+    "shell": {
+      "program": "fish",
+    },
+    "blinking": "on",
+  },
+  "base_keymap": "VSCode",
+  "relative_line_numbers": "enabled",
+  "sticky_scroll": {
+    "enabled": false,
+  },
+  "vertical_scroll_margin": 15.0,
+  "gutter": {
+    "line_numbers": true,
+  },
+  "minimap": {
+    "show": "never",
+  },
+  "cursor_shape": "bar",
+  "cursor_blink": true,
+  "buffer_font_fallbacks": ["Symbols Nerd Font Mono"],
+  "buffer_font_family": "Monaspace Neon Frozen",
+  "show_whitespaces": "trailing",
+  "ensure_final_newline_on_save": true,
+  "soft_wrap": "editor_width",
+  "ui_font_size": 17.0,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "Catppuccin Macchiato",
+  },
+  "languages": {
+    "Python": {
+      "format_on_save": "on",
+    },
+  },
+  "lsp": {
+    "ruff": {
+      "initialization_options": {
+        "settings": {
+          "lint": {
+            "enable": false,
+          },
+        },
+      },
+    },
+  },
+  "theme_overrides": {
+    "One Dark": {
+      "syntax": {
+        "comment": {
+          "font_style": "italic",
+        },
+        "comment.doc": {
+          "font_style": "italic",
+        },
+      },
+    },
+  },
+}

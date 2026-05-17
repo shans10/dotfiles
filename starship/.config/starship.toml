@@ -1,0 +1,142 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+${custom.flox}\
+$os\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$python\
+$c\
+$golang\
+$nodejs\
+$rust\
+$docker_context\
+$fill\
+$conda\
+${custom.venv}\
+$line_break\
+$character"""
+
+right_format = """"""
+
+palette = "onedark"
+
+[palettes.onedark]
+black = "#282c34"
+red = "#e06c75"
+green = "#98c379"
+yellow = "#d19a66"
+blue = "#61afef"
+magenta = "#c678dd"
+cyan = "#56b6c2"
+white = "#abb2bf"
+visual_grey = "#3e4452"
+comment_grey = "#5c6370"
+
+[os]
+disabled = false
+style = "bold blue"
+format = "[$symbol]($style)  "
+
+[os.symbols]
+Arch = "󰣇"
+CachyOS = "󰣇"
+Debian = "󰣚"
+Fedora = "󰣛"
+Gentoo = ""
+Linux = "󰌽"
+Manjaro = ""
+openSUSE = ""
+Raspbian = "󰐚"
+SUSE = ""
+Ubuntu = "󰕈"
+Windows = "󰍲"
+
+[username]
+show_always = true
+style_user = "bold white"
+style_root = "bold red"
+format = "[$user]($style) "
+
+[hostname]
+ssh_only = true
+ssh_symbol = "🌐 "
+style = "bold yellow"
+format = "at [$ssh_symbol$hostname]($style) "
+
+[directory]
+style = "bold cyan"
+format = "in [$path]($style) "
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[git_branch]
+symbol = ""
+style = "bold magenta"
+format = "on [$symbol $branch]($style) "
+
+[git_status]
+style = "bold yellow"
+format = "([$all_status$ahead_behind]($style) )"
+
+[nodejs]
+symbol = ""
+style = "bold green"
+format = "via [$symbol ($version)]($style) "
+
+[rust]
+symbol = ""
+style = "bold red"
+format = "via [$symbol ($version)]($style) "
+
+[golang]
+symbol = ""
+style = "bold cyan"
+format = "via [$symbol ($version)]($style) "
+
+[fill]
+symbol = " "
+
+[python]
+symbol = ""
+style = "bold green"
+format = "via [$symbol ($version)]($style) "
+
+[conda]
+symbol = "🅒 "
+style = "bold green"
+format = "[$symbol$environment]($style) "
+ignore_base = false
+
+[custom.venv]
+command = "basename \"$VIRTUAL_ENV\""
+when = 'test -n "$VIRTUAL_ENV" && test -z "$CONDA_DEFAULT_ENV"'
+shell = ["sh"]
+style = "bold green"
+format = "[🅥 $output]($style) "
+
+[time]
+disabled = true
+
+[line_break]
+disabled = false
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+[custom.flox]
+command = "echo $FLOX_PROMPT_ENVIRONMENTS"
+when = 'test -n "$FLOX_PROMPT_ENVIRONMENTS" && [ "$FLOX_PROMPT_ENVIRONMENTS" != "default" ]'
+shell = ["sh"]
+format = "[flox](bold red) [\\[$output\\]]($style)\n"
+style = "bold yellow"

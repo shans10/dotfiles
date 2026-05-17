@@ -1,0 +1,74 @@
+# Atom One Dark Theme for Zathura (#21252b BG + Original Palette)
+
+# Background and foreground colors
+set default-bg                  "#21252b"
+set default-fg                  "#abb2bf"
+
+# Input bar
+set inputbar-bg                 "#21252b"
+set inputbar-fg                 "#abb2bf"
+
+# Notification
+set notification-bg             "#21252b"
+set notification-fg             "#abb2bf"
+set notification-error-bg       "#e06c75"
+set notification-error-fg       "#21252b"
+set notification-warning-bg     "#e5c07b"
+set notification-warning-fg     "#21252b"
+
+# Completion
+set completion-bg               "#21252b"
+set completion-fg               "#abb2bf"
+set completion-group-bg         "#21252b"
+set completion-group-fg         "#61afef"
+set completion-highlight-bg     "#3e4451"
+set completion-highlight-fg     "#abb2bf"
+
+# Index mode
+set index-bg                    "#21252b"
+set index-fg                    "#abb2bf"
+set index-active-bg             "#3e4451"
+set index-active-fg             "#abb2bf"
+
+# Status bar
+set statusbar-bg                "#21252b"
+set statusbar-fg                "#abb2bf"
+
+# Highlighting
+set highlight-color             "rgba(229,192,123,0.5)"
+set highlight-fg                "#21252b"
+set highlight-active-color      "rgba(97,175,239,0.5)"
+set highlight-transparency      "0.5"
+
+# Recolor mode settings
+set recolor-lightcolor          "#21252b"
+set recolor-darkcolor           "#abb2bf"
+set recolor                     "false"
+set recolor-keephue             "false"
+
+# Smooth scrolling
+set smooth-scroll               "true"
+set scroll-step                 50
+set scroll-full-overlap         0.01
+set scroll-page-aware           "true"
+
+# Additional settings
+set adjust-open                 "best-fit"
+set pages-per-row               1
+set selection-clipboard         "clipboard"
+set window-title-basename       "true"
+set font                        "monospace 11"
+
+# Zoom settings
+set zoom-min                    10
+set zoom-max                    1000
+set zoom-step                   10
+
+# Enable incremental search
+set incremental-search          "true"
+
+# Padding between pages
+set page-padding                1
+
+# Hide statusbar by default
+set guioptions                  ""

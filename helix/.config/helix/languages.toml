@@ -1,0 +1,48 @@
+[[language]]
+name = "bash"
+# file-types = ["sh", "bash", "bashrc", "cfg", { glob = "grub" }, {glob = "bashrc"}]
+file-types = [
+  "sh",
+  "bash",
+  "zsh",
+  "conf",
+  { glob = ".bashrc" },
+  { glob = ".bash_profile" },
+  { glob = ".profile" },
+  { glob = "grub" },  # Matches the specific grub config file
+  { glob = "/var/tmp/*" }, # Matches any file directly in /var/tmp/
+  { glob = "/tmp/*" }      # Optional: some systems use /tmp/ for sudoedit
+]
+
+[[language]]
+name = "just"
+auto-format = false
+scope = "source.just"
+injection-regex = "(just|justfile)"
+file-types = ["just"]
+roots = []
+comment-token = "#"
+
+[[language]]
+name = "nix"
+auto-format = true
+formatter = { command = "alejandra" }
+
+[[language]]
+name = "python"
+# Use multiple language servers:
+language-servers = ["ruff", "basedpyright"]
+auto-format = true
+scope = "source.python"
+
+[language.formatter]
+command = "ruff"
+args = ["format", "-"]
+
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
+
+[language-server.basedpyright]
+command = "basedpyright-langserver"
+args = ["--stdio"]

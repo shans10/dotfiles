@@ -1,0 +1,5 @@
+frame = "none"
+
+[font]
+normal = ["Monaspace Neon Frozen"] # Will use the bundled Fira Code Nerd Font by default
+size = 11

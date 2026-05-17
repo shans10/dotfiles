@@ -1,0 +1,11 @@
+
+# Undocked profile (Laptop screen on)
+profile laptop {
+    output "eDP-2" mode 1920x1080@144Hz
+}
+
+# Docked profile (External monitor)
+profile monitor {
+    output "eDP-2" disable
+    output "DP-1" mode 1920x1080@120Hz
+}
