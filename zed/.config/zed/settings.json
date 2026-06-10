@@ -85,8 +85,8 @@
   },
   "cursor_shape": "bar",
   "cursor_blink": true,
-  "buffer_font_fallbacks": ["Symbols Nerd Font Mono"],
   "buffer_font_family": "Monaspace Neon Frozen",
+  "buffer_font_fallbacks": ["JetBrainsMono Nerd Font"],
   "show_whitespaces": "trailing",
   "ensure_final_newline_on_save": true,
   "soft_wrap": "editor_width",
@@ -95,7 +95,7 @@
   "theme": {
     "mode": "dark",
     "light": "One Light",
-    "dark": "Catppuccin Macchiato",
+    "dark": "Catppuccin Mocha",
   },
   "languages": {
     "Python": {

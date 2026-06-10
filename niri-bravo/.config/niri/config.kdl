@@ -171,8 +171,8 @@ window-rule {
     match app-id=r#"^gnome-calculator$"#
     match app-id=r#"^galculator$"#
     match app-id=r#"^blueman-manager$"#
-    match app-id=r#"^org\.gnome\.Nautilus$"#
     match app-id=r#"^xdg-desktop-portal$"#
+    match app-id="org.gnome.Calculator"
     open-floating true
     default-column-width { proportion 0.51; }
     default-window-height { fixed 500; }
