@@ -121,8 +121,8 @@ if type -q rg
     alias grep 'rg --smart-case'
 end
 
-# Opencode
-type -q opencode; and alias oc opencode
+# Add conda alias
+type -q micromamba; and alias conda micromamba
 
 # Emacs
 type -q emacs; and alias emt 'emacsclient -t -a ""'
@@ -132,6 +132,9 @@ type -q zellij; and alias zj zellij
 
 # go-grip
 type -q go-grip; and alias grip go-grip
+
+# Opencode
+abbr -a oc opencode
 
 # Use 'fzf-zellij' instead of 'fzf' if inside zellij
 if type -q fzf-zellij
@@ -155,17 +158,6 @@ type -q direnv; and direnv hook fish | source
 
 # Set up fzf key bindings
 type -q fzf; and fzf --fish | source
-
-# >>> mamba initialize >>>
-# !! Contents within this block are managed by 'mamba shell init' !!
-if test -d /home/shan/.miniforge
-    set -gx MAMBA_EXE "/home/shan/.miniforge/bin/mamba"
-    set -gx MAMBA_ROOT_PREFIX "/home/shan/.miniforge"
-    $MAMBA_EXE shell hook --shell fish --root-prefix $MAMBA_ROOT_PREFIX | source
-    # Replace conda with mamba
-    alias conda mamba
-end
-# <<< mamba initialize <<<
 
 # Prevent Python and Conda/Mamba virtual environments from injecting
 # their own prompt prefixes, allowing Starship to handle it completely.

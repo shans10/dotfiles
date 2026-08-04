@@ -28,7 +28,7 @@ binds {
     Mod+Y hotkey-overlay-title="Browse Wallpapers" {
         spawn "dms" "ipc" "call" "dankdash" "wallpaper";
     }
-    Mod+N hotkey-overlay-title="Notification Center" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
+    Mod+Ctrl+N hotkey-overlay-title="Notification Center" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
     Mod+Shift+N hotkey-overlay-title="Notepad" { spawn "dms" "ipc" "call" "notepad" "toggle"; }
 
     // === Security ===
@@ -228,11 +228,12 @@ binds {
     }
 
     // === User Applications ===
-    Mod+Z hotkey-overlay-title="Zed Editor" { spawn "zed"; }
-    Mod+E hotkey-overlay-title="Thunderbird Mail" { spawn-sh "flatpak run org.mozilla.Thunderbird"; }
-    Mod+W hotkey-overlay-title="Google Chrome" { spawn "google-chrome-stable"; }
+    Mod+Z hotkey-overlay-title="Zed Editor" { spawn "zeditor"; }
+    Mod+E hotkey-overlay-title="Thunderbird Mail" { spawn-sh "flatpak run org.mozilla.thunderbird"; }
+    Mod+W hotkey-overlay-title="Browser" { spawn-sh "gtk-launch $(xdg-settings get default-web-browser)"; }
     Mod+C hotkey-overlay-title="Visual Studio Code" { spawn "code"; }
+    Mod+N hotkey-overlay-title="Neovide" { spawn "neovide"; }
     Mod+Shift+D hotkey-overlay-title="Discord" { spawn-sh "flatpak run com.discordapp.Discord"; }
-    Mod+Shift+Z hotkey-overlay-title="Zen Browser" { spawn "zen-browser"; }
+    Mod+Shift+Z hotkey-overlay-title="Zen Browser" { spawn "zen-beta"; }
     Mod+Print hotkey-overlay-title="Record Screen" { spawn "gpu-screen-recorder-gtk"; }
 }

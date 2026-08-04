@@ -1,0 +1,7 @@
+# Ignore theme folders
+zed/.config/zed/themes
+ghostty/.config/ghostty/themes
+
+# DankMaterialShell ignore extras
+DankMaterialShell/*
+!DankMaterialShell/.config/DankMaterialShell/settings.json

@@ -7,9 +7,17 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "icon_theme": {
+    "mode": "dark",
+    "light": "Zed (Default)",
+    "dark": "Zed (Default)",
+  },
   "cli_default_open_behavior": "existing_window",
   "agent_servers": {
-    "gemini": {
+    "opencode": {
+      "default_config_options": {
+        "mode": "plan",
+      },
       "type": "registry",
     },
   },
@@ -56,7 +64,7 @@
     "breadcrumbs": false,
   },
   "edit_predictions": {
-    "provider": "copilot",
+    "provider": "zed",
   },
   "extend_comment_on_newline": false,
   "session": {
@@ -70,13 +78,14 @@
       "program": "fish",
     },
     "blinking": "on",
+    "font_family": "JetBrainsMono Nerd Font",
   },
   "base_keymap": "VSCode",
   "relative_line_numbers": "enabled",
   "sticky_scroll": {
     "enabled": false,
   },
-  "vertical_scroll_margin": 15.0,
+  "vertical_scroll_margin": 5.0,
   "gutter": {
     "line_numbers": true,
   },
@@ -85,8 +94,8 @@
   },
   "cursor_shape": "bar",
   "cursor_blink": true,
-  "buffer_font_family": "Monaspace Neon Frozen",
-  "buffer_font_fallbacks": ["JetBrainsMono Nerd Font"],
+  // "buffer_font_family": "Monaspace Neon Frozen",
+  // "buffer_font_fallbacks": ["JetBrainsMono Nerd Font"],
   "show_whitespaces": "trailing",
   "ensure_final_newline_on_save": true,
   "soft_wrap": "editor_width",
@@ -95,10 +104,12 @@
   "theme": {
     "mode": "dark",
     "light": "One Light",
-    "dark": "Catppuccin Mocha",
+    "dark": "One Dark",
   },
   "languages": {
     "Python": {
+      "show_whitespaces": "trailing",
+      "ensure_final_newline_on_save": true,
       "format_on_save": "on",
     },
   },

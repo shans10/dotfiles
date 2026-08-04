@@ -4,6 +4,12 @@
     *) export PATH="$HOME/.local/bin:$PATH" ;;
 esac
 
+# Set PATH so it includes custom npm global bin if it exists
+[ -d "$HOME/.local/npm-global/bin" ] && case ":$PATH:" in
+    *":$HOME/.local/npm-global/bin:"*) ;;
+    *) export PATH="$HOME/.local/npm-global/bin:$PATH" ;;
+esac
+
 # Set editor
 if command -v nvim >/dev/null 2>&1; then
     export EDITOR=nvim
@@ -46,11 +52,9 @@ if command -v bat >/dev/null 2>&1; then
 fi
 
 # QT Settings
-# Set display scaling for qt apps
-# export QT_SCALE_FACTOR=1.25
 # Set Qt application theme
-export QT_QPA_PLATFORMTHEME=gtk3
-export QT_QPA_PLATFORMTHEME_QT6=gtk3
+export QT_QPA_PLATFORMTHEME=qt6ct
+export QT_QPA_PLATFORMTHEME_QT6=qt6ct
 
 # Load .bashrc if present
 if [ -f ~/.bashrc ]; then

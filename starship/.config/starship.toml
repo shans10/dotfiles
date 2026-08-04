@@ -39,7 +39,7 @@ comment_grey = "#5c6370"
 [os]
 disabled = false
 style = "bold blue"
-format = "[$symbol]($style)  "
+format = "[$symbol]($style) "
 
 [os.symbols]
 Arch = "󰣇"
@@ -49,6 +49,7 @@ Fedora = "󰣛"
 Gentoo = ""
 Linux = "󰌽"
 Manjaro = ""
+NixOS = " "
 openSUSE = ""
 Raspbian = "󰐚"
 SUSE = ""
@@ -112,9 +113,9 @@ style = "bold green"
 format = "via [$symbol ($version)]($style) "
 
 [conda]
-symbol = "🅒 "
+symbol = "◆ "
 style = "bold green"
-format = "[$symbol$environment]($style) "
+format = "[\\[$symbol$environment\\]]($style) "
 ignore_base = false
 
 [custom.venv]
@@ -122,7 +123,7 @@ command = "basename \"$VIRTUAL_ENV\""
 when = 'test -n "$VIRTUAL_ENV" && test -z "$CONDA_DEFAULT_ENV"'
 shell = ["sh"]
 style = "bold green"
-format = "[🅥 $output]($style) "
+format = "[\\[◆ $output\\]]($style) "
 
 [time]
 disabled = true
