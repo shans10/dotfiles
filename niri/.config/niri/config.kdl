@@ -24,6 +24,13 @@ input {
         // off
         tap
         dwt
+        // dwtp
+        // drag false
+        // drag-lock
+        // natural-scroll
+        // accel-speed 0.2
+        // accel-profile "flat"
+        // scroll-method "two-finger"
         // disabled-on-external-mouse
     }
     mouse {
@@ -203,11 +210,43 @@ window-rule {
         blur true
     }
 }
+// // Open games always in fullscreen
+// window-rule {
+//     // Match all Steam-launched games (Steam assigns app-id like steam_app_12345)
+//     match app-id="steam_app_.*"
+//
+//     // Match Wine / Proton apps that report app-id as "wine"
+//     match app-id="wine"
+//
+//     // Fallback: match windows whose title contains ".exe" (some games expose exe name)
+//     match title=".*\\.exe.*"
+//
+//     // Action: open matched windows in fullscreen
+//     open-fullscreen true
+// }
+// // Add exception for game launchers
+// window-rule {
+//     // Epic Games Launcher
+//     match app-id="epicgameslauncher"
+//     match title=".*Epic Games.*"
+//
+//     // Ubisoft Connect
+//     match app-id="ubisoftconnect"
+//     match title=".*Ubisoft.*"
+//
+//     // Miscellaneous
+//     match title="Installer.*"
+//     match title="NTE Update"
+//     match title="NTE.*"
+//
+//     open-fullscreen false
+// }
 
 // Debug options
-debug {
-    honor-xdg-activation-with-invalid-serial
-}
+// debug {
+//     honor-xdg-activation-with-invalid-serial
+//     render-drm-device "/dev/dri/renderD128"
+// }
 
 // Override to disable super+tab
 recent-windows {
@@ -230,6 +269,6 @@ include "dms/colors.kdl"
 include "dms/layout.kdl"
 include "dms/alttab.kdl"
 include "dms/binds.kdl"
-include "dms/outputs.kdl"
 include "dms/cursor.kdl"
+include "dms/outputs.kdl"
 include "dms/windowrules.kdl"

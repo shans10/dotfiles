@@ -1,7 +1,7 @@
 {
   "currentThemeName": "custom",
   "currentThemeCategory": "registry",
-  "customThemeFile": "/home/shan/.config/DankMaterialShell/themes/arcdarkest/theme.json",
+  "customThemeFile": "/home/shan/.config/DankMaterialShell/themes/catppuccin/theme.json",
   "registryThemeVariants": {
     "catppuccin": {
       "dark": {
@@ -15,7 +15,7 @@
   "runUserMatugenTemplates": true,
   "matugenTargetMonitor": "",
   "popupTransparency": 1,
-  "dockTransparency": 0.75,
+  "dockTransparency": 0.56,
   "widgetBackgroundColor": "sch",
   "widgetBackgroundCustomColor": "#6750A4",
   "widgetBackgroundCustomStrength": 0.5,
@@ -26,11 +26,11 @@
   "niriLayoutGapsOverride": -1,
   "niriLayoutRadiusOverride": -1,
   "niriLayoutBorderSize": -1,
-  "hyprlandLayoutGapsOverride": -1,
-  "hyprlandLayoutGapsOutOverride": -1,
+  "hyprlandLayoutGapsOverride": 1,
+  "hyprlandLayoutGapsOutOverride": 3,
   "hyprlandLayoutRadiusOverride": -1,
   "hyprlandLayoutBorderSize": -1,
-  "hyprlandResizeOnBorder": false,
+  "hyprlandResizeOnBorder": true,
   "mangoLayoutGapsOverride": -1,
   "mangoLayoutGapsOutOverride": -1,
   "mangoLayoutRadiusOverride": -1,
@@ -268,7 +268,7 @@
   },
   "appDrawerSectionViewModes": {},
   "niriOverviewOverlayEnabled": true,
-  "niriOverviewLauncherStyle": "full",
+  "niriOverviewLauncherStyle": "spotlight",
   "dankLauncherV2Size": "compact",
   "dankLauncherV2ShowSourceBadges": true,
   "dankLauncherV2BorderEnabled": true,
@@ -365,23 +365,23 @@
   "acSuspendTimeout": 0,
   "acSuspendBehavior": 0,
   "acProfileName": "2",
-  "acPostLockMonitorTimeout": 0,
+  "acPostLockMonitorTimeout": 60,
   "batteryMonitorTimeout": 600,
   "batteryLockTimeout": 300,
   "batterySuspendTimeout": 0,
   "batterySuspendBehavior": 0,
   "batteryProfileName": "1",
-  "batteryPostLockMonitorTimeout": 0,
+  "batteryPostLockMonitorTimeout": 60,
   "batteryChargeLimit": 100,
   "batteryNotifyChargeLimit": false,
   "batteryCriticalThreshold": 10,
   "batteryNotifyCritical": true,
   "batteryLowThreshold": 20,
-  "batteryNotifyLow": false,
+  "batteryNotifyLow": true,
   "batteryChargeLimitNotificationType": 0,
   "batteryLowNotificationType": 0,
-  "batteryCriticalNotificationType": 1,
-  "batteryAutoPowerSaver": false,
+  "batteryCriticalNotificationType": 0,
+  "batteryAutoPowerSaver": true,
   "lockBeforeSuspend": true,
   "loginctlLockIntegration": true,
   "fadeToLockEnabled": true,
@@ -393,14 +393,14 @@
   "qtThemingEnabled": true,
   "syncModeWithPortal": true,
   "terminalsAlwaysDark": false,
-  "muxType": "tmux",
+  "muxType": "zellij",
   "muxUseCustomCommand": false,
   "muxCustomCommand": "",
   "muxSessionFilter": "",
   "runDmsMatugenTemplates": true,
   "matugenTemplateGtk": true,
   "matugenTemplateNiri": true,
-  "matugenTemplateHyprland": false,
+  "matugenTemplateHyprland": true,
   "matugenTemplateMangowc": false,
   "matugenTemplateQt5ct": false,
   "matugenTemplateQt6ct": true,
@@ -438,7 +438,7 @@
   "dockUseOverlayLayer": false,
   "dockGroupByApp": true,
   "dockRestoreSpecialWorkspaceOnClick": false,
-  "dockOpenOnOverview": false,
+  "dockOpenOnOverview": true,
   "dockPosition": 1,
   "dockSpacing": 4,
   "dockBottomGap": 0,
@@ -461,7 +461,7 @@
   "dockMaxVisibleRunningApps": 0,
   "dockShowOverflowBadge": true,
   "dockShowTrash": false,
-  "dockTrashFileManager": "default",
+  "dockTrashFileManager": "nemo",
   "dockTrashCustomCommand": "",
   "notificationOverlayEnabled": false,
   "notificationPopupShadowEnabled": true,
@@ -518,7 +518,7 @@
   "osdMediaVolumeEnabled": true,
   "osdMediaPlaybackEnabled": false,
   "osdBrightnessEnabled": true,
-  "osdIdleInhibitorEnabled": true,
+  "osdIdleInhibitorEnabled": false,
   "osdMicMuteEnabled": true,
   "osdCapsLockEnabled": true,
   "osdPowerProfileEnabled": true,
@@ -533,8 +533,8 @@
     "suspend",
     "restart"
   ],
-  "powerMenuDefaultAction": "logout",
-  "powerMenuGridLayout": false,
+  "powerMenuDefaultAction": "lock",
+  "powerMenuGridLayout": true,
   "customPowerActionLock": "",
   "customPowerActionLogout": "",
   "customPowerActionSuspend": "",
@@ -542,28 +542,46 @@
   "customPowerActionReboot": "",
   "customPowerActionPowerOff": "",
   "updaterHideWidget": false,
-  "updaterCheckOnStart": false,
+  "updaterCheckOnStart": true,
   "updaterUseCustomCommand": false,
   "updaterCustomCommand": "",
   "updaterTerminalAdditionalParams": "",
-  "updaterIntervalSeconds": 1800,
+  "updaterIntervalSeconds": 86400,
   "updaterIncludeFlatpak": true,
   "updaterAllowAUR": true,
   "updaterIgnoredPackages": [],
-  "displayNameMode": "system",
+  "displayNameMode": "model",
   "screenPreferences": {},
   "showOnLastDisplay": {},
   "niriOutputSettings": {
     "eDP-2": {
       "disabled": true
+    },
+    "DP-1": {}
+  },
+  "hyprlandOutputSettings": {
+    "eDP-2": {
+      "disabled": true
+    },
+    "desc:Chimei Innolux Corporation 0x1521": {
+      "disabled": false
+    },
+    "Chimei Innolux Corporation 0x1521": {
+      "disabled": true
+    },
+    "DP-1": {},
+    "desc:LG Electronics LG ULTRAGEAR 201NTJJBJ076": {
+      "disabled": true
     }
   },
-  "hyprlandOutputSettings": {},
   "displayProfiles": {},
-  "activeDisplayProfile": {},
+  "activeDisplayProfile": {
+    "niri": "auto_ea9abafb",
+    "hyprland": ""
+  },
   "displayProfileAutoSelect": false,
   "displayShowDisconnected": false,
-  "displaySnapToEdge": true,
+  "displaySnapToEdge": false,
   "connectedFrameBarStyleBackups": {},
   "barConfigs": [
     {
@@ -595,6 +613,10 @@
           "mediaSize": 0
         },
         "clock",
+        {
+          "id": "discordVoice",
+          "enabled": false
+        },
         {
           "id": "weather",
           "enabled": false
@@ -632,13 +654,17 @@
         {
           "id": "notificationButton",
           "enabled": true
+        },
+        {
+          "id": "showDesktop",
+          "enabled": true
         }
       ],
       "spacing": 4,
       "innerPadding": 4,
       "bottomGap": 0,
-      "transparency": 0.75,
-      "widgetTransparency": 0.71,
+      "transparency": 0.55,
+      "widgetTransparency": 0.75,
       "squareCorners": false,
       "noBackground": false,
       "maximizeWidgetIcons": false,
@@ -666,7 +692,7 @@
       "popupGapsAuto": true,
       "popupGapsManual": 4,
       "maximizeDetection": true,
-      "scrollEnabled": true,
+      "scrollEnabled": false,
       "scrollXBehavior": "none",
       "scrollYBehavior": "none",
       "shadowIntensity": 0,
@@ -674,7 +700,8 @@
       "shadowColorMode": "default",
       "shadowCustomColor": "#000000",
       "clickThrough": false,
-      "hoverPopouts": false
+      "hoverPopouts": false,
+      "useOverlayLayer": false
     }
   ],
   "desktopClockEnabled": false,

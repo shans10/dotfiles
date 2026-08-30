@@ -4,17 +4,12 @@ output "DP-1" {
     mode "1920x1080@119.982"
     scale 1
     position x=0 y=0
+    variable-refresh-rate
 }
 
-output "HDMI-A-1" {
-    mode "1920x1080@60.000"
-    scale 1
-    position x=1920 y=0
-}
-
-output "eDP-1" {
-    mode "1920x1080@60.049"
-    scale 1.25
+output "eDP-2" {
+    off
+    scale 1.15
     position x=1920 y=0
 }
 

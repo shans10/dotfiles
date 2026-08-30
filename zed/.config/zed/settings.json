@@ -12,6 +12,7 @@
     "light": "Zed (Default)",
     "dark": "Zed (Default)",
   },
+  "auto_update": false,
   "cli_default_open_behavior": "existing_window",
   "agent_servers": {
     "opencode": {
@@ -25,6 +26,12 @@
     "dock": "left",
   },
   "agent": {
+    "default_model": {
+      "provider": "openai-subscribed",
+      "model": "gpt-5.6-sol",
+      "enable_thinking": true,
+      "effort": "medium"
+    },
     "dock": "right",
     "flexible": true,
     "button": true,
@@ -78,7 +85,6 @@
       "program": "fish",
     },
     "blinking": "on",
-    "font_family": "JetBrainsMono Nerd Font",
   },
   "base_keymap": "VSCode",
   "relative_line_numbers": "enabled",
@@ -94,8 +100,8 @@
   },
   "cursor_shape": "bar",
   "cursor_blink": true,
-  // "buffer_font_family": "Monaspace Neon Frozen",
-  // "buffer_font_fallbacks": ["JetBrainsMono Nerd Font"],
+  "buffer_font_family": "Monaspace Neon Frozen",
+  "buffer_font_fallbacks": ["JetBrainsMono Nerd Font"],
   "show_whitespaces": "trailing",
   "ensure_final_newline_on_save": true,
   "soft_wrap": "editor_width",
@@ -104,7 +110,7 @@
   "theme": {
     "mode": "dark",
     "light": "One Light",
-    "dark": "One Dark",
+    "dark": "Catppuccin Mocha",
   },
   "languages": {
     "Python": {

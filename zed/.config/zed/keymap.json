@@ -9,7 +9,6 @@
   {
     "context": "Workspace",
     "bindings": {
-      "space .": "file_finder::Toggle",
       "ctrl-[": "menu::Cancel",
     },
   },

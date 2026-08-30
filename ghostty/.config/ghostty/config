@@ -3,7 +3,7 @@ font-family = Monaspace Neon Frozen
 font-size = 11
 
 # Set theme
-theme = One Dark Two
+theme = Catppuccin Mocha
 background-opacity = 0.93
 
 # Disable window titlebar

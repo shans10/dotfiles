@@ -6,5 +6,5 @@ profile docked {
 
 # Undocked profile (Laptop screen on)
 profile mobile {
-    output "eDP-2" enable mode 1920x1080@144Hz
+    output "eDP-2" enable mode 1920x1080@144Hz scale 1.25
 }

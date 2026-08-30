@@ -53,6 +53,10 @@ binds {
     XF86AudioMicMute allow-when-locked=true {
         spawn "dms" "ipc" "call" "audio" "micmute";
     }
+    // Additional mic mute keybinding
+    Mod+Ctrl+M allow-when-locked=true {
+        spawn "dms" "ipc" "call" "audio" "micmute";
+    }
     XF86AudioPause allow-when-locked=true {
         spawn "dms" "ipc" "call" "mpris" "playPause";
     }
@@ -231,9 +235,9 @@ binds {
     Mod+Z hotkey-overlay-title="Zed Editor" { spawn "zeditor"; }
     Mod+E hotkey-overlay-title="Thunderbird Mail" { spawn-sh "flatpak run org.mozilla.thunderbird"; }
     Mod+W hotkey-overlay-title="Browser" { spawn-sh "gtk-launch $(xdg-settings get default-web-browser)"; }
+    // Mod+Shift+W hotkey-overlay-title="Browser" { spawn-sh "zen-browser --private-window"; }
     Mod+C hotkey-overlay-title="Visual Studio Code" { spawn "code"; }
     Mod+N hotkey-overlay-title="Neovide" { spawn "neovide"; }
     Mod+Shift+D hotkey-overlay-title="Discord" { spawn-sh "flatpak run com.discordapp.Discord"; }
-    Mod+Shift+Z hotkey-overlay-title="Zen Browser" { spawn "zen-beta"; }
     Mod+Print hotkey-overlay-title="Record Screen" { spawn "gpu-screen-recorder-gtk"; }
 }

@@ -117,9 +117,9 @@ type -q bat; and function cat
 end
 
 # Replace grep with rg
-if type -q rg
-    alias grep 'rg --smart-case'
-end
+# if type -q rg
+#     alias grep 'rg --smart-case'
+# end
 
 # Add conda alias
 type -q micromamba; and alias conda micromamba
