@@ -614,10 +614,6 @@
         },
         "clock",
         {
-          "id": "discordVoice",
-          "enabled": false
-        },
-        {
           "id": "weather",
           "enabled": false
         }

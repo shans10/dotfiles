@@ -5,3 +5,7 @@ ghostty/.config/ghostty/themes
 # DankMaterialShell ignore extras
 DankMaterialShell/*
 !DankMaterialShell/.config/DankMaterialShell/settings.json
+!DankMaterialShell/.config/DankMaterialShell/plugins/HyprWindows
+
+# Ignore hyprland config file created by hyprmoncfg
+hyprland/.config/hypr/hyprmoncfg-monitors.lua

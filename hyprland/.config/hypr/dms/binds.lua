@@ -1,5 +1,60 @@
 -- DMS default keybinds (Hyprland 0.55+ Lua)
 
+-- Dispatch keybindings conditionally based on the active workspace layout
+local function layout_bind(bind_table)
+	return function()
+		local workspace = hl.get_active_special_workspace() or hl.get_active_workspace()
+
+		if not workspace then
+			return
+		end
+
+		local layout = workspace.tiled_layout
+
+		if bind_table[layout] then
+			hl.dispatch(bind_table[layout])
+		end
+	end
+end
+
+-- Seamless horizontal focus across normal windows and tabbed groups.
+-- Inside a group, move through tabs without wrapping; at the first/last tab,
+-- continue spatially to the neighboring window/column outside the group.
+local function smart_horizontal_focus(direction)
+	return function()
+		local window = hl.get_active_window()
+		local group = window and window.group
+
+		if group then
+			local index = group.current_index
+			local size = group.size
+
+			if direction == "l" and index > 1 then
+				hl.dispatch(hl.dsp.group.active({ index = index - 1 }))
+				return
+			elseif direction == "r" and index < size then
+				hl.dispatch(hl.dsp.group.active({ index = index + 1 }))
+				return
+			end
+		end
+
+		-- Not grouped, or already at the edge of the active group: move focus
+		-- spatially. Scrolling needs its layout-aware focus dispatcher so this
+		-- also works when the current window is maximized.
+		local workspace = hl.get_active_special_workspace() or hl.get_active_workspace()
+
+		if not workspace then
+			return
+		end
+
+		if workspace.tiled_layout == "scrolling" then
+			hl.dispatch(hl.dsp.layout("focus " .. direction))
+		else
+			hl.dispatch(hl.dsp.focus({ direction = direction }))
+		end
+	end
+end
+
 -- === Application Launchers ===
 hl.bind("SUPER + Return", hl.dsp.exec_cmd("ghostty"))
 hl.bind("SUPER + space", hl.dsp.exec_cmd("dms ipc call spotlight toggle"))
@@ -23,8 +78,8 @@ hl.bind("SUPER + SHIFT + E", hl.dsp.exit())
 hl.bind("CTRL + ALT + Delete", hl.dsp.exec_cmd("dms ipc call processlist focusOrToggle"))
 
 -- === Audio Controls ===
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("dms ipc call audio increment 3"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("dms ipc call audio decrement 3"), { locked = true, repeating = true })
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("dms ipc call audio increment 5"), { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("dms ipc call audio decrement 5"), { locked = true, repeating = true })
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd("dms ipc call audio mute"), { locked = true })
 hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("dms ipc call audio micmute"), { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("dms ipc call mpris playPause"), { locked = true })
@@ -62,33 +117,67 @@ hl.bind("SUPER + SHIFT + F", hl.dsp.window.fullscreen({ mode = "fullscreen", act
 hl.bind("SUPER + SHIFT + W", hl.dsp.group.toggle())
 hl.bind("SUPER + CTRL + W", hl.dsp.exec_cmd("dms ipc call window-rules toggle"))
 -- Navigate between windows within a group
-hl.bind("SUPER + L", hl.dsp.group.next(), { desc = "Next window in group" })
-hl.bind("SUPER + H", hl.dsp.group.prev(), { desc = "Previous window in group" })
 hl.bind("ALT + TAB", hl.dsp.group.next(), { desc = "Next window in group" })
 hl.bind("ALT + SHIFT + TAB", hl.dsp.group.prev(), { desc = "Previous window in group" })
 
 -- === Focus Navigation ===
-hl.bind("SUPER + left", hl.dsp.focus({ direction = "l" }))
+-- H/L and Left/Right move seamlessly through group tabs and then continue
+-- to neighboring windows once the active group edge is reached.
+hl.bind("SUPER + left", smart_horizontal_focus("l"))
 hl.bind("SUPER + down", hl.dsp.focus({ direction = "d" }))
 hl.bind("SUPER + up", hl.dsp.focus({ direction = "u" }))
-hl.bind("SUPER + right", hl.dsp.focus({ direction = "r" }))
-hl.bind("SUPER + H", hl.dsp.focus({ direction = "l" }))
+hl.bind("SUPER + right", smart_horizontal_focus("r"))
+hl.bind("SUPER + H", smart_horizontal_focus("l"))
 hl.bind("SUPER + J", hl.dsp.focus({ direction = "d" }))
 hl.bind("SUPER + K", hl.dsp.focus({ direction = "u" }))
-hl.bind("SUPER + L", hl.dsp.focus({ direction = "r" }))
+hl.bind("SUPER + L", smart_horizontal_focus("r"))
 -- Alt-Tab window navigation
 hl.bind("ALT + TAB", hl.dsp.window.cycle_next(), { desc = "Focus next window" })
 hl.bind("ALT + SHIFT + TAB", hl.dsp.window.cycle_next({ next = false }), { desc = "Focus previous window" })
 
 -- === Window Movement ===
-hl.bind("SUPER + SHIFT + left", hl.dsp.window.move({ direction = "l" }))
+-- In Scrolling, horizontal movement swaps the active column directly with its
+-- left/right neighbor instead of using generic spatial window movement.
+hl.bind(
+	"SUPER + SHIFT + left",
+	layout_bind({
+		scrolling = hl.dsp.layout("swapcol l"),
+		dwindle = hl.dsp.window.move({ direction = "l" }),
+		master = hl.dsp.window.move({ direction = "l" }),
+		monocle = hl.dsp.window.move({ direction = "l" }),
+	})
+)
 hl.bind("SUPER + SHIFT + down", hl.dsp.window.move({ direction = "d" }))
 hl.bind("SUPER + SHIFT + up", hl.dsp.window.move({ direction = "u" }))
-hl.bind("SUPER + SHIFT + right", hl.dsp.window.move({ direction = "r" }))
-hl.bind("SUPER + SHIFT + H", hl.dsp.window.move({ direction = "l" }))
+hl.bind(
+	"SUPER + SHIFT + right",
+	layout_bind({
+		scrolling = hl.dsp.layout("swapcol r"),
+		dwindle = hl.dsp.window.move({ direction = "r" }),
+		master = hl.dsp.window.move({ direction = "r" }),
+		monocle = hl.dsp.window.move({ direction = "r" }),
+	})
+)
+hl.bind(
+	"SUPER + SHIFT + H",
+	layout_bind({
+		scrolling = hl.dsp.layout("swapcol l"),
+		dwindle = hl.dsp.window.move({ direction = "l" }),
+		master = hl.dsp.window.move({ direction = "l" }),
+		monocle = hl.dsp.window.move({ direction = "l" }),
+	})
+)
 hl.bind("SUPER + SHIFT + J", hl.dsp.window.move({ direction = "d" }))
 hl.bind("SUPER + SHIFT + K", hl.dsp.window.move({ direction = "u" }))
-hl.bind("SUPER + SHIFT + L", hl.dsp.window.move({ direction = "r" }))
+hl.bind(
+	"SUPER + SHIFT + L",
+	layout_bind({
+		scrolling = hl.dsp.layout("swapcol r"),
+		dwindle = hl.dsp.window.move({ direction = "r" }),
+		master = hl.dsp.window.move({ direction = "r" }),
+		monocle = hl.dsp.window.move({ direction = "r" }),
+	})
+)
 
 -- === Column Navigation ===
 hl.bind("SUPER + Home", hl.dsp.focus({ window = "first" }))
@@ -163,12 +252,45 @@ hl.bind("SUPER + SHIFT + 7", hl.dsp.window.move({ workspace = "7" }))
 hl.bind("SUPER + SHIFT + 8", hl.dsp.window.move({ workspace = "8" }))
 hl.bind("SUPER + SHIFT + 9", hl.dsp.window.move({ workspace = "9" }))
 
--- === Column Management ===
-hl.bind("SUPER + bracketleft", hl.dsp.layout("preselect l"))
-hl.bind("SUPER + bracketright", hl.dsp.layout("preselect r"))
+-- === Layout-specific Column / Split Management ===
+-- Dwindle-only: preselect is not supported by scrolling/master/monocle.
+hl.bind(
+	"SUPER + bracketleft",
+	layout_bind({
+		dwindle = hl.dsp.layout("preselect l"),
+	})
+)
+hl.bind(
+	"SUPER + bracketright",
+	layout_bind({
+		dwindle = hl.dsp.layout("preselect r"),
+	})
+)
 
 -- === Sizing & Layout ===
-hl.bind("SUPER + R", hl.dsp.layout("togglesplit"))
+-- SUPER+R adapts to the active workspace layout.
+hl.bind(
+	"SUPER + R",
+	layout_bind({
+		scrolling = hl.dsp.layout("colresize +conf"),
+		dwindle = hl.dsp.layout("togglesplit"),
+	})
+)
+
+-- Scrolling-only column sizing. These become harmless no-ops on other layouts.
+hl.bind(
+	"SUPER + CTRL + R",
+	layout_bind({
+		scrolling = hl.dsp.layout("colresize all 0.5"),
+	})
+)
+hl.bind(
+	"SUPER + SHIFT + R",
+	layout_bind({
+		scrolling = hl.dsp.layout("colresize -conf"),
+	})
+)
+
 hl.bind("SUPER + CTRL + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "set" }))
 
 -- === Move/resize windows with mainMod + LMB/RMB and dragging ===
