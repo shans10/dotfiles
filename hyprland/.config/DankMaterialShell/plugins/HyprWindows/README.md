@@ -1,20 +1,31 @@
-# Hyprland Windows for DankMaterialShell — v1.2.0
+# Hyprland Windows for DankMaterialShell — v1.3.0
 
-## v1.2 change
+## Main fixes
 
-The first launcher item is now always the previously focused window
-(`focusHistoryID == 1`), so DMS auto-selects the window you most likely want
-for Alt-Tab-style toggling.
+- Uses DMS Launcher v2 `_preScored` values so the launcher no longer reorders
+  the plugin's results.
+- The first result is the previously focused window.
+- The rest remain in MRU order.
+- Maintains its own global MRU list of Hyprland window addresses.
+- Uses generic exact-address focus, so switching does not depend on the active
+  Hyprland layout.
 
-Ordering is:
+Internal MRU:
 
-    previous -> current -> remaining MRU
+    current, previous, older...
 
-or, in Hyprland focus-history IDs:
+Displayed launcher order:
 
-    1, 0, 2, 3, 4, ...
+    previous, current, older...
 
-All other behavior is unchanged.
+This works the same for:
+
+- dwindle
+- master
+- scrolling
+- grouped/tabbed windows
+- floating windows
+- windows on other workspaces/monitors
 
 ## Install
 
@@ -22,11 +33,18 @@ Replace:
 
     ~/.config/DankMaterialShell/plugins/HyprWindows
 
-with this version, then run:
+with the `HyprWindows` directory from this archive.
+
+Then run:
 
     dms ipc plugin-scan scan
     dms ipc plugin-scan reload hyprWindows
 
-If necessary:
+For this update, a one-time clean shell restart is recommended:
 
     dms restart
+
+## Requirement
+
+DMS >= 1.4.0, because deterministic launcher-plugin ordering relies on
+`_preScored`.

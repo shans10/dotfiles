@@ -5,7 +5,11 @@ QtObject {
     function check(done) {
         Proc.runCommand(
             "hyprWindows.startupCheck",
-            ["sh", "-c", "command -v hyprctl >/dev/null 2>&1 && hyprctl -j clients >/dev/null 2>&1"],
+            [
+                "sh",
+                "-c",
+                "command -v hyprctl >/dev/null 2>&1 && hyprctl -j clients >/dev/null 2>&1"
+            ],
             (stdout, exitCode) => {
                 if (exitCode === 0) {
                     done(null)

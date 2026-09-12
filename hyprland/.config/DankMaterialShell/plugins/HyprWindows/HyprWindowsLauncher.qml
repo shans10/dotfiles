@@ -11,8 +11,13 @@ Item {
     signal itemsChanged()
 
     property var windows: []
+    property var mruAddresses: []
+    property string lastActiveAddress: ""
+
     property bool refreshRunning: false
     property double lastRefreshMs: 0
+
+    readonly property int scoreBase: 50000
 
     function refreshWindows(force) {
         const now = Date.now()
@@ -45,13 +50,14 @@ Item {
                         return
                     }
 
-                    windows = parsed.filter(w =>
+                    const currentWindows = parsed.filter(w =>
                         w &&
                         w.address &&
-                        w.mapped !== false &&
-                        (w.monitor === undefined || w.monitor !== -1)
+                        w.mapped !== false
                     )
 
+                    windows = currentWindows
+                    syncMru(currentWindows)
                     root.itemsChanged()
                 } catch (e) {
                     console.warn("[HyprWindows] Failed to parse clients JSON:", e)
@@ -61,14 +67,105 @@ Item {
         )
     }
 
+    function numericFocusHistory(window) {
+        if (!window)
+            return 999999
+
+        const value = Number(window.focusHistoryID)
+        if (Number.isFinite(value) && value >= 0)
+            return value
+
+        return 999999
+    }
+
+    function activeAddressFromClients(clientList) {
+        for (const window of clientList) {
+            if (numericFocusHistory(window) === 0)
+                return window.address
+        }
+
+        return ""
+    }
+
+    function seedMru(clientList) {
+        const seeded = clientList.slice()
+
+        seeded.sort((a, b) => {
+            const ah = numericFocusHistory(a)
+            const bh = numericFocusHistory(b)
+
+            if (ah !== bh)
+                return ah - bh
+
+            return String(a.address).localeCompare(String(b.address))
+        })
+
+        mruAddresses = seeded.map(w => w.address)
+    }
+
+    function noteFocusedAddress(address) {
+        if (!address)
+            return
+
+        const next = [address]
+
+        for (const oldAddress of mruAddresses) {
+            if (oldAddress !== address)
+                next.push(oldAddress)
+        }
+
+        mruAddresses = next
+        lastActiveAddress = address
+    }
+
+    function syncMru(clientList) {
+        if (!clientList || clientList.length === 0) {
+            mruAddresses = []
+            lastActiveAddress = ""
+            return
+        }
+
+        const live = {}
+        for (const window of clientList)
+            live[window.address] = true
+
+        if (mruAddresses.length === 0)
+            seedMru(clientList)
+
+        let cleaned = []
+        for (const address of mruAddresses) {
+            if (live[address])
+                cleaned.push(address)
+        }
+        mruAddresses = cleaned
+
+        const missing = clientList
+            .filter(w => mruAddresses.indexOf(w.address) === -1)
+            .sort((a, b) =>
+                numericFocusHistory(a) - numericFocusHistory(b)
+            )
+
+        for (const window of missing)
+            mruAddresses.push(window.address)
+
+        const activeAddress = activeAddressFromClients(clientList)
+
+        if (activeAddress && activeAddress !== lastActiveAddress)
+            noteFocusedAddress(activeAddress)
+        else if (activeAddress && !lastActiveAddress)
+            lastActiveAddress = activeAddress
+    }
+
     function workspaceName(window) {
         if (!window || !window.workspace)
             return "Workspace ?"
 
-        if (window.workspace.name !== undefined &&
-            window.workspace.name !== null &&
-            String(window.workspace.name).length > 0)
-            return String(window.workspace.name)
+        const name = window.workspace.name
+
+        if (name !== undefined &&
+            name !== null &&
+            String(name).length > 0)
+            return String(name)
 
         if (window.workspace.id !== undefined)
             return "Workspace " + window.workspace.id
@@ -113,6 +210,7 @@ Item {
             return true
 
         let qi = 0
+
         for (let ti = 0; ti < t.length && qi < q.length; ++ti) {
             if (t[ti] === q[qi])
                 qi++
@@ -121,31 +219,19 @@ Item {
         return qi === q.length
     }
 
-    function mruIndex(window) {
-        if (!window)
-            return 999999
-
-        const n = Number(window.focusHistoryID)
-
-        if (Number.isFinite(n) && n >= 0)
-            return n
-
-        return 999999
+    function mruPosition(address) {
+        const idx = mruAddresses.indexOf(address)
+        return idx >= 0 ? idx : 999999
     }
 
-    // Put the previously focused window first so DMS auto-selects it.
-    // All remaining windows retain normal MRU ordering.
-    //
-    // Hyprland:
-    //   focusHistoryID 0 = current window
-    //   focusHistoryID 1 = previous window
-    //   focusHistoryID 2 = next older window
-    //
-    // Result:
-    //   1, 0, 2, 3, 4, ...
-    function switcherSortIndex(mru) {
+    function desiredSortIndex(address) {
+        const mru = mruPosition(address)
+
         if (mru === 1)
-            return -1
+            return 0
+
+        if (mru === 0)
+            return 1
 
         return mru
     }
@@ -166,7 +252,8 @@ Item {
             if (!fuzzyMatch(q, searchText))
                 continue
 
-            const mru = mruIndex(window)
+            const mru = mruPosition(window.address)
+            const sortIndex = desiredSortIndex(window.address)
 
             let state = ""
             if (mru === 1)
@@ -181,18 +268,19 @@ Item {
                 action: "focus:" + window.address,
                 categories: ["Hyprland Windows"],
                 _mru: mru,
-                _sortIndex: switcherSortIndex(mru)
+                _sortIndex: sortIndex
             })
         }
 
-        // Alt-Tab-style ordering:
-        // previous window first, then every other window in MRU order.
         items.sort((a, b) => {
             if (a._sortIndex !== b._sortIndex)
                 return a._sortIndex - b._sortIndex
 
             return a.name.localeCompare(b.name)
         })
+
+        for (let i = 0; i < items.length; ++i)
+            items[i]._preScored = scoreBase - i
 
         return items
     }
@@ -201,9 +289,12 @@ Item {
         if (!item || !item.action)
             return
 
-        const parts = item.action.split(":")
-        const actionType = parts[0]
-        const actionData = parts.slice(1).join(":")
+        const separator = item.action.indexOf(":")
+        if (separator < 0)
+            return
+
+        const actionType = item.action.slice(0, separator)
+        const actionData = item.action.slice(separator + 1)
 
         if (actionType !== "focus" || !actionData)
             return
@@ -213,7 +304,6 @@ Item {
 
     function focusWindow(address) {
         const selector = "address:" + address
-
         const luaDispatcher =
             'hl.dsp.focus({ window = "' + selector + '" })'
 
@@ -222,12 +312,13 @@ Item {
             ["hyprctl", "dispatch", luaDispatcher],
             (stdout, exitCode) => {
                 if (exitCode === 0) {
+                    noteFocusedAddress(address)
                     root.refreshWindows(true)
                     return
                 }
 
                 console.warn(
-                    "[HyprWindows] Current focus syntax failed, trying legacy syntax:",
+                    "[HyprWindows] Current focus syntax failed; trying legacy:",
                     stdout
                 )
 
@@ -236,6 +327,7 @@ Item {
                     ["hyprctl", "dispatch", "focuswindow", selector],
                     (legacyStdout, legacyExitCode) => {
                         if (legacyExitCode === 0) {
+                            noteFocusedAddress(address)
                             root.refreshWindows(true)
                             return
                         }

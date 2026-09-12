@@ -100,6 +100,15 @@ hl.window_rule({ match = { class = "^(zoom)$" }, float = true })
 hl.layer_rule({ match = { namespace = "^(quickshell)$" }, no_anim = true })
 hl.layer_rule({ match = { namespace = "^dms:.*" }, no_anim = true })
 
+-- Open games in workspace 5
+hl.window_rule({
+	name = "steam-games-workspace-5",
+	match = {
+		initial_class = "^steam_app_([0-9]+|default)$",
+	},
+	workspace = "5",
+})
+
 -- Persistently show 5 workspaces in topbar even if empty
 for i = 1, 5 do
 	hl.workspace_rule({
@@ -110,7 +119,7 @@ end
 
 -- Set per-workspace layout rules
 hl.workspace_rule({
-	workspace = "1",
+	workspace = "4",
 	layout = "scrolling",
 	layout_opts = {
 		direction = "right",
